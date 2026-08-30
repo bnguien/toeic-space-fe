@@ -1,73 +1,95 @@
-# React + TypeScript + Vite
+<h1 align="center">TOEICSpace</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img alt="React" src="https://img.shields.io/badge/REACT-20232A?style=for-the-badge&amp;logo=react&amp;logoColor=61DAFB" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TYPESCRIPT-007ACC?style=for-the-badge&amp;logo=typescript&amp;logoColor=white" />
+  <img alt="Vite" src="https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&amp;logo=vite&amp;logoColor=FFD62E" />
+</p>
 
-Currently, two official plugins are available:
+TOEICSpace is an online TOEIC Listening and Reading learning and test preparation platform combined with a Learning Management System (LMS) for language centers.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The platform is designed to provide learners with structured study paths, personalized practice, and progress tracking while helping language centers manage courses, classes, assignments, and academic operations. This repository contains the TOEICSpace frontend application.
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Structured learning through courses, modules, and lessons.
+- Vocabulary learning and review with flashcards.
+- Practice for TOEIC Parts 1–7, mini tests, mock tests, and placement tests.
+- Learning progress, test result, and attempt history tracking.
+- Mistake Notebook, Smart Review, and on-demand answer explanations.
+- Classroom, assignment, schedule, attendance, and notification management.
+- Personalized TOEIC goals and learning roadmaps.
+- User, role, permission, course, and class management.
+- Tuition payment, invoice, receipt, and refund management.
 
-## Expanding the ESLint configuration
+The current scope focuses on TOEIC Listening and Reading. TOEIC Speaking and Writing, live video classrooms, and advanced CRM features are not currently included.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Installation
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js `>= 22 < 23`
+- npm `>= 10 < 11`
+- Git
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+### Local setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone git@github.com:bnguien/toeic-space-fe.git
+   cd toeic-space-fe
+   ```
+
+2. Install the dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Create a local environment file:
+
+   ```bash
+   cp .env-example .env
+   ```
+
+4. Set the backend API URL in `.env`:
+
+   ```env
+   VITE_API_BASE_URL=http://localhost:8080
+   ```
+
+## 🚀 Usage
+
+Start the development server:
+
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+Create and preview a production build:
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm run build
+npm run preview
 ```
+
+Run the application with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+Useful quality checks:
+
+```bash
+npm run typecheck
+npm run lint
+npm run format:check
+```
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
