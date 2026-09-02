@@ -8,12 +8,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [
-      "dist/**",
-      "node_modules/**",
-      "coverage/**",
-      "public/**",
-    ],
+    ignores: ["dist/**", "node_modules/**", "coverage/**", "public/**"],
   },
 
   js.configs.recommended,
@@ -195,12 +190,7 @@ export default tseslint.config(
   },
 
   {
-    files: [
-      "vite.config.ts",
-      "eslint.config.ts",
-      "*.config.ts",
-      "*.config.js",
-    ],
+    files: ["vite.config.ts", "eslint.config.ts", "*.config.ts", "*.config.js"],
 
     languageOptions: {
       globals: globals.node,

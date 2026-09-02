@@ -1,7 +1,11 @@
 import "@/styles/globals.css";
 
 function App() {
-  return <h1 className="welcome">Welcome to ToeicSpace</h1>;
+  return (
+    <main className="container">
+      <h1>PBL6: TOEICSPACE</h1>
+    </main>
+  );
 }
 
 export default App;
