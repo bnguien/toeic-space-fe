@@ -1,10 +1,10 @@
-name: TOEICSpace Frontend CI
+name: TOEICSpace Frontend CI/CD
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: ["main", "develop"]
+    branches: [ "main", "develop" ]
 
 jobs:
   quality-and-build:
@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: "npm"
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -35,3 +35,33 @@ jobs:
 
       - name: Build production bundle
         run: npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-artifact
+          path: dist/
+
+  deploy-to-vps:
+    name: Auto Deploy to Production VPS
+    needs: quality-and-build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-artifact
+          path: dist
+
+      - name: Copy files to VPS via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          source: "dist/*"
+          target: "/var/www/toeicspace/html"
+          strip_components: 1
+          rm: true
