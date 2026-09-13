@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import App from "@/App";
+import { adminRoutes } from "@/modules/admin";
 import { authRoutes } from "@/modules/auth";
 
 export const router = createBrowserRouter([
@@ -9,4 +10,5 @@ export const router = createBrowserRouter([
     element: <App />,
   },
   ...authRoutes,
+  ...adminRoutes,
 ]);

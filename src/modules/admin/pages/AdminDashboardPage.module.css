@@ -1,0 +1,616 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Compact, Minimal Hero Banner */
+.heroBanner {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  min-height: 120px;
+}
+
+.heroBgImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 600px;
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.25;
+}
+
+.heroSubtitle {
+  font-size: 1rem;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.heroBadge {
+  background: rgba(2, 132, 199, 0.14);
+  color: #0369a1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.heroBtn {
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+  transition: all 0.15s ease;
+}
+
+.heroBtn:hover {
+  background: #1d4ed8;
+}
+
+.heroBtnOutline {
+  background: rgba(255, 255, 255, 0.9);
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.heroBtnOutline:hover {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.heroMascotWrap {
+  position: relative;
+  z-index: 2;
+  margin-right: 1rem;
+}
+
+.heroMascot {
+  width: 105px;
+  height: 105px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(30, 41, 59, 0.2));
+}
+
+/* Stat Cards */
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.statCard {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.statTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.statIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.statBadgeUp {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  margin-bottom: 0.2rem;
+}
+
+.statTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.statSub {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  margin-top: 0.35rem;
+}
+
+/* Charts Section */
+.chartsRow {
+  display: grid;
+  grid-template-columns: 2fr 1.15fr;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .chartsRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chartCard {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.chartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.15rem;
+}
+
+.chartTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.chartSubtitle {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Crisp Bar Chart with Axes */
+.barChartContainer {
+  display: flex;
+  gap: 0.75rem;
+  height: 205px;
+  position: relative;
+  margin-top: 0.25rem;
+}
+
+/* Oy Axis on Left */
+.oyAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  width: 38px;
+  user-select: none;
+}
+
+.axisLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-align: right;
+  line-height: 1;
+}
+
+/* Plot Area containing grid lines, bars, and Ox line */
+.chartPlotArea {
+  flex: 1;
+  position: relative;
+  border-left: 1.5px solid #cbd5e1; /* Trục đứng Oy */
+}
+
+/* Grid lines inside plot area */
+.gridLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-bottom: 1px dashed #e2e8f0;
+  pointer-events: none;
+}
+
+/* Row containing bars */
+.barsFlexRow {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 0 0.5rem;
+  z-index: 2;
+}
+
+.barColumn {
+  flex: 1;
+  max-width: 48px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.barTrack {
+  width: 100%;
+  height: 100%;
+  background: #f8fafc;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.barColumn:hover .barTrack {
+  background: #f1f5f9;
+}
+
+.barFill {
+  width: 100%;
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  transition:
+    height 0.3s ease,
+    filter 0.2s ease;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.15);
+}
+
+.barFillToday {
+  background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+.barColumn:hover .barFill {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* Number on top of bar */
+.barValue {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.barValueToday {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.barColumn:hover .barValue {
+  color: #1d4ed8;
+}
+
+/* Solid Ox Axis Line */
+.oxLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #94a3b8;
+  z-index: 3;
+}
+
+/* Ox Date Labels Row */
+.oxLabelsRow {
+  display: flex;
+  margin-left: calc(38px + 0.75rem); /* Align with plot area (width of oyAxis + gap) */
+  padding: 0.5rem 0.5rem 0 0.5rem;
+  border-top: 1px solid transparent;
+  user-select: none;
+}
+
+.oxDateLabel {
+  flex: 1;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.2s ease;
+  padding: 0 2px;
+}
+
+.oxDateLabel:hover {
+  color: #0f172a;
+}
+
+.oxDateLabelToday {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.todayTag {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  padding: 2px 6px;
+  line-height: 1.15;
+}
+
+.todayText {
+  font-size: 0.65rem;
+  color: #1d4ed8;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.todayDate {
+  font-size: 0.68rem;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* Interactive Floating Tooltip */
+.chartTooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.chartTooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: #0f172a transparent transparent transparent;
+}
+
+.tooltipDate {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+
+.tooltipValue {
+  font-size: 0.72rem;
+  color: #f8fafc;
+}
+
+.chartLegend {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+/* Parts Accuracy Bar List */
+.partsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+}
+
+.partRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.partInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.partRate {
+  font-weight: 700;
+}
+
+.progressBarBg {
+  width: 100%;
+  height: 7px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Donut & Activity Bottom Row */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.donutContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.donutSvg {
+  width: 120px;
+  height: 120px;
+  transform: rotate(-90deg);
+}
+
+.donutList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+}
+
+.donutItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px dashed #f1f5f9;
+}
+
+.activityItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.activityAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activityAction {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.activityTime {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
