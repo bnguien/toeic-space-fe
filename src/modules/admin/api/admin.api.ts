@@ -55,11 +55,18 @@ const mockOverview: AdminOverviewResponse = {
   ],
 };
 
+const isOverviewResponse = (data: unknown): data is AdminOverviewResponse =>
+  typeof data === "object" &&
+  data !== null &&
+  typeof (data as AdminOverviewResponse).totalStudents === "number" &&
+  Array.isArray((data as AdminOverviewResponse).recentActivities);
+
 export const adminApi = {
   getOverview: async (): Promise<AdminOverviewResponse> => {
     try {
-      const response = await httpClient.get<AdminOverviewResponse>("/api/admin/overview");
-      return response.data;
+      // The API gateway has no overview endpoint yet, so this currently always uses the mock.
+      const response = await httpClient.get<unknown>("/api/admin/overview");
+      return isOverviewResponse(response.data) ? response.data : mockOverview;
     } catch {
       // Fallback khi backend microservices đang khởi động hoặc chưa có data
       return mockOverview;

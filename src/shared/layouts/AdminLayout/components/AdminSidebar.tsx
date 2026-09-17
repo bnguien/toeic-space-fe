@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import mascotImg from "@/assets/mascot/oy2-hello.png";
@@ -8,12 +8,14 @@ import {
   IconChevronRight,
   IconDashboard,
   IconExams,
+  IconLogout,
   IconRevenue,
   IconStudents,
   IconSystem,
   IconTeachers,
 } from "@/shared/components/icons";
 import { ADMIN_NAV_SECTIONS } from "@/shared/constants/adminNav";
+import type { AdminAccount } from "@/shared/types/account.types";
 import type { NavSection } from "@/shared/types/nav.types";
 
 import styles from "./AdminSidebar.module.css";
@@ -39,17 +41,90 @@ const getSectionIcon = (key: string) => {
   }
 };
 
+// "Part 1 (Mô tả hình ảnh)" reads better as a bold part number followed by a muted name.
+const PART_LABEL = /^(Part \d+) \((.+)\)$/;
+
+const renderSubLabel = (label: string) => {
+  const match = PART_LABEL.exec(label);
+  return (
+    <span className={styles.subLabel}>
+      {match ? (
+        <>
+          {match[1]}
+          <small>{match[2]}</small>
+        </>
+      ) : (
+        label
+      )}
+    </span>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/*  Animated collapsible wrapper — measures real height, transitions   */
+/* ------------------------------------------------------------------ */
+interface CollapsibleProps {
+  isOpen: boolean;
+  children: React.ReactNode;
+}
+
+const Collapsible = ({ isOpen, children }: CollapsibleProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number>(0);
+
+  useEffect(() => {
+    if (ref.current) {
+      // Measure the *actual* rendered height of children
+      setHeight(ref.current.scrollHeight);
+    }
+  }, [children, isOpen]);
+
+  return (
+    <div
+      className={styles.collapsible}
+      inert={!isOpen}
+      style={{
+        maxHeight: isOpen ? `${height}px` : "0px",
+        opacity: isOpen ? 1 : 0,
+      }}
+    >
+      <div ref={ref}>{children}</div>
+    </div>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+
 interface AdminSidebarProps {
   collapsed: boolean;
   onToggleCollapse: () => void;
+  account?: AdminAccount;
+  onLogout?: () => void;
+  loggingOut?: boolean;
 }
 
-export const AdminSidebar = ({ collapsed, onToggleCollapse }: AdminSidebarProps) => {
+const getInitials = (name: string) =>
+  name
+    .trim()
+    .split(/\s+/)
+    .slice(-2)
+    .map((word) => word.charAt(0))
+    .join("")
+    .toUpperCase() || "?";
+
+export const AdminSidebar = ({
+  collapsed,
+  onToggleCollapse,
+  account,
+  onLogout,
+  loggingOut = false,
+}: AdminSidebarProps) => {
   const location = useLocation();
 
   // Kiểm tra chính xác 1 sub item có đang active không (Exact match, không dùng startsWith chung chung để tránh sáng trùng 2 ô)
   const isItemActive = (path?: string) => {
     if (!path) return false;
+    if (path === "/admin/exams/list" && location.pathname.startsWith(`${path}/`)) return true;
     return location.pathname === path;
   };
 
@@ -103,6 +178,17 @@ export const AdminSidebar = ({ collapsed, onToggleCollapse }: AdminSidebarProps)
 
   return (
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
+      {/* Floating edge collapse toggle */}
+      <button
+        type="button"
+        className={`${styles.edgeToggle} ${collapsed ? styles.edgeToggleCollapsed : ""}`}
+        onClick={onToggleCollapse}
+        title={collapsed ? "Mở rộng menu" : "Thu gọn menu"}
+        aria-label={collapsed ? "Mở rộng menu" : "Thu gọn menu"}
+        aria-expanded={!collapsed}
+      >
+        <IconChevronLeft size={14} />
+      </button>
       {/* Brand Header */}
       <div className={styles.brand}>
         <img src={mascotImg} alt="Oysteic Mascot" className={styles.brandMascot} />
@@ -128,6 +214,7 @@ export const AdminSidebar = ({ collapsed, onToggleCollapse }: AdminSidebarProps)
                 to={section.path}
                 className={`${styles.sectionHeader} ${sectionActive ? styles.sectionActive : ""}`}
                 title={collapsed ? section.label : undefined}
+                aria-current={sectionActive ? "page" : undefined}
               >
                 <div className={styles.sectionLeft}>
                   <span className={styles.sectionIcon}>{getSectionIcon(section.key)}</span>
@@ -141,8 +228,10 @@ export const AdminSidebar = ({ collapsed, onToggleCollapse }: AdminSidebarProps)
             <div key={section.key} className={styles.sectionGroup}>
               <button
                 type="button"
-                className={`${styles.sectionHeader} ${sectionActive ? styles.sectionActive : ""}`}
+                className={`${styles.sectionHeader} ${sectionActive ? styles.sectionCurrent : ""}`}
                 onClick={() => toggleSection(section.key)}
+                aria-expanded={!collapsed && isOpen}
+                aria-label={section.label}
                 title={collapsed ? section.label : undefined}
               >
                 <div className={styles.sectionLeft}>
@@ -156,48 +245,66 @@ export const AdminSidebar = ({ collapsed, onToggleCollapse }: AdminSidebarProps)
                 )}
               </button>
 
-              {!collapsed && isOpen && hasChildren && (
-                <div className={styles.subList}>
-                  {section.children?.map((sub) => {
-                    const active = isItemActive(sub.path);
-                    return (
-                      <Link
-                        key={sub.key}
-                        to={sub.path}
-                        className={`${styles.subItem} ${active ? styles.subItemActive : ""}`}
-                      >
-                        <span>{sub.label}</span>
-                        {sub.badge && <span className={styles.subBadge}>{sub.badge}</span>}
-                      </Link>
-                    );
-                  })}
-                </div>
+              {/* Animated collapsible sub-list */}
+              {!collapsed && hasChildren && (
+                <Collapsible isOpen={isOpen}>
+                  <div className={styles.subList}>
+                    {section.children?.map((sub, idx) => {
+                      const active = isItemActive(sub.path);
+                      return (
+                        <Link
+                          key={sub.key}
+                          to={sub.path}
+                          aria-current={active ? "page" : undefined}
+                          className={`${styles.subItem} ${active ? styles.subItemActive : ""}`}
+                          style={{ transitionDelay: isOpen ? `${idx * 25}ms` : "0ms" }}
+                        >
+                          {renderSubLabel(sub.label)}
+                          {sub.badge && <span className={styles.subBadge}>{sub.badge}</span>}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </Collapsible>
               )}
             </div>
           );
         })}
       </nav>
 
-      {/* Footer / User Profile & Collapse button */}
-      <div className={styles.footer}>
-        {!collapsed && (
-          <div className={styles.userCard}>
-            <div className={styles.userAvatar}>AD</div>
-            <div className={styles.userInfo}>
-              <span className={styles.userName}>Administrator</span>
-              <span className={styles.userRole}>admin@toeicspace.vn</span>
+      {/* Footer / User Profile — the edge toggle above is the single collapse control */}
+      {account && (
+        <div className={styles.footer}>
+          <div
+            className={styles.userCard}
+            title={collapsed ? `${account.name} · ${account.roleLabel}` : undefined}
+          >
+            <div className={styles.userAvatar} aria-hidden="true">
+              {getInitials(account.name)}
             </div>
+            {!collapsed && (
+              <div className={styles.userInfo}>
+                <span className={styles.userName}>{account.name}</span>
+                <span className={styles.userRole} title={account.email}>
+                  {account.roleLabel} · {account.email}
+                </span>
+              </div>
+            )}
+            {onLogout && (
+              <button
+                type="button"
+                className={styles.logoutBtn}
+                onClick={onLogout}
+                disabled={loggingOut}
+                title="Đăng xuất"
+                aria-label="Đăng xuất"
+              >
+                <IconLogout size={17} />
+              </button>
+            )}
           </div>
-        )}
-        <button
-          type="button"
-          className={styles.toggleBtn}
-          onClick={onToggleCollapse}
-          title={collapsed ? "Mở rộng menu" : "Thu gọn menu"}
-        >
-          {collapsed ? <IconChevronRight size={16} /> : <IconChevronLeft size={16} />}
-        </button>
-      </div>
+        </div>
+      )}
     </aside>
   );
 };

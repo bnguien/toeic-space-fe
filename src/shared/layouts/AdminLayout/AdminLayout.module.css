@@ -5,6 +5,7 @@
 }
 
 .mainWrapper {
+  min-width: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -21,8 +22,127 @@
 
 .content {
   flex: 1;
-  padding: 2rem;
+  padding: 28px 32px 40px;
   max-width: 1600px;
   width: 100%;
   margin: 0 auto;
+}
+
+/* ---- Page transition animations ---- */
+@keyframes pageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pageSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.pageEnter {
+  animation: pageSlideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.pageExit {
+  animation: pageSlideOut 0.15s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.mobileNav {
+  display: none;
+}
+@media (max-width: 1200px) {
+  .content {
+    padding: 24px;
+  }
+}
+@media (max-width: 760px) {
+  .mainWrapper,
+  .mainWrapperCollapsed {
+    margin-left: 0;
+    width: 100%;
+  }
+  .content {
+    padding: 20px 16px;
+  }
+  .mobileNav {
+    display: block;
+    background: var(--ui-surface);
+    border-bottom: 1px solid var(--ui-line);
+  }
+  .mobileNav summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    min-height: 56px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .mobileNav summary span {
+    margin-left: auto;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    background: var(--ui-blue-soft);
+    font-size: 12px;
+    color: var(--ui-blue);
+  }
+  .mobileNav nav {
+    padding: 0 16px 16px;
+    max-height: 65dvh;
+    overflow: auto;
+  }
+  .mobileNav nav > div {
+    display: grid;
+  }
+  .mobileNav strong {
+    padding: 14px 8px 6px;
+    font-size: 12px;
+    color: var(--ui-muted);
+  }
+  .mobileNav a {
+    border-left: 3px solid transparent;
+    padding: 12px;
+    font-size: 13px;
+    min-height: 44px;
+  }
+  .mobileLogout {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    background: var(--ui-rose-soft);
+    color: var(--ui-rose);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mobileNav a[aria-current] {
+    background: var(--ui-blue-soft);
+    color: var(--ui-blue);
+    border-left-color: var(--ui-blue);
+    border-radius: 0 6px 6px 0;
+    font-weight: 700;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pageEnter,
+  .pageExit {
+    animation-duration: 0.001ms;
+  }
 }

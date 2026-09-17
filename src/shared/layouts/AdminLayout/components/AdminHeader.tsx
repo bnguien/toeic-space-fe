@@ -1,7 +1,6 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-import mascotMini from "@/assets/mascot/oy2-cheer.png";
-import { IconBell, IconSearch, IconSystem } from "@/shared/components/icons";
+import { IconBell, IconChevronRight, IconSystem } from "@/shared/components/icons";
 import { ADMIN_NAV_SECTIONS } from "@/shared/constants/adminNav";
 
 import styles from "./AdminHeader.module.css";
@@ -32,41 +31,32 @@ export const AdminHeader = () => {
       <div className={styles.left}>
         <div className={styles.breadcrumb}>
           <span className={styles.breadItem}>{parentTitle}</span>
-          <span className={styles.breadDivider}>/</span>
-          <span className={styles.breadCurrent}>{currentTitle}</span>
-        </div>
-
-        <div className={styles.searchBox}>
-          <span className={styles.searchIcon}>
-            <IconSearch size={16} />
+          <span className={styles.breadDivider} aria-hidden="true">
+            <IconChevronRight size={14} />
           </span>
-          <input
-            type="text"
-            placeholder="Tìm học viên, đề thi, đơn hàng..."
-            className={styles.searchInput}
-          />
+          <span className={styles.breadCurrent}>{currentTitle}</span>
         </div>
       </div>
 
       <div className={styles.right}>
-        <div className={styles.mascotNotice}>
-          <img src={mascotMini} alt="Oysteic mascot cheer" className={styles.mascotMini} />
-          <span>Oysteic: 8 giáo viên mới chờ phê duyệt!</span>
-        </div>
-
-        <div className={styles.healthBadge}>
-          <span className={styles.dotOnline} />
-          <span>Gateway 5050 Online</span>
-        </div>
-
-        <button type="button" className={styles.actionBtn} title="Thông báo hệ thống">
+        <span className={styles.workspaceLabel}>Không gian quản trị</span>
+        <Link
+          to="/admin/system/notifications"
+          className={styles.actionBtn}
+          title="Thông báo hệ thống"
+          aria-label="Thông báo hệ thống"
+        >
           <IconBell size={18} />
-          <span className={styles.badge}>5</span>
-        </button>
+        </Link>
 
-        <button type="button" className={styles.actionBtn} title="Cài đặt nhanh">
+        <Link
+          to="/admin/system/config"
+          className={styles.actionBtn}
+          title="Cài đặt hệ thống"
+          aria-label="Cài đặt hệ thống"
+        >
           <IconSystem size={18} />
-        </button>
+        </Link>
       </div>
     </header>
   );

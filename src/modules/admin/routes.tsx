@@ -1,14 +1,23 @@
-import type { RouteObject } from "react-router-dom";
+import { Navigate, type RouteObject } from "react-router-dom";
 
-import { AdminLayout } from "@/shared/layouts/AdminLayout";
+import { CONTENT_MANAGER_ROLES, RequireAuth } from "@/modules/auth";
 
+import { AdminShell } from "./components/AdminShell";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
+import { AdminExamBankPage } from "./pages/AdminExamBankPage";
+import { AdminExamsListPage } from "./pages/AdminExamsListPage";
+import { AdminPartQuestionsPage } from "./pages/AdminPartQuestionsPage";
 import { AdminSectionPage } from "./pages/AdminSectionPage";
 
 export const adminRoutes: RouteObject[] = [
   {
     path: "/admin",
-    element: <AdminLayout />,
+    // Every admin page requires an Admin or Teacher session; the API checks the same roles.
+    element: (
+      <RequireAuth roles={CONTENT_MANAGER_ROLES}>
+        <AdminShell />
+      </RequireAuth>
+    ),
     children: [
       {
         index: true,
@@ -30,19 +39,20 @@ export const adminRoutes: RouteObject[] = [
       { path: "students/activities", element: <AdminSectionPage /> },
 
       /* Ngân hàng đề */
-      { path: "exams", element: <AdminSectionPage /> },
-      { path: "exams/list", element: <AdminSectionPage /> },
-      { path: "exams/question-sets", element: <AdminSectionPage /> },
-      { path: "exams/part-1", element: <AdminSectionPage /> },
-      { path: "exams/part-2", element: <AdminSectionPage /> },
-      { path: "exams/part-3", element: <AdminSectionPage /> },
-      { path: "exams/part-4", element: <AdminSectionPage /> },
-      { path: "exams/part-5", element: <AdminSectionPage /> },
-      { path: "exams/part-6", element: <AdminSectionPage /> },
-      { path: "exams/part-7", element: <AdminSectionPage /> },
-      { path: "exams/tags", element: <AdminSectionPage /> },
-      { path: "exams/import", element: <AdminSectionPage /> },
-      { path: "exams/reports", element: <AdminSectionPage /> },
+      { path: "exams", element: <AdminExamBankPage /> },
+      { path: "exams/list", element: <AdminExamsListPage /> },
+      ...Array.from({ length: 7 }, (_, index) => ({
+        path: `exams/list/:testId/part-${index + 1}`,
+        element: <AdminPartQuestionsPage key={`exam-${index + 1}`} part={index + 1} />,
+      })),
+      ...Array.from({ length: 7 }, (_, index) => ({
+        path: `exams/part-${index + 1}`,
+        element: <AdminPartQuestionsPage key={index + 1} part={index + 1} />,
+      })),
+      ...["question-sets", "tags", "import", "reports"].map((path) => ({
+        path: `exams/${path}`,
+        element: <Navigate to="/admin/exams/list" replace />,
+      })),
 
       /* Đơn hàng & Doanh thu */
       { path: "revenue", element: <AdminSectionPage /> },

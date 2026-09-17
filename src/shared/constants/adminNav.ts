@@ -47,7 +47,6 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
     children: [
       { key: "exams-overview", label: "Tổng quan", path: "/admin/exams" },
       { key: "exams-list", label: "Đề thi", path: "/admin/exams/list" },
-      { key: "exams-question-sets", label: "Bộ câu hỏi", path: "/admin/exams/question-sets" },
       { key: "exams-part-1", label: "Part 1 (Mô tả hình ảnh)", path: "/admin/exams/part-1" },
       { key: "exams-part-2", label: "Part 2 (Hỏi - Đáp)", path: "/admin/exams/part-2" },
       { key: "exams-part-3", label: "Part 3 (Hội thoại ngắn)", path: "/admin/exams/part-3" },
@@ -55,9 +54,6 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
       { key: "exams-part-5", label: "Part 5 (Điền câu)", path: "/admin/exams/part-5" },
       { key: "exams-part-6", label: "Part 6 (Điền đoạn văn)", path: "/admin/exams/part-6" },
       { key: "exams-part-7", label: "Part 7 (Đọc hiểu)", path: "/admin/exams/part-7" },
-      { key: "exams-tags", label: "Tags & Chủ đề", path: "/admin/exams/tags" },
-      { key: "exams-import", label: "Import", path: "/admin/exams/import" },
-      { key: "exams-reports", label: "Báo lỗi câu hỏi", path: "/admin/exams/reports", badge: "3" },
     ],
   },
   {
