@@ -1,3 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@500;600;700&display=swap");
+
+:root {
+  /* Shared admin palette, taken from the Oysteic mascot:
+     periwinkle shell = interaction + Listening, shell pink = Reading, pearl = warm highlight. */
+  --ui-canvas: #f6f7fb;
+  --ui-surface: #ffffff;
+  --ui-hover: #f0f2f8;
+  --ui-pearl: #fdf8f0;
+  --ui-text: #252c3f;
+  --ui-muted: #5f687c;
+  --ui-subtle: #8a92a5;
+  --ui-line: #e4e7ef;
+  --ui-divider: #d3d8e3;
+  --ui-blue: #4867a8;
+  --ui-blue-strong: #37548f;
+  --ui-blue-soft: #eef2fb;
+  --ui-blue-line: #a9bde6;
+  --ui-blue-mid: #7593d3;
+  --ui-rose: #9d4b70;
+  --ui-rose-soft: #fcf0f4;
+  --ui-rose-line: #e7b3c7;
+  --ui-rose-mid: #d98aa9;
+  --ui-green: #2e7a57;
+  --ui-green-soft: #eaf6ef;
+  --ui-focus: 0 0 0 3px rgb(72 103 168 / 0.16);
+  --ui-shadow: 0 1px 2px rgb(37 44 63 / 0.05);
+  --ui-shadow-raised: 0 12px 28px -14px rgb(56 72 120 / 0.3);
+  /* Typography */
+  --font-display: "Baloo 2", ui-rounded, system-ui, sans-serif;
+  --font-sans: "Quicksand", ui-rounded, system-ui, sans-serif;
+
+  /* Oysteic Brand Colors */
+  --bg-app: var(--ui-canvas);
+  --bg-surface: #ffffff;
+  --bg-sidebar: var(--ui-canvas);
+  --bg-sidebar-hover: var(--ui-hover);
+  --bg-sidebar-active: var(--ui-blue-soft);
+
+  --color-text-main: var(--ui-text);
+  --color-text-muted: var(--ui-muted);
+  --color-text-light: var(--ui-subtle);
+  --color-text-white: #ffffff;
+
+  /* Accents */
+  --primary: var(--ui-blue);
+  --primary-hover: var(--ui-blue-strong);
+  --primary-light: var(--ui-blue-soft);
+  --sea: #79b4cf;
+  --sea-light: #eef7fb;
+  --sky: #79b4cf;
+  --pearl: #facc15;
+  --pearl-light: #fefce8;
+  --coral: #f43f5e;
+  --coral-light: #fff1f2;
+  --success: #10b981;
+  --success-light: #ecfdf5;
+  --warning: #f59e0b;
+  --warning-light: #fffbeb;
+
+  /* Borders & Dividers */
+  --border-subtle: var(--ui-line);
+  --border-focus: var(--ui-blue-line);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-soft: 0 10px 25px -5px rgba(30, 41, 59, 0.06), 0 8px 10px -6px rgba(30, 41, 59, 0.04);
+  --shadow-float: 0 20px 30px -10px rgba(56, 189, 248, 0.25);
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,47 +87,86 @@
 }
 
 body {
-  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--color-text-main);
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    sans-serif;
-  background-color: #0f172a;
-  color: #f8fafc;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.container {
-  text-align: center;
-  padding: 2rem;
-}
-
-h1 {
-  font-size: 2.25rem;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  letter-spacing: 0;
   font-weight: 700;
-  letter-spacing: -0.025em;
-  color: #f8fafc;
-  margin-bottom: 0.75rem;
+  color: var(--color-text-main);
 }
 
-.subtitle {
-  font-size: 1.15rem;
-  font-weight: 500;
-  color: #94a3b8;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+/* Animations */
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(14, 165, 233, 0);
+  }
+}
+
+.animate-bob {
+  animation: bob 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ui-divider);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-subtle);
 }
