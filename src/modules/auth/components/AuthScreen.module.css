@@ -18,6 +18,10 @@
   box-shadow: var(--ui-shadow-raised);
 }
 
+.cardWide {
+  width: min(100%, 480px);
+}
+
 .statusCard {
   text-align: center;
   display: grid;
@@ -84,6 +88,30 @@
   line-height: 1.5;
 }
 
+.alertActionBtn {
+  display: inline;
+  background: transparent;
+  border: none;
+  color: var(--ui-rose);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.alertActionBtn:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.alertActionBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 .field {
   display: grid;
   gap: 6px;
@@ -125,6 +153,48 @@
 .passwordBox {
   position: relative;
   display: block;
+}
+
+.passwordRulesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 12px;
+  margin-top: 4px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--ui-hover);
+  border: 1px solid var(--ui-line);
+}
+
+.passwordRuleItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: color 0.15s ease;
+}
+
+.passwordRulePending {
+  color: var(--ui-muted);
+}
+
+.passwordRuleMet {
+  color: var(--ui-green);
+}
+
+.passwordRuleFailed {
+  color: var(--ui-rose);
+}
+
+.ruleIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .passwordBox input {
@@ -181,6 +251,139 @@
   line-height: 1.6;
   text-align: center;
   color: var(--ui-muted);
+}
+
+.alertSuccess {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgb(46 122 87 / 0.3);
+  background: var(--ui-green-soft);
+  color: var(--ui-green);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.alertInfo {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ui-blue-line);
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.otpGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin: 6px 0;
+}
+
+.otpCell {
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  border: 1.5px solid var(--ui-line);
+  border-radius: 10px;
+  background: var(--ui-surface);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ui-text);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.otpCell:focus-visible {
+  border-color: var(--ui-blue-line);
+  box-shadow: var(--ui-focus);
+  outline: none;
+}
+
+.otpCell[aria-invalid="true"] {
+  border-color: var(--ui-rose-line);
+}
+
+.otpCellFilled {
+  border-color: var(--ui-blue-mid);
+  background: var(--ui-blue-soft);
+}
+
+.resendContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--ui-hover);
+  border: 1px solid var(--ui-line);
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.resendCountdown {
+  color: var(--ui-muted);
+  font-weight: 600;
+}
+
+.resendCountdown strong {
+  color: var(--ui-text);
+}
+
+.resendBtn {
+  background: transparent;
+  border: none;
+  color: var(--ui-blue);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.resendBtn:hover:not(:disabled) {
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+}
+
+.resendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--ui-subtle);
+}
+
+.footerNav {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ui-muted);
+}
+
+.footerLink {
+  color: var(--ui-blue);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footerLink:hover {
+  color: var(--ui-blue-strong);
+  text-decoration: underline;
+}
+
+.emailHighlight {
+  color: var(--ui-blue-strong);
+  font-weight: 700;
+  word-break: break-all;
 }
 
 @media (max-width: 420px) {

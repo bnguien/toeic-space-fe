@@ -2,7 +2,16 @@ import axios from "axios";
 
 import { env } from "@/config/env";
 
-import type { AuthResponse, LoginPayload } from "../types/auth.types";
+import type {
+  AuthResponse,
+  LoginPayload,
+  RegisterPayload,
+  RegisterResponse,
+  ResendVerificationPayload,
+  ResendVerificationResponse,
+  VerifyEmailPayload,
+  VerifyEmailResponse,
+} from "../types/auth.types";
 
 const AUTH_BASE = "/identity/api/auth";
 
@@ -20,6 +29,16 @@ const authClient = axios.create({
 export const authApi = {
   login: async (payload: LoginPayload) =>
     (await authClient.post<AuthResponse>(`${AUTH_BASE}/login`, payload)).data,
+
+  register: async (payload: RegisterPayload) =>
+    (await authClient.post<RegisterResponse>(`${AUTH_BASE}/register`, payload)).data,
+
+  verifyEmail: async (payload: VerifyEmailPayload) =>
+    (await authClient.post<VerifyEmailResponse>(`${AUTH_BASE}/verify-email`, payload)).data,
+
+  resendVerification: async (payload: ResendVerificationPayload) =>
+    (await authClient.post<ResendVerificationResponse>(`${AUTH_BASE}/resend-verification`, payload))
+      .data,
 
   refresh: async () =>
     (await authClient.post<AuthResponse>(`${AUTH_BASE}/refresh`, null, { headers: CSRF_HEADERS }))
