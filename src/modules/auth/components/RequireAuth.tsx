@@ -30,7 +30,9 @@ export function RequireAuth({ roles, children }: RequireAuthProps) {
 
   if (status === "anonymous" || !user) {
     const next = encodeURIComponent(`${location.pathname}${location.search}`);
-    return <Navigate to={`/login?next=${next}`} replace />;
+    const loginTarget =
+      roles && roles.some((r) => r === "Admin" || r === "Teacher") ? "/admin/login" : "/login";
+    return <Navigate to={`${loginTarget}?next=${next}`} replace />;
   }
 
   if (roles && !roles.includes(user.role)) {
