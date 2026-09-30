@@ -59,3 +59,25 @@ export interface VerificationFlowState {
 }
 
 export type SessionStatus = "idle" | "restoring" | "authenticated" | "anonymous";
+
+export interface PasswordResetRequest {
+  email: string;
+}
+export interface PasswordResetVerification extends PasswordResetRequest {
+  otp: string;
+}
+export interface NewPasswordPayload {
+  newPassword: string;
+  confirmPassword: string;
+}
+export interface ChangePasswordPayload extends NewPasswordPayload {
+  currentPassword: string;
+  otp: string;
+}
+export interface PasswordResetResponse {
+  message: string;
+  cooldownSeconds: number;
+}
+export interface PasswordResetVerificationResponse {
+  expiresAt: string;
+}

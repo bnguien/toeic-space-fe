@@ -94,6 +94,12 @@ export async function signOut() {
   channel?.postMessage(LOGOUT_MESSAGE);
 }
 
+// Password endpoints already revoke refresh tokens and clear the server cookies.
+export function clearSessionAfterPasswordChange() {
+  endSession();
+  channel?.postMessage(LOGOUT_MESSAGE);
+}
+
 /**
  * Connects the shared HTTP client to the session. Call once at startup.
  */
