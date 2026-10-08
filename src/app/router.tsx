@@ -4,6 +4,7 @@ import App from "@/App";
 import { adminRoutes } from "@/modules/admin";
 import { authRoutes } from "@/modules/auth";
 import { RouteError } from "@/shared/components/RouteError/RouteError";
+import { RootLayout } from "./RootLayout";
 
 // Render errors and unknown paths (handled by the "/" route) show a friendly screen.
 const withErrorScreen = (routes: RouteObject[]): RouteObject[] =>
@@ -12,10 +13,15 @@ const withErrorScreen = (routes: RouteObject[]): RouteObject[] =>
 export const router = createBrowserRouter(
   withErrorScreen([
     {
-      path: "/",
-      element: <App />,
+      element: <RootLayout />,
+      children: [
+        {
+          path: "/",
+          element: <App />,
+        },
+        ...authRoutes,
+        ...adminRoutes,
+      ],
     },
-    ...authRoutes,
-    ...adminRoutes,
   ]),
 );

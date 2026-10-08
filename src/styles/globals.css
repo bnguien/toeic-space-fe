@@ -28,7 +28,11 @@
   --ui-shadow-raised: 0 12px 28px -14px rgb(56 72 120 / 0.3);
   /* Typography */
   --font-display: "Baloo 2", ui-rounded, system-ui, sans-serif;
-  --font-sans: "Quicksand", ui-rounded, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Quicksand", ui-rounded, system-ui, sans-serif;
+  --font-script: "Dancing Script", "Caveat", cursive;
+
+  /* Smooth scroll behavior */
+  scroll-behavior: smooth;
 
   /* Oysteic Brand Colors */
   --bg-app: var(--ui-canvas);

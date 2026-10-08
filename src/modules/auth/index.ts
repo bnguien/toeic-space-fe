@@ -1,4 +1,5 @@
 export { authRoutes } from "./routes";
+export { AuthLayout } from "./components/AuthLayout";
 export { RequireAuth } from "./components/RequireAuth";
 export { RegisterPage } from "./pages/RegisterPage";
 export { VerifyEmailPage } from "./pages/VerifyEmailPage";
