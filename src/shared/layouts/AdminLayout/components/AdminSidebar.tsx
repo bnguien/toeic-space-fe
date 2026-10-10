@@ -17,6 +17,7 @@ import {
 import { ADMIN_NAV_SECTIONS } from "@/shared/constants/adminNav";
 import type { AdminAccount } from "@/shared/types/account.types";
 import type { NavSection } from "@/shared/types/nav.types";
+import { normalizeAvatarUrl } from "@/modules/profile";
 
 import styles from "./AdminSidebar.module.css";
 
@@ -280,7 +281,17 @@ export const AdminSidebar = ({
             title={collapsed ? `${account.name} · ${account.roleLabel}` : undefined}
           >
             <div className={styles.userAvatar} aria-hidden="true">
-              {getInitials(account.name)}
+              <span>{getInitials(account.name)}</span>
+              {account.avatarUrl && (
+                <img
+                  src={normalizeAvatarUrl(account.avatarUrl) ?? account.avatarUrl}
+                  alt={account.name}
+                  className={styles.userAvatarImg}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              )}
             </div>
             {!collapsed && (
               <div className={styles.userInfo}>

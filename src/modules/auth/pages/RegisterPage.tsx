@@ -137,7 +137,7 @@ export function RegisterPage() {
       <section className={`${styles.card} ${styles.cardWide}`} aria-labelledby="register-title">
         <header className={styles.header}>
           <img className={styles.mascot} src={helloMascot} alt="" width="112" height="112" />
-          <span className={styles.eyebrow}>TOEIC SPACE · TẠO TÀI KHOẢN</span>
+          <span className={styles.eyebrow}>TOEICSpace · TẠO TÀI KHOẢN</span>
           <h1 id="register-title">Đăng ký thành viên</h1>
           <p>Bắt đầu hành trình chinh phục mục tiêu TOEIC của bạn.</p>
         </header>

@@ -100,7 +100,7 @@ export const HeroSection = ({ onSelectFeature }: HeroSectionProps) => {
             {/* Left Column: Typography & CTA */}
             <div className={styles.leftCol}>
               <span className={styles.subTag}>NỀN TẢNG LUYỆN THI TOEIC</span>
-              <h1 className={styles.heroTitle}>ToeicSpace</h1>
+              <h1 className={styles.heroTitle}>TOEICSpace</h1>
               <p className={styles.heroDesc}>
                 Ngoài kia sóng vẫn ồn ào. Trong này chỉ có bạn, một viên ngọc đang lớn dần sau mỗi
                 buổi học.
@@ -122,7 +122,7 @@ export const HeroSection = ({ onSelectFeature }: HeroSectionProps) => {
 
                 <img
                   src={mascotHero}
-                  alt="Oysteic Mascot — Chú sò tinh nghịch ToeicSpace"
+                  alt="Oysteic Mascot — Chú sò tinh nghịch TOEICSpace"
                   className={styles.mascotImg}
                 />
               </div>

@@ -33,7 +33,7 @@ function getNavInfo(pathname: string) {
       return {
         sectionTitle: section.label,
         itemTitle: section.label,
-        description: `Quản lý tập trung dữ liệu ${section.label.toLowerCase()} của hệ thống TOEIC Space.`,
+        description: `Quản lý tập trung dữ liệu ${section.label.toLowerCase()} của hệ thống TOEICSpace.`,
         sectionKey: section.key,
       };
     }
@@ -50,7 +50,7 @@ function getNavInfo(pathname: string) {
   return {
     sectionTitle: "Quản trị",
     itemTitle: "Bảng dữ liệu",
-    description: "Quản lý dữ liệu hệ thống TOEIC Space.",
+    description: "Quản lý dữ liệu hệ thống TOEICSpace.",
     sectionKey: "general",
   };
 }

@@ -18,7 +18,12 @@ export function AdminShell() {
     <AdminLayout
       account={
         user
-          ? { name: user.fullName, email: user.email, roleLabel: ROLE_LABELS[user.role] }
+          ? {
+              name: user.fullName,
+              email: user.email,
+              roleLabel: ROLE_LABELS[user.role],
+              avatarUrl: user.avatarUrl,
+            }
           : undefined
       }
       onLogout={() => logout.mutate()}

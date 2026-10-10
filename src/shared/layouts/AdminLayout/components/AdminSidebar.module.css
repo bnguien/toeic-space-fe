@@ -324,6 +324,17 @@
   font-size: 12px;
   color: #ffffff;
   flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+.userAvatarImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
 }
 .userInfo {
   display: flex;

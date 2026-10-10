@@ -6,4 +6,5 @@ export interface AdminAccount {
   name: string;
   email: string;
   roleLabel: string;
+  avatarUrl?: string | null;
 }
