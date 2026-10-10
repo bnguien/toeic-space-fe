@@ -18,6 +18,8 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      // Windows edits on Docker bind mounts do not reliably emit file events.
+      watch: { usePolling: process.env.CHOKIDAR_USEPOLLING === "true" },
       proxy: Object.fromEntries(
         API_PREFIXES.map((prefix) => [prefix, { target, changeOrigin: true, xfwd: true }]),
       ),

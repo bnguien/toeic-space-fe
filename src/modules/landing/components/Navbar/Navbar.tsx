@@ -335,6 +335,16 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                       </span>
                     </button>
 
+                    <Link
+                      to="/change-password"
+                      className={styles.dropdownItem}
+                      role="menuitem"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <IconSettings size={16} />
+                      <span>Đổi mật khẩu</span>
+                    </Link>
+
                     <div className={styles.dropdownDivider} />
 
                     <button
