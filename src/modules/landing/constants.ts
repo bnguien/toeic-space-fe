@@ -37,7 +37,7 @@ export const LANDING_NAV_ITEMS: NavItem[] = [
     targetId: "courses",
   },
   {
-    label: "Về ToeicSpace",
+    label: "Về TOEICSpace",
     href: "#about",
     targetId: "about",
     children: [

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Navbar } from "./components/Navbar/Navbar";
 import { VerticalNavDots } from "./components/VerticalNavDots/VerticalNavDots";
 import { HeroSection } from "./components/HeroSection/HeroSection";
 import { ListeningSection } from "./components/ListeningSection/ListeningSection";
@@ -54,11 +53,28 @@ export const LandingPage = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) {
+        let target = document.getElementById(hash);
+        if (!target && hash === "practice") {
+          target = document.getElementById("listening");
+        }
+        if (target) {
+          setTimeout(() => {
+            target?.scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        }
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
   return (
     <div className={styles.landingContainer}>
-      {/* Pinned Navbar */}
-      <Navbar onNavClick={scrollToSection} />
-
       {/* Fixed Left Vertical Dots Navigation Indicator */}
       <VerticalNavDots activeSection={activeSection} onSelectSection={scrollToSection} />
 

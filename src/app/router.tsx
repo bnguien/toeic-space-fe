@@ -3,6 +3,7 @@ import { createBrowserRouter, type RouteObject } from "react-router-dom";
 import App from "@/App";
 import { adminRoutes } from "@/modules/admin";
 import { authRoutes } from "@/modules/auth";
+import { profileRoutes } from "@/modules/profile";
 import { RouteError } from "@/shared/components/RouteError/RouteError";
 import { RootLayout } from "./RootLayout";
 
@@ -21,6 +22,7 @@ export const router = createBrowserRouter(
         },
         ...authRoutes,
         ...adminRoutes,
+        ...profileRoutes,
       ],
     },
   ]),

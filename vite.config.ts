@@ -2,9 +2,8 @@ import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
 
-// API prefixes served by the API gateway. In development Vite forwards them so the app and the
-// API share one origin: the SameSite=Strict refresh cookie works and no CORS is needed.
-const API_PREFIXES = ["/identity", "/assessment"];
+// In development, Vite forwards API prefixes to the API gateway (or microservices)
+// so the app and API share one origin: SameSite=Strict cookies work and no CORS issues.
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
@@ -18,9 +17,16 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      proxy: Object.fromEntries(
-        API_PREFIXES.map((prefix) => [prefix, { target, changeOrigin: true, xfwd: true }]),
-      ),
+      proxy: {
+        "/identity": { target, changeOrigin: true, xfwd: true },
+        "/assessment": { target, changeOrigin: true, xfwd: true },
+        "/api": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+          rewrite: (path) => `/identity${path}`,
+        },
+      },
     },
   };
 });
