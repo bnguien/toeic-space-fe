@@ -14,7 +14,7 @@ export const EcosystemSection = () => {
           </div>
           <h2 className={styles.title}>Được tin chọn bởi hơn 50.000+ học viên</h2>
           <p className={styles.subtitle}>
-            ToeicSpace đồng hành cùng sinh viên và người đi làm tại các trường đại học, tổ chức uy
+            TOEICSpace đồng hành cùng sinh viên và người đi làm tại các trường đại học, tổ chức uy
             tín khắp cả nước.
           </p>
         </div>

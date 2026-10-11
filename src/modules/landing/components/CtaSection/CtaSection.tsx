@@ -29,7 +29,7 @@ export const CtaSection = ({ onScrollToPractice }: CtaSectionProps) => {
             <h2 className={styles.title}>Sẵn sàng bứt phá mục tiêu TOEIC?</h2>
             <p className={styles.desc}>
               Hàng chục ngàn học viên đã tìm thấy phương pháp học tập tĩnh lặng và hiệu quả tại
-              ToeicSpace. Hãy để chú sò Oysteic đồng hành cùng bạn từ hôm nay!
+              TOEICSpace. Hãy để chú sò Oysteic đồng hành cùng bạn từ hôm nay!
             </p>
 
             <div className={styles.actionsRow}>

@@ -113,13 +113,13 @@ export function LoginPage({ isAdmin = false }: LoginPageProps) {
         <header className={styles.header}>
           <img className={styles.mascot} src={helloMascot} alt="" width="112" height="112" />
           <span className={styles.eyebrow}>
-            {isAdmin ? "TOEIC SPACE · ADMIN CMS" : "TOEIC SPACE · ĐĂNG NHẬP"}
+            {isAdmin ? "TOEICSpace · ADMIN CMS" : "TOEICSpace · ĐĂNG NHẬP"}
           </span>
           <h1 id="login-title">{isAdmin ? "Đăng nhập quản trị" : "Đăng nhập"}</h1>
           <p>
             {isAdmin
               ? "Dành cho quản trị viên và giáo viên quản lý ngân hàng đề."
-              : "Chào mừng bạn quay trở lại với TOEIC SPACE."}
+              : "Chào mừng bạn quay trở lại với TOEICSpace."}
           </p>
         </header>
 

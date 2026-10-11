@@ -33,10 +33,10 @@ export const Footer = ({ onNavClick }: FooterProps) => {
               href="#hero"
               className={styles.brandLink}
               onClick={(e) => handleScroll(e, "hero")}
-              aria-label="Về đầu trang ToeicSpace"
+              aria-label="Về đầu trang TOEICSpace"
             >
-              <img src={mascotLogo} alt="ToeicSpace Mascot" className={styles.brandMascotImg} />
-              <span className={styles.brandText}>ToeicSpace</span>
+              <img src={mascotLogo} alt="TOEICSpace Mascot" className={styles.brandMascotImg} />
+              <span className={styles.brandText}>TOEICSpace</span>
             </a>
 
             <p className={styles.brandDesc}>
@@ -133,7 +133,7 @@ export const Footer = ({ onNavClick }: FooterProps) => {
 
           {/* Links Column 3: Về chúng tôi */}
           <div className={styles.linksCol}>
-            <h4>Về ToeicSpace</h4>
+            <h4>Về TOEICSpace</h4>
             <ul className={styles.linksList}>
               <li className={styles.linkItem}>
                 <a href="#about" onClick={(e) => handleScroll(e, "about")}>
@@ -158,7 +158,7 @@ export const Footer = ({ onNavClick }: FooterProps) => {
         {/* Bottom Bar */}
         <div className={styles.bottomRow}>
           <div className={styles.copyright}>
-            © 2026 ToeicSpace. Hệ thống Ôn luyện & Khảo thí TOEIC tích hợp LMS Quản lý Trung tâm.
+            © 2026 TOEICSpace. Hệ thống Ôn luyện & Khảo thí TOEIC tích hợp LMS Quản lý Trung tâm.
           </div>
 
           <div className={styles.legalLinks}>

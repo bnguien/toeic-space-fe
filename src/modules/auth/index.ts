@@ -12,7 +12,8 @@ export {
   useVerifyEmail,
 } from "./hooks/useAuth";
 export { CONTENT_MANAGER_ROLES } from "./utils/auth-helpers";
-export { setupAuthSession } from "./utils/session";
+export { setupAuthSession, broadcastUserUpdate, restoreSession } from "./utils/session";
+export { useAuthStore } from "./store/auth.store";
 export type {
   AuthUser,
   RegisterPayload,
