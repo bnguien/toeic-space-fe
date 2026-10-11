@@ -17,9 +17,21 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      watch: {
+        usePolling: process.env.CHOKIDAR_USEPOLLING === "true",
+      },
+
       proxy: {
-        "/identity": { target, changeOrigin: true, xfwd: true },
-        "/assessment": { target, changeOrigin: true, xfwd: true },
+        "/identity": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+        },
+        "/assessment": {
+          target,
+          changeOrigin: true,
+          xfwd: true,
+        },
         "/api": {
           target,
           changeOrigin: true,

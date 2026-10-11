@@ -124,6 +124,11 @@ export function LoginPage({ isAdmin = false }: LoginPageProps) {
         </header>
 
         <form className={styles.form} onSubmit={onSubmit} noValidate>
+          {(location.state as { passwordChanged?: boolean } | null)?.passwordChanged && (
+            <p className={styles.alertSuccess} role="status">
+              Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập bằng mật khẩu mới.
+            </p>
+          )}
           {isVerified && (
             <p className={styles.alertSuccess} role="status">
               Xác thực email thành công. Vui lòng đăng nhập để tiếp tục.
@@ -202,6 +207,9 @@ export function LoginPage({ isAdmin = false }: LoginPageProps) {
             )}
           </div>
 
+          <Link to="/forgot-password" className={styles.footerLink}>
+            Quên mật khẩu?
+          </Link>
           <button type="submit" className={styles.submit} disabled={login.isPending}>
             {login.isPending ? "Đang đăng nhập..." : "Đăng nhập"}
           </button>

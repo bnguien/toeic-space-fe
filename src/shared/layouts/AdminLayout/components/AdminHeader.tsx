@@ -41,6 +41,14 @@ export const AdminHeader = () => {
       <div className={styles.right}>
         <span className={styles.workspaceLabel}>Không gian quản trị</span>
         <Link
+          to="/change-password"
+          className={styles.actionBtn}
+          title="Đổi mật khẩu"
+          aria-label="Đổi mật khẩu"
+        >
+          <IconSystem size={18} />
+        </Link>
+        <Link
           to="/admin/system/notifications"
           className={styles.actionBtn}
           title="Thông báo hệ thống"
