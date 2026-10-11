@@ -9,6 +9,7 @@ interface AuthState {
   accessToken: string | null;
   setRestoring: () => void;
   setSession: (response: AuthResponse) => void;
+  updateUser: (patch: Partial<AuthUser>) => void;
   clearSession: () => void;
 }
 
@@ -19,5 +20,9 @@ export const useAuthStore = create<AuthState>()((set) => ({
   setRestoring: () => set({ status: "restoring" }),
   setSession: (response) =>
     set({ status: "authenticated", user: response.user, accessToken: response.accessToken }),
+  updateUser: (patch) =>
+    set((state) => ({
+      user: state.user ? { ...state.user, ...patch } : null,
+    })),
   clearSession: () => set({ status: "anonymous", user: null, accessToken: null }),
 }));

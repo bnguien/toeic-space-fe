@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useCurrentUser, useLogout } from "@/modules/auth";
+import { useCurrentUser, useLogout, useSessionStatus } from "@/modules/auth";
 import {
   IconBook,
   IconChevronDown,
@@ -10,7 +10,9 @@ import {
   IconRoadmap,
   IconSettings,
 } from "../icons/LandingIcons";
+import { User as IconUserProfile } from "lucide-react";
 import mascotLogo from "@/assets/mascot/oy2-hello.png";
+import { normalizeAvatarUrl } from "@/modules/profile";
 import { LANDING_NAV_ITEMS } from "../../constants";
 import styles from "./Navbar.module.css";
 
@@ -27,9 +29,18 @@ const getInitials = (name: string) => {
 
 export const Navbar = ({ onNavClick }: NavbarProps) => {
   const user = useCurrentUser();
+  const sessionStatus = useSessionStatus();
   const logout = useLogout();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isLogin = location.pathname.startsWith("/login") || location.pathname === "/admin/login";
+  const isRegister = location.pathname.startsWith("/register");
+  const activeAuthPosition: "home" | "login" | "register" = isLogin
+    ? "login"
+    : isRegister
+      ? "register"
+      : "home";
 
   const [isScrolled, setIsScrolled] = useState(false);
   const isScrolledState = isScrolled || location.pathname !== "/";
@@ -37,6 +48,91 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
   const [openNavKey, setOpenNavKey] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openMobileGroup, setOpenMobileGroup] = useState<string | null>(null);
+
+  const pillRef = useRef<HTMLDivElement>(null);
+  const orbRef = useRef<HTMLAnchorElement>(null);
+  const loginRef = useRef<HTMLAnchorElement>(null);
+  const registerRef = useRef<HTMLAnchorElement>(null);
+  const [gliderAnimated, setGliderAnimated] = useState(false);
+
+  const getInitialGliderPos = useCallback((pos: "home" | "login" | "register") => {
+    if (pos === "login") return { left: 49, width: 110 };
+    if (pos === "register") return { left: 161, width: 94 };
+    return { left: 3, width: 44 };
+  }, []);
+
+  const [gliderPos, setGliderPos] = useState(() => getInitialGliderPos(activeAuthPosition));
+
+  const updateGlider = useCallback(() => {
+    const container = pillRef.current;
+    if (!container) return;
+
+    let targetEl: HTMLElement | null = null;
+    if (activeAuthPosition === "login") {
+      targetEl = loginRef.current;
+    } else if (activeAuthPosition === "register") {
+      targetEl = registerRef.current;
+    } else {
+      targetEl = orbRef.current;
+    }
+
+    if (!targetEl) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const targetRect = targetEl.getBoundingClientRect();
+
+    if (containerRect.width === 0 || targetRect.width === 0) return;
+
+    const left = targetRect.left - containerRect.left;
+    const width = targetRect.width;
+
+    setGliderPos({ left, width });
+  }, [activeAuthPosition]);
+
+  const handlePillRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      pillRef.current = el;
+      if (el) {
+        updateGlider();
+        requestAnimationFrame(updateGlider);
+      }
+    },
+    [updateGlider],
+  );
+
+  useLayoutEffect(() => {
+    updateGlider();
+  }, [updateGlider, sessionStatus, user]);
+
+  useEffect(() => {
+    updateGlider();
+    const frameId = requestAnimationFrame(updateGlider);
+
+    // Enable smooth glider transitions after mount to prevent reload flash
+    const timer = setTimeout(() => {
+      setGliderAnimated(true);
+    }, 60);
+
+    window.addEventListener("resize", updateGlider);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(updateGlider);
+    }
+
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && pillRef.current) {
+      ro = new ResizeObserver(() => {
+        updateGlider();
+      });
+      ro.observe(pillRef.current);
+    }
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateGlider);
+      if (ro) ro.disconnect();
+    };
+  }, [updateGlider, sessionStatus, user]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const avatarButtonRef = useRef<HTMLButtonElement>(null);
@@ -122,7 +218,10 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
     if (onNavClick) {
       onNavClick(targetId);
     } else {
-      const element = document.getElementById(targetId);
+      let element = document.getElementById(targetId);
+      if (!element && targetId === "practice") {
+        element = document.getElementById("listening");
+      }
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       } else {
@@ -151,7 +250,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
   return (
     <header className={`${styles.header} ${isScrolledState ? styles.scrolled : ""}`}>
       <div className={styles.navInner}>
-        {/* Left: ToeicSpace Clean Brand Logo with Mascot */}
+        {/* Left: TOEICSpace Clean Brand Logo with Mascot */}
         <a
           href="#hero"
           className={styles.brandLink}
@@ -159,10 +258,10 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
             e.preventDefault();
             handleLinkClick("hero");
           }}
-          aria-label="ToeicSpace Trang chủ"
+          aria-label="TOEICSpace Trang chủ"
         >
-          <img src={mascotLogo} alt="ToeicSpace Mascot" className={styles.brandMascotImg} />
-          <span className={styles.brandText}>ToeicSpace</span>
+          <img src={mascotLogo} alt="TOEICSpace Mascot" className={styles.brandMascotImg} />
+          <span className={styles.brandText}>TOEICSpace</span>
         </a>
 
         {/* Center: Balanced Navigation Links with Dropdown Menus */}
@@ -232,16 +331,60 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
 
         {/* Right: Authentication Actions */}
         <div className={styles.authGroup}>
-          {!user ? (
-            /* Unauthenticated state: Orb + Đăng nhập + Đăng ký */
-            <div className={styles.authPill}>
-              <span className={styles.orbWrap} aria-hidden="true">
-                <IconPearlOrb size={28} />
-              </span>
-              <Link to="/login" className={styles.loginLink}>
+          {sessionStatus === "restoring" && !user ? (
+            <div className={styles.authSkeleton} aria-hidden="true" />
+          ) : !user ? (
+            /* Unauthenticated state: Segmented toggle pill with sliding indicator */
+            <div
+              ref={handlePillRef}
+              className={styles.authPill}
+              role="navigation"
+              aria-label="Xác thực tài khoản"
+            >
+              {/* Sliding blue capsule glider */}
+              <div
+                className={`${styles.sliderGlider} ${
+                  gliderAnimated ? styles.sliderGliderAnimated : ""
+                }`}
+                style={{
+                  transform: `translate3d(${gliderPos.left}px, 0, 0)`,
+                  width: `${gliderPos.width}px`,
+                }}
+                aria-hidden="true"
+              />
+
+              {/* Left pearl orb (Homepage anchor) */}
+              <Link
+                ref={orbRef}
+                to="/"
+                className={styles.orbLink}
+                aria-label="TOEICSpace Trang chủ"
+                title="Trang chủ"
+              >
+                <IconPearlOrb size={26} className={styles.orbIcon} />
+              </Link>
+
+              {/* Đăng nhập */}
+              <Link
+                ref={loginRef}
+                to="/login"
+                className={`${styles.toggleItem} ${
+                  activeAuthPosition === "login" ? styles.toggleItemActive : ""
+                }`}
+                aria-current={activeAuthPosition === "login" ? "page" : undefined}
+              >
                 Đăng nhập
               </Link>
-              <Link to="/register" className={styles.registerLink}>
+
+              {/* Đăng ký */}
+              <Link
+                ref={registerRef}
+                to="/register"
+                className={`${styles.toggleItem} ${
+                  activeAuthPosition === "register" ? styles.toggleItemActive : ""
+                }`}
+                aria-current={activeAuthPosition === "register" ? "page" : undefined}
+              >
                 Đăng ký
               </Link>
             </div>
@@ -259,7 +402,17 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                 title={user.fullName}
               >
                 <div className={styles.avatarCircle} aria-hidden="true">
-                  {getInitials(user.fullName)}
+                  <span className={styles.avatarInitials}>{getInitials(user.fullName)}</span>
+                  {user.avatarUrl && (
+                    <img
+                      src={normalizeAvatarUrl(user.avatarUrl) ?? user.avatarUrl}
+                      alt={user.fullName}
+                      className={styles.avatarImage}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                  )}
                 </div>
               </button>
 
@@ -284,6 +437,19 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                   </div>
 
                   <div className={styles.dropdownList}>
+                    <button
+                      type="button"
+                      className={styles.dropdownItem}
+                      role="menuitem"
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        navigate("/profile");
+                      }}
+                    >
+                      <IconUserProfile size={16} />
+                      <span>Hồ sơ cá nhân</span>
+                    </button>
+
                     <button
                       type="button"
                       className={styles.dropdownItem}
@@ -441,16 +607,28 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
             <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
               <Link
                 to="/login"
-                className={styles.loginLink}
-                style={{ flex: 1, textAlign: "center", background: "#f1f5f9" }}
+                className={`${styles.toggleItem} ${
+                  activeAuthPosition === "login" ? styles.toggleItemActive : ""
+                }`}
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  background: activeAuthPosition === "login" ? undefined : "#f1f5f9",
+                }}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Đăng nhập
               </Link>
               <Link
                 to="/register"
-                className={styles.registerLink}
-                style={{ flex: 1, textAlign: "center" }}
+                className={`${styles.toggleItem} ${
+                  activeAuthPosition === "register" ? styles.toggleItemActive : ""
+                }`}
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  background: activeAuthPosition === "register" ? undefined : "#f1f5f9",
+                }}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Đăng ký
@@ -460,6 +638,16 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
             <div
               style={{ marginTop: "10px", display: "flex", flexDirection: "column", gap: "8px" }}
             >
+              <button
+                type="button"
+                className={styles.dropdownItem}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate("/profile");
+                }}
+              >
+                <IconUserProfile size={16} /> Hồ sơ cá nhân
+              </button>
               <button
                 type="button"
                 className={styles.dropdownItem}

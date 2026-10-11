@@ -47,7 +47,7 @@ export const RoadmapSection = () => {
             </div>
             <h2 className={styles.title}>Lộ trình của riêng bạn</h2>
             <p className={styles.subtitle}>
-              Đặt mục tiêu điểm số và ngày thi, ToeicSpace vẽ lại hành trình theo đúng năng lực hiện
+              Đặt mục tiêu điểm số và ngày thi, TOEICSpace vẽ lại hành trình theo đúng năng lực hiện
               tại của bạn — như một tuyến hải trình có từng điểm dừng.
             </p>
 
