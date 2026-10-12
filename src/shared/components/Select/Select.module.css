@@ -1,0 +1,244 @@
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-lg, 8px);
+  border: 1px solid var(--ui-line, #e4e7ef);
+  background: var(--ui-surface, #ffffff);
+  color: var(--color-text-main, #252c3f);
+  font-size: 0.92rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+  user-select: none;
+}
+
+.trigger:hover:not(:disabled) {
+  border-color: var(--ui-blue-line, #a9bde6);
+}
+
+.trigger:focus-visible,
+.triggerOpen {
+  border-color: var(--ui-blue-line, #a9bde6);
+  box-shadow: var(--ui-focus, 0 0 0 3px rgb(72 103 168 / 0.16));
+  outline: none;
+}
+
+.triggerError {
+  border-color: var(--coral, #f43f5e) !important;
+  background: var(--coral-light, #fff1f2) !important;
+}
+
+.triggerError:focus-visible,
+.triggerError.triggerOpen {
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.16) !important;
+}
+
+.triggerDisabled {
+  background: var(--ui-hover, #f0f2f8);
+  color: var(--ui-muted, #5f687c);
+  cursor: not-allowed;
+  border-color: var(--ui-divider, #d3d8e3);
+  opacity: 0.75;
+}
+
+.selectedContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.selectedLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.placeholder {
+  color: var(--ui-subtle, #8a92a5);
+  font-weight: 400;
+}
+
+.iconGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  color: var(--ui-muted, #5f687c);
+}
+
+.chevron {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: grid;
+  place-items: center;
+}
+
+.chevronRotated {
+  transform: rotate(180deg);
+}
+
+.clearButton {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  border-radius: 4px;
+  color: var(--ui-subtle, #8a92a5);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.clearButton:hover {
+  color: var(--color-text-main, #252c3f);
+  background: var(--ui-hover, #f0f2f8);
+}
+
+/* Dropdown Menu */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 99;
+  max-height: 260px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid var(--ui-line, #e4e7ef);
+  border-radius: var(--radius-lg, 8px);
+  box-shadow:
+    0 10px 25px -5px rgba(30, 41, 59, 0.12),
+    0 8px 10px -6px rgba(30, 41, 59, 0.08);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: dropdownIn 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-md, 6px);
+  border: none;
+  background: transparent;
+  color: var(--color-text-main, #252c3f);
+  font-size: 0.9rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.option:hover,
+.optionFocused {
+  background: var(--ui-hover, #f0f2f8);
+  color: var(--color-text-main, #252c3f);
+}
+
+.optionSelected {
+  background: var(--ui-blue-soft, #eef2fb) !important;
+  color: var(--primary, #4867a8) !important;
+  font-weight: 600;
+}
+
+.optionDisabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.optionMain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.optionLabelRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.optionLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.optionDescription {
+  font-size: 0.76rem;
+  color: var(--ui-muted, #5f687c);
+  line-height: 1.3;
+}
+
+.checkIcon {
+  color: var(--primary, #4867a8);
+  flex-shrink: 0;
+  animation: checkPop 0.15s ease;
+}
+
+@keyframes checkPop {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Custom Scrollbar */
+.dropdown::-webkit-scrollbar {
+  width: 5px;
+}
+
+.dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+  background: var(--ui-divider, #d3d8e3);
+  border-radius: 9999px;
+}
+
+.dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-subtle, #8a92a5);
+}
