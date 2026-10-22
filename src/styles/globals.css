@@ -26,6 +26,30 @@
   --ui-focus: 0 0 0 3px rgb(72 103 168 / 0.16);
   --ui-shadow: 0 1px 2px rgb(37 44 63 / 0.05);
   --ui-shadow-raised: 0 12px 28px -14px rgb(56 72 120 / 0.3);
+  --ui-rose-strong: #853d5e;
+  --ui-green-line: #bfe0cd;
+  --ui-pearl-line: #eadfcb;
+  --ui-pearl-text: #7a6440;
+  /* Text on filled accent buttons and chips. */
+  --ui-on-accent: #ffffff;
+  /* Filled buttons: a mid tone in light mode, a deep tone in dark mode, white text in both. */
+  --ui-accent-fill: #4867a8;
+  --ui-accent-fill-hover: #37548f;
+  --ui-danger-fill: #9d4b70;
+  --ui-danger-fill-hover: #853d5e;
+  --ui-on-fill: #ffffff;
+  /* Outlined "sticker" surfaces of the admin banners. */
+  --ui-ink: #252c3f;
+  --ui-cream: #fdfbf6;
+  --ui-cream-line: #ece7dc;
+  --ui-cream-shadow: #ddd5c3;
+  --ui-watermark: #f1ede4;
+  --ui-mark: #e6c27a;
+  --ui-mark-bright: #f2c14e;
+  --ui-mark-strong: #d6a329;
+  /* Text on the yellow marks, the same in both modes. */
+  --ui-on-mark: #252c3f;
+  --ui-backdrop: rgb(37 44 63 / 0.38);
   /* Typography */
   --font-display: "Baloo 2", ui-rounded, system-ui, sans-serif;
   --font-sans: "Plus Jakarta Sans", "Quicksand", ui-rounded, system-ui, sans-serif;
@@ -82,6 +106,76 @@
   /* Transitions */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
+}
+
+/*
+ * Dark mode of the admin area, switched on by data-color-mode="dark" on its layout.
+ * Every colour is redeclared because tokens that point at other tokens are resolved where they
+ * are defined (here: :root) and would otherwise keep their light values.
+ */
+[data-color-mode="dark"] {
+  color-scheme: dark;
+  --ui-canvas: #11141c;
+  --ui-surface: #1a1e29;
+  --ui-hover: #232838;
+  --ui-pearl: #2a2619;
+  --ui-text: #e7eaf3;
+  --ui-muted: #a3abbf;
+  --ui-subtle: #7b8399;
+  --ui-line: #2c3243;
+  --ui-divider: #3a4157;
+  --ui-blue: #93acec;
+  --ui-blue-strong: #b4c6f3;
+  --ui-blue-soft: #1f2a45;
+  --ui-blue-line: #3d5186;
+  --ui-blue-mid: #6f8ed6;
+  --ui-rose: #eba3c1;
+  --ui-rose-soft: #3a2230;
+  --ui-rose-line: #6e3a54;
+  --ui-rose-mid: #c97a9b;
+  --ui-rose-strong: #f4c0d5;
+  --ui-green: #7cc8a2;
+  --ui-green-soft: #18302a;
+  --ui-green-line: #2f5a45;
+  --ui-pearl-line: #4d4430;
+  --ui-pearl-text: #e3c98f;
+  --ui-focus: 0 0 0 3px rgb(147 172 236 / 0.32);
+  --ui-shadow: 0 1px 2px rgb(0 0 0 / 0.45);
+  --ui-shadow-raised: 0 14px 30px -14px rgb(0 0 0 / 0.75);
+  --ui-on-accent: #11141c;
+  --ui-accent-fill: #3b57a0;
+  --ui-accent-fill-hover: #4664b3;
+  --ui-danger-fill: #8a3c5f;
+  --ui-danger-fill-hover: #9c4a6e;
+  --ui-ink: #4a5371;
+  --ui-cream: #1d2130;
+  --ui-cream-line: #2a3042;
+  --ui-cream-shadow: #0b0d13;
+  --ui-watermark: #232839;
+  --ui-mark: #d4b373;
+  --ui-mark-bright: #dbb55a;
+  --ui-mark-strong: #cfa645;
+  --ui-backdrop: rgb(0 0 0 / 0.6);
+
+  --bg-app: var(--ui-canvas);
+  --bg-surface: var(--ui-surface);
+  --bg-sidebar: var(--ui-canvas);
+  --bg-sidebar-hover: var(--ui-hover);
+  --bg-sidebar-active: var(--ui-blue-soft);
+  --color-text-main: var(--ui-text);
+  --color-text-muted: var(--ui-muted);
+  --color-text-light: var(--ui-subtle);
+  --primary: var(--ui-blue);
+  --primary-hover: var(--ui-blue-strong);
+  --primary-light: var(--ui-blue-soft);
+  --coral-light: #3a1f27;
+  --border-subtle: var(--ui-line);
+  --border-focus: var(--ui-blue-line);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.45);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+  --shadow-soft: 0 10px 25px -5px rgb(0 0 0 / 0.5);
+  background: var(--ui-canvas);
+  color: var(--ui-text);
 }
 
 * {
