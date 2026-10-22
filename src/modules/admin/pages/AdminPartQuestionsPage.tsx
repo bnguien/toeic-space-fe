@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams, useParams, Link, Navigate } from "react-router-dom";
 import { IconChevronLeft, IconSearch } from "@/shared/components/icons";
 import { toPlainText } from "@/shared/components/RichText";
+import { Select } from "@/shared/components/Select";
 import { examBankApi } from "../api/exam-bank.api";
 import { BankStatus, Pagination, PartNavigation } from "../components/exam-bank/BankControls";
 import {
@@ -139,30 +140,26 @@ export function AdminPartQuestionsPage({ part }: { part: number }) {
             <IconChevronLeft style={{ transform: "rotate(180deg)" }} />
           </button>
         </div>
-        <select
+        <Select
           aria-label="Độ khó"
           value={params.get("difficulty") || ""}
-          onChange={(e) => update("difficulty", e.target.value)}
-        >
-          <option value="">Tất cả độ khó</option>
-          {Object.entries(DIFFICULTY_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <select
+          onChange={(value) => update("difficulty", value)}
+          options={[
+            { value: "", label: "Tất cả độ khó" },
+            ...Object.entries(DIFFICULTY_LABELS).map(([value, label]) => ({ value, label })),
+          ]}
+          className={styles.toolbarSelect}
+        />
+        <Select
           aria-label="Trạng thái"
           value={params.get("status") || ""}
-          onChange={(e) => update("status", e.target.value)}
-        >
-          <option value="">Tất cả trạng thái</option>
-          {Object.entries(STATUS_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
+          onChange={(value) => update("status", value)}
+          options={[
+            { value: "", label: "Tất cả trạng thái" },
+            ...Object.entries(STATUS_LABELS).map(([value, label]) => ({ value, label })),
+          ]}
+          className={styles.toolbarSelect}
+        />
         {(params.get("search") || params.get("difficulty") || params.get("status")) && (
           <button type="button" className={styles.textButton} onClick={() => setParams({})}>
             Xóa bộ lọc

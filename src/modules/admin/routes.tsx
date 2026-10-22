@@ -1,6 +1,6 @@
 import { Navigate, type RouteObject } from "react-router-dom";
 
-import { CONTENT_MANAGER_ROLES, RequireAuth } from "@/modules/auth";
+import { RequireAuth } from "@/modules/auth";
 
 import { AdminShell } from "./components/AdminShell";
 import { AdminDashboardPage } from "./pages/AdminDashboardPage";
@@ -8,13 +8,16 @@ import { AdminExamBankPage } from "./pages/AdminExamBankPage";
 import { AdminExamsListPage } from "./pages/AdminExamsListPage";
 import { AdminPartQuestionsPage } from "./pages/AdminPartQuestionsPage";
 import { AdminSectionPage } from "./pages/AdminSectionPage";
+import { ClassesPage } from "./pages/ClassesPage";
+import { ClassesOverviewPage } from "./pages/ClassesOverviewPage";
+import { ClassesLifecyclePage } from "./pages/ClassesLifecyclePage";
 
 export const adminRoutes: RouteObject[] = [
   {
     path: "/admin",
-    // Every admin page requires an Admin or Teacher session; the API checks the same roles.
+    // CMS is exclusively for administrators. Teachers use the separate /teacher LMS.
     element: (
-      <RequireAuth roles={CONTENT_MANAGER_ROLES}>
+      <RequireAuth roles={["Admin"]}>
         <AdminShell />
       </RequireAuth>
     ),
@@ -37,6 +40,18 @@ export const adminRoutes: RouteObject[] = [
       { path: "students/list", element: <AdminSectionPage /> },
       { path: "students/performance", element: <AdminSectionPage /> },
       { path: "students/activities", element: <AdminSectionPage /> },
+
+      /* Lớp học */
+      { path: "classes", element: <ClassesOverviewPage /> },
+      { path: "classes/list", element: <ClassesPage /> },
+      { path: "classes/list/:id", element: <ClassesPage /> },
+      { path: "classes/lifecycle", element: <ClassesLifecyclePage /> },
+      { path: "classes/lifecycle/:id", element: <ClassesLifecyclePage /> },
+      { path: "classes/archived", element: <Navigate to="/admin/classes/lifecycle" replace /> },
+      {
+        path: "classes/deleted",
+        element: <Navigate to="/admin/classes/lifecycle?tab=deleted" replace />,
+      },
 
       /* Ngân hàng đề */
       { path: "exams", element: <AdminExamBankPage /> },

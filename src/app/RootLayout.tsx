@@ -6,10 +6,11 @@ export const RootLayout = () => {
   const location = useLocation();
   const isAdminRoute =
     location.pathname.startsWith("/admin") && location.pathname !== "/admin/login";
+  const isTeacherRoute = location.pathname.startsWith("/teacher");
 
   return (
     <>
-      {!isAdminRoute && <Navbar />}
+      {!isAdminRoute && !isTeacherRoute && <Navbar />}
       <Outlet />
       <BackToTop />
     </>

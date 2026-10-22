@@ -1,4 +1,5 @@
 import { httpClient } from "@/services/http";
+import { repairVietnameseText } from "@/shared/utils/text";
 
 import type {
   GenerateAvatarUploadUrlRequest,
@@ -19,6 +20,7 @@ export const profileApi = {
     const response = await httpClient.get<UserProfile>(USERS_ME_BASE);
     return {
       ...response.data,
+      fullName: repairVietnameseText(response.data.fullName),
       avatarUrl: normalizeAvatarUrl(response.data.avatarUrl),
     };
   },
@@ -31,6 +33,7 @@ export const profileApi = {
     const response = await httpClient.put<UserProfile>(USERS_ME_BASE, payload);
     return {
       ...response.data,
+      fullName: repairVietnameseText(response.data.fullName),
       avatarUrl: normalizeAvatarUrl(response.data.avatarUrl),
     };
   },

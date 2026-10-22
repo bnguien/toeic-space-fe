@@ -29,6 +29,8 @@ const getSectionIcon = (key: string) => {
       return <IconTeachers size={19} />;
     case "students":
       return <IconStudents size={19} />;
+    case "classes":
+      return <IconTeachers size={19} />;
     case "exams":
       return <IconExams size={19} />;
     case "revenue":
@@ -126,6 +128,9 @@ export const AdminSidebar = ({
   const isItemActive = (path?: string) => {
     if (!path) return false;
     if (path === "/admin/exams/list" && location.pathname.startsWith(`${path}/`)) return true;
+    if (path === "/admin/classes/list" || path === "/admin/classes/lifecycle") {
+      return location.pathname === path || location.pathname.startsWith(`${path}/`);
+    }
     return location.pathname === path;
   };
 
