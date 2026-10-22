@@ -14,12 +14,7 @@
   align-items: center;
   column-gap: 24px;
   padding: 22px 32px 0;
-  background: linear-gradient(
-    115deg,
-    #ffffff 0%,
-    var(--ui-rose-soft) 50%,
-    var(--ui-blue-soft) 100%
-  );
+  background: var(--ui-blue-soft);
   border: 1px solid var(--ui-line);
   border-radius: 6px;
   box-shadow: var(--ui-shadow);
@@ -44,7 +39,7 @@
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0) 68%);
+  background: none;
   pointer-events: none;
 }
 .headerContent {
@@ -64,8 +59,8 @@
   margin-bottom: 12px;
   padding: 5px 12px 5px 10px;
   border-radius: 4px;
-  background: rgb(255 255 255 / 0.8);
-  border: 1px solid rgb(231 179 199 / 0.6);
+  background: color-mix(in srgb, var(--ui-surface) 80%, transparent);
+  border: 1px solid var(--ui-rose-line);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -101,7 +96,7 @@
   margin: 0 -32px;
   padding: 12px 32px;
   border-top: 1px solid var(--ui-line);
-  background: rgb(255 255 255 / 0.9);
+  background: color-mix(in srgb, var(--ui-surface) 90%, transparent);
 }
 .collectionCount {
   display: flex;
@@ -295,15 +290,15 @@
     "distribution distribution"
     "open open";
   background: var(--ui-surface);
-  border: 1px solid var(--card-border, var(--ui-line));
   border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   overflow: hidden;
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
     transform 0.2s ease;
   isolation: isolate;
+  border: 1px solid var(--card-border, var(--ui-line));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* Dedicated artwork anchors the pastel cards without competing with the text. */
@@ -312,7 +307,7 @@
   position: absolute;
   inset: 0 0 auto;
   height: 140px;
-  background-image: linear-gradient(to bottom, transparent 72%, #fff 100%), var(--card-art);
+  background-image: var(--card-art);
   background-size: cover;
   background-position: center 58%;
   background-repeat: no-repeat;
@@ -342,9 +337,7 @@
    ========================================================================== */
 
 /* Style 1: Listening Comprehension (LC) Pastel (Columns 1 & 3) */
-.exam[data-style="ocean"],
-.results:not([data-view="visual"]) > .exam:nth-child(4n + 1),
-.results:not([data-view="visual"]) > .exam:nth-child(4n + 3) {
+.exam[data-style="ocean"] {
   --card-art: url("../../../../assets/exam-card-ocean.png");
   --card-accent: var(--ui-blue);
   --card-border: var(--ui-blue-line);
@@ -353,17 +346,15 @@
   --card-cover-bg: var(--ui-blue-soft);
   --card-cover-border: var(--ui-blue-line);
   --card-cover-color: var(--ui-blue);
-  --card-metric-bg: rgba(238, 242, 251, 0.7);
-  --card-metric-border: rgba(169, 189, 230, 0.5);
+  --card-metric-bg: var(--ui-blue-soft);
+  --card-metric-border: var(--ui-blue-line);
   --card-hover-bg: var(--ui-blue-soft);
   --card-open-color: var(--ui-blue);
-  background: linear-gradient(180deg, var(--ui-blue-soft) 0%, #ffffff 38%, #ffffff 100%);
+  background: var(--ui-surface);
 }
 
 /* Style 2: Reading Comprehension (RC) Pastel (Columns 2 & 4) */
-.exam[data-style="rose"],
-.results:not([data-view="visual"]) > .exam:nth-child(4n + 2),
-.results:not([data-view="visual"]) > .exam:nth-child(4n + 4) {
+.exam[data-style="rose"] {
   --card-art: url("../../../../assets/exam-card-rose.png");
   --card-accent: var(--ui-rose);
   --card-border: var(--ui-rose-line);
@@ -372,11 +363,11 @@
   --card-cover-bg: var(--ui-rose-soft);
   --card-cover-border: var(--ui-rose-line);
   --card-cover-color: var(--ui-rose);
-  --card-metric-bg: rgba(252, 240, 244, 0.7);
-  --card-metric-border: rgba(231, 179, 199, 0.5);
+  --card-metric-bg: var(--ui-rose-soft);
+  --card-metric-border: var(--ui-rose-line);
   --card-hover-bg: var(--ui-rose-soft);
   --card-open-color: var(--ui-rose);
-  background: linear-gradient(180deg, var(--ui-rose-soft) 0%, #ffffff 38%, #ffffff 100%);
+  background: var(--ui-surface);
 }
 
 /* Document Icon cover badge */
@@ -390,7 +381,7 @@
   display: grid;
   place-items: center;
   border-radius: 6px;
-  background: rgb(255 255 255 / 0.88);
+  background: color-mix(in srgb, var(--ui-surface) 88%, transparent);
   border: 1px solid var(--card-cover-border);
   color: var(--card-cover-color);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -421,7 +412,7 @@
   font-weight: 700;
   white-space: nowrap;
   color: var(--ui-muted);
-  background: rgba(255, 255, 255, 0.9);
+  background: color-mix(in srgb, var(--ui-surface) 90%, transparent);
   border: 1px solid var(--ui-line);
 }
 .status::before {
@@ -432,12 +423,12 @@
   background: currentColor;
 }
 .status[data-status="Active"] {
-  color: #059669;
-  background: #ecfdf5;
-  border-color: #a7f3d0;
+  color: var(--ui-green);
+  background: var(--ui-green-soft);
+  border-color: var(--ui-green-line);
 }
 .status[data-status="Archived"] {
-  background: #f8fafc;
+  background: var(--ui-canvas);
   border-color: var(--ui-line);
 }
 
@@ -511,7 +502,7 @@
   gap: 2px;
   height: 5px;
   border-radius: 3px;
-  background: rgba(226, 232, 240, 0.7);
+  background: var(--ui-hover);
   overflow: hidden;
 }
 .track > span {
@@ -568,7 +559,7 @@
   font-size: 12px;
   font-weight: 700;
   transition: background 0.15s ease;
-  background: rgba(255, 255, 255, 0.5);
+  background: color-mix(in srgb, var(--ui-surface) 50%, transparent);
 }
 
 .open svg {

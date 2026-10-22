@@ -1,3 +1,5 @@
+import type { BankOverview } from "../../types/exam-bank.types";
+
 export const PART_NAMES = [
   "Mô tả hình ảnh",
   "Hỏi - Đáp",
@@ -22,6 +24,26 @@ export const DIFFICULTY_LABELS: Record<string, string> = {
   Medium: "Trung cấp",
   Hard: "Nâng cao",
   VeryHard: "Rất khó",
+};
+
+export const partNumber = (part: string) => Number(part.replace("Part", "")) || 0;
+
+export const sortedParts = (overview: BankOverview) =>
+  [...overview.parts].sort((left, right) => partNumber(left.part) - partNumber(right.part));
+
+/** Badge tones from the page theme. */
+export const CONTENT_STATUS_TONES: Record<string, "theme" | "neutral" | "pearl"> = {
+  Active: "theme",
+  Draft: "neutral",
+  Archived: "pearl",
+};
+
+export const DIFFICULTY_TONES: Record<string, "theme" | "neutral" | "pearl"> = {
+  VeryEasy: "neutral",
+  Easy: "neutral",
+  Medium: "theme",
+  Hard: "pearl",
+  VeryHard: "pearl",
 };
 
 // Sources store the group heading ("Questions 131-134 refer to ...") as the first question's text.

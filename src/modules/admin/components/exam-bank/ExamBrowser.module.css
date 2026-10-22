@@ -25,7 +25,7 @@
   color: var(--ui-muted);
 }
 .titleDivider {
-  color: #b8c2cf;
+  color: var(--ui-divider);
   padding: 0 12px;
   font-weight: 400;
 }
@@ -45,7 +45,7 @@
   padding: 24px;
   border: 1px solid var(--ui-blue-line);
   border-radius: 12px;
-  background: linear-gradient(115deg, var(--ui-blue-soft), #fff 65%, var(--ui-rose-soft));
+  background: var(--ui-blue-soft);
 }
 .examHeading > div {
   min-width: 0;
@@ -64,7 +64,7 @@
   padding: 5px 10px;
   border: 1px solid var(--ui-line);
   border-radius: 6px;
-  background: rgb(255 255 255 / 0.8);
+  background: color-mix(in srgb, var(--ui-surface) 80%, transparent);
   color: var(--ui-muted);
   font-size: 12px;
   overflow-wrap: anywhere;
@@ -441,7 +441,7 @@
   max-height: 340px;
   object-fit: contain;
   margin: 16px 0;
-  background: #f7f2e8;
+  background: var(--ui-pearl);
 }
 .audio {
   width: 100%;
@@ -450,8 +450,8 @@
 }
 .notice {
   padding: 12px;
-  border-left: 3px solid #d6a329;
-  background: #fffbee;
+  border-left: 3px solid var(--ui-mark-strong);
+  background: var(--ui-pearl);
   font-size: 12px;
   margin: 12px 0;
 }

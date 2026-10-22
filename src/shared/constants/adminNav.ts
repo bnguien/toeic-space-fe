@@ -14,15 +14,13 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
     children: [
       { key: "teachers-overview", label: "Tổng quan", path: "/admin/teachers" },
       { key: "teachers-list", label: "Danh sách giáo viên", path: "/admin/teachers/list" },
+      { key: "teachers-activities", label: "Hoạt động", path: "/admin/teachers/activities" },
       {
         key: "teachers-approval",
         label: "Đăng ký / Phê duyệt",
         path: "/admin/teachers/approval",
-        badge: "8 mới",
       },
       { key: "teachers-courses", label: "Khóa học", path: "/admin/teachers/courses" },
-      { key: "teachers-activities", label: "Hoạt động", path: "/admin/teachers/activities" },
-      { key: "teachers-stats", label: "Thống kê", path: "/admin/teachers/stats" },
     ],
   },
   {
@@ -32,12 +30,12 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
     children: [
       { key: "students-overview", label: "Tổng quan", path: "/admin/students" },
       { key: "students-list", label: "Danh sách học viên", path: "/admin/students/list" },
+      { key: "students-activities", label: "Hoạt động học", path: "/admin/students/activities" },
       {
         key: "students-performance",
         label: "Hiệu quả học tập",
         path: "/admin/students/performance",
       },
-      { key: "students-activities", label: "Hoạt động học", path: "/admin/students/activities" },
     ],
   },
   {
@@ -105,6 +103,7 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
     label: "Hệ thống",
     icon: "⚙",
     children: [
+      { key: "system-users", label: "Tất cả tài khoản", path: "/admin/system/users" },
       { key: "system-admins", label: "Admin", path: "/admin/system/admins" },
       { key: "system-roles", label: "Roles & Permissions", path: "/admin/system/roles" },
       { key: "system-notifications", label: "Thông báo", path: "/admin/system/notifications" },

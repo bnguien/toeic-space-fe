@@ -1,4 +1,4 @@
-import { Navigate, type RouteObject } from "react-router-dom";
+import { Navigate, Outlet, type RouteObject } from "react-router-dom";
 
 import { RequireAuth } from "@/modules/auth";
 
@@ -11,6 +11,9 @@ import { AdminSectionPage } from "./pages/AdminSectionPage";
 import { ClassesPage } from "./pages/ClassesPage";
 import { ClassesOverviewPage } from "./pages/ClassesOverviewPage";
 import { ClassesLifecyclePage } from "./pages/ClassesLifecyclePage";
+import { UserDetailRedirect } from "./pages/UserDetailRedirect";
+import { UserListPage } from "./pages/UserListPage";
+import { UserOverviewPage } from "./pages/UserOverviewPage";
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -27,19 +30,38 @@ export const adminRoutes: RouteObject[] = [
         element: <AdminDashboardPage />,
       },
 
-      /* Giáo viên */
-      { path: "teachers", element: <AdminSectionPage /> },
-      { path: "teachers/list", element: <AdminSectionPage /> },
+      /* Giáo viên, học viên: chưa có API */
       { path: "teachers/approval", element: <AdminSectionPage /> },
       { path: "teachers/courses", element: <AdminSectionPage /> },
-      { path: "teachers/activities", element: <AdminSectionPage /> },
-      { path: "teachers/stats", element: <AdminSectionPage /> },
-
-      /* Học viên */
-      { path: "students", element: <AdminSectionPage /> },
-      { path: "students/list", element: <AdminSectionPage /> },
       { path: "students/performance", element: <AdminSectionPage /> },
-      { path: "students/activities", element: <AdminSectionPage /> },
+
+      /* Tài khoản: chỉ quản trị viên, API kiểm tra cùng quy tắc. */
+      {
+        element: (
+          <RequireAuth roles={["Admin"]}>
+            <Outlet />
+          </RequireAuth>
+        ),
+        children: [
+          { path: "students", element: <UserOverviewPage key="User" role="User" /> },
+          { path: "students/list", element: <UserListPage key="User" role="User" /> },
+          {
+            path: "students/activities",
+            element: <UserListPage key="User-activity" role="User" mode="activity" />,
+          },
+          { path: "teachers", element: <UserOverviewPage key="Teacher" role="Teacher" /> },
+          { path: "teachers/list", element: <UserListPage key="Teacher" role="Teacher" /> },
+          {
+            path: "teachers/activities",
+            element: <UserListPage key="Teacher-activity" role="Teacher" mode="activity" />,
+          },
+          { path: "teachers/stats", element: <Navigate to="/admin/teachers" replace /> },
+          { path: "system/admins", element: <UserListPage key="Admin" role="Admin" /> },
+          { path: "system/users", element: <UserListPage key="All" /> },
+          // Details open in a drawer now; keep old links working.
+          { path: "users/:userId", element: <UserDetailRedirect /> },
+        ],
+      },
 
       /* Lớp học */
       { path: "classes", element: <ClassesOverviewPage /> },
@@ -86,7 +108,6 @@ export const adminRoutes: RouteObject[] = [
       { path: "analytics/behavior", element: <AdminSectionPage /> },
 
       /* Hệ thống */
-      { path: "system/admins", element: <AdminSectionPage /> },
       { path: "system/roles", element: <AdminSectionPage /> },
       { path: "system/notifications", element: <AdminSectionPage /> },
       { path: "system/toeic-config", element: <AdminSectionPage /> },
