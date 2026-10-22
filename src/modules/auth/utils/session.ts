@@ -3,6 +3,7 @@ import { isAxiosError } from "axios";
 
 import { httpClient, installAuthInterceptors } from "@/services/http";
 import { normalizeAvatarUrl, profileApi } from "@/modules/profile";
+import { repairVietnameseText } from "@/shared/utils/text";
 
 import { authApi } from "../api/auth.api";
 import { useAuthStore } from "../store/auth.store";
@@ -55,6 +56,7 @@ function resolveUserWithAvatar(user: AuthUser): AuthUser {
   }
   return {
     ...user,
+    fullName: repairVietnameseText(user.fullName),
     avatarUrl,
   };
 }
@@ -77,7 +79,7 @@ export async function syncUserProfile(userId?: string) {
       }
 
       const userPatch: Partial<AuthUser> = {
-        fullName: profile.fullName,
+        fullName: repairVietnameseText(profile.fullName),
         avatarUrl: normalizedAvatar,
       };
 

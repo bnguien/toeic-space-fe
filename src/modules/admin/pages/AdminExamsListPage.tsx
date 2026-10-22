@@ -11,6 +11,7 @@ import {
 import { examBankApi } from "../api/exam-bank.api";
 import { BankStatus, Pagination, PartNavigation } from "../components/exam-bank/BankControls";
 import { STATUS_LABELS } from "../components/exam-bank/bank.constants";
+import { Select } from "@/shared/components/Select";
 import styles from "../components/exam-bank/ExamBrowser.module.css";
 import library from "../components/exam-bank/ExamLibrary.module.css";
 import { ExamLibraryItem } from "../components/exam-bank/ExamLibraryItem";
@@ -101,18 +102,16 @@ export function AdminExamsListPage() {
               <IconChevronRight />
             </button>
           </div>
-          <select
+          <Select
             aria-label="Trạng thái"
             value={params.get("status") || ""}
-            onChange={(e) => update("status", e.target.value)}
-          >
-            <option value="">Tất cả trạng thái</option>
-            {Object.entries(STATUS_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
+            onChange={(value) => update("status", value)}
+            options={[
+              { value: "", label: "Tất cả trạng thái" },
+              ...Object.entries(STATUS_LABELS).map(([value, label]) => ({ value, label })),
+            ]}
+            className={styles.toolbarSelect}
+          />
           {(filters.Search || filters.Status) && (
             <button
               type="button"

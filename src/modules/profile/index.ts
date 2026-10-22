@@ -1,5 +1,8 @@
 export { profileRoutes } from "./routes";
 export { ProfilePage } from "./pages/ProfilePage";
+export { ProfileForm } from "./components/ProfileForm";
+export { ProfileInfoCard } from "./components/ProfileInfoCard";
+export { ProfileSkeleton } from "./components/ProfileSkeleton";
 export { useProfile } from "./hooks/useProfile";
 export { useUpdateProfile } from "./hooks/useUpdateProfile";
 export { useAvatarUpload } from "./hooks/useAvatarUpload";
@@ -13,6 +16,7 @@ export {
   buildUpdateProfilePayload,
   formatDateOfBirth,
   normalizeAvatarUrl,
+  getProfileErrorMessage,
 } from "./utils/profile-helpers";
 export type {
   AvatarUploadStage,

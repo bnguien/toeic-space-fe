@@ -18,6 +18,7 @@ import {
 import { Controller, useForm, useWatch } from "react-hook-form";
 
 import { Select, type SelectOption } from "@/shared/components/Select";
+import { DatePicker } from "@/shared/components/DatePicker";
 
 import { profileSchema, type ProfileFormValues } from "../schemas/profile.schema";
 import { UserGender, type UserProfile } from "../types/profile.types";
@@ -36,6 +37,7 @@ interface ProfileFormProps {
   isSaving: boolean;
   saveError: unknown;
   onSave: (payload: ReturnType<typeof buildUpdateProfilePayload>) => Promise<void>;
+  showLearningGoals?: boolean;
 }
 
 const GENDER_OPTIONS: SelectOption[] = [
@@ -56,7 +58,13 @@ const LEVEL_OPTIONS: SelectOption[] = [
   { value: "Advanced", label: "Nâng cao (C1)", description: "Mục tiêu 850 – 990 điểm" },
 ];
 
-export function ProfileForm({ profile, isSaving, saveError, onSave }: ProfileFormProps) {
+export function ProfileForm({
+  profile,
+  isSaving,
+  saveError,
+  onSave,
+  showLearningGoals = true,
+}: ProfileFormProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   // Maximum allowed date of birth is yesterday
@@ -185,23 +193,27 @@ export function ProfileForm({ profile, isSaving, saveError, onSave }: ProfileFor
       {/* VIEW MODE */}
       {!isEditing ? (
         <div className={styles.viewGrid}>
-          <div className={styles.viewItem}>
-            <span className={styles.viewLabel}>
-              <User size={13} /> Họ và tên
-            </span>
-            <span className={styles.viewValue}>{profile.fullName}</span>
-          </div>
-
-          <div className={styles.viewItem}>
-            <span className={styles.viewLabel}>
-              <Mail size={13} /> Email
-              <span className={styles.readOnlyBadge} title="Email không thể thay đổi">
-                <Lock size={10} style={{ display: "inline", marginRight: 2 }} />
-                Cố định
+          {showLearningGoals && (
+            <div className={styles.viewItem}>
+              <span className={styles.viewLabel}>
+                <User size={13} /> Họ và tên
               </span>
-            </span>
-            <span className={styles.viewValue}>{profile.email}</span>
-          </div>
+              <span className={styles.viewValue}>{profile.fullName}</span>
+            </div>
+          )}
+
+          {showLearningGoals && (
+            <div className={styles.viewItem}>
+              <span className={styles.viewLabel}>
+                <Mail size={13} /> Email
+                <span className={styles.readOnlyBadge} title="Email không thể thay đổi">
+                  <Lock size={10} style={{ display: "inline", marginRight: 2 }} />
+                  Cố định
+                </span>
+              </span>
+              <span className={styles.viewValue}>{profile.email}</span>
+            </div>
+          )}
 
           <div className={styles.viewItem}>
             <span className={styles.viewLabel}>
@@ -236,23 +248,27 @@ export function ProfileForm({ profile, isSaving, saveError, onSave }: ProfileFor
             </span>
           </div>
 
-          <div className={styles.viewItem}>
-            <span className={styles.viewLabel}>
-              <Target size={13} /> Mục tiêu TOEIC
-            </span>
-            <span className={profile.targetScore ? styles.viewValue : styles.viewValueEmpty}>
-              {profile.targetScore ? `${profile.targetScore} điểm` : "Chưa đặt"}
-            </span>
-          </div>
+          {showLearningGoals && (
+            <div className={styles.viewItem}>
+              <span className={styles.viewLabel}>
+                <Target size={13} /> Mục tiêu TOEIC
+              </span>
+              <span className={profile.targetScore ? styles.viewValue : styles.viewValueEmpty}>
+                {profile.targetScore ? `${profile.targetScore} điểm` : "Chưa đặt"}
+              </span>
+            </div>
+          )}
 
-          <div className={styles.viewItem}>
-            <span className={styles.viewLabel}>
-              <Sparkles size={13} /> Trình độ hiện tại
-            </span>
-            <span className={profile.currentLevel ? styles.viewValue : styles.viewValueEmpty}>
-              {getLevelDisplay(profile.currentLevel)}
-            </span>
-          </div>
+          {showLearningGoals && (
+            <div className={styles.viewItem}>
+              <span className={styles.viewLabel}>
+                <Sparkles size={13} /> Trình độ hiện tại
+              </span>
+              <span className={profile.currentLevel ? styles.viewValue : styles.viewValueEmpty}>
+                {getLevelDisplay(profile.currentLevel)}
+              </span>
+            </div>
+          )}
 
           <div className={`${styles.viewItem} ${styles.viewItemFull}`}>
             <span className={styles.viewLabel}>
@@ -330,14 +346,19 @@ export function ProfileForm({ profile, isSaving, saveError, onSave }: ProfileFor
               <label htmlFor="profile-dob" className={styles.label}>
                 <span>Ngày sinh</span>
               </label>
-              <input
-                id="profile-dob"
-                type="date"
-                max={yesterdayString}
-                className={`${styles.input} ${errors.dateOfBirth ? styles.inputError : ""}`}
-                aria-invalid={Boolean(errors.dateOfBirth)}
-                aria-describedby={errors.dateOfBirth ? "dob-error" : undefined}
-                {...register("dateOfBirth")}
+              <Controller
+                control={control}
+                name="dateOfBirth"
+                render={({ field }) => (
+                  <DatePicker
+                    id="profile-dob"
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    max={yesterdayString}
+                    error={Boolean(errors.dateOfBirth)}
+                    aria-describedby={errors.dateOfBirth ? "dob-error" : undefined}
+                  />
+                )}
               />
               {errors.dateOfBirth && (
                 <span id="dob-error" className={styles.errorText} role="alert">
@@ -373,62 +394,65 @@ export function ProfileForm({ profile, isSaving, saveError, onSave }: ProfileFor
               )}
             </div>
 
-            {/* Target Score */}
-            <div className={styles.field}>
-              <label htmlFor="profile-target-score" className={styles.label}>
-                <span>Mục tiêu điểm TOEIC</span>
-                <span className={styles.labelNote}>10 – 990 điểm</span>
-              </label>
-              <input
-                id="profile-target-score"
-                type="number"
-                min={10}
-                max={990}
-                placeholder="Ví dụ: 800"
-                className={`${styles.input} ${errors.targetScore ? styles.inputError : ""}`}
-                aria-invalid={Boolean(errors.targetScore)}
-                aria-describedby={errors.targetScore ? "target-error" : undefined}
-                {...register("targetScore", {
-                  setValueAs: (val: unknown) => {
-                    if (val === "" || val === null || val === undefined) return undefined;
-                    const num = Number(val);
-                    return Number.isNaN(num) ? undefined : num;
-                  },
-                })}
-              />
-              {errors.targetScore && (
-                <span id="target-error" className={styles.errorText} role="alert">
-                  <AlertCircle size={13} /> {errors.targetScore.message}
-                </span>
-              )}
-            </div>
-
-            {/* Current Level */}
-            <div className={styles.field}>
-              <label htmlFor="profile-level" className={styles.label}>
-                <span>Trình độ hiện tại</span>
-              </label>
-              <Controller
-                control={control}
-                name="currentLevel"
-                render={({ field }) => (
-                  <Select
-                    id="profile-level"
-                    value={field.value || ""}
-                    onChange={field.onChange}
-                    options={LEVEL_OPTIONS}
-                    placeholder="-- Chọn trình độ --"
-                    error={Boolean(errors.currentLevel)}
-                    clearable
+            {showLearningGoals && (
+              <>
+                <div className={styles.field}>
+                  <label htmlFor="profile-target-score" className={styles.label}>
+                    <span>Mục tiêu điểm TOEIC</span>
+                    <span className={styles.labelNote}>10 – 990 điểm</span>
+                  </label>
+                  <input
+                    id="profile-target-score"
+                    type="number"
+                    min={10}
+                    max={990}
+                    placeholder="Ví dụ: 800"
+                    className={`${styles.input} ${errors.targetScore ? styles.inputError : ""}`}
+                    aria-invalid={Boolean(errors.targetScore)}
+                    aria-describedby={errors.targetScore ? "target-error" : undefined}
+                    {...register("targetScore", {
+                      setValueAs: (val: unknown) => {
+                        if (val === "" || val === null || val === undefined) return undefined;
+                        const num = Number(val);
+                        return Number.isNaN(num) ? undefined : num;
+                      },
+                    })}
                   />
-                )}
-              />
-              {errors.currentLevel && (
-                <span className={styles.errorText} role="alert">
-                  <AlertCircle size={13} /> {errors.currentLevel.message}
-                </span>
-              )}
-            </div>
+                  {errors.targetScore && (
+                    <span id="target-error" className={styles.errorText} role="alert">
+                      <AlertCircle size={13} /> {errors.targetScore.message}
+                    </span>
+                  )}
+                </div>
+
+                {/* Current Level */}
+                <div className={styles.field}>
+                  <label htmlFor="profile-level" className={styles.label}>
+                    <span>Trình độ hiện tại</span>
+                  </label>
+                  <Controller
+                    control={control}
+                    name="currentLevel"
+                    render={({ field }) => (
+                      <Select
+                        id="profile-level"
+                        value={field.value || ""}
+                        onChange={field.onChange}
+                        options={LEVEL_OPTIONS}
+                        placeholder="-- Chọn trình độ --"
+                        error={Boolean(errors.currentLevel)}
+                        clearable
+                      />
+                    )}
+                  />
+                  {errors.currentLevel && (
+                    <span className={styles.errorText} role="alert">
+                      <AlertCircle size={13} /> {errors.currentLevel.message}
+                    </span>
+                  )}
+                </div>
+              </>
+            )}
 
             {/* Biography */}
             <div className={`${styles.field} ${styles.fieldFull}`}>

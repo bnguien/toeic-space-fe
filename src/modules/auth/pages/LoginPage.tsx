@@ -35,12 +35,15 @@ export function LoginPage({ isAdmin = false }: LoginPageProps) {
   const location = useLocation();
   const isVerified = Boolean((location.state as { verified?: boolean } | null)?.verified);
 
-  const defaultTarget = isAdmin
-    ? "/admin"
-    : currentUser?.role === "Admin" || currentUser?.role === "Teacher"
-      ? "/admin"
-      : "/";
-  const next = getSafeRedirect(params.get("next"), defaultTarget);
+  const defaultTarget =
+    currentUser?.role === "Admin" ? "/admin" : currentUser?.role === "Teacher" ? "/teacher" : "/";
+  const requestedNext = getSafeRedirect(params.get("next"), defaultTarget);
+  const next =
+    currentUser?.role === "Teacher" && requestedNext.startsWith("/admin")
+      ? "/teacher"
+      : currentUser?.role === "Admin" && requestedNext.startsWith("/teacher")
+        ? "/admin"
+        : requestedNext;
 
   const [showPassword, setShowPassword] = useState(false);
   const login = useLogin();
@@ -118,7 +121,7 @@ export function LoginPage({ isAdmin = false }: LoginPageProps) {
           <h1 id="login-title">{isAdmin ? "Đăng nhập quản trị" : "Đăng nhập"}</h1>
           <p>
             {isAdmin
-              ? "Dành cho quản trị viên và giáo viên quản lý ngân hàng đề."
+              ? "Dành cho quản trị viên và giáo viên của TOEICSpace."
               : "Chào mừng bạn quay trở lại với TOEICSpace."}
           </p>
         </header>

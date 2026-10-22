@@ -13,6 +13,7 @@ import {
   IconSearch,
 } from "@/shared/components/icons";
 import { ADMIN_NAV_SECTIONS } from "@/shared/constants/adminNav";
+import { Select } from "@/shared/components/Select";
 
 import styles from "./AdminSectionPage.module.css";
 
@@ -347,16 +348,17 @@ export const AdminSectionPage = () => {
         </div>
 
         <div className={styles.filterGroup}>
-          <select
+          <Select
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={setStatusFilter}
             className={styles.selectInput}
-          >
-            <option value="all">Tất cả trạng thái</option>
-            <option value="active">Đang hoạt động / Thành công</option>
-            <option value="pending">Chờ xử lý / Phê duyệt</option>
-            <option value="draft">Bản nháp</option>
-          </select>
+            options={[
+              { value: "all", label: "Tất cả trạng thái" },
+              { value: "active", label: "Đang hoạt động / Thành công" },
+              { value: "pending", label: "Chờ xử lý / Phê duyệt" },
+              { value: "draft", label: "Bản nháp" },
+            ]}
+          />
 
           <button
             type="button"

@@ -14,6 +14,7 @@ interface ProfileInfoCardProps {
   uploadState: AvatarUploadState;
   onSelectAvatarFile: (file: File) => void;
   disabled?: boolean;
+  showLearningGoals?: boolean;
 }
 
 const ROLE_DISPLAY_NAMES: Record<string, string> = {
@@ -37,6 +38,7 @@ export function ProfileInfoCard({
   uploadState,
   onSelectAvatarFile,
   disabled,
+  showLearningGoals = true,
 }: ProfileInfoCardProps) {
   const targetScore = profile.targetScore ?? null;
   const scorePercent = targetScore ? Math.min(Math.round((targetScore / 990) * 100), 100) : 0;
@@ -67,45 +69,49 @@ export function ProfileInfoCard({
             {roleText}
           </span>
 
-          <span className={styles.levelBadge} title="Trình độ tiếng Anh">
-            <Compass size={12} />
-            {levelText}
-          </span>
+          {showLearningGoals && (
+            <span className={styles.levelBadge} title="Trình độ tiếng Anh">
+              <Compass size={12} />
+              {levelText}
+            </span>
+          )}
         </div>
       </div>
 
       <div className={styles.divider} />
 
       {/* Target TOEIC Score Tracker Widget */}
-      <div className={styles.targetScoreSection}>
-        <div className={styles.targetScoreHeader}>
-          <span className={styles.targetLabel}>
-            <Target size={15} />
-            Mục tiêu TOEIC
-          </span>
-          <span className={styles.targetValue}>
-            {targetScore ? `${targetScore} / 990` : "Chưa đặt"}
-          </span>
-        </div>
+      {showLearningGoals && (
+        <div className={styles.targetScoreSection}>
+          <div className={styles.targetScoreHeader}>
+            <span className={styles.targetLabel}>
+              <Target size={15} />
+              Mục tiêu TOEIC
+            </span>
+            <span className={styles.targetValue}>
+              {targetScore ? `${targetScore} / 990` : "Chưa đặt"}
+            </span>
+          </div>
 
-        <div className={styles.targetBarTrack}>
-          <div
-            className={styles.targetBarFill}
-            style={{ width: `${scorePercent}%` }}
-            role="progressbar"
-            aria-valuenow={targetScore ?? 0}
-            aria-valuemin={10}
-            aria-valuemax={990}
-            aria-label="Tiến độ mục tiêu điểm TOEIC"
-          />
-        </div>
+          <div className={styles.targetBarTrack}>
+            <div
+              className={styles.targetBarFill}
+              style={{ width: `${scorePercent}%` }}
+              role="progressbar"
+              aria-valuenow={targetScore ?? 0}
+              aria-valuemin={10}
+              aria-valuemax={990}
+              aria-label="Tiến độ mục tiêu điểm TOEIC"
+            />
+          </div>
 
-        <div className={styles.targetBarNote}>
-          <span>Tối thiểu: 10</span>
-          <span>{scorePercent}% thang điểm</span>
-          <span>Tối đa: 990</span>
+          <div className={styles.targetBarNote}>
+            <span>Tối thiểu: 10</span>
+            <span>{scorePercent}% thang điểm</span>
+            <span>Tối đa: 990</span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Mascot Companion Widget */}
       <div className={styles.mascotWidget}>

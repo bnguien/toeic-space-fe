@@ -1,0 +1,86 @@
+.page {
+  display: grid;
+  gap: 1.1rem;
+}
+.page > header {
+  min-height: 145px;
+  padding: 1.3rem 1.5rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #d9ebf1;
+  border-radius: 18px;
+  background: linear-gradient(110deg, #fff, #effafd);
+}
+.page > header span {
+  color: #6390a8;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+}
+.page h1 {
+  margin: 0.3rem 0;
+  color: #3d5369;
+  font-size: 1.65rem;
+}
+.page header p {
+  color: #728394;
+  font-size: 0.8rem;
+}
+.page header img {
+  width: 120px;
+  height: 120px;
+  margin: -10px 5% -15px auto;
+  object-fit: contain;
+}
+.content {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 1.1rem;
+  align-items: start;
+}
+.error {
+  min-height: 420px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  border: 1px solid #e0e9ee;
+  border-radius: 16px;
+  background: #fff;
+  color: #718292;
+}
+.error h1 {
+  font-size: 1.2rem;
+}
+.error p {
+  margin: 0.3rem 0 1rem;
+  font-size: 0.78rem;
+}
+.error button {
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  background: #8fbfe0;
+  color: #385166;
+  font-weight: 800;
+}
+@media (max-width: 850px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  .page > header img {
+    width: 90px;
+    height: 90px;
+  }
+}
+@media (max-width: 520px) {
+  .page > header {
+    padding: 1rem;
+  }
+  .page > header img {
+    opacity: 0.6;
+  }
+  .page h1 {
+    font-size: 1.35rem;
+  }
+}
