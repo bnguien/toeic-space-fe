@@ -1,0 +1,331 @@
+.section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 32px 80px;
+  background: linear-gradient(180deg, #aee0fc 0%, #a0d8fb 100%);
+  overflow: hidden;
+}
+
+.inner {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header Area with mascot on the right */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.headerText {
+  max-width: 650px;
+}
+
+.badgePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1.5px solid #93c5fd;
+  border-radius: 9999px;
+  padding: 4px 14px 4px 6px;
+  margin-bottom: 14px;
+}
+
+.badgeNumber {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.badgeLabel {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1e40af;
+}
+
+.title {
+  font-family: var(--font-script), cursive;
+  font-size: 4.2rem;
+  font-weight: 700;
+  color: #2b59c3;
+  line-height: 1.05;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.15rem;
+  color: #334155;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Two Interactive Goal Pills */
+.goalBadgesRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.goalPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.12);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.goalPill:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.2);
+}
+
+.mascotWrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mascotImg {
+  width: 230px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 30px rgba(56, 189, 248, 0.35));
+  animation: floatRoadmap 4s ease-in-out infinite;
+}
+
+@keyframes floatRoadmap {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Timeline Milestones and Cards */
+.timelineContainer {
+  margin-top: 48px;
+  position: relative;
+}
+
+.milestonesRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.connectorLine {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-top: 2px dashed rgba(147, 197, 253, 0.85);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.milestoneIconWrap {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.milestoneCircle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.55),
+    0 2px 8px rgba(37, 99, 235, 0.08);
+  color: #1e293b;
+  display: grid;
+  place-items: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.milestoneCircle:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 0 5px rgba(255, 255, 255, 0.75),
+    0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+/* 4 Roadmap Cards */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 26px 22px 22px;
+  box-shadow: 0 10px 28px rgba(56, 189, 248, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(56, 189, 248, 0.22);
+}
+
+.cardWeek {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.cardTitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.cardDesc {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.45;
+  margin-bottom: 22px;
+  flex: 1;
+}
+
+.progressTrack {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progressFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #60a5fa 0%, #38bdf8 100%);
+  border-radius: 9999px;
+}
+
+/* View More Button Row */
+.viewMoreRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+.viewMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid #93c5fd;
+  color: #1d4ed8;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.15);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewMoreBtn:hover {
+  background: #ffffff;
+  border-color: #3b82f6;
+  color: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
+}
+
+@media (max-width: 1024px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .mascotWrap {
+    align-self: center;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .milestonesRow {
+    display: none;
+  }
+
+  .title {
+    font-size: 3.2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 2.6rem;
+  }
+
+  .card {
+    padding: 20px 18px;
+  }
+}

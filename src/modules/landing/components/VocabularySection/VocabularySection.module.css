@@ -1,0 +1,495 @@
+.section {
+  position: relative;
+  min-height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 32px 80px;
+  background: linear-gradient(180deg, #a0d8fb 0%, #bde4fc 100%);
+  overflow: hidden;
+}
+
+.inner {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.headerText {
+  max-width: 920px;
+  flex: 1;
+}
+
+.badgePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1.5px solid #93c5fd;
+  border-radius: 9999px;
+  padding: 4px 14px 4px 6px;
+  margin-bottom: 14px;
+}
+
+.badgeNumber {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.badgeLabel {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1e40af;
+}
+
+.title {
+  font-family: var(--font-script), cursive;
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: #2b59c3;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  white-space: nowrap;
+}
+
+.subtitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.15rem;
+  color: #334155;
+  line-height: 1.6;
+  max-width: 660px;
+}
+
+.mascotWrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mascotImg {
+  width: 210px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 25px rgba(56, 189, 248, 0.3));
+  animation: floatVocab 3.8s ease-in-out infinite;
+}
+
+@keyframes floatVocab {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Two Column Layout */
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: stretch;
+}
+
+/* Stack Wrapper for Deck of Flashcards Effect */
+.flashcardStackWrapper {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+}
+
+.deckCard {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+  transform-origin: center bottom;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s ease,
+    opacity 0.35s ease;
+}
+
+/* Card 1: Right below the main active card */
+.deckCard1 {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
+  transform: translateY(10px) scale(0.96);
+  z-index: 1;
+}
+
+/* Card 2: Second card peeking further down */
+.deckCard2 {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.1);
+  transform: translateY(20px) scale(0.92);
+  z-index: 0;
+}
+
+/* Card 3: Third card at the very base of the deck */
+.deckCard3 {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 18px 32px rgba(37, 99, 235, 0.08);
+  transform: translateY(28px) scale(0.88);
+  z-index: -1;
+}
+
+/* Hover fanning effect */
+.flashcardStackWrapper:hover .deckCard1 {
+  transform: translateY(12px) scale(0.97);
+}
+
+.flashcardStackWrapper:hover .deckCard2 {
+  transform: translateY(24px) scale(0.94);
+}
+
+.flashcardStackWrapper:hover .deckCard3 {
+  transform: translateY(34px) scale(0.9);
+}
+
+/* Interactive 3D Flashcard */
+.flashcardCard {
+  perspective: 1000px;
+  min-height: 380px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.cardFlipped {
+  transform: rotateY(180deg);
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 30px;
+  box-shadow: 0 16px 40px rgba(56, 189, 248, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+}
+
+.cardHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wordTypeBadge {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ec4899;
+  background: #fdf2f8;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
+.speakerBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  color: #0284c7;
+  display: grid;
+  place-items: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.speakerBtn:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.vocabMain {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.vocabWord {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.vocabPhonetic {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.15rem;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.vocabMeaning {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.cardHintFlip {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Card Back Styles */
+.backTitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #2563eb;
+  margin-bottom: 12px;
+}
+
+.backExampleEn {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.backExampleVi {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.aiTipBox {
+  background: rgba(254, 243, 199, 0.6);
+  border: 1px solid #fde68a;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.9rem;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+/* Controls below flashcard */
+.cardNavRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 38px;
+}
+
+.vocabNavBtn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #cbd5e1;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vocabNavBtn:hover {
+  background: #ffffff;
+  border-color: #3b82f6;
+  color: #2563eb;
+}
+
+/* Right Feature Column */
+.featuresCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+.featureItemCard {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(56, 189, 248, 0.12);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: transform 0.2s ease;
+}
+
+.featureItemCard:hover {
+  transform: translateY(-4px);
+  background: #ffffff;
+}
+
+.featureIconCircle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.55),
+    0 2px 8px rgba(37, 99, 235, 0.08);
+  color: #1e293b;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.featureItemCard:hover .featureIconCircle {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 0 5px rgba(255, 255, 255, 0.75),
+    0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.featureText h4 {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.featureText p {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.92rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* View More Button Row */
+.viewMoreRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+.viewMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid #93c5fd;
+  color: #1d4ed8;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.15);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewMoreBtn:hover {
+  background: #ffffff;
+  border-color: #3b82f6;
+  color: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
+}
+
+@media (max-width: 1024px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .mascotWrap {
+    align-self: center;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .title {
+    font-size: 3.2rem;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 2.6rem;
+  }
+
+  .vocabWord {
+    font-size: 2.2rem;
+  }
+}

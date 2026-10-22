@@ -1,0 +1,106 @@
+.header {
+  min-height: 72px;
+  background: rgb(246 247 251 / 0.86);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--ui-line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 32px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+.left {
+  min-width: 0;
+}
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ui-muted);
+}
+.breadItem {
+  font-weight: 500;
+}
+.breadDivider {
+  display: flex;
+  color: var(--ui-subtle);
+}
+.breadCurrent {
+  color: var(--ui-text);
+  font-weight: 700;
+}
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.workspaceLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  margin-right: 8px;
+  border-radius: var(--radius-full);
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-line);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ui-muted);
+}
+.workspaceLabel::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ui-rose-line);
+}
+.actionBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--ui-line);
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow);
+  color: var(--ui-muted);
+  display: grid;
+  place-items: center;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.actionBtn:hover {
+  background: var(--ui-blue-soft);
+  border-color: var(--ui-blue-line);
+  color: var(--ui-blue);
+}
+.actionBtn:focus-visible {
+  outline: 2px solid var(--ui-blue);
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .header {
+    padding: 10px 16px;
+    min-height: 56px;
+    position: static;
+    gap: 12px;
+  }
+  .breadcrumb {
+    font-size: 12px;
+    gap: 6px;
+  }
+  .workspaceLabel {
+    display: none;
+  }
+  .actionBtn {
+    width: 36px;
+    height: 36px;
+  }
+}
