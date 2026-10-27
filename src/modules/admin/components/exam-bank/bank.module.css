@@ -1,0 +1,148 @@
+/* Exam bank pieces built on the shared admin UI (../ui). */
+
+.titleCell {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+}
+
+.titleCell strong {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.titleCell small {
+  color: var(--ui-muted);
+  font-size: 12px;
+}
+
+.split {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 110px;
+}
+
+.splitTrack {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--ui-rose-mid);
+}
+
+/* Listening share drawn over the Reading colour. */
+.splitTrack::before {
+  content: "";
+  display: block;
+  width: var(--listening);
+  height: 100%;
+  background: var(--ui-blue-mid);
+}
+
+.split small {
+  color: var(--ui-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.questionCell {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 260px;
+}
+
+.questionNumber {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  min-width: 34px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--part-soft, var(--ui-blue-soft));
+  color: var(--part-accent, var(--ui-blue));
+  font-size: 12px;
+  font-weight: 700;
+}
+
+[data-section="reading"] .questionNumber {
+  --part-soft: var(--ui-rose-soft);
+  --part-accent: var(--ui-rose);
+}
+
+.questionCell p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Exam drawer: question count of each Part against the TOEIC format. */
+.partRows {
+  display: flex;
+  flex-direction: column;
+  margin: 0 -8px;
+}
+
+.partRow {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 12px;
+  padding: 8px;
+  border-radius: 8px;
+  color: inherit;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.partRow:hover {
+  background: var(--ui-hover);
+}
+
+.partRow strong {
+  font-weight: 700;
+  color: var(--ui-blue);
+}
+
+.partRow[data-section="reading"] strong {
+  color: var(--ui-rose);
+}
+
+.partRow small {
+  color: var(--ui-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.partProgress {
+  grid-column: 2 / -1;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--ui-hover);
+  overflow: hidden;
+}
+
+.partProgress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ui-blue-mid);
+}
+
+.partRow[data-section="reading"] .partProgress span {
+  background: var(--ui-rose-mid);
+}
+
+.partRow[data-incomplete="true"] small {
+  color: var(--ui-rose);
+}
+
+.cardsPagination {
+  margin-top: 16px;
+}
+
+/* The shared pagination draws a top border meant for tables. */
+.cardsPagination > nav {
+  border-top: none;
+}

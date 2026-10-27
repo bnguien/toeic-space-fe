@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { ADMIN_NAV_SECTIONS } from "@/shared/constants/adminNav";
 import { IconExams } from "@/shared/components/icons";
+import { useColorMode } from "@/shared/hooks/useColorMode";
 import type { AdminAccount } from "@/shared/types/account.types";
 
 import styles from "./AdminLayout.module.css";
@@ -17,9 +18,10 @@ interface AdminLayoutProps {
 export const AdminLayout = ({ account, onLogout, loggingOut = false }: AdminLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const colorMode = useColorMode();
 
   return (
-    <div className={styles.layout}>
+    <div className={styles.layout} data-color-mode={colorMode.mode}>
       <AdminSidebar
         collapsed={collapsed}
         onToggleCollapse={() => setCollapsed((prev) => !prev)}
@@ -66,7 +68,13 @@ export const AdminLayout = ({ account, onLogout, loggingOut = false }: AdminLayo
             )}
           </nav>
         </details>
-        <AdminHeader />
+        <AdminHeader
+          account={account}
+          colorMode={colorMode.mode}
+          onToggleColorMode={colorMode.toggle}
+          onLogout={onLogout}
+          loggingOut={loggingOut}
+        />
         <main key={location.pathname} className={`${styles.content} ${styles.pageEnter}`}>
           <Outlet />
         </main>

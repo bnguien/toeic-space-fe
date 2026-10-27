@@ -1,7 +1,6 @@
 .header {
   min-height: 72px;
-  background: rgb(246 247 251 / 0.86);
-  backdrop-filter: saturate(1.4) blur(10px);
+  background: var(--ui-canvas);
   border-bottom: 1px solid var(--ui-line);
   display: flex;
   align-items: center;
@@ -40,27 +39,6 @@
   gap: 8px;
   flex-shrink: 0;
 }
-.workspaceLabel {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 32px;
-  padding: 0 12px;
-  margin-right: 8px;
-  border-radius: var(--radius-full);
-  background: var(--ui-surface);
-  border: 1px solid var(--ui-line);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ui-muted);
-}
-.workspaceLabel::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ui-rose-line);
-}
 .actionBtn {
   width: 40px;
   height: 40px;
@@ -96,11 +74,180 @@
     font-size: 12px;
     gap: 6px;
   }
-  .workspaceLabel {
-    display: none;
-  }
   .actionBtn {
     width: 36px;
     height: 36px;
   }
+}
+
+/* ---------- Account menu ---------- */
+
+.account {
+  position: relative;
+}
+
+.avatarButton {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--ui-line);
+  border-radius: 50%;
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.avatarButton:hover,
+.avatarButton[aria-expanded="true"] {
+  border-color: var(--ui-blue-line);
+}
+
+.avatarButton:focus-visible,
+.menuItem:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 50;
+  width: 260px;
+  padding: 6px;
+  border: 1px solid var(--ui-line);
+  border-radius: 12px;
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow-raised);
+}
+
+.menuHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 4px;
+  padding: 10px 10px 12px;
+  border-bottom: 1px solid var(--ui-line);
+}
+
+.menuHeader strong {
+  overflow: hidden;
+  color: var(--ui-text);
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menuHeader span {
+  overflow: hidden;
+  color: var(--ui-muted);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menuHeader small {
+  margin-top: 4px;
+  color: var(--ui-blue);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--ui-text);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menuItem:hover:not(:disabled) {
+  background: var(--ui-hover);
+}
+
+.menuItem svg {
+  flex: none;
+  color: var(--ui-muted);
+}
+
+.menuItem:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.danger,
+.danger svg {
+  color: var(--ui-rose);
+}
+
+.menuDivider {
+  height: 1px;
+  margin: 4px 0;
+  background: var(--ui-line);
+}
+
+/* Toggle switch at the end of the colour-mode item. */
+.switch {
+  position: relative;
+  flex: none;
+  width: 34px;
+  height: 20px;
+  margin-left: auto;
+  border-radius: 999px;
+  background: var(--ui-divider);
+  transition: background 0.15s ease;
+}
+
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow);
+  transition: transform 0.15s ease;
+}
+
+.switch[data-on="true"] {
+  background: var(--ui-blue);
+}
+
+.switch[data-on="true"]::after {
+  transform: translateX(14px);
 }

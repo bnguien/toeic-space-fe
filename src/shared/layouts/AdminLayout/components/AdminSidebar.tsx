@@ -196,15 +196,16 @@ export const AdminSidebar = ({
         <IconChevronLeft size={14} />
       </button>
       {/* Brand Header */}
-      <div className={styles.brand}>
-        <img src={mascotImg} alt="Oysteic Mascot" className={styles.brandMascot} />
+      {/* Same wordmark as the teacher portal. */}
+      <Link to="/admin" className={styles.brand} aria-label="TOEICSpace – Quản trị hệ thống">
+        <img src={mascotImg} alt="" className={styles.brandMascot} />
         {!collapsed && (
-          <div className={styles.brandText}>
-            <span className={styles.brandTitle}>TOEIC SPACE</span>
-            <span className={styles.brandBadge}>ADMIN CMS</span>
-          </div>
+          <span className={styles.brandText}>
+            <span className={styles.brandTitle}>TOEICSpace</span>
+            <span className={styles.brandSubtitle}>Quản trị hệ thống</span>
+          </span>
         )}
-      </div>
+      </Link>
 
       {/* Navigation List */}
       <nav className={styles.navContainer}>

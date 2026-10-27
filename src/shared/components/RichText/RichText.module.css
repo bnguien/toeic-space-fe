@@ -160,7 +160,7 @@
 .blankActive {
   border-color: var(--ui-blue);
   background: var(--ui-blue);
-  color: #ffffff;
+  color: var(--ui-on-accent);
 }
 
 /* Document frames (Part 6 and 7) */
@@ -233,7 +233,7 @@
 }
 
 .tp-exp-correct-card {
-  border-color: rgb(46 122 87 / 0.3);
+  border-color: var(--ui-green-line);
   background: var(--ui-green-soft);
 }
 
@@ -252,7 +252,7 @@
   height: 20px;
   border-radius: 50%;
   background: var(--ui-green);
-  color: #ffffff;
+  color: var(--ui-on-accent);
   font-size: 11px;
   font-weight: 700;
 }
@@ -266,12 +266,12 @@
 .tp-exp-notes-card,
 .tp-exp-trans-card {
   background: var(--ui-blue-soft);
-  border-color: rgb(169 189 230 / 0.6);
+  border-color: var(--ui-blue-line);
 }
 
 .tp-exp-vocab-card {
   background: var(--ui-rose-soft);
-  border-color: rgb(231 179 199 / 0.6);
+  border-color: var(--ui-rose-line);
 }
 
 .tp-exp-section-title {
@@ -299,7 +299,7 @@
 }
 
 .is-correct {
-  border-color: rgb(46 122 87 / 0.3);
+  border-color: var(--ui-green-line);
   background: var(--ui-green-soft);
   color: var(--ui-green);
 }
@@ -320,7 +320,7 @@
 .is-correct :is(.tp-exp-opt-pill, .tp-opt-chip),
 .tp-opt-correct-chip {
   background: var(--ui-green);
-  color: #ffffff;
+  color: var(--ui-on-accent);
 }
 
 .tp-exp-opt-content,
@@ -356,7 +356,7 @@
 .vocabulary li {
   margin: 0 !important;
   padding: 3px 10px;
-  border: 1px solid rgb(231 179 199 / 0.7);
+  border: 1px solid var(--ui-rose-line);
   border-radius: 999px;
   background: var(--ui-surface);
   font-size: 12.5px;
