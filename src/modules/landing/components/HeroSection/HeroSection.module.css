@@ -1,0 +1,491 @@
+.heroSection {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-image: url("@/assets/pastel-landscape.png");
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 70% 30%,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(240, 249, 255, 0.45) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Slider Track holding Slide 1 & Slide 2 */
+.sliderTrack {
+  display: flex;
+  width: 200%;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.slide {
+  width: 50%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 110px 48px 90px 72px;
+  position: relative;
+}
+
+/* ======================================================== */
+/* SLIDE 1: MAIN HERO                                        */
+/* ======================================================== */
+.slide1Inner {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.subTag {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #486581;
+  margin-bottom: 8px;
+}
+
+.heroTitle {
+  font-family: var(--font-script), cursive;
+  font-size: 5.2rem;
+  font-weight: 700;
+  line-height: 1.05;
+  color: #2b59c3;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 10px rgba(43, 89, 195, 0.08);
+}
+
+.heroDesc {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: #475569;
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+.ctaButton {
+  font-family: var(--font-sans), sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #5b90d5 0%, #4477bb 100%);
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 14px 34px;
+  border-radius: 9999px;
+  box-shadow: 0 10px 24px -4px rgba(68, 119, 187, 0.4);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #689de0 0%, #4d82c6 100%);
+  box-shadow: 0 14px 28px -2px rgba(68, 119, 187, 0.5);
+}
+
+/* Mascot Wrapper */
+.rightCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.mascotWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  justify-content: center;
+}
+
+.mascotImg {
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 35px rgba(56, 189, 248, 0.28));
+  animation: floatMascot 4s ease-in-out infinite;
+}
+
+@keyframes floatMascot {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.8),
+    rgba(224, 242, 254, 0.4) 60%,
+    rgba(244, 114, 182, 0.3) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  animation: floatBubble 5s ease-in-out infinite;
+}
+
+.bubble1 {
+  width: 26px;
+  height: 26px;
+  top: 15%;
+  left: 10%;
+}
+
+.bubble2 {
+  width: 18px;
+  height: 18px;
+  top: 25%;
+  right: 15%;
+  animation-delay: 1.5s;
+}
+
+.bubble3 {
+  width: 32px;
+  height: 32px;
+  bottom: 20%;
+  left: 15%;
+  animation-delay: 2.5s;
+}
+
+@keyframes floatBubble {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-14px) scale(1.08);
+  }
+}
+
+.sparkleStar {
+  position: absolute;
+  color: #fde047;
+  font-size: 1.1rem;
+  pointer-events: none;
+  opacity: 0.8;
+  animation: pulseStar 2.5s ease-in-out infinite;
+}
+
+.star1 {
+  top: 10%;
+  left: 25%;
+}
+
+.star2 {
+  bottom: 25%;
+  right: 10%;
+  animation-delay: 1.2s;
+}
+
+@keyframes pulseStar {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 0.95;
+    transform: scale(1.15);
+  }
+}
+
+/* ======================================================== */
+/* SLIDE 2: BỐN NHÓM TÍNH NĂNG CHÍNH                        */
+/* ======================================================== */
+.slide2Inner {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.slide2Header {
+  margin-bottom: 42px;
+}
+
+.slide2Title {
+  font-family: var(--font-script), cursive;
+  font-size: 4.2rem;
+  font-weight: 700;
+  color: #2b59c3;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.slide2Subtitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.15rem;
+  color: #475569;
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  margin-bottom: 0;
+}
+
+.featureCard {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
+  padding: 30px 22px 24px;
+  box-shadow: 0 10px 28px rgba(148, 163, 184, 0.14);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.featureCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 36px rgba(59, 130, 246, 0.2);
+  background: #ffffff;
+  border-color: #93c5fd;
+}
+
+.iconBadge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #1e293b;
+  margin-bottom: 22px;
+  background: linear-gradient(135deg, #fb8a83 0%, #fba69c 35%, #b8c5f2 78%, #9cb3eb 100%);
+  box-shadow: 0 4px 14px rgba(251, 138, 131, 0.22);
+  transition: transform 0.25s ease;
+}
+
+.featureCard:hover .iconBadge {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.badgeListening,
+.badgeReading,
+.badgeRoadmap,
+.badgeAi {
+  background: linear-gradient(135deg, #fb8a83 0%, #fba69c 35%, #b8c5f2 78%, #9cb3eb 100%);
+}
+
+.cardTitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.cardSubtitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.92rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* ======================================================== */
+/* BOTTOM CONTROLS (Persistent across both slides)          */
+/* ======================================================== */
+.sliderControlsContainer {
+  position: absolute;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 10;
+  padding: 0 48px 0 72px;
+}
+
+.sliderControlsInner {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sliderControls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: auto;
+}
+
+.sliderArrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sliderArrow:hover {
+  background: #ffffff;
+  border-color: #3b82f6;
+  color: #2563eb;
+  transform: scale(1.06);
+}
+
+.paginationTrack {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 6px;
+}
+
+.pillDot {
+  width: 28px;
+  height: 8px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #60a5fa 0%, #3b82f6 100%);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.roundDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.roundDot:hover {
+  background: #94a3b8;
+}
+
+@media (max-width: 1024px) {
+  .slide {
+    padding: 100px 24px 80px;
+  }
+
+  .slide1Inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 28px;
+  }
+
+  .leftCol {
+    align-items: center;
+  }
+
+  .heroTitle {
+    font-size: 4rem;
+  }
+
+  .slide2Title {
+    font-size: 3.2rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .decorativeLeaves {
+    display: none;
+  }
+
+  .sliderControlsContainer {
+    padding: 0 24px;
+    bottom: 24px;
+  }
+
+  .sliderControlsInner {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .heroTitle {
+    font-size: 3.2rem;
+  }
+
+  .slide2Title {
+    font-size: 2.5rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ctaButton {
+    width: 100%;
+  }
+
+  .mascotImg {
+    max-width: 260px;
+  }
+
+  .sliderControlsContainer {
+    padding: 0 16px;
+    bottom: 16px;
+  }
+}

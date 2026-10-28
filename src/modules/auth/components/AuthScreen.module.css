@@ -1,0 +1,409 @@
+.screen {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  place-items: center;
+  padding: 110px 16px 80px;
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--ui-surface) 55%, transparent),
+      color-mix(in srgb, var(--ui-canvas) 90%, transparent)
+    ),
+    url("../../../assets/pastel-landscape.png") center bottom / cover no-repeat,
+    var(--ui-canvas);
+}
+
+.card {
+  width: min(100%, 420px);
+  padding: 32px;
+  border: 1px solid var(--ui-line);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--ui-surface) 94%, transparent);
+  box-shadow: var(--ui-shadow-raised);
+}
+
+.cardWide {
+  width: min(100%, 480px);
+}
+
+.statusCard {
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.statusCard h1 {
+  font-size: 22px;
+}
+
+.statusCard p {
+  font-size: 14px;
+  color: var(--ui-muted);
+  margin-bottom: 12px;
+}
+
+.header {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.mascot {
+  width: 112px;
+  height: 112px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 16px rgb(72 103 168 / 0.2));
+}
+
+.eyebrow {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ui-rose);
+}
+
+.header h1 {
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.header p {
+  font-size: 14px;
+  color: var(--ui-muted);
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.alert {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ui-rose-line);
+  background: var(--ui-rose-soft);
+  color: var(--ui-rose);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.alertActionBtn {
+  display: inline;
+  background: transparent;
+  border: none;
+  color: var(--ui-rose);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.alertActionBtn:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.alertActionBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ui-text);
+}
+
+.field input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--ui-line);
+  border-radius: 10px;
+  background: var(--ui-surface);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ui-text);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.field input:focus-visible {
+  border-color: var(--ui-blue-line);
+  box-shadow: var(--ui-focus);
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--ui-rose-line);
+}
+
+.fieldError {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ui-rose);
+}
+
+.passwordBox {
+  position: relative;
+  display: block;
+}
+
+.passwordRulesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 12px;
+  margin-top: 4px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--ui-hover);
+  border: 1px solid var(--ui-line);
+}
+
+.passwordRuleItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: color 0.15s ease;
+}
+
+.passwordRulePending {
+  color: var(--ui-muted);
+}
+
+.passwordRuleMet {
+  color: var(--ui-green);
+}
+
+.passwordRuleFailed {
+  color: var(--ui-rose);
+}
+
+.ruleIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.passwordBox input {
+  padding-right: 72px;
+}
+
+.reveal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: var(--ui-hover);
+  color: var(--ui-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.reveal:hover {
+  color: var(--ui-blue);
+  background: var(--ui-blue-soft);
+}
+
+.submit {
+  width: 100%;
+  height: 48px;
+  margin-top: 4px;
+  border-radius: 12px;
+  background: var(--ui-blue);
+  color: var(--ui-on-accent);
+  font-size: 15px;
+  font-weight: 700;
+  transition: background 0.15s ease;
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--ui-blue-strong);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.card :is(button, input):focus-visible {
+  outline: 3px solid var(--ui-blue-line);
+  outline-offset: 2px;
+}
+
+.note {
+  margin-top: 20px;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--ui-muted);
+}
+
+.alertSuccess {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ui-green-line);
+  background: var(--ui-green-soft);
+  color: var(--ui-green);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.alertInfo {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ui-blue-line);
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.otpGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin: 6px 0;
+}
+
+.otpCell {
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  border: 1.5px solid var(--ui-line);
+  border-radius: 10px;
+  background: var(--ui-surface);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ui-text);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.otpCell:focus-visible {
+  border-color: var(--ui-blue-line);
+  box-shadow: var(--ui-focus);
+  outline: none;
+}
+
+.otpCell[aria-invalid="true"] {
+  border-color: var(--ui-rose-line);
+}
+
+.otpCellFilled {
+  border-color: var(--ui-blue-mid);
+  background: var(--ui-blue-soft);
+}
+
+.resendContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--ui-hover);
+  border: 1px solid var(--ui-line);
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.resendCountdown {
+  color: var(--ui-muted);
+  font-weight: 600;
+}
+
+.resendCountdown strong {
+  color: var(--ui-text);
+}
+
+.resendBtn {
+  background: transparent;
+  border: none;
+  color: var(--ui-blue);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.resendBtn:hover:not(:disabled) {
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+}
+
+.resendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--ui-subtle);
+}
+
+.footerNav {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ui-muted);
+}
+
+.footerLink {
+  color: var(--ui-blue);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footerLink:hover {
+  color: var(--ui-blue-strong);
+  text-decoration: underline;
+}
+
+.emailHighlight {
+  color: var(--ui-blue-strong);
+  font-weight: 700;
+  word-break: break-all;
+}
+
+@media (max-width: 420px) {
+  .card {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .header h1 {
+    font-size: 23px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field input,
+  .submit {
+    transition: none;
+  }
+}
