@@ -470,6 +470,21 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                       <span>Khóa học của tôi</span>
                     </button>
 
+                    {user.role === "User" && (
+                      <button
+                        type="button"
+                        className={styles.dropdownItem}
+                        role="menuitem"
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          navigate("/my-classes");
+                        }}
+                      >
+                        <IconBook size={16} />
+                        <span>Lớp học của tôi</span>
+                      </button>
+                    )}
+
                     <button
                       type="button"
                       className={styles.dropdownItem}
@@ -678,6 +693,18 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
               >
                 <IconBook size={16} /> Khóa học của tôi
               </button>
+              {user.role === "User" && (
+                <button
+                  type="button"
+                  className={styles.dropdownItem}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    navigate("/my-classes");
+                  }}
+                >
+                  <IconBook size={16} /> Lớp học của tôi
+                </button>
+              )}
               <button
                 type="button"
                 className={styles.dropdownItem}
