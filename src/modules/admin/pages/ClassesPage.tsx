@@ -15,6 +15,7 @@ import {
 
 import { ClassActionDialog, type ClassActionConfirmation } from "../components/ClassActionDialog";
 import { ClassListTable } from "../components/ClassListTable";
+import { ClassEnrollments } from "../components/ClassEnrollments";
 import { useCurrentUser } from "@/modules/auth";
 import { DatePicker } from "@/shared/components/DatePicker";
 import { Select, type SelectOption } from "@/shared/components/Select";
@@ -558,6 +559,13 @@ export function ClassesPage({ archived = false }: { archived?: boolean }) {
                     </>
                   )}
                 </section>
+                {isAdmin && (
+                  <ClassEnrollments
+                    key={selectedClass.id}
+                    classId={selectedClass.id}
+                    classStatus={selectedClass.status}
+                  />
+                )}
                 {isAdmin && (
                   <section className={styles.lifecycle}>
                     <span className={styles.eyebrow}>VÒNG ĐỜI LỚP HỌC</span>

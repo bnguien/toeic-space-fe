@@ -3,34 +3,6 @@
   gap: 1.5rem;
   color: #3a4a63;
 }
-.header {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.breadcrumb {
-  color: #738196;
-  font-size: 0.76rem;
-}
-.header h1 {
-  margin-top: 0.45rem;
-  font-size: clamp(1.55rem, 2.3vw, 2rem);
-  line-height: 1.2;
-  color: #30445c;
-}
-.createButton {
-  padding: 0.7rem 1rem;
-  background: #365e82;
-  color: #fff;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-.createButton:hover {
-  background: #284965;
-}
 .filters {
   display: flex;
   align-items: center;
@@ -230,10 +202,6 @@
 @media (max-width: 767px) {
   .overview {
     gap: 1.5rem;
-  }
-  .header {
-    align-items: flex-start;
-    flex-wrap: wrap;
   }
   .dashboardGrid {
     grid-template-columns: 1fr;

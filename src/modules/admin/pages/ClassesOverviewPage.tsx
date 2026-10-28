@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { BookOpenCheck, CalendarCheck2, GraduationCap, UsersRound } from "lucide-react";
+import { GraduationCap } from "lucide-react";
+
+import classMascot from "@/assets/mascot/oy2-teamwork.png";
 import { Select } from "@/shared/components/Select";
+import { AdminPage, ButtonLink, OverviewHero } from "../components/ui";
+import { ClassOverviewMetrics } from "../components/ClassOverviewMetrics";
 import { useClasses } from "../hooks/useClasses";
 import type { ClassStatus } from "../types/class.types";
 import { AttendanceChart, EnrollmentChart } from "../components/ClassesOverviewCharts";
 import { sampleIssues, sampleMonths, samplePrograms } from "../data/classOverviewSample";
 import { exportClassOverview } from "../utils/exportClassOverview";
 import styles from "./ClassesOverviewPage.module.css";
-import metricStyles from "./ClassesOverviewMetrics.module.css";
 
 const statuses: { status: ClassStatus; label: string; path: string; color: string }[] = [
   {
@@ -57,231 +60,223 @@ export function ClassesOverviewPage() {
     : 0;
 
   return (
-    <div className={styles.overview}>
-      <header className={styles.header}>
-        <div>
-          <span className={styles.breadcrumb}>Quản trị đào tạo / Lớp học</span>
-          <h1>Tổng quan lớp học</h1>
-        </div>
-        <Link className={styles.createButton} to="/admin/classes/list?create=1">
-          Tạo lớp học
-        </Link>
-      </header>
-      <div className={styles.filters}>
-        <Select
-          className={styles.filterSelect}
-          aria-label="Kỳ (dữ liệu mẫu)"
-          value={month}
-          onChange={setMonth}
-          options={sampleMonths.map((item, index) => ({
-            value: String(index),
-            label: `Kỳ: ${item.label}`,
+    <AdminPage
+      theme="blue"
+      hero={
+        <OverviewHero
+          eyebrow="Quản trị đào tạo / Lớp học"
+          icon={<GraduationCap size={15} />}
+          title="Tổng quan"
+          highlight="lớp học"
+          description="Theo dõi tình trạng và quản lý các lớp học."
+          watermark="CLASSES"
+          mascot={classMascot}
+          actions={
+            <>
+              <ButtonLink to="/admin/classes/list?create=1" variant="primary">
+                Tạo lớp học
+              </ButtonLink>
+              <ButtonLink to="/admin/classes/list">Danh sách lớp</ButtonLink>
+            </>
+          }
+          panelLabel="Lớp học"
+          panelTitle="Tình trạng lớp học"
+          stats={statuses.map((item, index) => ({
+            key: item.status,
+            label: item.label,
+            value: queries[index].isError ? "—" : queries[index].data?.totalCount,
+            to: item.path,
           }))}
         />
-        <Select
-          className={styles.filterSelect}
-          aria-label="Cơ sở (dữ liệu mẫu)"
-          value={facility}
-          onChange={setFacility}
-          options={[
-            { value: "all", label: "Cơ sở: Tất cả" },
-            { value: "a", label: "Cơ sở A" },
-            { value: "b", label: "Cơ sở B" },
-          ]}
-        />
-        <Select
-          className={styles.filterSelect}
-          aria-label="Chương trình (dữ liệu mẫu)"
-          value={program}
-          onChange={setProgram}
-          options={[
-            { value: "all", label: "Chương trình: Tất cả" },
-            ...samplePrograms.map((item) => ({ value: item.name, label: item.name })),
-          ]}
-        />
-        <button
-          type="button"
-          className={styles.exportButton}
-          onClick={() =>
-            exportClassOverview(active.data?.totalCount, students, fill, sample.attendance.at(-1)!)
-          }
-        >
-          Xuất báo cáo
-        </button>
-      </div>
-      <p className={styles.sampleNote}>
-        Dữ liệu mẫu: bộ lọc và các chỉ số học viên, ghi danh, chuyên cần, chương trình. Số lớp theo
-        trạng thái lấy từ API.
-      </p>
+      }
+    >
+      <div className={styles.overview}>
+        <div className={styles.filters}>
+          <Select
+            className={styles.filterSelect}
+            aria-label="Kỳ (dữ liệu mẫu)"
+            value={month}
+            onChange={setMonth}
+            options={sampleMonths.map((item, index) => ({
+              value: String(index),
+              label: `Kỳ: ${item.label}`,
+            }))}
+          />
+          <Select
+            className={styles.filterSelect}
+            aria-label="Cơ sở (dữ liệu mẫu)"
+            value={facility}
+            onChange={setFacility}
+            options={[
+              { value: "all", label: "Cơ sở: Tất cả" },
+              { value: "a", label: "Cơ sở A" },
+              { value: "b", label: "Cơ sở B" },
+            ]}
+          />
+          <Select
+            className={styles.filterSelect}
+            aria-label="Chương trình (dữ liệu mẫu)"
+            value={program}
+            onChange={setProgram}
+            options={[
+              { value: "all", label: "Chương trình: Tất cả" },
+              ...samplePrograms.map((item) => ({ value: item.name, label: item.name })),
+            ]}
+          />
+          <button
+            type="button"
+            className={styles.exportButton}
+            onClick={() =>
+              exportClassOverview(
+                active.data?.totalCount,
+                students,
+                fill,
+                sample.attendance.at(-1)!,
+              )
+            }
+          >
+            Xuất báo cáo
+          </button>
+        </div>
+        <p className={styles.sampleNote}>
+          Dữ liệu mẫu: bộ lọc và các chỉ số học viên, ghi danh, chuyên cần, chương trình. Số lớp
+          theo trạng thái lấy từ API.
+        </p>
 
-      <section className={metricStyles.metrics} aria-label="Chỉ số lớp học">
-        <Link to="/admin/classes/list?status=Active">
-          <div className={metricStyles.topLine}>
-            <span className={`${metricStyles.icon} ${metricStyles.blue}`}>
-              <BookOpenCheck size={21} />
-            </span>
-            <span className={metricStyles.change}>+2</span>
-          </div>
-          <strong>{active.isError ? "—" : (active.data?.totalCount ?? "…")}</strong>
-          <span className={metricStyles.label}>Lớp đang hoạt động</span>
-        </Link>
-        <Link to="/admin/students/list">
-          <div className={metricStyles.topLine}>
-            <span className={`${metricStyles.icon} ${metricStyles.gold}`}>
-              <UsersRound size={21} />
-            </span>
-            <span className={metricStyles.change}>+18</span>
-          </div>
-          <strong>{students}</strong>
-          <span className={metricStyles.label}>Học viên đang học</span>
-        </Link>
-        <Link to="/admin/classes/list">
-          <div className={metricStyles.topLine}>
-            <span className={`${metricStyles.icon} ${metricStyles.green}`}>
-              <CalendarCheck2 size={21} />
-            </span>
-            <span className={`${metricStyles.change} ${metricStyles.negative}`}>−3%</span>
-          </div>
-          <strong>{sample.attendance.at(-1)}%</strong>
-          <span className={metricStyles.label}>Chuyên cần tuần này</span>
-        </Link>
-        <Link className={metricStyles.attentionMetric} to="/admin/classes/list">
-          <div className={metricStyles.topLine}>
-            <span className={`${metricStyles.icon} ${metricStyles.red}`}>
-              <GraduationCap size={21} />
-            </span>
-            <span className={`${metricStyles.change} ${metricStyles.negative}`}>Cần theo dõi</span>
-          </div>
-          <strong className={metricStyles.warning}>9</strong>
-          <span className={metricStyles.label}>Lớp cần chú ý</span>
-        </Link>
-      </section>
+        <ClassOverviewMetrics
+          activeCount={active.isError ? "—" : active.data?.totalCount}
+          students={students}
+          attendance={sample.attendance.at(-1)!}
+        />
 
-      <div className={styles.dashboardGrid}>
-        <section className={styles.section}>
-          <div className={styles.sectionHeading}>
-            <h2>Ghi danh mới theo tháng</h2>
-            <Link to="/admin/students/list">Xem học viên mới</Link>
-          </div>
-          <EnrollmentChart values={sample.enrollments} />
-          <p className={`${styles.caption} ${styles.chartCaption}`}>
-            Tháng gần nhất có {sample.enrollments.at(-1)} học viên mới trong dữ liệu mẫu.
-          </p>
-        </section>
-        <section className={styles.section}>
-          <div className={styles.sectionHeading}>
-            <h2>Lớp cần chú ý</h2>
-            <Link to="/admin/classes/list">Xem danh sách lớp</Link>
-          </div>
-          <ul className={styles.issues}>
-            {sampleIssues.map((issue) => (
-              <li key={issue.title}>
-                <strong>{issue.count}</strong>
-                <div>
-                  <b>{issue.title}</b>
-                  <small>{issue.description}</small>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section className={styles.section}>
-          <div className={styles.sectionHeading}>
-            <h2>Chuyên cần theo tuần</h2>
-            <Link to="/admin/classes/list">Xem danh sách lớp</Link>
-          </div>
-          <AttendanceChart values={sample.attendance} />
-          <p className={styles.caption}>
-            Chuyên cần tuần gần nhất: {sample.attendance.at(-1)}% (dữ liệu mẫu).
-          </p>
-        </section>
-        <section className={styles.section}>
-          <div className={styles.sectionHeading}>
-            <h2>Trạng thái lớp</h2>
-            <Link to="/admin/classes/list">Xem danh sách lớp</Link>
-          </div>
-          {queries.some((query) => query.isError) && (
-            <p className={styles.queryError}>
-              Không tải được một số trạng thái.{" "}
-              <button
-                onClick={() =>
-                  void Promise.all(
-                    queries.filter((query) => query.isError).map((query) => query.refetch()),
-                  )
-                }
-              >
-                Thử lại
-              </button>
+        <div className={styles.dashboardGrid}>
+          <section className={styles.section}>
+            <div className={styles.sectionHeading}>
+              <h2>Ghi danh mới theo tháng</h2>
+              <Link to="/admin/students/list">Xem học viên mới</Link>
+            </div>
+            <EnrollmentChart values={sample.enrollments} />
+            <p className={`${styles.caption} ${styles.chartCaption}`}>
+              Tháng gần nhất có {sample.enrollments.at(-1)} học viên mới trong dữ liệu mẫu.
             </p>
-          )}
-          <div className={styles.statusBar} aria-label="Tỷ lệ lớp theo trạng thái">
-            {statuses.map((item, index) => (
-              <span
-                key={item.status}
-                style={{
-                  width: `${total ? (counts[index] / total) * 100 : 0}%`,
-                  background: item.color,
-                }}
-              />
-            ))}
+          </section>
+          <section className={styles.section}>
+            <div className={styles.sectionHeading}>
+              <h2>Lớp cần chú ý</h2>
+              <Link to="/admin/classes/list">Xem danh sách lớp</Link>
+            </div>
+            <ul className={styles.issues}>
+              {sampleIssues.map((issue) => (
+                <li key={issue.title}>
+                  <strong>{issue.count}</strong>
+                  <div>
+                    <b>{issue.title}</b>
+                    <small>{issue.description}</small>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className={styles.section}>
+            <div className={styles.sectionHeading}>
+              <h2>Chuyên cần theo tuần</h2>
+              <Link to="/admin/classes/list">Xem danh sách lớp</Link>
+            </div>
+            <AttendanceChart values={sample.attendance} />
+            <p className={styles.caption}>
+              Chuyên cần tuần gần nhất: {sample.attendance.at(-1)}% (dữ liệu mẫu).
+            </p>
+          </section>
+          <section className={styles.section}>
+            <div className={styles.sectionHeading}>
+              <h2>Trạng thái lớp</h2>
+              <Link to="/admin/classes/list">Xem danh sách lớp</Link>
+            </div>
+            {queries.some((query) => query.isError) && (
+              <p className={styles.queryError}>
+                Không tải được một số trạng thái.{" "}
+                <button
+                  onClick={() =>
+                    void Promise.all(
+                      queries.filter((query) => query.isError).map((query) => query.refetch()),
+                    )
+                  }
+                >
+                  Thử lại
+                </button>
+              </p>
+            )}
+            <div className={styles.statusBar} aria-label="Tỷ lệ lớp theo trạng thái">
+              {statuses.map((item, index) => (
+                <span
+                  key={item.status}
+                  style={{
+                    width: `${total ? (counts[index] / total) * 100 : 0}%`,
+                    background: item.color,
+                  }}
+                />
+              ))}
+            </div>
+            <div className={styles.statusRows}>
+              {statuses.map((item, index) => (
+                <Link key={item.status} to={item.path}>
+                  <span className={styles.statusName}>
+                    <i style={{ background: item.color }} />
+                    {item.label}
+                  </span>
+                  <strong>
+                    {queries[index].isError ? "—" : (queries[index].data?.totalCount ?? "…")}
+                  </strong>
+                  <small>
+                    {total && queries[index].data
+                      ? `${Math.round((counts[index] / total) * 100)}%`
+                      : "—"}
+                  </small>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <section className={styles.section}>
+          <div className={styles.sectionHeading}>
+            <h2>Theo chương trình</h2>
+            <Link to="/admin/classes/list">Xem danh sách lớp</Link>
           </div>
-          <div className={styles.statusRows}>
-            {statuses.map((item, index) => (
-              <Link key={item.status} to={item.path}>
-                <span className={styles.statusName}>
-                  <i style={{ background: item.color }} />
-                  {item.label}
-                </span>
-                <strong>
-                  {queries[index].isError ? "—" : (queries[index].data?.totalCount ?? "…")}
-                </strong>
-                <small>
-                  {total && queries[index].data
-                    ? `${Math.round((counts[index] / total) * 100)}%`
-                    : "—"}
-                </small>
-              </Link>
-            ))}
+          <div className={styles.tableScroll}>
+            <table className={styles.programTable}>
+              <thead>
+                <tr>
+                  <th>Chương trình</th>
+                  <th>Học viên</th>
+                  <th>Lấp đầy</th>
+                  <th>Chuyên cần</th>
+                  <th>Ghi danh mới</th>
+                </tr>
+              </thead>
+              <tbody>
+                {programs.map((program) => (
+                  <tr key={program.name}>
+                    <th>{program.name}</th>
+                    <td>{Math.round(program.students * facilityScale)}</td>
+                    <td>
+                      {program.fill}%{" "}
+                      <span className={styles.progress}>
+                        <span style={{ width: `${program.fill}%` }} />
+                      </span>
+                    </td>
+                    <td>{program.attendance}%</td>
+                    <td>+{program.enrollments}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
+          <p className={styles.caption}>
+            Dữ liệu minh họa, chưa được liên kết với lớp học thực tế.
+          </p>
         </section>
       </div>
-
-      <section className={styles.section}>
-        <div className={styles.sectionHeading}>
-          <h2>Theo chương trình</h2>
-          <Link to="/admin/classes/list">Xem danh sách lớp</Link>
-        </div>
-        <div className={styles.tableScroll}>
-          <table className={styles.programTable}>
-            <thead>
-              <tr>
-                <th>Chương trình</th>
-                <th>Học viên</th>
-                <th>Lấp đầy</th>
-                <th>Chuyên cần</th>
-                <th>Ghi danh mới</th>
-              </tr>
-            </thead>
-            <tbody>
-              {programs.map((program) => (
-                <tr key={program.name}>
-                  <th>{program.name}</th>
-                  <td>{Math.round(program.students * facilityScale)}</td>
-                  <td>
-                    {program.fill}%{" "}
-                    <span className={styles.progress}>
-                      <span style={{ width: `${program.fill}%` }} />
-                    </span>
-                  </td>
-                  <td>{program.attendance}%</td>
-                  <td>+{program.enrollments}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className={styles.caption}>Dữ liệu minh họa, chưa được liên kết với lớp học thực tế.</p>
-      </section>
-    </div>
+    </AdminPage>
   );
 }
