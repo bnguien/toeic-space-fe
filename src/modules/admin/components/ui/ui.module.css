@@ -1103,6 +1103,10 @@
   color: var(--ui-text);
   box-shadow: var(--ui-shadow-raised);
 }
+.modal[data-wide="true"] {
+  width: min(760px, calc(100vw - 32px));
+  overflow-y: auto;
+}
 
 .modal::backdrop {
   background: var(--ui-backdrop);

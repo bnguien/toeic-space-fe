@@ -7,6 +7,7 @@ import styles from "./ui.module.css";
 interface ModalProps {
   open: boolean;
   title: string;
+  wide?: boolean;
   description?: ReactNode;
   /** While true the modal cannot be dismissed, so a pending request is not orphaned. */
   busy?: boolean;
@@ -19,6 +20,7 @@ interface ModalProps {
 export function Modal({
   open,
   title,
+  wide = false,
   description,
   busy = false,
   onClose,
@@ -40,6 +42,7 @@ export function Modal({
     <dialog
       ref={ref}
       className={styles.modal}
+      data-wide={wide || undefined}
       aria-labelledby={titleId}
       aria-describedby={description ? descriptionId : undefined}
       onCancel={(event) => {
