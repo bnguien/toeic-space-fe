@@ -32,9 +32,12 @@
 }
 .modal h2 {
   font-size: clamp(1.45rem, 2.6vw, 2rem);
-  line-height: 1.05;
+  line-height: 1.2;
   margin: 0.25rem 0 0.45rem;
   color: #3a4a63;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .eyebrow {
   display: block;
@@ -305,15 +308,23 @@
 }
 .detailHeader {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.25rem;
   padding-bottom: 1.25rem;
   border-bottom: 1px solid #e9eef1;
+  min-width: 0;
+}
+.detailHeader > div {
+  min-width: 0;
+  flex: 1;
 }
 .detailHeader h2 {
   color: #3a4a63;
   font-size: 1.35rem;
   margin: 0.5rem 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .iconButton {
   flex: 0 0 auto;
@@ -336,6 +347,8 @@
   font-size: 0.85rem;
   line-height: 1.6;
   white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .meta {
   display: grid;
@@ -344,6 +357,7 @@
 }
 .meta div {
   padding: 0.5rem 0;
+  min-width: 0;
 }
 .meta dt {
   color: #8491a1;
@@ -356,6 +370,9 @@
   font-size: 0.73rem;
   font-weight: 700;
   margin-top: 0.55rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .assignment,
 .lifecycle,
@@ -495,12 +512,17 @@
 .actionDialog h2 {
   color: #3a4a63;
   font-size: 1.1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .actionDialog p {
   margin: 1rem 0 1.25rem;
   color: #607088;
   font-size: 0.88rem;
   line-height: 1.5;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .actionError {
   padding: 0.8rem 1rem;
@@ -509,17 +531,28 @@
   background: #fff6f7;
   color: #a54a62;
   font-size: 0.82rem;
+  word-break: break-word;
 }
 .modalHeader {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #e8eef1;
+  min-width: 0;
+}
+.modalHeader > div {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
 }
 .modal h2 {
   font-size: 1.35rem;
   margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .formGrid {
   display: grid;

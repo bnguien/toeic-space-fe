@@ -10,7 +10,6 @@ import {
   RotateCcw,
   Search,
   Trash2,
-  X,
 } from "lucide-react";
 
 import { ClassActionDialog, type ClassActionConfirmation } from "../components/ClassActionDialog";
@@ -19,6 +18,7 @@ import { ClassEnrollments } from "../components/ClassEnrollments";
 import { useCurrentUser } from "@/modules/auth";
 import { DatePicker } from "@/shared/components/DatePicker";
 import { Select, type SelectOption } from "@/shared/components/Select";
+import { Button, Modal } from "../components/ui";
 import {
   useClassActions,
   useClassDetail,
@@ -108,28 +108,41 @@ function ClassForm({
     }
   };
   return (
-    <div className={styles.backdrop} role="presentation" onMouseDown={onClose}>
-      <form
-        className={styles.modal}
-        onSubmit={submit}
-        onMouseDown={(event) => event.stopPropagation()}
-      >
-        <div className={styles.modalHeader}>
-          <div>
-            <span className={styles.eyebrow}>
-              {isNew ? "THIẾT LẬP LỚP MỚI" : "CẬP NHẬT LỚP HỌC"}
-            </span>
-            <h2>{isNew ? "Mở lớp học" : initial.name}</h2>
-          </div>
-          <button type="button" className={styles.iconButton} onClick={onClose} aria-label="Đóng">
-            <X size={18} />
-          </button>
-        </div>
+    <Modal
+      open
+      wide
+      title={isNew ? "Mở lớp học" : initial.name}
+      description={isNew ? "Thiết lập lớp mới" : "Cập nhật lớp học"}
+      busy={pending}
+      onClose={onClose}
+      footer={
+        <>
+          <Button onClick={onClose} disabled={pending}>
+            Hủy
+          </Button>
+          <Button
+            type="submit"
+            form="class-form"
+            variant="primary"
+            disabled={pending || dateRangeInvalid}
+          >
+            {pending ? "Đang lưu..." : isNew ? "Tạo lớp" : "Lưu thay đổi"}
+          </Button>
+        </>
+      }
+    >
+      <form id="class-form" onSubmit={submit}>
         <div className={styles.formGrid}>
           {isNew && (
             <label>
               Mã lớp
-              <input name="code" required maxLength={50} placeholder="VD: TOEIC-750-K28" />
+              <input
+                name="code"
+                required
+                maxLength={50}
+                autoFocus
+                placeholder="VD: TOEIC-750-K28"
+              />
             </label>
           )}
           <label className={isNew ? "" : styles.fullWidth}>
@@ -139,6 +152,7 @@ function ClassForm({
               required
               maxLength={200}
               defaultValue={initial?.name}
+              autoFocus={!isNew}
               placeholder="VD: TOEIC Target 750+ Cấp tốc"
             />
           </label>
@@ -187,16 +201,8 @@ function ClassForm({
           </label>
         </div>
         {message && <p className={styles.error}>{message}</p>}
-        <div className={styles.modalActions}>
-          <button type="button" className={styles.secondaryButton} onClick={onClose}>
-            Hủy
-          </button>
-          <button className={styles.primaryButton} disabled={pending || dateRangeInvalid}>
-            {pending ? "Đang lưu..." : isNew ? "Tạo lớp" : "Lưu thay đổi"}
-          </button>
-        </div>
       </form>
-    </div>
+    </Modal>
   );
 }
 
