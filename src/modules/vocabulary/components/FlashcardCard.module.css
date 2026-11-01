@@ -1,0 +1,10 @@
+.card {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.controls {
+  display: grid;
+  min-height: 64px;
+  align-items: center;
+}

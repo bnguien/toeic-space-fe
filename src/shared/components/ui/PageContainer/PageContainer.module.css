@@ -1,0 +1,31 @@
+.page {
+  --page-width: var(--page-max);
+
+  display: grid;
+  align-content: start;
+  gap: var(--space-7);
+  width: 100%;
+  max-width: calc(var(--page-width) + 2 * var(--page-pad));
+  min-height: 100vh;
+  margin: 0 auto;
+  padding-block: calc(var(--nav-offset) + var(--space-2)) var(--space-10);
+  padding-inline: var(--page-pad);
+  color: var(--ui-text);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.page[data-width="narrow"] {
+  --page-width: 880px;
+}
+
+.page[data-width="focus"] {
+  --page-width: 720px;
+}
+
+@media (max-width: 600px) {
+  .page {
+    gap: var(--space-6);
+    padding-bottom: var(--space-9);
+  }
+}

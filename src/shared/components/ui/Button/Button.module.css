@@ -1,0 +1,190 @@
+.button {
+  --btn-h: 40px;
+  --btn-px: var(--space-4);
+  --btn-bg: var(--ui-surface);
+  --btn-fg: var(--ui-text);
+  --btn-line: var(--ui-line);
+  --btn-bg-hover: var(--ui-hover);
+  --btn-border-w: 1px;
+  --btn-shadow: none;
+  --btn-shadow-hover: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--btn-h);
+  padding: 0 var(--btn-px);
+  border: var(--btn-border-w) solid var(--btn-line);
+  border-radius: var(--radius-xl);
+  background: var(--btn-bg);
+  box-shadow: var(--btn-shadow);
+  color: var(--btn-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--btn-bg-hover);
+  box-shadow: var(--btn-shadow-hover);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.button svg {
+  flex-shrink: 0;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.button[data-size="sm"] {
+  --btn-h: 32px;
+  --btn-px: var(--space-3);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-lg);
+}
+
+.button[data-size="lg"] {
+  --btn-h: 48px;
+  --btn-px: var(--space-6);
+  font-size: var(--text-md);
+}
+
+.button[data-block] {
+  display: flex;
+  width: 100%;
+}
+
+/* Filled buttons with an ink outline and a hard shadow (admin summary look). */
+.button[data-variant="primary"],
+.button[data-variant="mark"],
+.button[data-variant="ink"] {
+  --btn-border-w: 1.5px;
+  --btn-line: var(--ui-ink);
+  --btn-shadow: 0 3px 0 var(--ui-ink);
+  --btn-shadow-hover: 0 2px 0 var(--ui-ink);
+}
+
+.button[data-variant="primary"]:hover:not(:disabled),
+.button[data-variant="mark"]:hover:not(:disabled),
+.button[data-variant="ink"]:hover:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.button[data-variant="primary"]:active:not(:disabled),
+.button[data-variant="mark"]:active:not(:disabled),
+.button[data-variant="ink"]:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.button[data-variant="primary"] {
+  --btn-bg: var(--ui-navy);
+  --btn-fg: #ffffff;
+  --btn-bg-hover: var(--ui-navy);
+}
+
+.button[data-variant="mark"] {
+  --btn-bg: var(--ui-mark);
+  --btn-fg: var(--ui-on-mark);
+  --btn-bg-hover: var(--ui-mark-bright);
+}
+
+.button[data-variant="ink"] {
+  --btn-bg: var(--ui-ink);
+  --btn-fg: #ffffff;
+  --btn-bg-hover: var(--ui-ink);
+}
+
+/* Outline: follows the surrounding text colour, so it works on paper and on the navy panel. */
+.button[data-variant="outline"] {
+  --btn-border-w: 1.5px;
+  --btn-bg: transparent;
+  --btn-fg: currentColor;
+  --btn-line: currentColor;
+  --btn-bg-hover: rgb(127 127 127 / 0.12);
+}
+
+.button[data-variant="ghost"] {
+  --btn-bg: transparent;
+  --btn-line: transparent;
+  --btn-fg: var(--ui-muted);
+}
+
+.button[data-variant="ghost"]:hover:not(:disabled) {
+  color: var(--ui-text);
+}
+
+.button[data-variant="danger"] {
+  --btn-bg: var(--ui-danger-fill);
+  --btn-fg: var(--ui-on-fill);
+  --btn-line: var(--ui-danger-fill);
+  --btn-bg-hover: var(--ui-danger-fill-hover);
+}
+
+.icon {
+  width: var(--btn-h);
+  padding: 0;
+}
+
+.icon[data-round] {
+  border-radius: var(--radius-full);
+}
+
+@media (pointer: coarse) {
+  .button {
+    min-height: max(var(--btn-h), 44px);
+  }
+
+  .icon {
+    width: max(var(--btn-h), 44px);
+  }
+}
+
+/* Tone: filled with the surrounding tone scope (--tone-*), navy by default. */
+.button[data-variant="tone"] {
+  --btn-border-w: 1.5px;
+  --btn-line: var(--ui-ink);
+  --btn-bg: var(--tone-fill, var(--ui-navy));
+  --btn-fg: var(--tone-on-fill, #ffffff);
+  --btn-bg-hover: var(--tone-fill, var(--ui-navy));
+  --btn-shadow: 0 3px 0 var(--ui-ink);
+  --btn-shadow-hover: 0 2px 0 var(--ui-ink);
+}
+
+.button[data-variant="tone"]:hover:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.button[data-variant="tone"]:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.icon[data-round][data-variant="tone"],
+.icon[data-round][data-variant="mark"] {
+  --btn-shadow: 0 2px 0 var(--ui-ink);
+}

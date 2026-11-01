@@ -1,0 +1,29 @@
+.view {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-9) var(--space-4);
+  text-align: center;
+}
+
+.image {
+  width: 132px;
+  height: auto;
+  user-select: none;
+}
+
+.title {
+  max-width: 420px;
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}

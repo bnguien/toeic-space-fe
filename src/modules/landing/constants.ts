@@ -27,9 +27,10 @@ export const LANDING_NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    label: "Flashcards",
-    href: "#vocabulary",
+    label: "Vocab",
+    href: "/vocabulary",
     targetId: "vocabulary",
+    path: "/vocabulary",
   },
   {
     label: "Khóa học",

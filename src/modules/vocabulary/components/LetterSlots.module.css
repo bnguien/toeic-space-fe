@@ -1,0 +1,56 @@
+.slots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.slot,
+.mark {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 40px;
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.slot {
+  border-bottom: 3px solid var(--ui-divider);
+}
+
+.slot[data-visible] {
+  border-bottom-color: var(--ui-blue-mid);
+}
+
+.slot[data-hint] {
+  color: var(--ui-blue);
+}
+
+.mark {
+  width: auto;
+}
+
+.gap {
+  width: 14px;
+}
+
+@media (max-width: 600px) {
+  .slot,
+  .mark {
+    width: 24px;
+    height: 34px;
+    font-size: var(--text-lg);
+  }
+
+  .mark {
+    width: auto;
+  }
+
+  .gap {
+    width: 10px;
+  }
+}

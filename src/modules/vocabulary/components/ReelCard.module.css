@@ -1,0 +1,11 @@
+.frame {
+  position: relative;
+  min-height: clamp(420px, 62vh, 560px);
+  overflow: hidden;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 18px;
+  background: var(--ui-cream);
+  box-shadow: var(--ui-shadow-hard);
+  /* Room for the hard shadow. */
+  margin-bottom: 6px;
+}

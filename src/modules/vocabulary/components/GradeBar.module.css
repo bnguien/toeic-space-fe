@@ -1,0 +1,96 @@
+.bar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.grade {
+  --grade-fg: var(--ui-text);
+  --grade-bg: var(--ui-surface);
+
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-height: 64px;
+  padding: var(--space-3) var(--space-2);
+  border: 1.5px solid var(--ui-ink);
+  border-radius: var(--radius-xl);
+  background: var(--grade-bg);
+  box-shadow: 0 3px 0 var(--ui-ink);
+  color: var(--grade-fg);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.grade[data-grade="Forget"] {
+  --grade-fg: var(--ui-rose-strong);
+  --grade-bg: var(--ui-rose-soft);
+}
+
+.grade[data-grade="Hard"] {
+  --grade-fg: var(--ui-pearl-text);
+  --grade-bg: var(--ui-pearl);
+}
+
+.grade[data-grade="Good"] {
+  --grade-fg: var(--ui-blue-strong);
+  --grade-bg: var(--ui-blue-soft);
+}
+
+.grade[data-grade="Easy"] {
+  --grade-fg: var(--ui-green);
+  --grade-bg: var(--ui-green-soft);
+}
+
+.grade:hover:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--ui-ink);
+}
+
+.grade:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.grade:focus-visible {
+  box-shadow:
+    0 3px 0 var(--ui-ink),
+    var(--ui-focus);
+}
+
+.grade:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 800;
+}
+
+.interval {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.kbd {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+}
+
+@media (max-width: 600px) {
+  .bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .grade {
+    min-height: 56px;
+  }
+}

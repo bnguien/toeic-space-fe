@@ -1,0 +1,52 @@
+.ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+}
+
+.ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.track,
+.value {
+  fill: none;
+  stroke-width: 4;
+}
+
+.track {
+  stroke: var(--ui-line);
+}
+
+.value {
+  stroke: var(--ui-blue);
+  stroke-linecap: round;
+  stroke-dasharray: var(--ring-length);
+  stroke-dashoffset: var(--ring-offset);
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.ring[data-ending] .value {
+  stroke: var(--ui-rose-mid);
+}
+
+.ring[data-paused] .value {
+  stroke: var(--ui-subtle);
+}
+
+.seconds {
+  color: var(--ui-text);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .value {
+    transition: none;
+  }
+}

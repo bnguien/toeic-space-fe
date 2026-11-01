@@ -1,0 +1,132 @@
+.tile {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-width: 0;
+  height: 100%;
+  padding: var(--space-4);
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 16px;
+  background: var(--ui-surface);
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+  color: var(--ui-text);
+  text-decoration: none;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.tile:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+
+.tile:focus-visible {
+  outline: none;
+  box-shadow:
+    4px 4px 0 var(--ui-cream-shadow),
+    var(--ui-focus);
+}
+
+/* The next lesson: filled with the stage tone (white, or ink on yellow). */
+.tile[data-state="next"] {
+  background: var(--tone-fill, var(--ui-navy));
+  color: var(--tone-on-fill, #ffffff);
+}
+
+/* Finished lessons: dashed outline, no shadow. */
+.tile[data-state="done"] {
+  border-style: dashed;
+  background: var(--ui-cream);
+  box-shadow: none;
+}
+
+.tile[data-state="done"]:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.tile .count {
+  color: var(--ui-muted);
+}
+
+/* One row like the reference: long words are cut with an ellipsis instead of wrapping. */
+/* One row of whole words; whatever does not fit fades out at the edge instead of "cultu…". */
+.words {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-1);
+  min-width: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+}
+
+.word {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--ui-line);
+  color: var(--ui-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.tile[data-state="next"] .range {
+  border-bottom-color: currentColor;
+  color: inherit;
+  opacity: 0.8;
+}
+
+.rangeWord {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.bar {
+  flex: 1;
+}
+
+.percent {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.play {
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .tile {
+    padding: var(--space-3);
+  }
+}
+
+/* On the filled tile the number follows the tile's text colour. */
+.tile[data-state="next"] .number {
+  --tile-fg: currentColor;
+  --tile-muted: currentColor;
+  --tile-label: currentColor;
+}

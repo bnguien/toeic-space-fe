@@ -6,6 +6,7 @@ import { authRoutes } from "@/modules/auth";
 import { profileRoutes } from "@/modules/profile";
 import { studentRoutes } from "@/modules/student";
 import { teacherRoutes } from "@/modules/teacher";
+import { vocabularyRoutes } from "@/modules/vocabulary";
 import { RouteError } from "@/shared/components/RouteError/RouteError";
 import { RootLayout } from "./RootLayout";
 
@@ -27,6 +28,7 @@ export const router = createBrowserRouter(
         ...teacherRoutes,
         ...profileRoutes,
         ...studentRoutes,
+        ...vocabularyRoutes,
       ],
     },
   ]),

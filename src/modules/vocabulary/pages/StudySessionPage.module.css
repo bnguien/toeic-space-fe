@@ -1,0 +1,9 @@
+.loading {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.snow[data-active] {
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+}

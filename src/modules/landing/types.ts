@@ -9,6 +9,8 @@ export interface NavItem {
   label: string;
   href: string;
   targetId: string;
+  /** Route to open instead of scrolling to `targetId`. */
+  path?: string;
   children?: NavDropdownItem[];
 }
 

@@ -1,0 +1,9 @@
+.loading {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.sidebarLoading {
+  display: grid;
+  gap: 2px;
+}

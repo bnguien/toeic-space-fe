@@ -1,0 +1,14 @@
+.panel {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.list {
+  display: grid;
+  gap: 2px;
+}
+
+.actions {
+  display: grid;
+  gap: var(--space-2);
+}

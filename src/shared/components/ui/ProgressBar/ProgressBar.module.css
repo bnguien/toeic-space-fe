@@ -1,0 +1,68 @@
+.track {
+  --bar-fill: var(--ui-blue);
+  --bar-track: var(--ui-line);
+
+  position: relative;
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--bar-track);
+}
+
+.track[data-size="xs"] {
+  height: 4px;
+}
+
+.track[data-size="md"] {
+  height: 10px;
+}
+
+.track[data-tone="green"] {
+  --bar-fill: var(--ui-green);
+}
+
+.track[data-tone="rose"] {
+  --bar-fill: var(--ui-rose-mid);
+}
+
+.track[data-tone="pearl"],
+.track[data-tone="mark"] {
+  --bar-fill: var(--ui-mark);
+}
+
+.track[data-tone="neutral"] {
+  --bar-fill: var(--ui-subtle);
+}
+
+.track[data-tone="outline"] {
+  --bar-fill: currentColor;
+}
+
+.track[data-inverted] {
+  --bar-track: rgb(255 255 255 / 0.22);
+}
+
+.fill {
+  display: block;
+  width: var(--progress);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--bar-fill);
+  transition: width var(--transition-normal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}
+
+/* Follows the surrounding tone scope (--tone-*), navy/blue by default. */
+.track[data-tone="tone"] {
+  --bar-fill: var(--tone-bar, var(--ui-blue));
+}
+
+.track[data-tone="pink"] {
+  --bar-fill: var(--ui-pink);
+}

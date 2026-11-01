@@ -209,13 +209,15 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
     };
   }, []);
 
-  const handleLinkClick = (targetId: string) => {
+  const handleLinkClick = (targetId: string, path?: string) => {
     if (navCloseTimeoutRef.current) {
       clearTimeout(navCloseTimeoutRef.current);
     }
     setOpenNavKey(null);
     setMobileMenuOpen(false);
-    if (onNavClick) {
+    if (path) {
+      navigate(path);
+    } else if (onNavClick) {
       onNavClick(targetId);
     } else {
       let element = document.getElementById(targetId);
@@ -298,7 +300,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                     className={styles.navLink}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleLinkClick(item.targetId);
+                      handleLinkClick(item.targetId, item.path);
                     }}
                   >
                     {item.label}
@@ -585,7 +587,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                   className={styles.mobileNavLink}
                   onClick={(e) => {
                     e.preventDefault();
-                    handleLinkClick(item.targetId);
+                    handleLinkClick(item.targetId, item.path);
                   }}
                 >
                   {item.label}

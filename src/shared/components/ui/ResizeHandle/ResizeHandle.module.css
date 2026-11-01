@@ -1,0 +1,45 @@
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+  width: 10px;
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+.handle[data-edge="left"] {
+  left: -5px;
+}
+
+.handle[data-edge="right"] {
+  right: -5px;
+}
+
+/* Visible line on hover, focus and while dragging. */
+.handle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 2px;
+  border-radius: 2px;
+  background: transparent;
+  transition: background-color var(--transition-fast);
+}
+
+.handle:hover::after,
+.handle[data-dragging]::after {
+  background: var(--ui-blue-mid);
+}
+
+.handle:focus-visible {
+  outline: none;
+}
+
+.handle:focus-visible::after {
+  background: var(--ui-blue);
+  box-shadow: var(--ui-focus);
+}

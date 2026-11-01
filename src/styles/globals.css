@@ -101,7 +101,50 @@
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-xl: 10px;
+  --radius-2xl: 16px;
   --radius-full: 9999px;
+
+  /* Learner type scale */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 17px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 30px;
+  --text-display: 44px;
+  --leading-tight: 1.25;
+  --leading-normal: 1.55;
+
+  /* Learner spacing scale (4px steps) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  /* Learner page frame: the landing navbar is fixed (~68px) above every learner page. */
+  --page-max: 1140px;
+  --page-pad: clamp(16px, 4vw, 24px);
+  --nav-offset: 88px;
+  /* Height of the fixed landing navbar (workspace sidebars start right below it). */
+  --nav-height: 68px;
+
+  /* Learner "paper" surfaces: the admin summary look (cream card, ink outline, hard shadow). */
+  --ui-navy: #34508f;
+  --ui-navy-inner: #4563a3;
+  --ui-navy-line: #5a77b4;
+  --ui-shadow-hard: 5px 5px 0 var(--ui-cream-shadow);
+  /* Pink accent family (highlights, chips, one stage tone); sits beside the rose family. */
+  --ui-pink: #c75b8a;
+  --ui-pink-soft: #fdeef5;
+  --ui-pink-line: #f1bcd4;
+  --ui-pink-strong: #a8456f;
 
   /* Transitions */
   --transition-fast: 0.15s ease;

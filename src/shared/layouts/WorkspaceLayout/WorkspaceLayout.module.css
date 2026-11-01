@@ -1,0 +1,95 @@
+.workspace {
+  --sidebar-w: 272px;
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--sidebar-w);
+  width: 100%;
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+  color: var(--ui-text);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.workspace[data-resizing] {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* Faint dot grid and two very soft glows behind the workspace. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--ui-canvas);
+  background-image:
+    radial-gradient(circle at 18% 12%, rgb(199 91 138 / 0.1) 0, rgb(199 91 138 / 0) 34%),
+    radial-gradient(circle at 70% 82%, rgb(72 103 168 / 0.12) 0, rgb(72 103 168 / 0) 36%),
+    radial-gradient(circle, var(--ui-divider) 1px, transparent 1.2px);
+  background-size:
+    100% 100%,
+    100% 100%,
+    26px 26px;
+  pointer-events: none;
+}
+
+.main {
+  --font-scale: 1;
+  --text-xs: calc(12px * var(--font-scale));
+  --text-sm: calc(13px * var(--font-scale));
+  --text-base: calc(15px * var(--font-scale));
+  --text-md: calc(17px * var(--font-scale));
+  --text-lg: calc(20px * var(--font-scale));
+  --text-xl: calc(24px * var(--font-scale));
+  --text-2xl: calc(30px * var(--font-scale));
+  --text-display: calc(44px * var(--font-scale));
+
+  min-width: 0;
+  padding: var(--space-7) var(--page-pad) var(--space-10);
+  font-size: var(--text-base);
+}
+
+.inner {
+  display: grid;
+  align-content: start;
+  gap: var(--space-6);
+  max-width: var(--page-max);
+  margin: 0 auto;
+}
+
+/* Flush against the right edge: full height below the navbar, no card, no shadow. */
+.aside {
+  position: sticky;
+  top: var(--nav-height);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--nav-height));
+  min-width: 0;
+  border-left: 1px solid var(--ui-line);
+  background: var(--ui-surface);
+}
+
+@media (max-width: 960px) {
+  .workspace,
+  .workspace[data-collapsed] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .aside {
+    position: static;
+    order: -1;
+    height: auto;
+    border-bottom: 1px solid var(--ui-line);
+    border-left: none;
+  }
+
+  .handle {
+    display: none;
+  }
+
+  .main {
+    padding-top: var(--space-5);
+  }
+}

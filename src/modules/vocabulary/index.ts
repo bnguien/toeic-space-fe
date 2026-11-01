@@ -1,0 +1,1 @@
+export { vocabularyRoutes } from "./routes";
