@@ -4,6 +4,11 @@ import { X } from "lucide-react";
 import { Button, IconButton } from "./Button";
 import styles from "./ui.module.css";
 
+/** Scroll lock is shared because several dialogs can be open at once (e.g. a confirm on top). */
+let openModalCount = 0;
+let previousHtmlOverflow = "";
+let previousBodyOverflow = "";
+
 interface ModalProps {
   open: boolean;
   title: string;
@@ -28,6 +33,7 @@ export function Modal({
   children,
 }: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null);
+  const backdropPress = useRef(false);
   const titleId = useId();
   const descriptionId = useId();
 
@@ -36,6 +42,24 @@ export function Modal({
     if (!dialog) return;
     if (open && !dialog.open) dialog.showModal();
     if (!open && dialog.open) dialog.close();
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    if (openModalCount === 0) {
+      previousHtmlOverflow = document.documentElement.style.overflow;
+      previousBodyOverflow = document.body.style.overflow;
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    }
+    openModalCount += 1;
+    return () => {
+      openModalCount = Math.max(0, openModalCount - 1);
+      if (openModalCount === 0) {
+        document.documentElement.style.overflow = previousHtmlOverflow;
+        document.body.style.overflow = previousBodyOverflow;
+      }
+    };
   }, [open]);
 
   return (
@@ -49,8 +73,16 @@ export function Modal({
         event.preventDefault();
         if (!busy) onClose();
       }}
+      onPointerDown={(event) => {
+        // Only a press that starts on the backdrop itself counts. A drag that starts inside
+        // the dialog (e.g. selecting text in an input) and ends on the backdrop must not
+        // close the dialog.
+        backdropPress.current = event.target === event.currentTarget;
+      }}
       onClick={(event) => {
-        if (event.target === event.currentTarget && !busy) onClose();
+        const fromBackdrop = backdropPress.current;
+        backdropPress.current = false;
+        if (fromBackdrop && event.target === event.currentTarget && !busy) onClose();
       }}
     >
       {open && (

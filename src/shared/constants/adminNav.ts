@@ -39,6 +39,16 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
     ],
   },
   {
+    key: "courses",
+    label: "Khóa học",
+    icon: "▣",
+    children: [
+      { key: "courses-overview", label: "Tổng quan", path: "/admin/courses" },
+      { key: "courses-list", label: "Danh sách khóa học", path: "/admin/courses/list" },
+      { key: "courses-lifecycle", label: "Lưu trữ", path: "/admin/courses/lifecycle" },
+    ],
+  },
+  {
     key: "classes",
     label: "Lớp học",
     icon: "▣",

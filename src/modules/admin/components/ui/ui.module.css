@@ -1102,6 +1102,10 @@
   background: var(--ui-surface);
   color: var(--ui-text);
   box-shadow: var(--ui-shadow-raised);
+  scrollbar-width: none;
+}
+.modal::-webkit-scrollbar {
+  display: none;
 }
 .modal[data-wide="true"] {
   width: min(760px, calc(100vw - 32px));

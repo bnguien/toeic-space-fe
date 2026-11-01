@@ -6,6 +6,7 @@ import {
   IconAnalytics,
   IconChevronLeft,
   IconChevronRight,
+  IconCourses,
   IconDashboard,
   IconExams,
   IconLogout,
@@ -29,6 +30,8 @@ const getSectionIcon = (key: string) => {
       return <IconTeachers size={19} />;
     case "students":
       return <IconStudents size={19} />;
+    case "courses":
+      return <IconCourses size={19} />;
     case "classes":
       return <IconTeachers size={19} />;
     case "exams":

@@ -1,2 +1,8 @@
 export { adminRoutes } from "./routes";
 export { AdminDashboardPage } from "./pages/AdminDashboardPage";
+export { CoursesPage } from "./pages/CoursesPage";
+export { CoursesOverviewPage } from "./pages/CoursesOverviewPage";
+export { CoursesLifecyclePage } from "./pages/CoursesLifecyclePage";
+export { CourseTagInput } from "./components/CourseTagInput";
+export { coursesApi } from "./api/courses.api";
+export * from "./types/course.types";
