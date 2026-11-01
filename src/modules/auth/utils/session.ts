@@ -228,6 +228,10 @@ export function setupAuthSession(client: QueryClient) {
     return;
   }
   installed = true;
+  useAuthStore.subscribe((state, previous) => {
+    if (state.user?.id !== previous.user?.id || state.user?.role !== previous.user?.role)
+      queryClient?.clear();
+  });
 
   installAuthInterceptors(httpClient, {
     getAccessToken: () => useAuthStore.getState().accessToken,

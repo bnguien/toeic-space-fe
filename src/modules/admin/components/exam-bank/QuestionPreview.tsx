@@ -1,64 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
-import { useCallback } from "react";
 
-import { mediaUrls, RichText, type BlankLabel } from "@/shared/components/RichText";
+import { mediaUrls, RichText } from "@/shared/components/RichText";
+import {
+  QuestionOptions,
+  ListeningTranscript,
+  QuestionExplanation,
+  availableTranslations,
+  listeningScripts,
+  blankLabels,
+  QuestionMedia,
+} from "@/shared/components/QuestionContent";
 
 import { examBankApi } from "../../api/exam-bank.api";
-import type { Question } from "../../types/exam-bank.types";
 import { BankStatus } from "./BankControls";
 import { DIFFICULTY_LABELS, questionPrompt, STATUS_LABELS } from "./bank.constants";
 import styles from "./ExamBrowser.module.css";
 
-/** `shown` holds the media of the passage: a question often repeats it and must not render it twice. */
-function Media({
-  image,
-  audio,
-  shown = [],
-}: {
-  image?: string | null;
-  audio?: string | null;
-  shown?: string[];
-}) {
-  const images = mediaUrls(image).filter((url) => !shown.includes(url));
-  const [track] = mediaUrls(audio).filter((url) => !shown.includes(url));
+function Media(props: Parameters<typeof QuestionMedia>[0]) {
   return (
-    <>
-      {images.map((src, index) => (
-        <img
-          key={src}
-          className={styles.questionImage}
-          src={src}
-          alt={
-            images.length > 1
-              ? `Hình ảnh của câu hỏi (${index + 1}/${images.length})`
-              : "Hình ảnh của câu hỏi"
-          }
-          loading="lazy"
-          referrerPolicy="no-referrer"
-        />
-      ))}
-      {track && (
-        <audio className={styles.audio} controls preload="none" src={track}>
-          Trình duyệt không hỗ trợ âm thanh.
-        </audio>
-      )}
-    </>
-  );
-}
-
-function Translation({
-  value,
-  variant,
-}: {
-  value: string | null;
-  variant: "document" | "transcript";
-}) {
-  if (!value) return null;
-  return (
-    <details className={styles.translation}>
-      <summary>Bản dịch tiếng Việt</summary>
-      <RichText value={value} variant={variant} lang="vi" />
-    </details>
+    <QuestionMedia
+      {...props}
+      imageClassName={styles.questionImage}
+      audioClassName={styles.audio}
+      firstAudioOnly
+    />
   );
 }
 
@@ -71,25 +36,6 @@ const DEFAULT_PROMPTS: Record<number, string> = {
   6: "Select the best answer to complete the text.",
   7: "Read and select the best answer.",
 };
-
-/**
- * Blanks are numbered by the source: real question numbers ("____135____") in tests, or a local
- * index ("[13]") in the bank. Both are shown as the matching question of the passage.
- */
-function useBlankLabels(questions: Question[] | undefined, currentId: string) {
-  return useCallback(
-    (sourceNumber: number, index: number): BlankLabel => {
-      const match =
-        questions?.find((item) => item.questionNumber === sourceNumber) ?? questions?.[index];
-      if (!match) return { label: String(sourceNumber) };
-      return {
-        label: String(match.questionNumber ?? index + 1),
-        active: match.id === currentId,
-      };
-    },
-    [questions, currentId],
-  );
-}
 
 export function QuestionPreview({
   id,
@@ -112,7 +58,13 @@ export function QuestionPreview({
     enabled: Boolean(passageId),
     retry: false,
   });
-  const blankLabel = useBlankLabels(passage.data?.questions, id);
+  const sourceQuestions = passage.data?.questions ?? [];
+  const blankLabel = blankLabels(
+    sourceQuestions,
+    new Map(sourceQuestions.map((q, index) => [q.id, String(q.questionNumber ?? index + 1)])),
+    id,
+    true,
+  );
 
   if (detail.isPending || detail.isError)
     return (
@@ -125,7 +77,9 @@ export function QuestionPreview({
   const q = detail.data;
   const source = passage.data;
   const listening = part <= 4;
-  const transcript = q.transcript || source?.transcript;
+  const groupAudio = source?.audioUrl || q.audioUrl;
+  const sourceAudio = mediaUrls(groupAudio);
+  const separateAudio = mediaUrls(q.audioUrl).some((url) => !sourceAudio.includes(url));
   return (
     <article className={styles.preview}>
       <header className={styles.previewHeader}>
@@ -151,7 +105,7 @@ export function QuestionPreview({
         />
       )}
       {source && (
-        <section className={styles.source} aria-label="Nội dung chung">
+        <section className={styles.source} aria-label="Đề bài">
           <span className={styles.eyebrow}>
             {listening ? "NGỮ CẢNH BÀI NGHE" : "VĂN BẢN ĐỌC HIỂU"}
           </span>
@@ -160,17 +114,16 @@ export function QuestionPreview({
               <RichText value={source.title} inline />
             </h3>
           )}
-          <Media image={source.imageUrl} audio={source.audioUrl} />
-          <RichText
-            value={source.content}
-            variant={listening ? "transcript" : "document"}
-            blankLabel={blankLabel}
-            lang="en"
-          />
-          <Translation
-            value={source.contentTranslation}
-            variant={listening ? "transcript" : "document"}
-          />
+          <Media image={source.imageUrl} audio={groupAudio} />
+          {listening ? (
+            <ListeningTranscript
+              key={passageId}
+              part={part}
+              scripts={listeningScripts(separateAudio ? {} : q, source)}
+            />
+          ) : (
+            <RichText value={source.content} variant="document" blankLabel={blankLabel} lang="en" />
+          )}
           {source.questions.length > 1 && (
             <nav className={styles.related} aria-label="Câu hỏi cùng đoạn">
               {source.questions.map((item, index) => (
@@ -189,8 +142,11 @@ export function QuestionPreview({
       <Media
         image={q.imageUrl}
         audio={q.audioUrl}
-        shown={[...mediaUrls(source?.imageUrl), ...mediaUrls(source?.audioUrl)]}
+        shown={source ? [...mediaUrls(source.imageUrl), ...sourceAudio] : []}
       />
+      {listening && (!source || separateAudio) && (
+        <ListeningTranscript key={id} part={part} scripts={[q.transcript]} />
+      )}
       {part === 1 && !q.imageUrl && !source?.imageUrl && (
         <p className={styles.notice}>Chưa có hình ảnh.</p>
       )}
@@ -204,43 +160,19 @@ export function QuestionPreview({
           dashBlanks={part === 5 || part === 6}
         />
       </h3>
-      <ol className={styles.options} lang="en">
-        {[q.optionA, q.optionB, q.optionC, q.optionD].map(
-          (option, index) =>
-            option != null && (
-              <li key={index}>
-                <span>{String.fromCharCode(65 + index)}</span>
-                <p>
-                  <RichText value={option} inline />
-                </p>
-              </li>
-            ),
-        )}
-      </ol>
-      <details className={styles.disclosure}>
-        <summary>Đáp án & lời giải</summary>
-        <div>
-          <strong className={styles.answer}>Đáp án đúng: {q.correctAnswer}</strong>
-          {q.explanation ? (
-            <RichText value={q.explanation} variant="explanation" lang="vi" />
-          ) : (
-            <p>Chưa có lời giải.</p>
-          )}
-        </div>
-      </details>
-      {listening && (
-        <details className={styles.disclosure}>
-          <summary>Bản chép lời</summary>
-          <div>
-            {transcript ? (
-              <RichText value={transcript} variant="transcript" lang="en" />
-            ) : (
-              <p>Chưa có bản chép lời.</p>
-            )}
-            <Translation value={q.transcriptTranslation} variant="transcript" />
-          </div>
-        </details>
-      )}
+      <QuestionOptions
+        part={part}
+        optionA={q.optionA}
+        optionB={q.optionB}
+        optionC={q.optionC}
+        optionD={q.optionD}
+        variant="cards"
+      />
+      <QuestionExplanation
+        explanation={q.explanation}
+        correctAnswer={q.correctAnswer}
+        translations={availableTranslations(q, source)}
+      />
     </article>
   );
 }

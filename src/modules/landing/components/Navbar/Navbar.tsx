@@ -209,12 +209,16 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
     };
   }, []);
 
-  const handleLinkClick = (targetId: string) => {
+  const handleLinkClick = (targetId: string, path?: string) => {
     if (navCloseTimeoutRef.current) {
       clearTimeout(navCloseTimeoutRef.current);
     }
     setOpenNavKey(null);
     setMobileMenuOpen(false);
+    if (path === "/practice/parts") {
+      navigate(path);
+      return;
+    }
     if (onNavClick) {
       onNavClick(targetId);
     } else {
@@ -314,7 +318,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                         type="button"
                         className={styles.navDropdownItem}
                         role="menuitem"
-                        onClick={() => handleLinkClick(sub.targetId)}
+                        onClick={() => handleLinkClick(sub.targetId, sub.path)}
                       >
                         <span className={styles.navDropdownTitle}>{sub.label}</span>
                         {sub.description && (
@@ -617,7 +621,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                         key={sub.label}
                         type="button"
                         className={styles.mobileNavSubLink}
-                        onClick={() => handleLinkClick(sub.targetId)}
+                        onClick={() => handleLinkClick(sub.targetId, sub.path)}
                       >
                         {sub.label}
                       </button>

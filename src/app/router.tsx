@@ -3,6 +3,7 @@ import { createBrowserRouter, type RouteObject } from "react-router-dom";
 import App from "@/App";
 import { adminRoutes } from "@/modules/admin";
 import { authRoutes } from "@/modules/auth";
+import { practiceRoutes } from "@/modules/practice";
 import { profileRoutes } from "@/modules/profile";
 import { studentRoutes } from "@/modules/student";
 import { teacherRoutes } from "@/modules/teacher";
@@ -27,6 +28,7 @@ export const router = createBrowserRouter(
         ...teacherRoutes,
         ...profileRoutes,
         ...studentRoutes,
+        ...practiceRoutes,
       ],
     },
   ]),
