@@ -217,6 +217,8 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
     setMobileMenuOpen(false);
     if (path === "/practice/parts") {
       navigate(path);
+    if (targetId === "courses") {
+      navigate("/courses");
       return;
     }
     if (onNavClick) {

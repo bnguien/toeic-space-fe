@@ -8,6 +8,12 @@ import { profileRoutes } from "@/modules/profile";
 import { studentRoutes } from "@/modules/student";
 import { teacherRoutes } from "@/modules/teacher";
 import { RouteError } from "@/shared/components/RouteError/RouteError";
+import {
+  CourseCatalogPage,
+  CourseDetailPage,
+  CoursePreviewPage,
+  CoursesLayout,
+} from "@/modules/courses";
 import { RootLayout } from "./RootLayout";
 
 // Render errors and unknown paths (handled by the "/" route) show a friendly screen.
@@ -22,6 +28,17 @@ export const router = createBrowserRouter(
         {
           path: "/",
           element: <App />,
+        },
+        {
+          element: <CoursesLayout />,
+          children: [
+            { path: "/courses", element: <CourseCatalogPage /> },
+            { path: "/courses/:id", element: <CourseDetailPage /> },
+            {
+              path: "/courses/:courseId/lessons/:lessonId/preview",
+              element: <CoursePreviewPage />,
+            },
+          ],
         },
         ...authRoutes,
         ...adminRoutes,

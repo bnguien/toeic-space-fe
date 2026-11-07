@@ -32,8 +32,14 @@ async function withRefreshLock<T>(task: () => Promise<T>): Promise<T> {
 
 function endSession() {
   useAuthStore.getState().clearSession();
-  // Drop cached questions and answer keys so nothing outlives the session.
-  queryClient?.clear();
+  // Drop account-bound queries and mutations, but do not cancel in-flight public course
+  // requests. On a fresh load the session restore can finish after the catalog starts
+  // fetching; clearing that query leaves the public page stuck in its loading state.
+  queryClient?.getMutationCache().clear();
+  queryClient?.removeQueries({
+    predicate: (query) =>
+      !["public-courses", "public-course", "public-preview"].includes(String(query.queryKey[0])),
+  });
 }
 
 /**
