@@ -16,7 +16,7 @@
 }
 
 .eyebrow[data-inverted] {
-  color: rgb(255 255 255 / 0.9);
+  color: color-mix(in srgb, var(--ui-on-fill) 90%, transparent);
 }
 
 .eyebrow svg {

@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from "react";
+import { useEffect, useId, useRef, type KeyboardEvent, type ReactNode } from "react";
 import { X } from "lucide-react";
 
 import { IconButton } from "../Button/Button";
@@ -13,6 +13,9 @@ export interface SheetProps {
   footer?: ReactNode;
   /** While true the sheet cannot be dismissed. */
   busy?: boolean;
+  /** Keeps key presses inside the sheet (no page shortcuts fire while it is open). */
+  containKeys?: boolean;
+  onKeyDown?: (event: KeyboardEvent<HTMLDialogElement>) => void;
   onClose: () => void;
   children?: ReactNode;
 }
@@ -24,6 +27,8 @@ export function Sheet({
   header,
   footer,
   busy = false,
+  containKeys = false,
+  onKeyDown,
   onClose,
   children,
 }: SheetProps) {
@@ -48,6 +53,10 @@ export function Sheet({
       }}
       onClick={(event) => {
         if (event.target === event.currentTarget && !busy) onClose();
+      }}
+      onKeyDown={(event) => {
+        onKeyDown?.(event);
+        if (containKeys) event.stopPropagation();
       }}
     >
       {open && (

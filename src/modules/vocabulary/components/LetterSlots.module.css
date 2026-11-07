@@ -1,33 +1,82 @@
 .slots {
+  --slot: 30px;
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 10px;
+  max-width: 100%;
+  color: var(--card-ink, var(--ui-text));
+}
+
+.slots[data-size="small"] {
+  --slot: 24px;
+  gap: 8px;
+}
+
+.slots[data-size="tiny"] {
+  --slot: 19px;
   gap: 6px;
 }
 
 .slot,
 .mark {
+  position: relative;
   display: inline-grid;
-  place-items: center;
-  width: 32px;
-  height: 40px;
-  color: var(--ui-text);
+  place-items: end center;
+  width: var(--slot);
+  height: calc(var(--slot) * 1.45);
+  padding-bottom: 6px;
   font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: 700;
+  font-size: calc(var(--slot) * 1.05);
+  font-weight: 800;
   line-height: 1;
+  text-transform: lowercase;
 }
 
-.slot {
-  border-bottom: 3px solid var(--ui-divider);
+.slot::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--card-line, var(--ui-divider));
+  transition: background-color 0.2s;
 }
 
-.slot[data-visible] {
-  border-bottom-color: var(--ui-blue-mid);
+.slot[data-state="hint"] {
+  color: var(--card-accent, var(--ui-blue));
 }
 
-.slot[data-hint] {
-  color: var(--ui-blue);
+.slot[data-state="hint"]::after {
+  background: var(--card-accent, var(--ui-blue));
+}
+
+.slot[data-state="typed"] {
+  animation: pop 0.16s;
+}
+
+.slot[data-state="typed"]::after {
+  background: var(--card-ink, var(--ui-text));
+}
+
+.slot[data-state="shown"] {
+  animation: flip 0.45s both;
+}
+
+.slot[data-state="shown"]::after {
+  background: var(--card-ink, var(--ui-text));
+}
+
+.slot[data-state="miss"] {
+  color: var(--card-bad, var(--ui-rose));
+  animation: flip 0.45s both;
+}
+
+.slot[data-state="miss"]::after {
+  background: var(--card-bad, var(--ui-rose));
 }
 
 .mark {
@@ -35,22 +84,56 @@
 }
 
 .gap {
-  width: 14px;
+  width: calc(var(--slot) * 0.5);
+}
+
+[data-study-layout="landscape"] .slots {
+  --slot: 38px;
+  gap: 12px;
+}
+
+[data-study-layout="landscape"] .slots[data-size="small"] {
+  --slot: 30px;
+  gap: 10px;
+}
+
+[data-study-layout="landscape"] .slots[data-size="tiny"] {
+  --slot: 24px;
+  gap: 8px;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.82);
+  }
+}
+
+@keyframes flip {
+  from {
+    opacity: 0;
+    transform: rotateX(90deg) translateY(-6px);
+  }
 }
 
 @media (max-width: 600px) {
-  .slot,
-  .mark {
-    width: 24px;
-    height: 34px;
-    font-size: var(--text-lg);
+  .slots {
+    --slot: 25px;
+    gap: 8px;
   }
 
-  .mark {
-    width: auto;
+  .slots[data-size="small"] {
+    --slot: 20px;
+    gap: 6px;
   }
 
-  .gap {
-    width: 10px;
+  .slots[data-size="tiny"] {
+    --slot: 16px;
+    gap: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slot[data-state] {
+    animation: none !important;
   }
 }

@@ -5,11 +5,12 @@ import type { CSSProperties } from "react";
  * A stage container sets these `--tone-*` variables once (see `stageToneStyle`); shared components
  * (ProgressBar tone="tone", Eyebrow accent, NumberTile bar, ButtonGlyph/Button variant "tone",
  * Badge tone "tone") and the vocabulary components read them, with the navy family as fallback.
+ * Every value is a token, so the tones follow the colour mode (see globals.css).
  */
 export type StageTone = "navy" | "green" | "amber" | "pink" | "plum";
 
 interface ToneTokens {
-  /** Filled surfaces (selected stage card, next lesson tile, map node). */
+  /** Filled surfaces (selected stage row, next lesson tile, map node); deep in both modes. */
   fill: string;
   /** Text and icons on `fill`: white, or ink on yellow. */
   onFill: string;
@@ -19,22 +20,22 @@ interface ToneTokens {
   line: string;
   /** Text on `soft`, eyebrows. */
   strong: string;
-  /** Progress bars and accents on light surfaces. */
+  /** Progress bars and accents on page surfaces (light tint in dark mode). */
   bar: string;
 }
 
 const TONES: Record<StageTone, ToneTokens> = {
   navy: {
     fill: "var(--ui-navy)",
-    onFill: "#ffffff",
+    onFill: "var(--ui-on-fill)",
     soft: "var(--ui-blue-soft)",
     line: "var(--ui-blue-line)",
     strong: "var(--ui-blue-strong)",
     bar: "var(--ui-blue)",
   },
   green: {
-    fill: "var(--ui-green)",
-    onFill: "#ffffff",
+    fill: "var(--ui-green-fill)",
+    onFill: "var(--ui-on-fill)",
     soft: "var(--ui-green-soft)",
     line: "var(--ui-green-line)",
     strong: "var(--ui-green)",
@@ -49,16 +50,16 @@ const TONES: Record<StageTone, ToneTokens> = {
     bar: "var(--ui-mark-strong)",
   },
   pink: {
-    fill: "var(--ui-pink)",
-    onFill: "#ffffff",
+    fill: "var(--ui-pink-fill)",
+    onFill: "var(--ui-on-fill)",
     soft: "var(--ui-pink-soft)",
     line: "var(--ui-pink-line)",
     strong: "var(--ui-pink-strong)",
     bar: "var(--ui-pink)",
   },
   plum: {
-    fill: "var(--ui-rose)",
-    onFill: "#ffffff",
+    fill: "var(--ui-rose-fill)",
+    onFill: "var(--ui-on-fill)",
     soft: "var(--ui-rose-soft)",
     line: "var(--ui-rose-line)",
     strong: "var(--ui-rose-strong)",

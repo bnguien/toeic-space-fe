@@ -1,75 +1,21 @@
-/* Covers the landing navbar: the session is a focus layout. */
-.shell {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  overflow-y: auto;
-  isolation: isolate;
-  background: var(--ui-canvas);
-  color: var(--ui-text);
-  font-size: var(--text-base);
-  line-height: var(--leading-normal);
-}
-
-.bar {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  width: 100%;
-  max-width: calc(720px + 2 * var(--page-pad));
-  margin: 0 auto;
-  padding: var(--space-3) var(--page-pad);
-  background: var(--ui-canvas);
-}
-
-.progress {
-  flex: 1;
-}
-
-.count {
-  min-width: 48px;
-  color: var(--ui-muted);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.stage {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  align-content: center;
-  gap: var(--space-4);
-  width: 100%;
-  max-width: calc(720px + 2 * var(--page-pad));
-  margin: 0 auto;
-  padding: var(--space-4) var(--page-pad) var(--space-8);
-}
-
+/* Floats over the stage bottom so the card keeps its place. */
 .error {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-5);
+  z-index: 5;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--ui-rose-line);
-  border-radius: var(--radius-xl);
+  width: max-content;
+  max-width: calc(100% - 2 * var(--space-4));
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border: 1.5px solid var(--ui-ink);
+  border-radius: var(--radius-full);
   background: var(--ui-rose-soft);
+  box-shadow: 0 4px 0 rgb(37 44 63 / 0.3);
   color: var(--ui-rose-strong);
   font-size: var(--text-sm);
-  font-weight: 600;
-}
-
-@media (max-width: 600px) {
-  .stage {
-    align-content: start;
-    padding-bottom: var(--space-6);
-  }
+  font-weight: 700;
+  transform: translateX(-50%);
 }

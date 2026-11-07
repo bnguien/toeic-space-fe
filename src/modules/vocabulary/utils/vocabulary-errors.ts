@@ -14,6 +14,11 @@ const CODE_MESSAGES: Record<string, string> = {
   folder_name_taken: "Tên thư mục đã tồn tại.",
   saved_word_not_found: "Không tìm thấy từ đã lưu.",
   word_not_custom: "Chỉ sửa được từ tự thêm.",
+  custom_word_exists: "Bạn đã có từ này với từ loại đó.",
+  study_session_empty: "Chưa có từ để học.",
+  study_session_not_active: "Phiên học đã kết thúc.",
+  study_session_word_mismatch: "Thẻ đã đổi, hãy tải lại.",
+  validation_error: "Dữ liệu chưa hợp lệ.",
 };
 
 export const getErrorStatus = (error: unknown): number | undefined =>

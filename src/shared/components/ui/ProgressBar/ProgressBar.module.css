@@ -40,7 +40,7 @@
 }
 
 .track[data-inverted] {
-  --bar-track: rgb(255 255 255 / 0.22);
+  --bar-track: color-mix(in srgb, var(--ui-on-fill) 22%, transparent);
 }
 
 .fill {

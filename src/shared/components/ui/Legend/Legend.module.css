@@ -12,8 +12,8 @@
 }
 
 .legend[data-inverted] {
-  --legend-fg: rgb(255 255 255 / 0.8);
-  --legend-strong: #ffffff;
+  --legend-fg: color-mix(in srgb, var(--ui-on-fill) 80%, transparent);
+  --legend-strong: var(--ui-on-fill);
 }
 
 .item {

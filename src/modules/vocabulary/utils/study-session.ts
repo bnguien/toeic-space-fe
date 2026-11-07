@@ -33,11 +33,27 @@ export const needsReview = (grade: ReviewGrade): boolean =>
 /** Quiz: Good if the first pick is correct, otherwise Forget. */
 export const quizGrade = (correct: boolean): ReviewGrade => (correct ? "Good" : "Forget");
 
-/** Reel: Good if typed correctly, Hard if typed wrong, Seen when time ran out without input. */
+/** Reel: Good if typed correctly, Forget if typed wrong, Seen when time ran out without input. */
 export const reelGrade = (typed: string | null, headword: string): ReviewGrade => {
   if (typed === null) return "Seen";
-  return normalizeAnswer(typed) === normalizeAnswer(headword) ? "Good" : "Hard";
+  return normalizeAnswer(typed) === normalizeAnswer(headword) ? "Good" : "Forget";
 };
+
+export const isLetter = (char: string): boolean => /[\p{L}\p{N}]/u.test(char);
+
+/** Hinted letters: the first of each token, plus its last one when `last` is set. */
+export function hintIndexes(word: string, { first, last }: { first: boolean; last: boolean }) {
+  const chars = Array.from(word);
+  const hints = new Set<number>();
+  chars.forEach((char, index) => {
+    if (!isLetter(char)) return;
+    const startsToken = index === 0 || !isLetter(chars[index - 1]);
+    const endsToken = index === chars.length - 1 || !isLetter(chars[index + 1]);
+    if (first && startsToken) hints.add(index);
+    if (last && endsToken && !startsToken) hints.add(index);
+  });
+  return hints;
+}
 
 export const normalizeAnswer = (value: string): string =>
   value.trim().toLowerCase().replace(/\s+/g, " ").replace(/[’`]/g, "'");

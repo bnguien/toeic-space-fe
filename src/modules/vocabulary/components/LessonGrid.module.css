@@ -1,5 +1,6 @@
 .section {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-5);
 }
 
@@ -13,6 +14,18 @@
 
 .toolbar {
   flex: 0 1 auto;
+}
+
+/* Status tabs stay on one line; on a phone they scroll sideways instead of breaking labels. */
+.filter {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter > * {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .progress {

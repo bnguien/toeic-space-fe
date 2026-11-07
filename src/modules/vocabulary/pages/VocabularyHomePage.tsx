@@ -19,11 +19,13 @@ import { FolderDialog } from "../components/FolderDialog";
 import { LessonGrid } from "../components/LessonGrid";
 import { LibrarySidebar } from "../components/LibrarySidebar";
 import { LibraryView } from "../components/LibraryView";
+import { MistakesView } from "../components/MistakesView";
 import { SidebarPanel } from "../components/SidebarPanel";
 import { SidebarRail } from "../components/SidebarRail";
 import { SidebarToolbar, type WorkspaceView } from "../components/SidebarToolbar";
 import { StageList, type StageStation } from "../components/StageList";
 import { VocabularyIntro } from "../components/VocabularyIntro";
+import { WordEditProvider } from "../components/WordEditProvider";
 import { useDeleteFolder } from "../hooks/useDeleteFolder";
 import { useIsLearner } from "../hooks/useIsLearner";
 import { useLearnerSummary } from "../hooks/useLearnerSummary";
@@ -53,9 +55,13 @@ const toScope = (selection: string): LibraryScope =>
       ? { kind: "unfiled" }
       : { kind: "folder", folderId: selection };
 
+/** Smart library rows that are not folders. */
+const MISTAKES = "mistakes";
+
 /**
  * `/vocabulary` workspace. Only the URL decides what the main area shows:
- * no params = the "Học từ vựng" overview, `?stage=` = a stage, `?view=library[&folder=]` = "Của tôi".
+ * no params = the "Học từ vựng" overview, `?stage=` = a stage, `?view=library[&folder=]` = "Của tôi"
+ * (`folder=mistakes` = "Từ sai").
  * The remembered last stage is only marked in the sidebar.
  */
 export function VocabularyHomePage() {
@@ -86,6 +92,7 @@ export function VocabularyHomePage() {
   const folderExists =
     !folderParam ||
     folderParam === "unfiled" ||
+    folderParam === MISTAKES ||
     !libraryQuery.data ||
     libraryQuery.data.folders.some((folder) => folder.id === folderParam);
   const selection = folderParam && folderExists ? folderParam : "all";
@@ -110,7 +117,7 @@ export function VocabularyHomePage() {
   };
   const showOverview = () => go({});
   const selectFolder = (id: string) => {
-    update({ lastView: "Library", lastFolderId: id === "all" ? null : id });
+    update({ lastView: "Library", lastFolderId: id === "all" || id === MISTAKES ? null : id });
     go(id === "all" ? { view: "library" } : { view: "library", folder: id });
   };
   const changeView = (next: WorkspaceView) => {
@@ -142,12 +149,14 @@ export function VocabularyHomePage() {
             onDeleteFolder={setFolderToDelete}
           />
         ) : (
-          <Skeleton shape="block" height={120} />
+          <div className={styles.sidebarLoading}>
+            <Skeleton shape="block" height={120} />
+          </div>
         )
       ) : stagesQuery.isPending ? (
         <div className={styles.sidebarLoading}>
           {Array.from({ length: 5 }, (_, index) => (
-            <Skeleton key={index} height={42} />
+            <Skeleton key={index} height={46} />
           ))}
         </div>
       ) : (
@@ -211,6 +220,7 @@ export function VocabularyHomePage() {
           />
         );
       }
+      if (selection === MISTAKES) return <MistakesView count={libraryQuery.data?.mistakes} />;
       return (
         <LibraryView
           key={selection}
@@ -272,13 +282,17 @@ export function VocabularyHomePage() {
       onCollapse={() => update({ sidebarCollapsed: true })}
       fontScale={preferences.fontScale}
     >
-      {main()}
+      <WordEditProvider>{main()}</WordEditProvider>
 
       {addingWords && (
         <AddWordsSheet
           open
           folders={libraryQuery.data?.folders ?? []}
-          initialFolderId={selection !== "all" && selection !== "unfiled" ? selection : undefined}
+          initialFolderId={
+            selection !== "all" && selection !== "unfiled" && selection !== MISTAKES
+              ? selection
+              : undefined
+          }
           onClose={() => setAddingWords(false)}
         />
       )}

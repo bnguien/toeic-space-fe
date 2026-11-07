@@ -18,7 +18,7 @@
 }
 
 .title {
-  color: var(--ui-navy);
+  color: var(--ui-navy-text);
   font-size: clamp(40px, 6vw, calc(72px * var(--font-scale, 1)));
   font-weight: 800;
   letter-spacing: 0.01em;

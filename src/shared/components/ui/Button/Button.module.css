@@ -103,7 +103,7 @@
 
 .button[data-variant="primary"] {
   --btn-bg: var(--ui-navy);
-  --btn-fg: #ffffff;
+  --btn-fg: var(--ui-on-fill);
   --btn-bg-hover: var(--ui-navy);
 }
 
@@ -115,7 +115,7 @@
 
 .button[data-variant="ink"] {
   --btn-bg: var(--ui-ink);
-  --btn-fg: #ffffff;
+  --btn-fg: var(--ui-on-fill);
   --btn-bg-hover: var(--ui-ink);
 }
 
@@ -125,7 +125,7 @@
   --btn-bg: transparent;
   --btn-fg: currentColor;
   --btn-line: currentColor;
-  --btn-bg-hover: rgb(127 127 127 / 0.12);
+  --btn-bg-hover: var(--ui-wash);
 }
 
 .button[data-variant="ghost"] {
@@ -169,7 +169,7 @@
   --btn-border-w: 1.5px;
   --btn-line: var(--ui-ink);
   --btn-bg: var(--tone-fill, var(--ui-navy));
-  --btn-fg: var(--tone-on-fill, #ffffff);
+  --btn-fg: var(--tone-on-fill, var(--ui-on-fill));
   --btn-bg-hover: var(--tone-fill, var(--ui-navy));
   --btn-shadow: 0 3px 0 var(--ui-ink);
   --btn-shadow-hover: 0 2px 0 var(--ui-ink);

@@ -7,12 +7,17 @@ import { useVocabularyPreferences } from "./useVocabularyPreferences";
 
 /** What to study: a whole source (all selected) or an explicit word list. */
 export type StudySelection =
-  { setId: string } | { folderId: string } | { library: true } | { wordIds: string[] };
+  | { setId: string }
+  | { folderId: string }
+  | { library: true }
+  | { mistakes: true }
+  | { wordIds: string[] };
 
 const toSearch = (selection: StudySelection): string => {
   if ("setId" in selection) return `set=${encodeURIComponent(selection.setId)}`;
   if ("folderId" in selection) return `folder=${encodeURIComponent(selection.folderId)}`;
   if ("library" in selection) return "library=1";
+  if ("mistakes" in selection) return "mistakes=1";
   return "words=1";
 };
 

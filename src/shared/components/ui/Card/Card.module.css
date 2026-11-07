@@ -31,7 +31,7 @@
   box-shadow: var(--ui-shadow-hard);
 }
 
-/* Outline: white with the same ink outline and hard shadow. */
+/* Outline: surface with the same ink outline and hard shadow. */
 .card[data-variant="outline"] {
   border: 1.5px solid var(--ui-ink);
   border-radius: 16px;
@@ -45,7 +45,7 @@
   border-radius: 16px;
   background: var(--ui-navy);
   box-shadow: none;
-  color: #ffffff;
+  color: var(--ui-on-fill);
 }
 
 .card[data-interactive] {

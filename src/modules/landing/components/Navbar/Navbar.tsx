@@ -10,9 +10,10 @@ import {
   IconRoadmap,
   IconSettings,
 } from "../icons/LandingIcons";
-import { User as IconUserProfile } from "lucide-react";
+import { Moon, Sun, User as IconUserProfile } from "lucide-react";
 import mascotLogo from "@/assets/mascot/oy2-hello.png";
 import { normalizeAvatarUrl } from "@/modules/profile";
+import { useColorMode, useColorModeScopeActive } from "@/shared/hooks/useColorMode";
 import { LANDING_NAV_ITEMS } from "../../constants";
 import styles from "./Navbar.module.css";
 
@@ -33,6 +34,8 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
   const logout = useLogout();
   const navigate = useNavigate();
   const location = useLocation();
+  const colorMode = useColorMode();
+  const colorModeScoped = useColorModeScopeActive();
 
   const isLogin = location.pathname.startsWith("/login") || location.pathname === "/admin/login";
   const isRegister = location.pathname.startsWith("/register");
@@ -333,6 +336,17 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
 
         {/* Right: Authentication Actions */}
         <div className={styles.authGroup}>
+          {colorModeScoped && (
+            <button
+              type="button"
+              className={styles.modeToggle}
+              onClick={colorMode.toggle}
+              aria-label={colorMode.mode === "dark" ? "Giao diện sáng" : "Giao diện tối"}
+              title={colorMode.mode === "dark" ? "Giao diện sáng" : "Giao diện tối"}
+            >
+              {colorMode.mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+          )}
           {sessionStatus === "restoring" && !user ? (
             <div className={styles.authSkeleton} aria-hidden="true" />
           ) : !user ? (
@@ -640,7 +654,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                 style={{
                   flex: 1,
                   textAlign: "center",
-                  background: activeAuthPosition === "login" ? undefined : "#f1f5f9",
+                  background: activeAuthPosition === "login" ? undefined : "var(--nav-neutral)",
                 }}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -654,7 +668,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                 style={{
                   flex: 1,
                   textAlign: "center",
-                  background: activeAuthPosition === "register" ? undefined : "#f1f5f9",
+                  background: activeAuthPosition === "register" ? undefined : "var(--nav-neutral)",
                 }}
                 onClick={() => setMobileMenuOpen(false)}
               >

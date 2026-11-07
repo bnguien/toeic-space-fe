@@ -1,4 +1,4 @@
-import { Folder, FolderPlus, Inbox, Library, Pencil, Trash2 } from "lucide-react";
+import { CircleX, Folder, FolderPlus, Inbox, Library, Pencil, Trash2 } from "lucide-react";
 
 import { Button, Menu, Skeleton } from "@/shared/components/ui";
 
@@ -7,7 +7,7 @@ import { formatCount } from "../utils/vocabulary-format";
 import styles from "./LibrarySidebar.module.css";
 import { SidebarRow } from "./SidebarRow";
 
-/** "all" | "unfiled" | folder id */
+/** "all" | "unfiled" | "mistakes" | folder id */
 export type LibrarySelection = string;
 
 interface LibrarySidebarProps {
@@ -32,9 +32,9 @@ export function LibrarySidebar({
 }: LibrarySidebarProps) {
   if (loading) {
     return (
-      <div className={styles.list} aria-busy="true">
+      <div className={styles.loading} aria-busy="true">
         {Array.from({ length: 4 }, (_, index) => (
-          <Skeleton key={index} height={40} />
+          <Skeleton key={index} height={46} />
         ))}
       </div>
     );
@@ -58,6 +58,13 @@ export function LibrarySidebar({
           meta={formatCount(library?.unfiled.wordCount ?? 0)}
           selected={value === "unfiled"}
           onClick={() => onChange("unfiled")}
+        />
+        <SidebarRow
+          leading={<CircleX size={14} />}
+          label="Từ sai"
+          meta={formatCount(library?.mistakes ?? 0)}
+          selected={value === "mistakes"}
+          onClick={() => onChange("mistakes")}
         />
         {folders.map((folder) => (
           <SidebarRow

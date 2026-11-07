@@ -1,11 +1,95 @@
+/* One button or one input row: a narrower footer in landscape. */
 .frame {
-  position: relative;
-  min-height: clamp(420px, 62vh, 560px);
-  overflow: hidden;
+  --footer-w: 560px;
+}
+
+.meaning {
+  color: var(--card-ink);
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.6vh, 38px);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.speaking {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--card-soft);
+  color: var(--card-ink);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.answerLine {
+  animation: rise 0.4s 0.15s both;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.phonetic {
+  color: var(--card-muted);
+  font-size: var(--text-md);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.form {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 var(--space-4);
   border: 1.5px solid var(--ui-ink);
-  border-radius: 18px;
-  background: var(--ui-cream);
-  box-shadow: var(--ui-shadow-hard);
-  /* Room for the hard shadow. */
-  margin-bottom: 6px;
+  border-radius: var(--radius-xl);
+  background: var(--ui-surface);
+  box-shadow: 0 3px 0 rgb(37 44 63 / 0.55);
+  color: var(--ui-text);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow:
+    0 3px 0 rgb(37 44 63 / 0.55),
+    var(--ui-focus);
+}
+
+[data-study-layout="landscape"] /* One button or one input row: a narrower footer in landscape. */
+.frame {
+  --footer-w: 560px;
+}
+
+.meaning {
+  font-size: clamp(36px, 6.4vh, 52px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .speaking,
+  .answerLine {
+    animation: none;
+  }
 }

@@ -13,6 +13,9 @@ export type PartOfSpeech =
   | "phrase"
   | "other";
 
+/** How the server serializes the enum ("Verb"); it reads either case. */
+export type PartOfSpeechWire = Capitalize<PartOfSpeech>;
+
 export type ProgressStatus = "New" | "Learning" | "Mastered";
 
 export type ReviewGrade = "Forget" | "Hard" | "Good" | "Easy" | "Seen";
@@ -54,13 +57,46 @@ export interface WordDto {
   id: string;
   headword: string;
   phonetic: string;
-  partOfSpeech: PartOfSpeech;
+  /** PascalCase from the server; normalise with `posKey`. */
+  partOfSpeech: PartOfSpeechWire | PartOfSpeech;
   meaningVi: string;
   definitionEn: string;
   example: string;
   exampleVi: string;
   cefr: string;
   synonyms: string[];
+  /** Learner's note (contract v4); null for guests. */
+  note?: string | null;
+  /** Fields the learner overrode (contract v4). */
+  personal?: PersonalField[] | null;
+  /** Shared values, present only when `personal` is non-empty. */
+  original?: WordOriginalDto | null;
+}
+
+/* ---------- Personal word edits (contract v4, section A) ---------- */
+
+export const PERSONAL_FIELDS = [
+  "phonetic",
+  "partOfSpeech",
+  "meaningVi",
+  "example",
+  "exampleVi",
+] as const;
+export type PersonalField = (typeof PERSONAL_FIELDS)[number];
+
+export type WordOriginalDto = Pick<WordDto, PersonalField>;
+
+/** `PUT me/word-edits/{wordId}`; only sent fields change, "" clears an override. */
+export interface WordEditRequest {
+  phonetic?: string;
+  partOfSpeech?: PartOfSpeechWire;
+  meaningVi?: string;
+  example?: string;
+  exampleVi?: string;
+  note?: string;
+  /** Clears every override first (the note stays unless sent). */
+  reset?: boolean;
+  tzOffset?: number;
 }
 
 export interface SetDetailDto {
@@ -135,6 +171,8 @@ export interface LearnerSummaryDto {
   /** Most recent active study session. */
   activeSession: ActiveSessionDto | null;
   dailyGoal: number;
+  /** Pending mistakes (contract v4). */
+  mistakes?: number;
 }
 
 export interface SetProgressDto {
@@ -154,7 +192,7 @@ export interface QuizQuestionDto {
   wordId: string;
   /** meaningVi of the answer. */
   prompt: string;
-  partOfSpeech: PartOfSpeech;
+  partOfSpeech: PartOfSpeechWire | PartOfSpeech;
   options: QuizOptionDto[];
 }
 
@@ -181,9 +219,13 @@ export interface ReelBackgroundDto {
   author: string;
 }
 
-/** Exactly one source: a lesson, due words, a library folder, or the whole library. */
+/** Exactly one source: a lesson, due words, a library folder, the whole library or mistakes. */
 export type StudyQueueParams =
-  { setId: string } | { due: true; limit?: number } | { folderId: string } | { library: true };
+  | { setId: string }
+  | { due: true; limit?: number }
+  | { folderId: string }
+  | { library: true }
+  | { mistakes: true };
 
 /** Learner progress counts used by stage stations and lesson tiles. */
 export interface ProgressCounts {
@@ -211,6 +253,8 @@ export interface LibraryDto {
   total: number;
   unfiled: LibraryCounts;
   folders: FolderDto[];
+  /** Pending mistakes (contract v4); missing on older servers. */
+  mistakes?: number;
 }
 
 export interface SavedWordDto {
@@ -233,6 +277,21 @@ export interface PagedResult<T> {
 /** Which words the library view shows. */
 export type LibraryScope =
   { kind: "all" } | { kind: "unfiled" } | { kind: "folder"; folderId: string };
+
+/* ---------- Mistakes (contract v4, section B) ---------- */
+
+export interface MistakeItemDto {
+  word: WordDto;
+  progress: ProgressDto;
+  savedWordId: string | null;
+  mistakeCount: number;
+  lastMistakeAt: string;
+}
+
+export interface MistakesQuery {
+  page?: number;
+  pageSize?: number;
+}
 
 export interface SavedWordsQuery {
   scope: LibraryScope;
@@ -270,7 +329,7 @@ export interface UpdateSavedWordRequest {
 
 /* ---------- Persisted sessions and preferences (contract v2, section C) ---------- */
 
-export type SessionSourceKind = "Set" | "Due" | "Folder" | "Library" | "Words";
+export type SessionSourceKind = "Set" | "Due" | "Folder" | "Library" | "Words" | "Mistakes";
 export type SessionStatus = "Active" | "Completed" | "Abandoned";
 
 export interface SessionSourceDto {
@@ -328,6 +387,7 @@ export type SessionSource =
   | { due: true; limit?: number }
   | { folderId: string }
   | { library: true }
+  | { mistakes: true }
   | { wordIds: string[] };
 
 export interface StartSessionRequest {
@@ -335,6 +395,7 @@ export interface StartSessionRequest {
   setId?: string;
   folderId?: string;
   library?: boolean;
+  mistakes?: boolean;
   due?: boolean;
   wordIds?: string[];
   limit?: number;
@@ -351,6 +412,51 @@ export interface SessionAnswerRequest {
 
 export type WorkspaceViewDto = "Roadmap" | "Library";
 
+/* ---------- Study settings (contract v4, section C) ---------- */
+
+export const REEL_SECONDS = [3, 5, 8, 12] as const;
+export const QUIZ_SECONDS = [0, 10, 15, 20, 30] as const;
+export const TICK_STYLES = [
+  "wood",
+  "mechanical",
+  "wall",
+  "digital",
+  "drop",
+  "drum",
+  "heart",
+  "off",
+] as const;
+export const CHIME_STYLES = ["bell", "game", "soft"] as const;
+export const CARD_STYLES = ["stage", "pastel", "night"] as const;
+
+export type TickStyle = (typeof TICK_STYLES)[number];
+export type ChimeStyle = (typeof CHIME_STYLES)[number];
+export type CardStyle = (typeof CARD_STYLES)[number];
+export type StudyBackdropKind = "video" | "ambient";
+export type StudyLayout = "portrait" | "landscape";
+
+export interface StudySettingsDto {
+  reelSeconds: (typeof REEL_SECONDS)[number];
+  /** 0 = no timer. */
+  quizSeconds: (typeof QUIZ_SECONDS)[number];
+  hintFirstLetter: boolean;
+  /** Reveal more letters near the end of the countdown. */
+  hintProgressive: boolean;
+  /** Also read the Vietnamese meaning. */
+  speakMeaning: boolean;
+  flashcardFront: "word" | "meaning";
+  showExample: boolean;
+  sfx: boolean;
+  /** 0.1 … 1, step 0.05. */
+  sfxVolume: number;
+  tickStyle: TickStyle;
+  chimeStyle: ChimeStyle;
+  backdrop: StudyBackdropKind;
+  cardStyle: CardStyle;
+  /** Study frame: 9:16 or 16:9 (phones always use portrait). */
+  layout: StudyLayout;
+}
+
 export interface PreferencesDto {
   fontScale: number;
   sidebarCollapsed: boolean;
@@ -364,8 +470,15 @@ export interface PreferencesDto {
   lastView: WorkspaceViewDto;
   lastFolderId: string | null;
   lastFolderPickerId: string | null;
+  /** Always present once normalized; older servers omit it. */
+  study: StudySettingsDto;
   updatedAt?: string;
 }
+
+/** `PUT me/preferences` body: top-level fields and a partial `study` object, merged by the server. */
+export type PreferencesPatch = Partial<Omit<PreferencesDto, "study">> & {
+  study?: Partial<StudySettingsDto>;
+};
 
 /** Router state of `/vocabulary/learn/:mode?words=1` (an explicit word list). */
 export interface WordsSessionState {
@@ -375,7 +488,8 @@ export interface WordsSessionState {
 /* ---------- "Thêm từ" enrichment (contract v3) ---------- */
 
 /** Where a looked-up field came from. */
-export type EnrichmentSource = "cache" | "catalog" | "dictionary" | "google" | "mymemory" | "ai";
+export type EnrichmentSource =
+  "cache" | "catalog" | "dictionary" | "google" | "mymemory" | "ai" | "personal";
 
 export type LookupField =
   "phonetic" | "partOfSpeech" | "meaningVi" | "definitionEn" | "example" | "exampleVi";

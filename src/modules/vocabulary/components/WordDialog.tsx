@@ -12,7 +12,7 @@ import type {
   SavedWordDto,
 } from "../types/vocabulary.types";
 import { getVocabularyErrorMessage } from "../utils/vocabulary-errors";
-import { POS_OPTIONS } from "../utils/vocabulary-format";
+import { POS_OPTIONS, posKey } from "../utils/vocabulary-format";
 import styles from "./WordDialog.module.css";
 
 const UNFILED = "unfiled";
@@ -55,7 +55,7 @@ export function WordDialog({
       ? {
           headword: savedWord.word.headword,
           phonetic: savedWord.word.phonetic,
-          partOfSpeech: savedWord.word.partOfSpeech,
+          partOfSpeech: posKey(savedWord.word.partOfSpeech),
           meaningVi: savedWord.word.meaningVi,
           definitionEn: savedWord.word.definitionEn,
           example: savedWord.word.example,

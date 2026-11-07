@@ -1,0 +1,37 @@
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Phonetic and part of speech share a row. */
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.original {
+  color: var(--ui-subtle);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.reset {
+  margin-right: auto;
+}
+
+.error {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--ui-rose-soft);
+  color: var(--ui-rose-strong);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+@media (max-width: 420px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

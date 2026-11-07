@@ -29,6 +29,7 @@ export function SelectionBar({
     <div
       className={cx(styles.bar, className)}
       data-sticky={sticky || undefined}
+      data-bottom-bar={sticky || undefined}
       role="region"
       aria-label="Lựa chọn"
     >

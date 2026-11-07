@@ -6,8 +6,8 @@ import styles from "./Card.module.css";
 export type CardPadding = "none" | "sm" | "md" | "lg";
 
 /**
- * surface: plain white card; paper: cream with ink outline and hard shadow;
- * outline: white with ink outline and hard shadow; panel: navy with light text.
+ * surface: plain card; paper: cream with ink outline and hard shadow;
+ * outline: surface with ink outline and hard shadow; panel: navy with light text.
  */
 export type CardVariant = "surface" | "paper" | "outline" | "panel";
 

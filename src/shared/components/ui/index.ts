@@ -9,6 +9,7 @@ export {
   type IconButtonProps,
 } from "./Button/Button";
 export { Card, type CardPadding, type CardProps, type CardVariant } from "./Card/Card";
+export { ChoiceGrid, type ChoiceGridProps, type ChoiceOption } from "./ChoiceGrid/ChoiceGrid";
 export {
   DataToolbar,
   type DataToolbarProps,
@@ -50,6 +51,7 @@ export { toast, useToastStore, type ToastItem } from "./Toast/toast-store";
 export { ToastViewport } from "./Toast/ToastViewport";
 export { Snowfall, type SnowfallProps } from "./Snowfall/Snowfall";
 export { Stat, type StatProps } from "./Stat/Stat";
+export { Switch, type SwitchProps } from "./Switch/Switch";
 export { EmptyState, type EmptyStateProps } from "./StatusView/EmptyState";
 export { ErrorState, type ErrorStateProps } from "./StatusView/ErrorState";
 export { cx, type ButtonVariant, type ControlSize, type Tone } from "./types";

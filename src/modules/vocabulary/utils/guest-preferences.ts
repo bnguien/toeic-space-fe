@@ -1,4 +1,5 @@
-import type { PreferencesDto } from "../types/vocabulary.types";
+import type { PreferencesDto, PreferencesPatch } from "../types/vocabulary.types";
+import { DEFAULT_STUDY_SETTINGS, mergePreferences, normalizePreferences } from "./study-settings";
 
 /** Values used until the server answers, and for guests. */
 export const DEFAULT_PREFERENCES: PreferencesDto = {
@@ -13,6 +14,7 @@ export const DEFAULT_PREFERENCES: PreferencesDto = {
   lastView: "Roadmap",
   lastFolderId: null,
   lastFolderPickerId: null,
+  study: DEFAULT_STUDY_SETTINGS,
 };
 
 export const FONT_SCALES = [0.875, 1, 1.125, 1.25] as const;
@@ -29,7 +31,9 @@ const read = (): PreferencesDto => {
   const base = { ...DEFAULT_PREFERENCES, snowfall: initialSnowfall() };
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? { ...base, ...(JSON.parse(raw) as Partial<PreferencesDto>) } : base;
+    return raw
+      ? normalizePreferences(mergePreferences(base, JSON.parse(raw) as PreferencesPatch))
+      : base;
   } catch {
     return base;
   }
@@ -47,8 +51,8 @@ export const guestPreferences = {
     snapshot ??= read();
     return snapshot;
   },
-  set: (patch: Partial<PreferencesDto>) => {
-    snapshot = { ...guestPreferences.get(), ...patch };
+  set: (patch: PreferencesPatch) => {
+    snapshot = mergePreferences(guestPreferences.get(), patch);
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
     } catch {

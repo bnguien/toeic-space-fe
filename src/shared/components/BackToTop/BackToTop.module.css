@@ -1,18 +1,30 @@
+/* A layout with a pinned right sidebar moves the button left of it via --back-to-top-right. */
 .backToTopBtn {
+  --back-to-top-bg: rgba(255, 255, 255, 0.9);
+  --back-to-top-line: rgba(191, 219, 254, 0.85);
+  --back-to-top-glow: rgba(37, 99, 235, 0.18);
+  --back-to-top-halo: rgba(255, 255, 255, 0.55);
+  --back-to-top-fg: #2563eb;
+  --back-to-top-fill: linear-gradient(135deg, #5b90d5 0%, #4477bb 100%);
+  --back-to-top-fill-line: #60a5fa;
+  --back-to-top-fill-glow: rgba(68, 119, 187, 0.45);
+  --back-to-top-fill-halo: rgba(255, 255, 255, 0.75);
+  --back-to-top-press-glow: rgba(68, 119, 187, 0.35);
+
   position: fixed;
   bottom: 32px;
-  right: 32px;
+  right: var(--back-to-top-right, 32px);
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--back-to-top-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(191, 219, 254, 0.85);
+  border: 1.5px solid var(--back-to-top-line);
   box-shadow:
-    0 10px 24px -4px rgba(37, 99, 235, 0.18),
-    0 0 0 4px rgba(255, 255, 255, 0.55);
-  color: #2563eb;
+    0 10px 24px -4px var(--back-to-top-glow),
+    0 0 0 4px var(--back-to-top-halo);
+  color: var(--back-to-top-fg);
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -25,6 +37,25 @@
   outline: none;
 }
 
+/* Pages that follow the colour mode (useColorModeScope). */
+:global([data-color-mode="dark"]) .backToTopBtn {
+  --back-to-top-bg: var(--ui-glass);
+  --back-to-top-line: var(--ui-blue-line);
+  --back-to-top-glow: rgb(0 0 0 / 0.5);
+  --back-to-top-halo: transparent;
+  --back-to-top-fg: var(--ui-blue);
+  --back-to-top-fill: var(--ui-accent-fill);
+  --back-to-top-fill-line: var(--ui-blue-mid);
+  --back-to-top-fill-glow: rgb(0 0 0 / 0.55);
+  --back-to-top-fill-halo: transparent;
+  --back-to-top-press-glow: rgb(0 0 0 / 0.45);
+}
+
+/* A sticky bar along the bottom of the page (data-bottom-bar) keeps its corner: sit above it. */
+:global(body:has([data-bottom-bar])) .backToTopBtn {
+  bottom: 96px;
+}
+
 .visible {
   opacity: 1;
   pointer-events: auto;
@@ -33,17 +64,17 @@
 
 .backToTopBtn:hover {
   transform: translateY(-4px) scale(1.08);
-  background: linear-gradient(135deg, #5b90d5 0%, #4477bb 100%);
-  color: #ffffff;
-  border-color: #60a5fa;
+  background: var(--back-to-top-fill);
+  color: var(--ui-on-fill);
+  border-color: var(--back-to-top-fill-line);
   box-shadow:
-    0 14px 28px -2px rgba(68, 119, 187, 0.45),
-    0 0 0 5px rgba(255, 255, 255, 0.75);
+    0 14px 28px -2px var(--back-to-top-fill-glow),
+    0 0 0 5px var(--back-to-top-fill-halo);
 }
 
 .backToTopBtn:active {
   transform: translateY(-1px) scale(0.96);
-  box-shadow: 0 6px 16px -2px rgba(68, 119, 187, 0.35);
+  box-shadow: 0 6px 16px -2px var(--back-to-top-press-glow);
 }
 
 .icon {
@@ -60,5 +91,9 @@
     right: 20px;
     width: 42px;
     height: 42px;
+  }
+
+  :global(body:has([data-bottom-bar])) .backToTopBtn {
+    bottom: 136px;
   }
 }

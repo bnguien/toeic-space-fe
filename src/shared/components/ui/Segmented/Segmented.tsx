@@ -16,7 +16,7 @@ export interface SegmentedProps<T extends string> {
   onChange: (value: T) => void;
   label: string;
   size?: "sm" | "md";
-  /** solid: navy active pill (learner); subtle: white active tab (admin lists). */
+  /** solid: navy active pill (learner); subtle: raised active tab (admin lists). */
   variant?: "solid" | "subtle";
   className?: string;
 }

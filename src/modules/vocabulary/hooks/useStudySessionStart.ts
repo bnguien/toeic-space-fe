@@ -4,7 +4,7 @@ import { vocabularyApi } from "../api/vocabulary.api";
 import { vocabularyQueryKeys } from "../api/vocabulary.query-keys";
 import type { ReviewMode, SessionSource, StudySessionDto } from "../types/vocabulary.types";
 import { getTzOffset } from "../utils/time";
-import { shouldRetryQuery } from "../utils/vocabulary-errors";
+import { getErrorStatus, shouldRetryQuery } from "../utils/vocabulary-errors";
 
 export type SessionTarget =
   { kind: "source"; mode: ReviewMode; source: SessionSource } | { kind: "id"; sessionId: string };
@@ -21,9 +21,11 @@ export function useStudySessionStart(target: SessionTarget, run: number) {
 
   return useQuery<StudySessionDto>({
     queryKey,
-    queryFn: ({ signal }) =>
+    // Read the abort signal only for the GET: a start must never be cancelled and re-sent on a
+    // remount (StrictMode), because starting a word-list session again abandons the first one.
+    queryFn: (context) =>
       target.kind === "id" && run === 0
-        ? vocabularyApi.getSession(target.sessionId, signal)
+        ? vocabularyApi.getSession(target.sessionId, context.signal)
         : vocabularyApi.startSession({
             ...(target.kind === "source"
               ? { mode: target.mode, ...target.source }
@@ -36,6 +38,8 @@ export function useStudySessionStart(target: SessionTarget, run: number) {
     refetchOnMount: "always",
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    retry: shouldRetryQuery,
+    // Two starts racing for the same source: the loser gets 409; once more resumes the winner's.
+    retry: (failureCount, error) =>
+      getErrorStatus(error) === 409 ? failureCount < 1 : shouldRetryQuery(failureCount, error),
   });
 }

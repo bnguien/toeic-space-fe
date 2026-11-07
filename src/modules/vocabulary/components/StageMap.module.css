@@ -31,7 +31,7 @@
   border-radius: 50%;
   background: var(--tone-fill, var(--ui-navy));
   box-shadow: 4px 4px 0 var(--ui-cream-shadow);
-  color: var(--tone-on-fill, #ffffff);
+  color: var(--tone-on-fill, var(--ui-on-fill));
   text-align: center;
   transition:
     transform 0.12s ease,

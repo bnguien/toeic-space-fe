@@ -3,17 +3,19 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { vocabularyApi } from "../api/vocabulary.api";
 import { vocabularyQueryKeys } from "../api/vocabulary.query-keys";
-import type { PreferencesDto } from "../types/vocabulary.types";
+import type { PreferencesDto, PreferencesPatch } from "../types/vocabulary.types";
 import { guestPreferences } from "../utils/guest-preferences";
+import { mergePreferences, normalizePreferences } from "../utils/study-settings";
 import { shouldRetryQuery } from "../utils/vocabulary-errors";
 import { useIsLearner } from "./useIsLearner";
 
 const SAVE_DELAY_MS = 600;
 const KEY = vocabularyQueryKeys.preferences();
+const SERVER_FALLBACK = guestPreferences.serverFallback();
 
 /**
  * Vocabulary preferences. Signed-in learners read `me/preferences` and write through a debounced,
- * optimistic PUT; guests use the local fallback store.
+ * optimistic PUT; guests use the local fallback store. `study` always carries every setting.
  */
 export function useVocabularyPreferences() {
   const { signedIn, resolving } = useIsLearner();
@@ -27,19 +29,22 @@ export function useVocabularyPreferences() {
   const query = useQuery({
     queryKey: KEY,
     queryFn: ({ signal }) => vocabularyApi.getPreferences(signal),
+    select: normalizePreferences,
     enabled: signedIn,
     staleTime: Infinity,
     retry: shouldRetryQuery,
   });
 
-  const pending = useRef<Partial<PreferencesDto>>({});
+  const pending = useRef<PreferencesPatch>({});
   const timer = useRef<number | undefined>(undefined);
 
   const { mutate } = useMutation({
-    mutationFn: (patch: Partial<PreferencesDto>) => vocabularyApi.updatePreferences(patch),
-    // Keep changes made while the request was in flight.
+    mutationFn: (patch: PreferencesPatch) => vocabularyApi.updatePreferences(patch),
+    // Keep changes made while the request was in flight; a server without `study` keeps ours.
     onSuccess: (saved) =>
-      queryClient.setQueryData<PreferencesDto>(KEY, { ...saved, ...pending.current }),
+      queryClient.setQueryData<PreferencesDto>(KEY, (current) =>
+        mergePreferences({ ...saved, study: saved.study ?? current?.study }, pending.current),
+      ),
   });
 
   const flush = useCallback(() => {
@@ -53,22 +58,22 @@ export function useVocabularyPreferences() {
   useEffect(() => flush, [flush]);
 
   const update = useCallback(
-    (patch: Partial<PreferencesDto>) => {
+    (patch: PreferencesPatch) => {
       if (!signedIn) {
         guestPreferences.set(patch);
         return;
       }
       queryClient.setQueryData<PreferencesDto>(KEY, (current) =>
-        current ? { ...current, ...patch } : current,
+        current ? mergePreferences(current, patch) : current,
       );
-      pending.current = { ...pending.current, ...patch };
+      pending.current = mergePreferences(pending.current, patch);
       window.clearTimeout(timer.current);
       timer.current = window.setTimeout(flush, SAVE_DELAY_MS);
     },
     [signedIn, queryClient, flush],
   );
 
-  const preferences = signedIn ? (query.data ?? guestPreferences.serverFallback()) : guest;
+  const preferences = signedIn ? (query.data ?? SERVER_FALLBACK) : guest;
   const ready = signedIn ? !query.isPending : !resolving;
 
   return { preferences, ready, update };

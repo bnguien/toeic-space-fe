@@ -9,7 +9,7 @@ interface FlipCardProps {
   onFlip: () => void;
 }
 
-/** Two-sided card; clicking anywhere flips it (inner buttons stop propagation). */
+/** Two-sided 3D container filling its parent; clicking flips it (inner buttons stop propagation). */
 export function FlipCard({ front, back, flipped, onFlip }: FlipCardProps) {
   return (
     <div className={styles.scene} data-flipped={flipped || undefined} onClick={onFlip}>

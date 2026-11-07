@@ -1,6 +1,7 @@
 .viewport {
   position: fixed;
-  right: var(--space-4);
+  /* A layout with a pinned right sidebar moves toasts left of it via --toast-right. */
+  right: var(--toast-right, var(--space-4));
   bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
   z-index: 80;
   display: grid;

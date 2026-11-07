@@ -1,10 +1,31 @@
-.card {
-  display: grid;
-  gap: var(--space-4);
+.frontMeaning,
+.meaning {
+  color: var(--card-ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
-.controls {
-  display: grid;
-  min-height: 64px;
-  align-items: center;
+.frontMeaning {
+  font-size: clamp(28px, 4.6vh, 38px);
+}
+
+.meaning {
+  font-size: var(--text-xl);
+}
+
+.definition {
+  color: var(--card-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+[data-study-layout="landscape"] .frontMeaning {
+  font-size: clamp(34px, 6vh, 48px);
+}
+
+[data-study-layout="landscape"] .meaning {
+  font-size: var(--text-2xl);
 }

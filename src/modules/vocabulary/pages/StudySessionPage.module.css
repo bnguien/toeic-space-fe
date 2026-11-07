@@ -1,9 +1,25 @@
+/* Loading, error and empty states inside the portrait frame. */
+.panel {
+  display: grid;
+  align-content: center;
+  height: 100%;
+  min-height: 0;
+  padding: var(--space-5);
+  overflow-y: auto;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 24px;
+  background: var(--ui-surface);
+  box-shadow: 6px 6px 0 rgb(37 44 63 / 0.28);
+}
+
 .loading {
   display: grid;
+  justify-items: center;
   gap: var(--space-5);
 }
 
-.snow[data-active] {
-  background: var(--ui-blue-soft);
-  color: var(--ui-blue-strong);
+@media (max-width: 600px) {
+  .panel {
+    border-radius: 20px;
+  }
 }

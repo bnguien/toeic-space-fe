@@ -1,4 +1,5 @@
 import type {
+  MistakesQuery,
   ReviewMode,
   SavedWordsQuery,
   SessionSource,
@@ -20,6 +21,10 @@ export const vocabularyQueryKeys = {
   studyQueue: (params: StudyQueueParams) =>
     [...vocabularyQueryKeys.me(), "study-queue", params] as const,
   library: () => [...vocabularyQueryKeys.me(), "library"] as const,
+  mistakes: (query?: MistakesQuery) =>
+    query
+      ? ([...vocabularyQueryKeys.me(), "mistakes", query] as const)
+      : ([...vocabularyQueryKeys.me(), "mistakes"] as const),
   lookup: (text: string, allowAi: boolean) =>
     [...vocabularyQueryKeys.all, "lookup", text, allowAi] as const,
   /** Outside `me` so progress invalidation never refetches it. */

@@ -28,10 +28,10 @@
     var(--ui-focus);
 }
 
-/* The next lesson: filled with the stage tone (white, or ink on yellow). */
+/* The next lesson: filled with the stage tone (white text, or ink on yellow). */
 .tile[data-state="next"] {
   background: var(--tone-fill, var(--ui-navy));
-  color: var(--tone-on-fill, #ffffff);
+  color: var(--tone-on-fill, var(--ui-on-fill));
 }
 
 /* Finished lessons: dashed outline, no shadow. */

@@ -43,7 +43,7 @@
 /* Active: navy pill, as the admin time-range filter. */
 .option[data-active] {
   background: var(--ui-navy);
-  color: #ffffff;
+  color: var(--ui-on-fill);
 }
 
 .count {
@@ -53,7 +53,7 @@
 }
 
 .option[data-active] .count {
-  color: rgb(255 255 255 / 0.75);
+  color: color-mix(in srgb, var(--ui-on-fill) 75%, transparent);
 }
 
 @media (pointer: coarse) {
@@ -62,7 +62,7 @@
   }
 }
 
-/* Subtle: the admin list tabs (white active tab, blue text). */
+/* Subtle: the admin list tabs (surface active tab, blue text). */
 .group[data-variant="subtle"] {
   flex-wrap: nowrap;
   gap: 0;

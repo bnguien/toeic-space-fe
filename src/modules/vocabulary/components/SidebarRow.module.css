@@ -1,3 +1,4 @@
+/* Full-width row of the flush sidebar: no box, no outline; the selected row is a tone band. */
 .row {
   position: relative;
   display: flex;
@@ -9,13 +10,11 @@
   display: flex;
   flex: 1;
   align-items: center;
-  gap: var(--space-2);
+  gap: 10px;
   min-width: 0;
-  min-height: 42px;
-  padding: 0 var(--space-3) 0 var(--space-2);
+  min-height: 54px;
+  padding: 0 var(--space-4);
   overflow: hidden;
-  border: 1px solid transparent;
-  border-radius: var(--radius-lg);
   background: transparent;
   color: var(--ui-text);
   font-size: 13px;
@@ -24,7 +23,7 @@
 }
 
 .row[data-trailing] .button {
-  padding-right: 40px;
+  padding-right: 44px;
 }
 
 .button:hover {
@@ -32,16 +31,16 @@
 }
 
 .button:focus-visible {
-  outline: none;
-  box-shadow: var(--ui-focus);
+  outline: 2px solid var(--ui-blue-mid);
+  outline-offset: -2px;
 }
 
 .row[data-selected] .button {
-  border-color: var(--ui-ink);
   background: var(--tone-fill, var(--ui-navy));
-  color: var(--tone-on-fill, #ffffff);
+  color: var(--tone-on-fill, var(--ui-on-fill));
 }
 
+/* Remembered last choice: a tone mark along the sidebar's left edge. */
 .row[data-recent] .button {
   box-shadow: inset 3px 0 0 var(--tone-fill, var(--ui-navy));
 }
@@ -62,7 +61,7 @@
 }
 
 .row[data-selected] .leading {
-  background: rgb(255 255 255 / 0.22);
+  background: color-mix(in srgb, var(--ui-on-fill) 22%, transparent);
   color: inherit;
 }
 
@@ -90,12 +89,12 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Thin progress line along the bottom edge. */
+/* Thin progress line on the bottom edge, from the label to the right padding. */
 .bar {
   position: absolute;
-  right: var(--space-2);
-  bottom: 3px;
-  left: 40px;
+  right: var(--space-4);
+  bottom: 0;
+  left: calc(var(--space-4) + 36px);
   height: 2px;
   border-radius: 2px;
   background: var(--ui-line);
@@ -111,7 +110,7 @@
 }
 
 .row[data-selected] .bar {
-  background: rgb(255 255 255 / 0.25);
+  background: color-mix(in srgb, var(--ui-on-fill) 25%, transparent);
 }
 
 .row[data-selected] .bar::after {
@@ -120,10 +119,17 @@
 
 .trailing {
   position: absolute;
-  right: 4px;
+  right: var(--space-2);
   display: inline-flex;
 }
 
+/* The control on the band (folder menu trigger, not its list) takes the band's text colour. */
 .row[data-selected] .trailing {
-  color: var(--tone-on-fill, #ffffff);
+  color: var(--tone-on-fill, var(--ui-on-fill));
+}
+
+.row[data-selected] .trailing > * > button,
+.row[data-selected] .trailing > * > button:hover {
+  --btn-bg-hover: color-mix(in srgb, var(--ui-on-fill) 18%, transparent);
+  color: inherit;
 }

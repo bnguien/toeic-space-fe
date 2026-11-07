@@ -17,7 +17,10 @@ import type {
   FolderDto,
   LearnerSummaryDto,
   LibraryDto,
+  MistakeItemDto,
+  MistakesQuery,
   PagedResult,
+  PreferencesPatch,
   QuizQuestionDto,
   ReelBackgroundDto,
   ReviewRequest,
@@ -32,6 +35,7 @@ import type {
   StudyItemDto,
   StudyQueueParams,
   UpdateSavedWordRequest,
+  WordEditRequest,
 } from "../types/vocabulary.types";
 import { getTzOffset } from "../utils/time";
 
@@ -43,6 +47,7 @@ const toQueueQuery = (params: StudyQueueParams): Record<string, string | number 
   if ("setId" in params) return { setId: params.setId };
   if ("folderId" in params) return { folderId: params.folderId };
   if ("library" in params) return { library: true };
+  if ("mistakes" in params) return { mistakes: true };
   return { due: true, ...(params.limit ? { limit: params.limit } : {}) };
 };
 
@@ -91,7 +96,7 @@ export const vocabularyApi = {
       )
     ).data,
 
-  /** GET me/study-queue — authenticated; exactly one of setId, due, folderId or library. */
+  /** GET me/study-queue — authenticated; exactly one of setId, due, folderId, library or mistakes. */
   getStudyQueue: async (
     params: StudyQueueParams,
     signal?: AbortSignal,
@@ -172,6 +177,26 @@ export const vocabularyApi = {
     (await httpClient.put<SavedWordDto>(`${ME}/words/${encodeURIComponent(savedWordId)}`, body))
       .data,
 
+  /**
+   * PUT me/word-edits/{wordId} — the learner's own version of a word; shared data never
+   * changes. Creates an unfiled library entry for an official word that is not saved yet.
+   */
+  updateWordEdit: async (wordId: string, body: WordEditRequest): Promise<SavedWordDto> =>
+    (await httpClient.put<SavedWordDto>(`${ME}/word-edits/${encodeURIComponent(wordId)}`, body))
+      .data,
+
+  /** GET me/mistakes — words answered wrong and not yet answered right, newest first. */
+  getMistakes: async (
+    { page, pageSize }: MistakesQuery,
+    signal?: AbortSignal,
+  ): Promise<PagedResult<MistakeItemDto>> =>
+    (
+      await httpClient.get<PagedResult<MistakeItemDto>>(`${ME}/mistakes`, {
+        params: { page: page ?? 1, pageSize: pageSize ?? 100, tzOffset: getTzOffset() },
+        signal,
+      })
+    ).data,
+
   /** DELETE me/words/{savedWordId} */
   removeSavedWord: async (savedWordId: string): Promise<void> => {
     await httpClient.delete(`${ME}/words/${encodeURIComponent(savedWordId)}`);
@@ -213,8 +238,8 @@ export const vocabularyApi = {
   getPreferences: async (signal?: AbortSignal): Promise<PreferencesDto> =>
     (await httpClient.get<PreferencesDto>(`${ME}/preferences`, { signal })).data,
 
-  /** PUT me/preferences — partial update. */
-  updatePreferences: async (patch: Partial<PreferencesDto>): Promise<PreferencesDto> =>
+  /** PUT me/preferences — partial update; `study` is merged field by field. */
+  updatePreferences: async (patch: PreferencesPatch): Promise<PreferencesDto> =>
     (await httpClient.put<PreferencesDto>(`${ME}/preferences`, patch)).data,
 
   /** POST lookup — enrichment of one word or phrase (AI only when `allowAi`). */

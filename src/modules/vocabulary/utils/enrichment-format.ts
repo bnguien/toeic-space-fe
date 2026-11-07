@@ -1,6 +1,6 @@
 import type { Tone } from "@/shared/components/ui";
 
-import type { PartOfSpeech } from "../types/vocabulary.types";
+import type { PartOfSpeech, SavedWordDto } from "../types/vocabulary.types";
 
 interface SourceView {
   label: string;
@@ -14,6 +14,8 @@ const SOURCES: Record<string, SourceView> = {
   google: { label: "Google", tone: "pearl" },
   mymemory: { label: "Dịch", tone: "pearl" },
   ai: { label: "AI", tone: "pink" },
+  /** The learner's own edit of the word. */
+  personal: { label: "Của tôi", tone: "rose" },
 };
 
 export const describeSource = (source: string | undefined): SourceView | undefined =>
@@ -51,8 +53,10 @@ const KNOWN_POS = new Set<PartOfSpeech>([
 ]);
 
 /** Server POS → our enum (the server already normalises; this guards the select). */
-export const toPartOfSpeech = (value: string | undefined | null): PartOfSpeech =>
-  value && KNOWN_POS.has(value as PartOfSpeech) ? (value as PartOfSpeech) : "other";
+export const toPartOfSpeech = (value: string | undefined | null): PartOfSpeech => {
+  const key = (value ?? "").toLowerCase() as PartOfSpeech;
+  return KNOWN_POS.has(key) ? key : "other";
+};
 
 /** Labels of rejected lines / failed rows by server code. */
 const CODE_LABELS: Record<string, string> = {
@@ -67,3 +71,8 @@ const CODE_LABELS: Record<string, string> = {
 };
 
 export const describeCode = (code: string): string => CODE_LABELS[code] ?? code;
+
+/** A custom word with an empty field that AI can fill. */
+export const canAiFill = ({ isCustom, word }: SavedWordDto): boolean =>
+  isCustom &&
+  [word.phonetic, word.definitionEn, word.example, word.exampleVi].some((value) => !value?.trim());

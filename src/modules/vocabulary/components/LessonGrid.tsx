@@ -92,6 +92,7 @@ export function LessonGrid({ stage, signedIn, progress, onBack }: LessonGridProp
             leading={
               <Segmented
                 variant="subtle"
+                className={styles.filter}
                 label="Trạng thái bài học"
                 value={filter}
                 onChange={setFilter}

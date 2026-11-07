@@ -30,9 +30,9 @@
 }
 
 .tile[data-inverted] {
-  --tile-fg: #ffffff;
-  --tile-muted: rgb(255 255 255 / 0.78);
-  --tile-label: rgb(255 255 255 / 0.78);
+  --tile-fg: var(--ui-on-fill);
+  --tile-muted: color-mix(in srgb, var(--ui-on-fill) 78%, transparent);
+  --tile-label: color-mix(in srgb, var(--ui-on-fill) 78%, transparent);
 }
 
 .label {

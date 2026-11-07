@@ -1,63 +1,109 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 
 import { Button, Kbd } from "@/shared/components/ui";
 import { useHotkeys } from "@/shared/hooks/useHotkeys";
+import { sfx } from "@/shared/utils/sfx";
 
-import type { SchedulePreviewDto, SelfGrade, WordDto } from "../types/vocabulary.types";
 import { speak, stopSpeaking } from "../utils/speech";
-import { FlipCard } from "./FlipCard";
+import { formatPartOfSpeechName } from "../utils/vocabulary-format";
+import { CardColumns, CardExample, CardNote, CardSynonyms, CardWordLine } from "./CardParts";
 import styles from "./FlashcardCard.module.css";
+import { FlipCard } from "./FlipCard";
 import { GradeBar } from "./GradeBar";
-import { WordView } from "./WordView";
-
-interface FlashcardCardProps {
-  word: WordDto;
-  preview: SchedulePreviewDto;
-  saving: boolean;
-  onGrade: (grade: SelfGrade) => void;
-  /** Speak the headword when the card appears. */
-  autoPlay?: boolean;
-  /** Extra control on the back side (e.g. the save toggle). */
-  backExtra?: ReactNode;
-}
+import { CardChip, StudyCard } from "./StudyCard";
+import { StudyFrame } from "./StudyFrame";
+import { StudyRail } from "./StudyRail";
+import type { StudyModeProps } from "./StudySession";
 
 /** Flashcard mode for one card; remount per card to reset the flip. */
-export function FlashcardCard({
-  word,
-  preview,
-  saving,
-  onGrade,
-  autoPlay = true,
-  backExtra,
-}: FlashcardCardProps) {
+export function FlashcardCard({ card, theme, settings, autoPlay }: StudyModeProps) {
+  const { item } = card;
+  const { word } = item;
   const [flipped, setFlipped] = useState(false);
-  const flip = () => setFlipped((value) => !value);
+  const meaningFront = settings.flashcardFront === "meaning";
 
   useEffect(() => {
-    if (!autoPlay) return;
+    if (!autoPlay || meaningFront) return;
     speak(word.headword, "en-US");
     return stopSpeaking;
-  }, [word.headword, autoPlay]);
+  }, [word.headword, autoPlay, meaningFront]);
+
+  const flip = () => {
+    if (!flipped) {
+      sfx.play("reveal");
+      if (autoPlay && meaningFront) speak(word.headword, "en-US");
+    }
+    setFlipped(!flipped);
+  };
+
+  const listen = () => {
+    if (meaningFront && !flipped) speak(word.meaningVi, "vi-VN");
+    else speak(word.headword, "en-US");
+  };
 
   useHotkeys((event) => {
     if (event.key === " " || event.key === "Enter") {
       event.preventDefault();
       flip();
+    } else if (event.key.toLowerCase() === "r") {
+      event.preventDefault();
+      listen();
     }
-  });
+  }, !card.paused);
+
+  const chips = (
+    <>
+      <CardChip>{formatPartOfSpeechName(word.partOfSpeech)}</CardChip>
+      {word.cefr && <CardChip>{word.cefr}</CardChip>}
+    </>
+  );
+
+  const front = (
+    <StudyCard theme={theme} cardStyle={settings.cardStyle} head={chips}>
+      {meaningFront ? (
+        <p className={styles.frontMeaning}>{word.meaningVi}</p>
+      ) : (
+        <CardWordLine word={word} size="lg" />
+      )}
+    </StudyCard>
+  );
+
+  const back = (
+    <StudyCard theme={theme} cardStyle={settings.cardStyle} head={chips}>
+      <CardColumns
+        start={
+          <>
+            <CardWordLine word={word} />
+            <p className={styles.meaning}>{word.meaningVi}</p>
+            {word.definitionEn && (
+              <p className={styles.definition} lang="en">
+                {word.definitionEn}
+              </p>
+            )}
+          </>
+        }
+        end={
+          <>
+            {settings.showExample && <CardExample word={word} />}
+            <CardSynonyms synonyms={word.synonyms} />
+            <CardNote note={word.note} />
+          </>
+        }
+      />
+    </StudyCard>
+  );
 
   return (
-    <div className={styles.card}>
-      <FlipCard
-        flipped={flipped}
-        onFlip={flip}
-        front={<WordView word={word} density="card" hideMeaning />}
-        back={<WordView word={word} density="sheet" aside={backExtra} />}
-      />
-      <div className={styles.controls}>
-        {flipped ? (
-          <GradeBar preview={preview} onGrade={onGrade} disabled={saving} />
+    <StudyFrame
+      rail={<StudyRail word={word} savedWordId={item.savedWordId} onAudio={listen} />}
+      footer={
+        flipped ? (
+          <GradeBar
+            preview={card.preview}
+            onGrade={(grade) => card.answer(grade)}
+            disabled={card.saving || card.paused}
+          />
         ) : (
           <Button
             variant="primary"
@@ -69,8 +115,10 @@ export function FlashcardCard({
           >
             Lật thẻ
           </Button>
-        )}
-      </div>
-    </div>
+        )
+      }
+    >
+      <FlipCard flipped={flipped} onFlip={flip} front={front} back={back} />
+    </StudyFrame>
   );
 }

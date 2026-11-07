@@ -3,40 +3,41 @@ import { ExternalLink } from "lucide-react";
 
 import { usePrefersReducedMotion } from "@/shared/hooks/usePrefersReducedMotion";
 
-import type { ReelBackgroundDto } from "../types/vocabulary.types";
-import styles from "./ReelBackdrop.module.css";
+import type { ReelBackgroundDto, StudyBackdropKind } from "../types/vocabulary.types";
+import styles from "./StudyBackdrop.module.css";
 
-interface ReelBackdropProps {
+interface StudyBackdropProps {
+  kind: StudyBackdropKind;
   backgrounds: ReelBackgroundDto[];
-  /** Advances to the next background, e.g. the card position. */
-  index: number;
+  /** Scene number; a new value cross-fades to another clip. */
+  scene: number;
 }
 
 interface Layers {
-  /** Fully visible video under the incoming one. */
+  /** Fully visible clip under the incoming one. */
   below: string | null;
-  /** Latest video that became playable; fades in over `below`. */
+  /** Latest clip that became playable; fades in over `below`. */
   top: string | null;
 }
 
 /**
- * Muted looping background video that cross-fades between clips. Broken URLs are skipped;
- * with no playable clip the frame keeps its plain surface. Reduced motion shows posters only.
+ * Full-viewport layer behind a study session: a muted looping nature clip that cross-fades
+ * between scenes under a dim scrim, or a soft ambient wash of the app colours. Broken clips are
+ * skipped; with none playable the ambient wash shows. Reduced motion shows still posters.
  */
-export function ReelBackdrop({ backgrounds, index }: ReelBackdropProps) {
+export function StudyBackdrop({ kind, backgrounds, scene }: StudyBackdropProps) {
   const reducedMotion = usePrefersReducedMotion();
   const [broken, setBroken] = useState<ReadonlySet<string>>(() => new Set());
   const [layers, setLayers] = useState<Layers>({ below: null, top: null });
 
-  const playable = backgrounds.filter((background) => !broken.has(background.id));
-  const candidate = playable.length > 0 ? playable[index % playable.length] : undefined;
+  const playable =
+    kind === "video" ? backgrounds.filter((background) => !broken.has(background.id)) : [];
+  const candidate = playable.length > 0 ? playable[scene % playable.length] : undefined;
 
-  const byId = (id: string | null) => backgrounds.find((background) => background.id === id);
+  const byId = (id: string | null) => playable.find((background) => background.id === id);
   const shown = [byId(layers.below), byId(layers.top), candidate].filter(
     (background, position, list): background is ReelBackgroundDto =>
-      !!background &&
-      !broken.has(background.id) &&
-      list.findIndex((other) => other?.id === background.id) === position,
+      !!background && list.findIndex((other) => other?.id === background.id) === position,
   );
   const credit = byId(layers.top);
 
@@ -53,7 +54,13 @@ export function ReelBackdrop({ backgrounds, index }: ReelBackdropProps) {
   };
 
   return (
-    <div className={styles.backdrop} aria-hidden={!credit}>
+    <div className={styles.backdrop} data-video={credit ? true : undefined}>
+      <div className={styles.ambient} aria-hidden="true">
+        <i />
+        <i />
+        <i />
+        <i />
+      </div>
       {shown.map((background) => {
         const ready = background.id === layers.top || background.id === layers.below;
         const layer = background.id === layers.below ? "below" : "top";
@@ -81,12 +88,13 @@ export function ReelBackdrop({ backgrounds, index }: ReelBackdropProps) {
             loop
             playsInline
             preload="auto"
+            aria-hidden="true"
             onCanPlay={() => handleReady(background.id)}
             onError={() => handleError(background.id)}
           />
         );
       })}
-      {credit && <div className={styles.scrim} />}
+      {credit && <div className={styles.scrim} aria-hidden="true" />}
       {credit && (
         <a className={styles.credit} href={credit.pageUrl} target="_blank" rel="noreferrer">
           {credit.author}

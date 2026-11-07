@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, FolderInput, GraduationCap, Plus, Trash2 } from "lucide-react";
+import { FolderInput, GraduationCap, Pencil, Plus, Trash2 } from "lucide-react";
 
 import emptyMascot from "@/assets/mascot/oy2-empty.png";
 import errorMascot from "@/assets/mascot/oy2-error.png";
@@ -7,15 +7,13 @@ import searchMascot from "@/assets/mascot/oy2-search.png";
 import {
   Badge,
   Button,
-  ButtonLink,
   ConfirmDialog,
-  DataToolbar,
   EmptyState,
   ErrorState,
   IconButton,
+  Menu,
   SelectionBar,
-  Skeleton,
-  type FilterField,
+  type MenuItem,
 } from "@/shared/components/ui";
 import { useSelection } from "@/shared/hooks/useSelection";
 
@@ -23,24 +21,21 @@ import { useRemoveSavedWords } from "../hooks/useRemoveSavedWords";
 import { useSavedWords } from "../hooks/useSavedWords";
 import { useStartStudy, type StudySelection } from "../hooks/useStartStudy";
 import type { LibraryDto, LibraryScope, SavedWordDto } from "../types/vocabulary.types";
+import { canAiFill } from "../utils/enrichment-format";
 import { getVocabularyErrorMessage } from "../utils/vocabulary-errors";
-import { describeProgress, formatCount } from "../utils/vocabulary-format";
+import { describeProgress } from "../utils/vocabulary-format";
+import { AiFillButton } from "./AiFillButton";
 import styles from "./LibraryView.module.css";
+import { LibraryHeader } from "./LibraryHeader";
 import { MoveWordDialog } from "./MoveWordDialog";
-import { SavedWordCard } from "./SavedWordCard";
+import { Pager } from "./Pager";
 import { StudyModeChooser } from "./StudyModeChooser";
 import { WordDialog } from "./WordDialog";
+import { WordEditButton } from "./WordEditButton";
+import { WordGrid, WordGridSkeleton } from "./WordGrid";
+import { WordTile } from "./WordTile";
 
 const PAGE_SIZE = 60;
-
-/** Client-side status filter over the loaded page (the API filters by scope and search). */
-const STATUS_FILTER: FilterField["options"] = [
-  { value: "", label: "Tất cả" },
-  { value: "Mới", label: "Mới" },
-  { value: "Đang học", label: "Đang học" },
-  { value: "Đã thuộc", label: "Đã thuộc" },
-  { value: "Đến hạn", label: "Đến hạn" },
-];
 
 type Dialog =
   | { kind: "edit"; saved: SavedWordDto }
@@ -62,8 +57,8 @@ const scopeTitle = (scope: LibraryScope, library: LibraryDto | undefined): strin
 };
 
 /**
- * "Của tôi": saved and custom words of one scope. Studying starts from a selection
- * (selection bar → mode chooser). Remount per scope (key).
+ * "Của tôi": saved and custom words of one scope as a grid of word tiles. Studying starts from a
+ * selection (selection bar → mode chooser). Remount per scope (key).
  */
 export function LibraryView({ scope, library, onAddWords }: LibraryViewProps) {
   const [search, setSearch] = useState("");
@@ -75,7 +70,6 @@ export function LibraryView({ scope, library, onAddWords }: LibraryViewProps) {
 
   const wordsQuery = useSavedWords({ scope, search, page, pageSize: PAGE_SIZE }, true);
   const folders = library?.folders ?? [];
-  const folderNames = new Map(folders.map((folder) => [folder.id, folder.name]));
   const loaded = wordsQuery.data?.items ?? [];
   const items = status
     ? loaded.filter((saved) => describeProgress(saved.progress).label === status)
@@ -106,39 +100,61 @@ export function LibraryView({ scope, library, onAddWords }: LibraryViewProps) {
     setPage(1);
     selection.clear();
   };
+  const changeStatus = (value: string) => {
+    setStatus(value);
+    selection.clear();
+  };
+  const clearFilters = () => {
+    changeSearch("");
+    setStatus("");
+  };
+  const changePage = (next: number) => {
+    setPage(next);
+    selection.clear();
+  };
+
+  const menuItems = (saved: SavedWordDto): MenuItem[] => [
+    ...(saved.isCustom
+      ? [
+          {
+            label: "Sửa từ",
+            icon: <Pencil size={14} />,
+            onSelect: () => setDialog({ kind: "edit", saved }),
+          } satisfies MenuItem,
+        ]
+      : []),
+    {
+      label: "Chuyển thư mục",
+      icon: <FolderInput size={14} />,
+      onSelect: () => setDialog({ kind: "move", saved: [saved] }),
+    },
+    {
+      label: saved.isCustom ? "Xoá từ" : "Bỏ lưu",
+      icon: <Trash2 size={14} />,
+      tone: "danger",
+      onSelect: () => setDialog({ kind: "remove", saved: [saved] }),
+    },
+  ];
 
   return (
     <section className={styles.view} aria-labelledby="library-title">
-      <div className={styles.head}>
-        <h1 id="library-title" className={styles.title}>
-          {scopeTitle(scope, library)}
-        </h1>
-        <Badge size="md">{formatCount(scopeCount)} từ</Badge>
-        <DataToolbar
-          className={styles.toolbar}
-          search={search}
-          onSearch={changeSearch}
-          placeholder="Tìm từ hoặc nghĩa"
-          filters={[{ key: "status", label: "Trạng thái", value: status, options: STATUS_FILTER }]}
-          onFilterChange={(_, value) => {
-            setStatus(value);
-            selection.clear();
-          }}
-          onClearFilters={() => setStatus("")}
-          trailing={
-            <Button variant="tone" icon={<Plus size={16} />} onClick={onAddWords}>
-              Thêm từ
-            </Button>
-          }
-        />
-      </div>
+      <LibraryHeader
+        titleId="library-title"
+        title={scopeTitle(scope, library)}
+        count={scopeCount}
+        search={search}
+        onSearch={changeSearch}
+        status={status}
+        onStatusChange={changeStatus}
+        trailing={
+          <Button variant="tone" icon={<Plus size={16} />} onClick={onAddWords}>
+            Thêm từ
+          </Button>
+        }
+      />
 
       {wordsQuery.isPending ? (
-        <div className={styles.grid} aria-busy="true">
-          {Array.from({ length: 6 }, (_, index) => (
-            <Skeleton key={index} shape="block" height={200} />
-          ))}
-        </div>
+        <WordGridSkeleton />
       ) : wordsQuery.isError ? (
         <ErrorState
           image={errorMascot}
@@ -147,75 +163,58 @@ export function LibraryView({ scope, library, onAddWords }: LibraryViewProps) {
         />
       ) : items.length === 0 ? (
         search.trim() || status ? (
-          <EmptyState image={searchMascot} title="Không tìm thấy từ" />
+          <EmptyState
+            image={searchMascot}
+            title="Không tìm thấy từ"
+            action={
+              <Button variant="outline" onClick={clearFilters}>
+                Bỏ lọc
+              </Button>
+            }
+          />
         ) : (
           <EmptyState
             image={emptyMascot}
             title="Chưa có từ nào"
             action={
-              <>
-                <Button variant="primary" icon={<Plus size={16} />} onClick={onAddWords}>
-                  Thêm từ
-                </Button>
-                <ButtonLink to="/vocabulary" variant="outline">
-                  Bộ từ vựng
-                </ButtonLink>
-              </>
+              <Button variant="primary" icon={<Plus size={16} />} onClick={onAddWords}>
+                Thêm từ
+              </Button>
             }
           />
         )
       ) : (
         <>
-          <ul className={styles.grid} data-stale={wordsQuery.isPlaceholderData || undefined}>
-            {items.map((saved) => (
-              <li key={saved.id}>
-                <SavedWordCard
-                  saved={saved}
-                  folderName={
-                    scope.kind === "folder" || !saved.folderId
-                      ? undefined
-                      : folderNames.get(saved.folderId)
-                  }
-                  selected={selection.isSelected(saved.id)}
-                  selecting={selection.count > 0}
-                  onToggleSelect={(range) => selection.toggle(saved.id, range)}
-                  onEdit={() => setDialog({ kind: "edit", saved })}
-                  onMove={() => setDialog({ kind: "move", saved: [saved] })}
-                  onRemove={() => setDialog({ kind: "remove", saved: [saved] })}
-                />
-              </li>
-            ))}
-          </ul>
+          <WordGrid label={scopeTitle(scope, library)} stale={wordsQuery.isPlaceholderData}>
+            {items.map((saved) => {
+              const progress = describeProgress(saved.progress);
+              return (
+                <li key={saved.id}>
+                  <WordTile
+                    word={saved.word}
+                    status={
+                      <>
+                        <Badge tone={progress.tone}>{progress.label}</Badge>
+                        {saved.isCustom && <Badge tone="pink">Tự thêm</Badge>}
+                      </>
+                    }
+                    actions={
+                      <>
+                        {canAiFill(saved) && <AiFillButton saved={saved} />}
+                        <WordEditButton word={{ ...saved.word, note: saved.note }} />
+                        <Menu label={`Thao tác ${saved.word.headword}`} items={menuItems(saved)} />
+                      </>
+                    }
+                    selected={selection.isSelected(saved.id)}
+                    selecting={selection.count > 0}
+                    onToggleSelect={(range) => selection.toggle(saved.id, range)}
+                  />
+                </li>
+              );
+            })}
+          </WordGrid>
 
-          {pageCount > 1 && (
-            <nav className={styles.pager} aria-label="Trang">
-              <IconButton
-                label="Trang trước"
-                variant="outline"
-                disabled={page <= 1}
-                onClick={() => {
-                  setPage((value) => value - 1);
-                  selection.clear();
-                }}
-              >
-                <ChevronLeft size={18} />
-              </IconButton>
-              <span className={styles.pageLabel}>
-                {page}/{pageCount}
-              </span>
-              <IconButton
-                label="Trang sau"
-                variant="outline"
-                disabled={page >= pageCount}
-                onClick={() => {
-                  setPage((value) => value + 1);
-                  selection.clear();
-                }}
-              >
-                <ChevronRight size={18} />
-              </IconButton>
-            </nav>
-          )}
+          <Pager page={page} pageCount={pageCount} onChange={changePage} />
 
           {selection.count > 0 && (
             <SelectionBar

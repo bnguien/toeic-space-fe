@@ -2,6 +2,7 @@ import type { Tone } from "@/shared/components/ui";
 
 import type {
   PartOfSpeech,
+  PartOfSpeechWire,
   ProgressCounts,
   ProgressDto,
   SetProgressDto,
@@ -40,8 +41,23 @@ const POS_LABELS: Record<PartOfSpeech, string> = {
   other: "other",
 };
 
-export const formatPartOfSpeech = (pos: PartOfSpeech | string): string =>
-  POS_LABELS[pos as PartOfSpeech] ?? pos;
+const isPartOfSpeech = (value: string): value is PartOfSpeech => value in POS_LABELS;
+
+/** Our lowercase key of a server enum ("Verb" → "verb"); unknown values become "other". */
+export const posKey = (value: string | null | undefined): PartOfSpeech => {
+  const key = (value ?? "").trim().toLowerCase();
+  return isPartOfSpeech(key) ? key : "other";
+};
+
+/** The enum as the server writes it ("verb" → "Verb"). */
+export const posWire = (pos: PartOfSpeech): PartOfSpeechWire =>
+  `${pos.charAt(0).toUpperCase()}${pos.slice(1)}` as PartOfSpeechWire;
+
+/** Short label ("v", "n"…) of a part of speech in either case; free text passes through. */
+export const formatPartOfSpeech = (pos: string): string => {
+  const key = pos.trim().toLowerCase();
+  return isPartOfSpeech(key) ? POS_LABELS[key] : pos;
+};
 
 const POS_NAMES: Record<PartOfSpeech, string> = {
   noun: "Danh từ",
@@ -56,6 +72,9 @@ const POS_NAMES: Record<PartOfSpeech, string> = {
   phrase: "Cụm từ",
   other: "Khác",
 };
+
+/** Full Vietnamese name ("Động từ") of a part of speech in either case. */
+export const formatPartOfSpeechName = (pos: string): string => POS_NAMES[posKey(pos)];
 
 /** Options of the part-of-speech select. */
 export const POS_OPTIONS = (Object.keys(POS_NAMES) as PartOfSpeech[]).map((value) => ({
