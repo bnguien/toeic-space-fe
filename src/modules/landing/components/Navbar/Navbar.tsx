@@ -212,15 +212,29 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
     };
   }, []);
 
-  const handleLinkClick = (targetId: string, path?: string) => {
+  /**
+   * `isRoute`: `path` is an app route (a top-level item such as Vocab, or a dropdown `route` such as the games).
+   * Other dropdown `path`s are landing placeholders that scroll to their section, except the practice page.
+   */
+  const handleLinkClick = (targetId: string, path?: string, isRoute = false) => {
     if (navCloseTimeoutRef.current) {
       clearTimeout(navCloseTimeoutRef.current);
     }
     setOpenNavKey(null);
     setMobileMenuOpen(false);
-    if (path) {
+    if (isRoute && path) {
       navigate(path);
-    } else if (onNavClick) {
+      return;
+    }
+    if (path === "/practice/parts") {
+      navigate(path);
+      return;
+    }
+    if (targetId === "courses") {
+      navigate("/courses");
+      return;
+    }
+    if (onNavClick) {
       onNavClick(targetId);
     } else {
       let element = document.getElementById(targetId);
@@ -303,7 +317,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                     className={styles.navLink}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleLinkClick(item.targetId, item.path);
+                      handleLinkClick(item.targetId, item.path, true);
                     }}
                   >
                     {item.label}
@@ -319,7 +333,9 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                         type="button"
                         className={styles.navDropdownItem}
                         role="menuitem"
-                        onClick={() => handleLinkClick(sub.targetId, sub.route)}
+                        onClick={() =>
+                          handleLinkClick(sub.targetId, sub.route ?? sub.path, Boolean(sub.route))
+                        }
                       >
                         <span className={styles.navDropdownTitle}>{sub.label}</span>
                         {sub.description && (
@@ -601,7 +617,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                   className={styles.mobileNavLink}
                   onClick={(e) => {
                     e.preventDefault();
-                    handleLinkClick(item.targetId, item.path);
+                    handleLinkClick(item.targetId, item.path, true);
                   }}
                 >
                   {item.label}
@@ -633,7 +649,9 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                         key={sub.label}
                         type="button"
                         className={styles.mobileNavSubLink}
-                        onClick={() => handleLinkClick(sub.targetId, sub.route)}
+                        onClick={() =>
+                          handleLinkClick(sub.targetId, sub.route ?? sub.path, Boolean(sub.route))
+                        }
                       >
                         {sub.label}
                       </button>

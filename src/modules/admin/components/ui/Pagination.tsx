@@ -21,9 +21,17 @@ export interface PaginationProps {
   total: number;
   pageSize: number;
   onChange: (page: number) => void;
+  showSinglePage?: boolean;
 }
 
-export function Pagination({ page, pages, total, pageSize, onChange }: PaginationProps) {
+export function Pagination({
+  page,
+  pages,
+  total,
+  pageSize,
+  onChange,
+  showSinglePage = false,
+}: PaginationProps) {
   const lastPage = Math.max(1, pages);
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const to = Math.min(total, page * pageSize);
@@ -34,7 +42,7 @@ export function Pagination({ page, pages, total, pageSize, onChange }: Paginatio
         {from.toLocaleString("vi-VN")}–{to.toLocaleString("vi-VN")} /{" "}
         {total.toLocaleString("vi-VN")}
       </span>
-      {lastPage > 1 && (
+      {(lastPage > 1 || showSinglePage) && (
         <div className={styles.pages}>
           <button
             type="button"

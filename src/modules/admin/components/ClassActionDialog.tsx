@@ -36,7 +36,9 @@ export function ClassActionDialog({
         onMouseDown={(event) => event.stopPropagation()}
       >
         <div className={styles.modalHeader}>
-          <h2 id="class-action-title">{confirmation.title}</h2>
+          <h2 id="class-action-title" title={confirmation.title}>
+            {confirmation.title}
+          </h2>
           <button
             type="button"
             className={styles.iconButton}

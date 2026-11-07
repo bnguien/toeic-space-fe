@@ -45,7 +45,7 @@ export const LANDING_NAV_ITEMS: NavItem[] = [
   },
   {
     label: "Khóa học",
-    href: "#courses",
+    href: "/courses",
     targetId: "courses",
   },
   {

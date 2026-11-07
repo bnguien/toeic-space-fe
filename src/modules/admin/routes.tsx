@@ -11,6 +11,9 @@ import { AdminSectionPage } from "./pages/AdminSectionPage";
 import { ClassesPage } from "./pages/ClassesPage";
 import { ClassesOverviewPage } from "./pages/ClassesOverviewPage";
 import { ClassesLifecyclePage } from "./pages/ClassesLifecyclePage";
+import { CoursesPage } from "./pages/CoursesPage";
+import { CoursesOverviewPage } from "./pages/CoursesOverviewPage";
+import { CoursesLifecyclePage } from "./pages/CoursesLifecyclePage";
 import { UserDetailRedirect } from "./pages/UserDetailRedirect";
 import { UserListPage } from "./pages/UserListPage";
 import { UserOverviewPage } from "./pages/UserOverviewPage";
@@ -62,6 +65,14 @@ export const adminRoutes: RouteObject[] = [
           { path: "users/:userId", element: <UserDetailRedirect /> },
         ],
       },
+
+      /* Khóa học */
+      { path: "courses", element: <CoursesOverviewPage /> },
+      { path: "courses/list", element: <CoursesPage /> },
+      { path: "courses/list/:id", element: <CoursesPage /> },
+      { path: "courses/lifecycle", element: <CoursesLifecyclePage /> },
+      { path: "courses/lifecycle/:id", element: <CoursesLifecyclePage /> },
+      { path: "courses/archived", element: <Navigate to="/admin/courses/lifecycle" replace /> },
 
       /* Lớp học */
       { path: "classes", element: <ClassesOverviewPage /> },

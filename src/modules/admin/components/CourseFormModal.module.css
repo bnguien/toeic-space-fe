@@ -1,0 +1,271 @@
+.tagSection {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tagHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #4e6177;
+  font-weight: 700;
+}
+
+.tagCount {
+  font-size: 0.7rem;
+  color: #7a8ea0;
+  font-weight: 500;
+}
+
+.tagInputRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tagInputRow input {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  padding: 0 0.75rem;
+  border: 1px solid #dbe7ec;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #3a4a63;
+  background: #fff;
+}
+
+.tagInputRow input:focus {
+  outline: 2px solid #365e82;
+  outline-offset: -1px;
+}
+
+.tagAddButton {
+  min-height: 38px;
+  padding: 0 0.9rem;
+  background: #eef4f8;
+  color: #305474;
+  border: 1px solid #c9dae5;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.18s ease;
+}
+
+.tagAddButton:hover:not(:disabled) {
+  background: #dfeaf1;
+  color: #223f58;
+}
+
+.tagAddButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+  min-height: 24px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 100%;
+  padding: 0.25rem 0.55rem;
+  background: #f0f5f9;
+  border: 1px solid #d5e2eb;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  color: #344c64;
+}
+
+.chipText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 320px;
+}
+
+.chipRemove {
+  background: transparent;
+  border: 0;
+  color: #71889c;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  line-height: 1;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  transition: 0.15s ease;
+}
+
+.chipRemove:hover {
+  color: #a43a4e;
+  background: #fce7ec;
+}
+
+.thumbnailContainer {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.thumbnailContainer label {
+  font-size: 0.75rem;
+  color: #4e6177;
+  font-weight: 700;
+}
+
+.thumbnailBox {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.75rem;
+  border: 1px dashed #c8d8e4;
+  border-radius: 8px;
+  background: #fbfdfd;
+}
+
+.thumbnailPreview {
+  width: 120px;
+  height: 75px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #d2dfe8;
+  background: #eef3f7;
+  flex-shrink: 0;
+}
+
+.thumbnailPlaceholder {
+  width: 120px;
+  height: 75px;
+  border-radius: 6px;
+  border: 1px dashed #cbd8e2;
+  background: #f4f8fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #8da4b6;
+  font-size: 0.68rem;
+  text-align: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.thumbnailActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.uploadBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  padding: 0.45rem 0.85rem;
+  background: #fff;
+  border: 1px solid #cbd9e3;
+  border-radius: 6px;
+  font-size: 0.77rem;
+  font-weight: 700;
+  color: #3b5670;
+  cursor: pointer;
+  transition: 0.18s ease;
+}
+
+.uploadBtn:hover:not(:disabled) {
+  background: #f0f7fb;
+  border-color: #92b8d0;
+}
+
+.uploadBtn input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.removeThumbBtn {
+  background: transparent;
+  border: 0;
+  color: #aa4d61;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: fit-content;
+  padding: 0.1rem 0;
+}
+
+.removeThumbBtn:hover {
+  text-decoration: underline;
+}
+
+.thumbnailHint {
+  font-size: 0.7rem;
+  color: #7a8ea0;
+}
+
+.uploadProgress {
+  font-size: 0.72rem;
+  color: #366085;
+  font-weight: 600;
+}
+
+.uploadError {
+  font-size: 0.72rem;
+  color: #b3394a;
+  font-weight: 600;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+.clearAllButton {
+  background: transparent;
+  border: 0;
+  color: #aa4d61;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.clearAllButton:hover {
+  text-decoration: underline;
+}
+
+.fieldError {
+  display: block;
+  color: #c75068;
+  font-size: 0.72rem;
+  margin-top: 0.2rem;
+}

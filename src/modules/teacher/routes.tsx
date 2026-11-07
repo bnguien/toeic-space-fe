@@ -1,4 +1,5 @@
 import type { RouteObject } from "react-router-dom";
+import { PracticeSetEditorPage, PracticeSetManagementPage } from "@/modules/practice";
 import { RequireAuth } from "@/modules/auth";
 import { TeacherLayout } from "./components/TeacherLayout";
 import { TeacherClassesPage } from "./pages/TeacherClassesPage";
@@ -17,6 +18,9 @@ export const teacherRoutes: RouteObject[] = [
     ),
     children: [
       { index: true, element: <TeacherDashboardPage /> },
+      { path: "practice-sets", element: <PracticeSetManagementPage /> },
+      { path: "practice-sets/create", element: <PracticeSetEditorPage /> },
+      { path: "practice-sets/:id/edit", element: <PracticeSetEditorPage /> },
       { path: "classes", element: <TeacherClassesPage /> },
       { path: "courses", element: <TeacherMockPage title="Khóa học" /> },
       { path: "assignments", element: <TeacherMockPage title="Bài tập" /> },
