@@ -3,6 +3,8 @@ export interface NavDropdownItem {
   description?: string;
   targetId: string;
   path?: string;
+  /** App route opened by the item; items without it scroll to `targetId`. */
+  route?: string;
 }
 
 export interface NavItem {

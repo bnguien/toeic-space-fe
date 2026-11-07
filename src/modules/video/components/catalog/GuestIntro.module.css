@@ -1,0 +1,175 @@
+/* Guest block: one invitation instead of two empty lists. Calm tones, not error red. */
+
+.card {
+  background: var(--ui-cream);
+  border: 1.8px solid var(--ui-cream-line);
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 var(--ui-cream-shadow);
+  position: relative;
+  padding: 26px 28px;
+}
+
+.head {
+  max-width: 620px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.title {
+  margin: 10px 0 6px;
+  color: var(--ui-text);
+  font-size: clamp(19px, 1.8vw, 22px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--ui-line);
+  border-radius: 14px;
+  background: var(--ui-canvas);
+}
+
+.stepIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  background: var(--ui-cream);
+  border: 1px solid var(--ui-line);
+  color: var(--ui-navy);
+}
+
+.stepNumber {
+  color: var(--ui-subtle);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.step strong {
+  color: var(--ui-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.step p {
+  margin: 0;
+  color: var(--ui-subtle);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.primary,
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.primary {
+  border: none;
+  background: var(--ui-blue-strong);
+  color: var(--ui-on-fill);
+}
+
+.primary:hover {
+  background: var(--ui-navy);
+}
+
+.ghost {
+  border: 1.5px solid var(--ui-divider);
+  background: var(--ui-cream);
+  color: var(--ui-navy);
+}
+
+.ghost:hover {
+  border-color: var(--ui-navy);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 20px 16px;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 2px;
+    padding: 12px 14px;
+  }
+
+  .stepIcon {
+    grid-row: 1 / span 3;
+    margin-bottom: 0;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .primary,
+  .ghost {
+    width: 100%;
+  }
+}

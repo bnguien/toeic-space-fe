@@ -1,0 +1,410 @@
+/* TOEIC roadmap (Phaser) — full-screen frame + the React text layer floating above it. */
+.root {
+  --ink: var(--ui-ink);
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  overflow: hidden;
+  background: #a9dbf2;
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+.root :where(button) {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.canvasHost {
+  position: absolute;
+  inset: 0;
+}
+.canvasHost canvas {
+  display: block;
+  touch-action: none;
+}
+.canvasHost::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 58%, rgba(28, 36, 20, 0.22) 100%);
+}
+.zoom {
+  position: absolute;
+  right: 16px;
+  bottom: 96px;
+  z-index: 8;
+  display: grid;
+  gap: 6px;
+}
+.zoom button {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--ui-cream);
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+.zoom button:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  font-weight: 800;
+}
+.loading img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  animation: bob 1.4s ease-in-out infinite;
+}
+.loading button {
+  padding: 8px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ui-surface);
+  font-weight: 800;
+}
+@keyframes bob {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.topBar {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  z-index: 8;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+}
+.topBar > * {
+  pointer-events: auto;
+}
+.pill {
+  padding: 8px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ui-cream);
+  font-size: 13px;
+  font-weight: 850;
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+.pill:is(button):hover {
+  background: var(--ink);
+  color: #fff;
+}
+.score b {
+  color: var(--ui-pearl-text);
+}
+.guest {
+  position: absolute;
+  top: 62px;
+  left: 50%;
+  z-index: 8;
+  margin: 0;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: var(--ui-pearl);
+  color: var(--ui-pearl-text);
+  font-size: 12.5px;
+  font-weight: 750;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.dock {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  z-index: 8;
+  display: flex;
+  gap: 6px;
+  max-width: calc(100% - 24px);
+  padding: 6px;
+  overflow-x: auto;
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--ui-cream) 91%, transparent);
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+  transform: translateX(-50%);
+  scrollbar-width: none;
+  backdrop-filter: blur(6px);
+}
+.chip {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 6px;
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+}
+.chip:hover {
+  border-color: var(--ink);
+  background: var(--ui-surface);
+}
+.chip.chipOn {
+  border-color: var(--ink);
+  background: var(--ui-surface);
+  box-shadow: inset 0 -4px 0 var(--lv);
+}
+.chip b {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--lv);
+  font-size: 13px;
+  font-weight: 900;
+}
+.chip strong {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 850;
+}
+.chip small {
+  display: block;
+  font-size: 11px;
+  color: var(--ui-muted);
+}
+.chip.chipNow {
+  padding: 8px 14px;
+  background: var(--ui-navy);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 850;
+}
+/* Level tones (the biome ground colours) */
+.levelTone1 {
+  --lv: #8fd06c;
+}
+.levelTone2 {
+  --lv: #f2dca2;
+}
+.levelTone3 {
+  --lv: #64a35b;
+}
+.levelTone4 {
+  --lv: #e9b673;
+}
+.levelTone5 {
+  --lv: #dfe9f1;
+}
+
+/* Stage dialog */
+.modal {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: color-mix(in srgb, var(--ui-ink) 50%, transparent);
+  backdrop-filter: blur(3px);
+  animation: fade 0.2s;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+.card {
+  position: relative;
+  width: min(420px, 100%);
+  padding: 22px 22px 20px;
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  background: linear-gradient(180deg, var(--lv) 0 70px, var(--ui-cream) 70px);
+  box-shadow: 8px 8px 0 var(--ui-cream-shadow);
+  animation: pop 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+}
+.close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 5px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ui-surface);
+  font-size: 12px;
+  font-weight: 800;
+}
+.flag {
+  display: inline-block;
+  max-width: calc(100% - 70px);
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--ui-navy);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+}
+.root .card h3 {
+  margin: 22px 0 12px;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--ink);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.stats div {
+  padding: 10px 4px;
+  border: 2px solid var(--ui-cream-line);
+  border-radius: 14px;
+  background: var(--ui-surface);
+  text-align: center;
+}
+.stats strong {
+  display: block;
+  font-size: 19px;
+  font-weight: 900;
+  color: var(--ui-navy);
+}
+.stats span {
+  font-size: 11px;
+  color: var(--ui-muted);
+  font-weight: 700;
+}
+.bar {
+  height: 8px;
+  margin: 14px 0 10px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: var(--ui-cream-line);
+}
+.bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--ui-green), var(--ui-mark-bright));
+}
+.topics {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ui-muted);
+}
+.note {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--ui-pearl);
+  color: var(--ui-pearl-text);
+  font-size: 12.5px;
+  font-weight: 650;
+}
+.note.noteDone {
+  background: var(--ui-green-soft);
+  color: var(--ui-green);
+}
+.play {
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  background: var(--ui-mark-bright);
+  color: var(--ui-on-mark);
+  font-size: 16px;
+  font-weight: 900;
+  box-shadow: 0 5px 0 var(--ui-mark-strong);
+}
+.play:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--ui-mark-strong);
+}
+.course {
+  margin: -6px 0 12px;
+  font-size: 15px;
+  font-weight: 750;
+  color: var(--ui-muted);
+}
+.modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+.mode {
+  display: grid;
+  gap: 4px;
+  padding: 12px 12px 13px;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  text-align: left;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+.mode:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+.mode strong {
+  font-size: 16px;
+  font-weight: 900;
+}
+.mode span {
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+.mode.modeBasic {
+  background: var(--ui-mark-bright);
+  color: var(--ui-on-mark);
+}
+.mode.modePro {
+  background: var(--ui-navy);
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .topBar {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  .pill {
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+  .chip small {
+    display: none;
+  }
+  .guest {
+    top: auto;
+    bottom: 86px;
+  }
+  .zoom {
+    right: 10px;
+    bottom: 84px;
+  }
+}

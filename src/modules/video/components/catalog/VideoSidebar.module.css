@@ -1,0 +1,246 @@
+/* Right column: "Sổ từ vựng" card and the quote card. */
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.vocabCard,
+.quoteCard {
+  background: var(--ui-cream);
+  border: 1.8px solid var(--ui-cream-line);
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 var(--ui-cream-shadow);
+  position: relative;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.vocabCard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.illustrationBox {
+  width: 100%;
+  height: 270px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 14px rgb(37 44 63 / 0.08);
+  border: 1.5px solid var(--ui-line);
+  background: var(--ui-blue-soft);
+}
+
+.illustration {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.illustrationBox:hover .illustration {
+  transform: scale(1.04);
+}
+
+.guestNote {
+  margin: 0 0 14px;
+  color: var(--ui-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 0 8px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.statNumber {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--ui-text);
+  line-height: 1.1;
+  margin-bottom: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ui-muted);
+}
+
+/* Review ring */
+.ringWrap {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none;
+  stroke: var(--ui-line);
+  stroke-width: 3.5;
+}
+
+.ringFill {
+  fill: none;
+  stroke: var(--ui-navy);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.ringPercent {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ui-text);
+}
+
+.notebookButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--ui-navy);
+  color: var(--ui-on-fill);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--ui-navy) 25%, transparent);
+  transition: 0.2s ease;
+  transition-property:
+    color, background-color, background, border-color, box-shadow, transform, opacity, filter,
+    outline-color, text-decoration-color, fill, stroke;
+}
+
+.notebookButton:hover {
+  background: var(--ui-navy-inner);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--ui-navy) 32%, transparent);
+}
+
+.notebookButton:active {
+  transform: translateY(0);
+}
+
+.bookmarkIcon {
+  flex-shrink: 0;
+}
+
+/* Quote card with a full-bleed background */
+.quoteCard {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+}
+
+.quoteBackground {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transition: transform 0.4s ease;
+  z-index: 1;
+}
+
+.quoteCard:hover .quoteBackground {
+  transform: scale(1.04);
+}
+
+.quoteContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.quoteMark {
+  font-size: 34px;
+  line-height: 1;
+  color: var(--ui-navy);
+  font-family: var(--font-display);
+  font-weight: 800;
+  margin-bottom: 6px;
+  text-shadow: 0 1px 4px rgb(255 255 255 / 0.95);
+}
+
+.quoteText {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--ui-ink);
+  line-height: 1.55;
+  font-family: var(--font-sans);
+  text-align: center;
+  letter-spacing: -0.01em;
+  text-shadow:
+    0 1px 8px rgb(255 255 255 / 0.95),
+    0 0 14px rgb(255 255 255 / 0.9);
+}
+
+@media (max-width: 960px) {
+  .column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .column {
+    grid-template-columns: 1fr;
+  }
+}

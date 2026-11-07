@@ -1,0 +1,109 @@
+/*
+ * Theme of the dictation play screens (session, notice, interlude): a full-screen paper canvas with a 24px
+ * grid, cream panels with hard shadows. Two variable layers, both built from the TOEIC Space tokens:
+ * --page-* (frame around the card, light/dark) and --card-* (inside the sentence card).
+ * Dark appearance = data-color-mode="dark" on the root, which swaps the global tokens; only the card keeps
+ * its own deep navy look (Studychill's dark card had its own colour too).
+ */
+.theme {
+  --page-bg: var(--ui-canvas);
+  --page-grid: color-mix(in srgb, var(--ui-divider) 60%, transparent);
+  --page-ink: var(--ui-text);
+  --page-muted: var(--ui-muted);
+  --page-panel: var(--ui-cream);
+  --page-line: var(--ui-divider);
+  --page-shadow: var(--ui-cream-shadow);
+  --page-soft: var(--ui-blue-soft);
+  --page-primary: var(--ui-blue);
+  --page-primary-ink: var(--ui-on-accent);
+  --card-bg: var(--ui-cream);
+  --card-ink: var(--ui-text);
+  --card-muted: var(--ui-muted);
+  --card-line: var(--ui-divider);
+  --card-soft: var(--ui-blue-soft);
+  --card-border: var(--ui-divider);
+  --accent: var(--ui-blue);
+  --accent-ink: var(--ui-on-accent);
+  --ok: var(--ui-green);
+  --bad: var(--ui-rose);
+  --fix: var(--ui-mark-strong);
+  --hint: var(--ui-pearl-text);
+  --bubble-a: var(--ui-blue-soft);
+  --bubble-a-line: var(--ui-blue-line);
+  --bubble-b: color-mix(in srgb, var(--ui-mark) 35%, var(--ui-cream));
+  --bubble-b-line: var(--ui-mark);
+  --clean-ink: var(--ui-green);
+  --warm-bg: color-mix(in srgb, var(--ui-mark) 28%, var(--ui-surface));
+  --warm-ink: var(--ui-pearl-text);
+
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--page-ink);
+  font-family: var(--font-sans);
+  background-color: var(--page-bg);
+  background-image:
+    linear-gradient(var(--page-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--page-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.theme[data-color-mode="dark"] {
+  --page-grid: rgb(255 255 255 / 0.035);
+  --card-bg: #243256;
+  --card-ink: #f4f1e8;
+  --card-muted: rgb(244 241 232 / 0.66);
+  --card-line: rgb(244 241 232 / 0.42);
+  --card-soft: rgb(0 0 0 / 0.2);
+  --card-border: #161d33;
+  --accent: var(--ui-mark-bright);
+  --accent-ink: var(--ui-on-mark);
+  --fix: var(--ui-mark-bright);
+  --hint: var(--ui-mark);
+  --bubble-a: rgb(147 172 236 / 0.18);
+  --bubble-a-line: rgb(147 172 236 / 0.36);
+  --bubble-b: rgb(212 179 115 / 0.14);
+  --bubble-b-line: rgb(212 179 115 / 0.3);
+  --warm-bg: rgb(212 179 115 / 0.18);
+  --warm-ink: var(--ui-mark-bright);
+}
+
+.theme *,
+.theme *::before,
+.theme *::after {
+  box-sizing: border-box;
+}
+
+/* Zero-specificity defaults: every component rule (font-size, colours) wins. */
+:where(.theme) :where(button) {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:where(.theme) :where(button:disabled) {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.theme :focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.theme :where(h2, h3, h4, p, small, span, strong, b, li) {
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme *,
+  .theme *::before,
+  .theme *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

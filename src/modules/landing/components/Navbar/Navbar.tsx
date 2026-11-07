@@ -319,7 +319,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                         type="button"
                         className={styles.navDropdownItem}
                         role="menuitem"
-                        onClick={() => handleLinkClick(sub.targetId)}
+                        onClick={() => handleLinkClick(sub.targetId, sub.route)}
                       >
                         <span className={styles.navDropdownTitle}>{sub.label}</span>
                         {sub.description && (
@@ -633,7 +633,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                         key={sub.label}
                         type="button"
                         className={styles.mobileNavSubLink}
-                        onClick={() => handleLinkClick(sub.targetId)}
+                        onClick={() => handleLinkClick(sub.targetId, sub.route)}
                       >
                         {sub.label}
                       </button>

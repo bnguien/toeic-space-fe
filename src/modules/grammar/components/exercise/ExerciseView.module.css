@@ -1,0 +1,360 @@
+/* Exercises, mini test and stage test (Studychill grammar-lesson.css / grammar-extra.css). */
+.exercises {
+  min-width: 0;
+}
+
+.block {
+  margin: 0 0 26px;
+  scroll-margin-top: 14px;
+}
+.blockCompact {
+  margin-bottom: 4px;
+}
+
+.quickHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 8px 0 12px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: var(--gp-m100);
+}
+.quickHead b {
+  font-weight: 800;
+  color: var(--gp-m800);
+  font-size: 15px;
+}
+.quickHead span {
+  font-size: 13px;
+  color: var(--gp-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.miniHead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 18px 0 14px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: var(--gp-gold-soft);
+  border: 1.5px solid var(--gp-gold);
+}
+.miniTitle {
+  font-family: var(--gp-font-display);
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--gp-gold-ink);
+  line-height: 1.1;
+}
+.miniMeta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.miniMeta > span {
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: var(--gp-surface);
+  border: 1px solid var(--gp-gold);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gp-m800);
+}
+.miniMeta > .focusWrap {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.miniMeta > .clock.clockOver {
+  background: var(--gp-gold);
+  color: var(--gp-on-mark);
+}
+.blockFocus .miniHead {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  margin-top: 0;
+  box-shadow: 0 6px 14px -10px rgb(37 44 63 / 0.4);
+}
+
+.partHead {
+  margin: 22px 0 12px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--gp-m700);
+  color: var(--gp-on-fill);
+  font-size: 13.5px;
+}
+.partHead b {
+  font-family: var(--gp-font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--gp-lime);
+  margin-right: 10px;
+}
+
+.qs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- Score after submitting ---------- */
+.score {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 0 0 14px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--gp-lime-soft);
+  border: 1.5px solid var(--gp-lime);
+}
+.score strong {
+  font-family: var(--gp-font-display);
+  font-size: 22px;
+  color: var(--gp-m800);
+  line-height: 1.1;
+}
+.scoreFail {
+  background: var(--gp-gold-soft);
+  border-color: var(--gp-gold);
+}
+.scoreFixed {
+  font-size: 16px;
+  color: var(--gp-m700);
+}
+.scoreFix {
+  color: var(--gp-m700);
+  font-size: 14px;
+}
+.scoreBest {
+  font-size: 13px;
+  color: var(--gp-muted);
+}
+.scoreDone {
+  color: var(--gp-son);
+  font-weight: 800;
+}
+.score .scoreAgain {
+  margin-left: auto;
+  padding: 5px 12px;
+  font-size: 13px;
+}
+.blockFoot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 16px;
+}
+
+/* ---------- Celebration ---------- */
+.end {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: var(--gp-m900);
+  color: var(--gp-on-fill);
+}
+.end img {
+  width: 116px;
+  height: auto;
+  margin: -8px 0;
+}
+.endTitle {
+  font-family: var(--gp-font-display);
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--gp-lime);
+  line-height: 1.1;
+}
+.end p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  opacity: 0.92;
+}
+
+/* ---------- Focus mode ---------- */
+.focusWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.focusHint {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gp-gold-ink);
+}
+.focusBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 10px;
+  border: 1px solid var(--gp-gold);
+  border-radius: 999px;
+  background: var(--gp-surface);
+  color: var(--gp-m800);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.focusBtn:hover,
+.focusBtn.focusOn {
+  background: var(--gp-m900);
+  border-color: var(--gp-m900);
+  color: var(--gp-on-fill);
+}
+.focusBtn.focusHinted {
+  box-shadow:
+    0 0 0 3px var(--gp-gold-soft),
+    0 0 0 4px var(--gp-gold);
+}
+/* Focus mode shows only the focused test and its clock. */
+:global([data-focus="true"]) .exercises > .evTitle,
+:global([data-focus="true"]) .exercises > .evLead,
+:global([data-focus="true"]) .exercises > .intro,
+:global([data-focus="true"]) .exercises > .block:not(.blockFocus) {
+  display: none;
+}
+
+/* ---------- Stage test ---------- */
+.intro {
+  margin: 18px 0 20px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  background: var(--gp-m50);
+  border-left: 4px solid var(--gp-m600);
+  font-size: 14.5px;
+}
+.introStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 0 0 12px;
+}
+.introStats div {
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--gp-surface);
+  text-align: center;
+  border: 1px solid var(--gp-m100);
+}
+.introStats b {
+  display: block;
+  font-family: var(--gp-font-display);
+  font-size: 26px;
+  line-height: 1.1;
+  color: var(--gp-m700);
+}
+.introStats small {
+  font-size: 11px;
+  color: var(--gp-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.intro ul {
+  margin: 0 0 8px;
+  padding-left: 20px;
+  list-style: disc;
+}
+.stageBest {
+  margin: 0 0 10px;
+  font-weight: 800;
+  color: var(--gp-m700);
+}
+.stageBestDone {
+  color: var(--gp-son);
+}
+
+.lock {
+  display: flex;
+  gap: 14px;
+  margin: 8px 0 20px;
+  padding: 14px 18px;
+  border: 1px solid var(--gp-line2);
+  border-radius: 12px;
+  color: var(--gp-m700);
+}
+.lock > svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--gp-muted);
+}
+.lock b {
+  color: var(--gp-m800);
+}
+.lock p {
+  margin: 4px 0 8px;
+  color: var(--gp-muted);
+  font-size: 14px;
+}
+.lockBar {
+  display: block;
+  max-width: 260px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--gp-line);
+  overflow: hidden;
+}
+.lockBar > span {
+  display: block;
+  height: 100%;
+  background: var(--gp-moss);
+}
+
+:global([data-color-mode="dark"]) .lockBar {
+  background: var(--gp-rail);
+}
+:global([data-color-mode="dark"]) .introStats b,
+:global([data-color-mode="dark"]) .stageBest,
+:global([data-color-mode="dark"]) .lock,
+:global([data-color-mode="dark"]) .scoreFixed,
+:global([data-color-mode="dark"]) .scoreFix {
+  color: var(--gp-m800);
+}
+
+@media (max-width: 760px) {
+  .block {
+    scroll-margin-top: calc(var(--gp-nav, 64px) + 60px);
+  }
+  .miniHead {
+    grid-template-columns: 1fr;
+  }
+  .miniMeta {
+    justify-content: flex-start;
+  }
+  .introStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .end {
+    grid-template-columns: 1fr 80px;
+  }
+  .end img {
+    width: 80px;
+  }
+  .score .scoreAgain {
+    margin-left: 0;
+  }
+  .focusHint {
+    display: none;
+  }
+}

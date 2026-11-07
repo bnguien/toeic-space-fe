@@ -1,0 +1,115 @@
+/* Personal revision: mistake log + frequent traps (Studychill grammar-extra.css `.gp-ontap`, `.gp-bay-list`, `.gp-sl*`). */
+.review {
+  padding-top: 18px;
+}
+
+.bayList {
+  margin: 0 0 26px;
+  padding: 12px 18px;
+  border: 1.5px solid var(--gp-gold);
+  border-radius: 12px;
+  background: var(--gp-gold-soft);
+}
+.bayList h3 {
+  margin: 0 0 6px;
+  font-family: var(--gp-font-display);
+  font-size: 19px;
+  color: var(--gp-gold-ink);
+}
+.bayList ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bayList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px dashed var(--gp-gold-line);
+}
+.bayList li:first-child {
+  border-top: 0;
+}
+.bayList li > div {
+  flex: 1;
+  min-width: 0;
+}
+.bayList p {
+  margin: 0;
+  font-weight: 700;
+  color: var(--gp-ink);
+}
+.bayList small {
+  color: var(--gp-gold-ink);
+  font-size: 12.5px;
+}
+
+.mistakes {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+.mistakeGroup {
+  margin: 0 0 16px;
+}
+.mistakeHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--gp-m100);
+}
+.mistakeHead b {
+  color: var(--gp-m600);
+  font-weight: 800;
+}
+.mistakeHead span {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  color: var(--gp-m800);
+}
+.mistakeGroup > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mistakeQuestion {
+  padding: 8px 4px 8px 12px;
+  border-bottom: 1px solid var(--gp-line);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+.mistakeQuestionLeaving {
+  opacity: 0;
+  transform: translateX(16px);
+}
+.mistakeRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mistakePrompt {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 14.5px;
+}
+.mistakeCount {
+  flex: none;
+  font-size: 12px;
+  color: var(--gp-muted);
+}
+.mistakeRedo {
+  margin-top: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mistakeQuestion {
+    transition: none;
+  }
+}
