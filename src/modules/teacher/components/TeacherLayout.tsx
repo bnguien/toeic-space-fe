@@ -30,6 +30,12 @@ const navigation = [
     exact: true,
   },
   { to: "/teacher/classes", label: "Lớp học", sublabel: "Được phân công", icon: GraduationCap },
+  {
+    to: "/teacher/practice-sets",
+    label: "Bộ luyện tập",
+    sublabel: "Luyện theo Part",
+    icon: ClipboardList,
+  },
   { to: "/teacher/courses", label: "Khóa học", sublabel: "Học liệu", icon: BookOpen },
   {
     to: "/teacher/assignments",
