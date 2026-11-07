@@ -1,0 +1,32 @@
+.page {
+  min-height: 480px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid #deebf0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fff, #f4fbfd);
+}
+.page svg {
+  color: #84bdd5;
+}
+.page span {
+  margin-top: 0.7rem;
+  color: #7194a7;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+.page h1 {
+  margin: 0.35rem 0;
+  color: #425a6d;
+  font-size: 1.45rem;
+}
+.page p {
+  max-width: 390px;
+  color: #78899a;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}

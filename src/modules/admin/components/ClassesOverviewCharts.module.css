@@ -1,0 +1,55 @@
+.barChart {
+  display: flex;
+  align-items: end;
+  gap: clamp(0.4rem, 2vw, 1.5rem);
+  height: 175px;
+  margin-top: 1.5rem;
+  border-bottom: 1px solid #aab6c2;
+}
+.barColumn {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.3rem;
+}
+.barColumn strong {
+  color: #30445c;
+  font-size: 0.75rem;
+}
+.bar {
+  min-height: 8px;
+  width: min(70%, 44px);
+  background: #365e82;
+}
+.barLatest {
+  background: #78b6d4;
+}
+.barColumn small {
+  position: relative;
+  top: 1.35rem;
+  color: #738196;
+  font-size: 0.72rem;
+}
+.lineChart {
+  margin-top: 1.5rem;
+}
+.lineChart svg {
+  width: 100%;
+  height: 160px;
+  display: block;
+}
+.weekLabels {
+  display: flex;
+  justify-content: space-between;
+  color: #738196;
+  font-size: 0.75rem;
+}
+@media (max-width: 767px) {
+  .barChart {
+    height: 145px;
+  }
+}

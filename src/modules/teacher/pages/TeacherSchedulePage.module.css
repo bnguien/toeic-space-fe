@@ -1,0 +1,375 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(700px, 1fr) 330px;
+  gap: 1rem;
+  align-items: start;
+}
+.calendarCard,
+.timeline {
+  overflow: hidden;
+  border: 1px solid #e0e9ee;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.toolbar {
+  min-height: 74px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  border-bottom: 1px solid #e7edf1;
+}
+.toolbar > div,
+.toolbar nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.toolbar button,
+.timeline header button {
+  height: 32px;
+  padding: 0 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #5d7183;
+  border: 1px solid #dde7ec;
+  border-radius: 8px;
+  background: #fff;
+}
+.toolbar b {
+  margin-left: 0.4rem;
+  color: #253542;
+  font-size: 0.83rem;
+}
+.toolbar nav {
+  padding: 0.2rem;
+  border: 1px solid #dde7ec;
+  border-radius: 8px;
+}
+.toolbar nav button {
+  border: 0;
+}
+.toolbar nav .active {
+  background: #1677ef;
+  color: #fff;
+}
+.search {
+  height: 33px;
+  padding: 0 0.55rem;
+  border: 1px solid #dde7ec;
+  border-radius: 8px;
+  color: #8091a0;
+}
+.search input {
+  width: 150px;
+  border: 0;
+  font-size: 0.7rem;
+}
+.search button {
+  border: 0;
+}
+.calendar {
+  min-width: 790px;
+  overflow: auto;
+}
+.days {
+  display: grid;
+  grid-template-columns: 74px repeat(7, 1fr);
+  border-bottom: 1px solid #e5ebef;
+}
+.days > span {
+  padding: 0.6rem 0.3rem;
+  font-size: 0.57rem;
+  text-align: center;
+  color: #71808e;
+}
+.days > div {
+  min-height: 58px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  border-left: 1px solid #e5ebef;
+}
+.days small {
+  font-size: 0.58rem;
+  color: #74828e;
+}
+.days b {
+  font-size: 1rem;
+  color: #263644;
+}
+.today {
+  position: relative;
+}
+.today:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #4e7cf1;
+}
+.today b {
+  color: #4977e9;
+}
+.body {
+  position: relative;
+  display: grid;
+  grid-template-columns: 74px repeat(7, 1fr);
+  min-height: 740px;
+}
+.times {
+  display: grid;
+  grid-template-rows: repeat(10, 74px);
+}
+.times span {
+  padding: 0.35rem 0.6rem 0 0;
+  color: #637382;
+  font-size: 0.63rem;
+  text-align: right;
+}
+.column {
+  display: grid;
+  grid-template-rows: repeat(10, 74px);
+  border-left: 1px solid #e7edf1;
+}
+.column i {
+  border-bottom: 1px solid #e7edf1;
+}
+.event {
+  position: absolute;
+  z-index: 2;
+  width: calc((100% - 74px) / 7 - 8px);
+  min-height: 61px;
+  margin-left: 4px;
+  padding: 0.5rem;
+  border-left: 4px solid;
+  border-radius: 5px;
+  text-align: left;
+  box-shadow: 0 1px 3px #33415518;
+}
+.event strong,
+.event span {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.event strong {
+  font-size: 0.64rem;
+  color: #26333f;
+}
+.event span {
+  margin-top: 0.25rem;
+  font-size: 0.58rem;
+  color: #50616f;
+}
+.mint {
+  border-color: #0bbba4 !important;
+  background: #d9faf5 !important;
+}
+.blue {
+  border-color: #388ef5 !important;
+  background: #dcecff !important;
+}
+.peach {
+  border-color: #f48d25 !important;
+  background: #ffe4cc !important;
+}
+.gold {
+  border-color: #eab600 !important;
+  background: #fff1bb !important;
+}
+.popup {
+  position: absolute;
+  z-index: 5;
+  top: 335px;
+  left: 48%;
+  width: 340px;
+  padding: 1rem;
+  border: 1px solid #dce5ea;
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 12px 24px #33415533;
+}
+.popup > button {
+  position: absolute;
+  right: 0.55rem;
+  top: 0.55rem;
+  background: transparent;
+  color: #71808d;
+}
+.popup h2 {
+  font: 800 0.9rem var(--font-sans);
+  color: #263845;
+}
+.popup p {
+  margin: 0.3rem 0 0.65rem;
+  color: #83919d;
+  font-size: 0.68rem;
+}
+.popup span {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.35rem 0;
+  border-top: 1px solid #edf1f3;
+  color: #526574;
+  font-size: 0.67rem;
+}
+.timeline {
+  background: #f3f7f9;
+}
+.timeline > header,
+.upcoming header {
+  padding: 1rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid #e2eaee;
+}
+.timeline h1 {
+  font-size: 1.3rem;
+  color: #202d37;
+}
+.todayList {
+  margin: 1rem;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 3px 9px #33415510;
+}
+.todayList > div {
+  padding: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5ecef;
+}
+.todayList > div button {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e1e7ea;
+  border-radius: 50%;
+  background: #fff;
+}
+.todayList > div b {
+  font-size: 0.74rem;
+}
+.todayList > button {
+  width: calc(100% - 1rem);
+  min-height: 70px;
+  margin: 0.45rem 0.5rem;
+  padding: 0.55rem;
+  border-left: 4px solid;
+  border-radius: 5px;
+  text-align: left;
+}
+.todayList strong,
+.todayList span {
+  display: block;
+}
+.todayList strong {
+  font-size: 0.68rem;
+}
+.todayList span {
+  margin-top: 0.25rem;
+  font-size: 0.61rem;
+}
+.upcoming {
+  margin-top: 0.9rem;
+  background: #fff;
+}
+.upcoming h2 {
+  font-size: 1rem;
+}
+.upcoming header button {
+  color: #1677ef;
+  border: 0;
+  font-weight: 800;
+}
+.upcoming article {
+  margin: 0.7rem 1rem;
+  padding: 0.7rem;
+  display: flex;
+  gap: 0.5rem;
+  border: 1px solid #e1e8ec;
+  border-radius: 9px;
+}
+.upcoming i {
+  width: 15px;
+  height: 15px;
+  margin-top: 0.1rem;
+  border-radius: 4px;
+}
+.dotmint {
+  background: #4bd4c0;
+}
+.dotblue {
+  background: #689bf1;
+}
+.dotpeach {
+  background: #f8a55c;
+}
+.dotgold {
+  background: #f2c849;
+}
+.upcoming article div {
+  flex: 1;
+}
+.upcoming b {
+  font-size: 0.7rem;
+  color: #4b5c6b;
+}
+.upcoming p {
+  margin-top: 0.2rem;
+  color: #7c8995;
+  font-size: 0.65rem;
+}
+.upcoming article button {
+  background: transparent;
+  color: #9aa6ae;
+}
+.timeline h2 {
+  color: #293a47;
+}
+.timeline h2 + button {
+  font-size: 0.65rem;
+}
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: minmax(700px, 1fr);
+  }
+  .timeline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .timeline > header {
+    grid-column: 1/-1;
+  }
+  .upcoming {
+    margin-top: 1rem;
+  }
+}
+@media (max-width: 780px) {
+  .layout {
+    display: block;
+    overflow-x: auto;
+  }
+  .calendarCard,
+  .timeline {
+    min-width: 790px;
+  }
+  .timeline {
+    margin-top: 1rem;
+  }
+  .popup {
+    display: none;
+  }
+}
