@@ -1,0 +1,37 @@
+/* Buttons shared by the finish screen, the notice screens and the sentence loader. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 16px;
+  border: 1.5px solid var(--page-line);
+  border-radius: 12px;
+  background: var(--page-panel);
+  color: var(--page-ink);
+  font-size: 13.5px;
+  font-weight: 750;
+}
+
+.primary {
+  border-color: var(--page-primary);
+  background: var(--page-primary);
+  color: var(--page-primary-ink);
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+  color: var(--page-primary);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

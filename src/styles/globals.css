@@ -101,7 +101,63 @@
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-xl: 10px;
+  --radius-2xl: 16px;
   --radius-full: 9999px;
+
+  /* Learner type scale */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 17px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 30px;
+  --text-display: 44px;
+  --leading-tight: 1.25;
+  --leading-normal: 1.55;
+
+  /* Learner spacing scale (4px steps) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  /* Learner page frame: the landing navbar is fixed (~68px) above every learner page. */
+  --page-max: 1140px;
+  --page-pad: clamp(16px, 4vw, 24px);
+  --nav-offset: 88px;
+  /* Height of the fixed landing navbar (workspace sidebars start right below it). */
+  --nav-height: 68px;
+
+  /* Learner "paper" surfaces: the admin summary look (cream card, ink outline, hard shadow). */
+  --ui-navy: #34508f;
+  --ui-navy-inner: #4563a3;
+  --ui-navy-line: #5a77b4;
+  /* Navy as a text colour (headings); --ui-navy itself is a fill under white text. */
+  --ui-navy-text: #34508f;
+  --ui-shadow-hard: 5px 5px 0 var(--ui-cream-shadow);
+  /* Pink accent family (highlights, chips, one stage tone); sits beside the rose family. */
+  --ui-pink: #c75b8a;
+  --ui-pink-soft: #fdeef5;
+  --ui-pink-line: #f1bcd4;
+  --ui-pink-strong: #a8456f;
+  /* Deep fills under white text (stage tones); the plain family colour is for text and bars. */
+  --ui-green-fill: #2e7a57;
+  --ui-pink-fill: #c75b8a;
+  --ui-rose-fill: #9d4b70;
+  /* Neutral wash for hovers on any surface, light or dark, paper or navy. */
+  --ui-wash: rgb(127 127 127 / 0.12);
+  /* Two soft glows behind the learner canvas. */
+  --ui-glow-pink: rgb(199 91 138 / 0.1);
+  --ui-glow-blue: rgb(72 103 168 / 0.12);
+  /* Frosted floating controls over the canvas (back to top). */
+  --ui-glass: rgb(255 255 255 / 0.9);
 
   /* Transitions */
   --transition-fast: 0.15s ease;
@@ -109,7 +165,8 @@
 }
 
 /*
- * Dark mode of the admin area, switched on by data-color-mode="dark" on its layout.
+ * Dark mode, switched on by data-color-mode="dark": on the admin layout, and on <html> while a
+ * learner area whose styles use these tokens is mounted (useColorModeScope).
  * Every colour is redeclared because tokens that point at other tokens are resolved where they
  * are defined (here: :root) and would otherwise keep their light values.
  */
@@ -156,6 +213,23 @@
   --ui-mark-bright: #dbb55a;
   --ui-mark-strong: #cfa645;
   --ui-backdrop: rgb(0 0 0 / 0.6);
+
+  /* Learner surfaces: same hues, deep fills under white text, light tints for text and bars. */
+  --ui-navy: #2f4680;
+  --ui-navy-inner: #3a5291;
+  --ui-navy-line: #4a66a6;
+  --ui-navy-text: #b4c6f3;
+  --ui-shadow-hard: 5px 5px 0 var(--ui-cream-shadow);
+  --ui-pink: #e58fb5;
+  --ui-pink-soft: #3a2131;
+  --ui-pink-line: #6e3a55;
+  --ui-pink-strong: #f3b9d2;
+  --ui-green-fill: #2a6a4d;
+  --ui-pink-fill: #94406a;
+  --ui-rose-fill: #7a3655;
+  --ui-glow-pink: rgb(199 91 138 / 0.08);
+  --ui-glow-blue: rgb(72 103 168 / 0.12);
+  --ui-glass: rgb(26 30 41 / 0.9);
 
   --bg-app: var(--ui-canvas);
   --bg-surface: var(--ui-surface);

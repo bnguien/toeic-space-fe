@@ -10,9 +10,10 @@ import {
   IconRoadmap,
   IconSettings,
 } from "../icons/LandingIcons";
-import { User as IconUserProfile } from "lucide-react";
+import { Moon, Sun, User as IconUserProfile } from "lucide-react";
 import mascotLogo from "@/assets/mascot/oy2-hello.png";
 import { normalizeAvatarUrl } from "@/modules/profile";
+import { useColorMode, useColorModeScopeActive } from "@/shared/hooks/useColorMode";
 import { LANDING_NAV_ITEMS } from "../../constants";
 import styles from "./Navbar.module.css";
 
@@ -33,6 +34,8 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
   const logout = useLogout();
   const navigate = useNavigate();
   const location = useLocation();
+  const colorMode = useColorMode();
+  const colorModeScoped = useColorModeScopeActive();
 
   const isLogin = location.pathname.startsWith("/login") || location.pathname === "/admin/login";
   const isRegister = location.pathname.startsWith("/register");
@@ -209,12 +212,20 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
     };
   }, []);
 
-  const handleLinkClick = (targetId: string, path?: string) => {
+  /**
+   * `isRoute`: `path` is an app route (a top-level item such as Vocab, or a dropdown `route` such as the games).
+   * Other dropdown `path`s are landing placeholders that scroll to their section, except the practice page.
+   */
+  const handleLinkClick = (targetId: string, path?: string, isRoute = false) => {
     if (navCloseTimeoutRef.current) {
       clearTimeout(navCloseTimeoutRef.current);
     }
     setOpenNavKey(null);
     setMobileMenuOpen(false);
+    if (isRoute && path) {
+      navigate(path);
+      return;
+    }
     if (path === "/practice/parts") {
       navigate(path);
       return;
@@ -306,7 +317,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                     className={styles.navLink}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleLinkClick(item.targetId);
+                      handleLinkClick(item.targetId, item.path, true);
                     }}
                   >
                     {item.label}
@@ -322,7 +333,9 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                         type="button"
                         className={styles.navDropdownItem}
                         role="menuitem"
-                        onClick={() => handleLinkClick(sub.targetId, sub.path)}
+                        onClick={() =>
+                          handleLinkClick(sub.targetId, sub.route ?? sub.path, Boolean(sub.route))
+                        }
                       >
                         <span className={styles.navDropdownTitle}>{sub.label}</span>
                         {sub.description && (
@@ -339,6 +352,17 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
 
         {/* Right: Authentication Actions */}
         <div className={styles.authGroup}>
+          {colorModeScoped && (
+            <button
+              type="button"
+              className={styles.modeToggle}
+              onClick={colorMode.toggle}
+              aria-label={colorMode.mode === "dark" ? "Giao diện sáng" : "Giao diện tối"}
+              title={colorMode.mode === "dark" ? "Giao diện sáng" : "Giao diện tối"}
+            >
+              {colorMode.mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+          )}
           {sessionStatus === "restoring" && !user ? (
             <div className={styles.authSkeleton} aria-hidden="true" />
           ) : !user ? (
@@ -593,7 +617,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                   className={styles.mobileNavLink}
                   onClick={(e) => {
                     e.preventDefault();
-                    handleLinkClick(item.targetId);
+                    handleLinkClick(item.targetId, item.path, true);
                   }}
                 >
                   {item.label}
@@ -625,7 +649,9 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                         key={sub.label}
                         type="button"
                         className={styles.mobileNavSubLink}
-                        onClick={() => handleLinkClick(sub.targetId, sub.path)}
+                        onClick={() =>
+                          handleLinkClick(sub.targetId, sub.route ?? sub.path, Boolean(sub.route))
+                        }
                       >
                         {sub.label}
                       </button>
@@ -646,7 +672,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                 style={{
                   flex: 1,
                   textAlign: "center",
-                  background: activeAuthPosition === "login" ? undefined : "#f1f5f9",
+                  background: activeAuthPosition === "login" ? undefined : "var(--nav-neutral)",
                 }}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -660,7 +686,7 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                 style={{
                   flex: 1,
                   textAlign: "center",
-                  background: activeAuthPosition === "register" ? undefined : "#f1f5f9",
+                  background: activeAuthPosition === "register" ? undefined : "var(--nav-neutral)",
                 }}
                 onClick={() => setMobileMenuOpen(false)}
               >

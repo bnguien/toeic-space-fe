@@ -1,0 +1,115 @@
+/* Curated rows card: "Đang xem dở", path panel, "Khám phá theo chủ đề". */
+
+.rows {
+  background: var(--ui-cream);
+  border: 1.8px solid var(--ui-cream-line);
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 var(--ui-cream-shadow);
+  padding: 22px 0 8px;
+  min-width: 0;
+}
+
+.head {
+  padding: 0 24px 6px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ui-text);
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  margin: 4px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ui-muted);
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 24px 4px;
+  padding: 9px 12px;
+  border: 1px solid var(--ui-pearl-line);
+  border-radius: 12px;
+  background: var(--ui-pearl);
+  color: var(--ui-pearl-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.notice span {
+  flex: 1;
+}
+
+.notice button {
+  display: inline-flex;
+  padding: 4px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: calc(100% - 48px);
+  margin: 4px 24px 14px;
+  padding: 10px;
+  border: 1.5px dashed var(--ui-cream-line);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ui-blue);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.toggle:hover {
+  background: var(--ui-hover);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--ui-blue);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .rows {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .head {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .heading {
+    font-size: 1.15rem;
+    font-weight: 850;
+    color: var(--ui-text);
+  }
+
+  .notice {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .toggle {
+    width: 100%;
+    margin: 4px 0 12px;
+  }
+}

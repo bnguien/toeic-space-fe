@@ -11,10 +11,7 @@ function App() {
     return <Navigate to="/teacher" replace />;
   }
 
-  if (status === "authenticated" && user?.role === "Admin") {
-    return <Navigate to="/admin" replace />;
-  }
-
+  // Admins keep the public website; the CMS is reached from the account menu or /admin.
   return <LandingPage />;
 }
 

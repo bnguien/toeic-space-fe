@@ -1,0 +1,282 @@
+/*
+ * Shared pieces of the grammar page used by several views (Studychill grammar-lesson.css / grammar-extra.css:
+ * .gp-btn*, .gp-ic, .gp-link, .gp-muted, .gp-empty, .gp-lead, .gp-loading, .gp-spin, .gp-section-title, .gp-lbl,
+ * .gp-hl, .gp-loi, .gp-ket*, .gp-why-btn, .gp-xem-lai). Values unchanged; colours via GrammarTheme variables.
+ */
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s var(--gp-ease);
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn:disabled {
+  opacity: 0.65;
+  cursor: default;
+  transform: none;
+}
+.btn:focus-visible,
+.ic:focus-visible {
+  outline: 2px solid var(--gp-moss);
+  outline-offset: 2px;
+}
+.btnMoss {
+  background: var(--gp-fill);
+  color: var(--gp-on-fill);
+}
+.btnMoss:hover {
+  background: var(--gp-fill-hover);
+}
+.btnGhost {
+  background: var(--gp-surface);
+  border-color: var(--gp-rail);
+  color: var(--gp-ink);
+}
+.btnGhost:hover {
+  border-color: var(--gp-moss);
+  color: var(--gp-moss);
+}
+.btnSon {
+  background: var(--gp-surface);
+  border-color: var(--gp-son);
+  color: var(--gp-son);
+}
+.btnSon:hover {
+  background: var(--gp-son-fill);
+  border-color: var(--gp-son-fill);
+  color: var(--gp-on-fill);
+}
+.btnLg {
+  padding: 12px 20px;
+  font-size: 15px;
+}
+
+.ic {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--gp-m600);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.ic:hover {
+  background: var(--gp-m50);
+  color: var(--gp-moss);
+}
+.icOn {
+  color: var(--gp-moss);
+  background: var(--gp-lime-soft);
+}
+.icSm {
+  width: 24px;
+  height: 24px;
+  vertical-align: -6px;
+}
+
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--gp-lime);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Text ---------- */
+.muted {
+  color: var(--gp-muted);
+  font-size: 13px;
+}
+.empty {
+  margin: 28px 0;
+  color: var(--gp-muted);
+}
+.lead {
+  margin: 0 0 16px;
+  color: var(--gp-ink);
+}
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 40px 0;
+  color: var(--gp-muted);
+}
+.spin {
+  animation: gp-spin 0.9s linear infinite;
+}
+@keyframes gp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.error {
+  color: var(--gp-bad);
+  font-size: 13.5px;
+}
+
+/* ---------- Section title ---------- */
+.sectionTitle {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0 0 18px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--gp-m800);
+  font-size: inherit;
+}
+.sectionTitle b {
+  font-size: 27px;
+  font-weight: 800;
+  color: var(--gp-m800);
+  line-height: 1;
+  white-space: nowrap;
+}
+.sectionTitle span {
+  font-size: 14.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--gp-ink);
+}
+
+.lbl {
+  display: inline-block;
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--gp-m600);
+}
+
+/* Flat highlight over the full text height, as in the PDF */
+.hl {
+  color: inherit;
+  background: var(--gp-hl);
+  border-radius: 3px;
+  padding: 0 2px;
+  font-weight: 700;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ---------- Closing block (Kiến thức / Từ vựng) ---------- */
+.ending {
+  margin: 28px 0 6px;
+  padding: 14px 18px;
+  border: 1.5px dashed var(--gp-line2);
+  border-radius: 12px;
+}
+.endingDone {
+  border-style: solid;
+  border-color: var(--gp-son);
+  background: var(--gp-son-soft);
+}
+.endingTitle {
+  font-family: var(--gp-font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--gp-m800);
+  line-height: 1.2;
+}
+.endingDone .endingTitle {
+  color: var(--gp-son);
+}
+.endingRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 10px;
+}
+.endingOk {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gp-son);
+  font-weight: 800;
+}
+
+/* ---------- Small pills under questions ---------- */
+.whyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border: 1px solid var(--gp-rail);
+  border-radius: 999px;
+  background: var(--gp-surface);
+  color: var(--gp-m600);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.whyBtn:hover {
+  border-color: var(--gp-moss);
+  color: var(--gp-moss);
+}
+.whyBtnSmall {
+  margin-top: 3px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+.reviewLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 10px;
+  border: 1px solid var(--gp-line2);
+  border-radius: 999px;
+  background: var(--gp-surface);
+  color: var(--gp-m600);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.reviewLink:hover {
+  border-color: var(--gp-moss);
+  color: var(--gp-moss);
+  background: var(--gp-m50);
+}
+
+@media (max-width: 760px) {
+  .sectionTitle b {
+    font-size: 23px;
+  }
+  .sectionTitle span {
+    font-size: 13px;
+  }
+}

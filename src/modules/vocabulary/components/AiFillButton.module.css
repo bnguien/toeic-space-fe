@@ -1,0 +1,15 @@
+.button {
+  color: var(--ui-pink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button[data-busy] {
+    animation: ai-busy 1s ease-in-out infinite;
+  }
+}
+
+@keyframes ai-busy {
+  50% {
+    opacity: 0.4;
+  }
+}

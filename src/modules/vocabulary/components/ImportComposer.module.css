@@ -1,0 +1,120 @@
+.composer {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  min-height: 100%;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.upload {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border: 1.5px solid var(--ui-ink);
+  border-radius: var(--radius-lg);
+  background: var(--ui-surface);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.upload:hover {
+  background: var(--ui-hover);
+}
+
+.upload:focus-within {
+  box-shadow: var(--ui-focus);
+}
+
+/* Visually hidden file input; the label is the control. */
+.upload input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.input {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: var(--text-sm);
+}
+
+.counts,
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.target {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1.5px dashed var(--ui-cream-line);
+  border-radius: var(--radius-xl);
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.progress > :first-child {
+  flex: 1;
+}
+
+.progressCount {
+  color: var(--ui-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.failed {
+  display: grid;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+.failed li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--ui-rose-line);
+  border-radius: var(--radius-lg);
+  background: var(--ui-rose-soft);
+  font-size: var(--text-sm);
+}
+
+.failedWord {
+  font-weight: 700;
+}
+
+.failedCode {
+  color: var(--ui-rose-strong);
+}
+
+.actions {
+  position: sticky;
+  bottom: calc(-1 * var(--space-4));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin: 0 calc(-1 * var(--space-5)) calc(-1 * var(--space-4));
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--ui-cream-line);
+  background: var(--ui-cream);
+}

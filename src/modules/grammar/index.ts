@@ -1,0 +1,1 @@
+export { grammarRoutes } from "./routes";

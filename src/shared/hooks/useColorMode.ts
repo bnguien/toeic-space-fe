@@ -1,51 +1,115 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 
 export type ColorMode = "light" | "dark";
+export type ColorModePreference = "system" | ColorMode;
 
-const STORAGE_KEY = "admin.colorMode";
+const STORAGE_KEY = "toeicspace.colorMode";
+/** Key used before the site-wide setting existed (admin only); read once as a fallback. */
+const LEGACY_STORAGE_KEY = "admin.colorMode";
+const DARK_QUERY = "(prefers-color-scheme: dark)";
 
-function storedMode(): ColorMode | null {
+const isMode = (value: unknown): value is ColorMode => value === "light" || value === "dark";
+
+function readPreference(): ColorModePreference {
   try {
-    const value = window.localStorage.getItem(STORAGE_KEY);
-    return value === "light" || value === "dark" ? value : null;
+    const stored =
+      window.localStorage.getItem(STORAGE_KEY) ?? window.localStorage.getItem(LEGACY_STORAGE_KEY);
+    return isMode(stored) || stored === "system" ? stored : "system";
   } catch {
-    return null;
+    return "system";
   }
 }
 
-const systemMode = (): ColorMode =>
-  typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+const readSystem = (): ColorMode =>
+  typeof window !== "undefined" && window.matchMedia?.(DARK_QUERY).matches ? "dark" : "light";
+
+/* One shared store, so every toggle (navbar, admin header, study settings) stays in sync. */
+let preference: ColorModePreference = typeof window === "undefined" ? "system" : readPreference();
+let system: ColorMode = readSystem();
+const listeners = new Set<() => void>();
+const emit = () => listeners.forEach((listener) => listener());
+
+const darkQuery = typeof window === "undefined" ? null : (window.matchMedia?.(DARK_QUERY) ?? null);
+
+function onSystemChange() {
+  system = readSystem();
+  emit();
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  if (listeners.size === 1) {
+    system = readSystem();
+    darkQuery?.addEventListener("change", onSystemChange);
+  }
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0) darkQuery?.removeEventListener("change", onSystemChange);
+  };
+}
+
+function setPreference(next: ColorModePreference) {
+  preference = next;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, next);
+  } catch {
+    // Private mode: the choice lasts for this visit only.
+  }
+  emit();
+}
+
+const getPreference = () => preference;
+const getSystem = () => system;
 
 /**
- * Light or dark admin colours. An explicit choice is remembered in this browser; until then the
- * system preference is followed, including when it changes.
+ * Light or dark colours for the whole site. "system" (the default) follows the device, including
+ * when it changes; an explicit choice is remembered in this browser.
  */
 export function useColorMode() {
-  const [chosen, setChosen] = useState<ColorMode | null>(storedMode);
-  const [system, setSystem] = useState<ColorMode>(systemMode);
+  const current = useSyncExternalStore(subscribe, getPreference, () => "system" as const);
+  const device = useSyncExternalStore(subscribe, getSystem, () => "light" as const);
+  const mode: ColorMode = current === "system" ? device : current;
+
+  const setMode = useCallback((next: ColorMode) => setPreference(next), []);
+  const toggle = useCallback(() => setPreference(mode === "dark" ? "light" : "dark"), [mode]);
+
+  return { mode, preference: current, setPreference, setMode, toggle };
+}
+
+/* Layouts that apply the colour mode to the document right now (see useColorModeScope). */
+let activeScopes = 0;
+const getScoped = () => activeScopes > 0;
+
+/**
+ * Applies the colour mode to the whole document while the calling layout is mounted. Only areas
+ * whose styles use the design tokens call this; everything else keeps the light colours.
+ */
+export function useColorModeScope(enabled = true) {
+  const { mode } = useColorMode();
 
   useEffect(() => {
-    const query = window.matchMedia?.("(prefers-color-scheme: dark)");
-    if (!query) return;
-    const update = () => setSystem(query.matches ? "dark" : "light");
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
+    if (!enabled) return;
+    activeScopes += 1;
+    emit();
+    return () => {
+      activeScopes -= 1;
+      emit();
+    };
+  }, [enabled]);
 
-  const mode = chosen ?? system;
+  useEffect(() => {
+    if (!enabled) return;
+    const root = document.documentElement;
+    root.dataset.colorMode = mode;
+    return () => {
+      if (activeScopes === 0) delete root.dataset.colorMode;
+    };
+  }, [enabled, mode]);
 
-  const setMode = useCallback((next: ColorMode) => {
-    setChosen(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // Private mode: the choice lasts for this visit only.
-    }
-  }, []);
+  return mode;
+}
 
-  const toggle = useCallback(() => setMode(mode === "dark" ? "light" : "dark"), [mode, setMode]);
-
-  return { mode, setMode, toggle };
+/** Whether the current page follows the colour mode, e.g. to show a light/dark toggle. */
+export function useColorModeScopeActive() {
+  return useSyncExternalStore(subscribe, getScoped, () => false);
 }

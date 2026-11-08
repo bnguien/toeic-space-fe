@@ -27,9 +27,21 @@ export const LANDING_NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    label: "Flashcards",
-    href: "#vocabulary",
+    label: "Vocab",
+    href: "/vocabulary",
     targetId: "vocabulary",
+    path: "/vocabulary",
+  },
+  {
+    label: "Game",
+    href: "/games/video",
+    targetId: "games",
+    children: [
+      { label: "Video song ngữ", targetId: "games", route: "/games/video" },
+      { label: "Báo song ngữ", targetId: "games", route: "/games/news" },
+      { label: "Dictation", targetId: "games", route: "/games/dictation" },
+      { label: "Lộ trình ngữ pháp", targetId: "games", route: "/games/grammar" },
+    ],
   },
   {
     label: "Khóa học",

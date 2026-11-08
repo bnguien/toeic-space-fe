@@ -1,0 +1,81 @@
+.viewport {
+  position: fixed;
+  /* A layout with a pinned right sidebar moves toasts left of it via --toast-right. */
+  right: var(--toast-right, var(--space-4));
+  bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  z-index: 80;
+  display: grid;
+  justify-items: end;
+  gap: var(--space-2);
+  max-width: calc(100vw - 2 * var(--space-4));
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 420px;
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border: 1.5px solid var(--ui-ink);
+  border-left-width: 5px;
+  border-radius: var(--radius-xl);
+  background: var(--ui-surface);
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+  color: var(--ui-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  pointer-events: auto;
+}
+
+.toast[data-tone="green"] {
+  border-left-color: var(--ui-green);
+}
+
+.toast[data-tone="rose"] {
+  border-left-color: var(--ui-rose);
+}
+
+.toast[data-tone="pink"] {
+  border-left-color: var(--ui-pink);
+}
+
+.toast[data-tone="blue"] {
+  border-left-color: var(--ui-blue);
+}
+
+.title {
+  overflow-wrap: anywhere;
+}
+
+.close {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ui-muted);
+}
+
+.close:hover {
+  background: var(--ui-hover);
+}
+
+.close:focus-visible {
+  box-shadow: var(--ui-focus);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .toast {
+    animation: toast-in 0.18s ease-out;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+}

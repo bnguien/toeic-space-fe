@@ -1,0 +1,724 @@
+/* One exercise question (Studychill grammar-lesson.css / grammar-extra.css). Colours via GrammarTheme --gp-* variables. */
+.q {
+  position: relative;
+  padding-left: 40px;
+  font-size: 15px;
+}
+.n {
+  position: absolute;
+  left: 0;
+  top: 1px;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: 6px;
+  background: var(--gp-fill);
+  color: var(--gp-on-fill);
+  font-size: 12.5px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 22px;
+  overflow: visible;
+}
+.q.isCorrect > .n {
+  background: var(--gp-ok);
+  color: var(--gp-surface);
+}
+.q.isWrong > .n {
+  background: var(--gp-bad);
+  color: var(--gp-surface);
+}
+.qBody {
+  min-width: 0;
+}
+.stem {
+  margin: 0 0 6px;
+}
+.tag {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 0 6px;
+  border-radius: 5px;
+  background: var(--gp-m100);
+  color: var(--gp-m600);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+.tagReview {
+  background: var(--gp-gold-soft);
+  color: var(--gp-gold-ink);
+  border: 1px solid var(--gp-gold);
+}
+.tagSpiral {
+  background: transparent;
+  color: var(--gp-muted);
+  border: 1px dashed var(--gp-line2);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.dash {
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+.dash.isFilled {
+  padding: 0 6px;
+  border-bottom: 2px solid var(--gp-moss);
+  color: var(--gp-moss);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.dash.isFilled.isCorrect {
+  color: var(--gp-ok);
+  border-bottom-color: var(--gp-ok);
+}
+.dash.isFilled.isWrong {
+  color: var(--gp-bad);
+  border-bottom-color: var(--gp-bad);
+}
+.root {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 9px;
+  border-radius: 999px;
+  border: 1px solid var(--gp-m600);
+  color: var(--gp-m700);
+  font-weight: 700;
+  font-size: 13.5px;
+}
+
+/* ---------- Options A–D ---------- */
+.opts {
+  display: grid;
+  gap: 4px 12px;
+}
+.c4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.c2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.c1 {
+  grid-template-columns: 1fr;
+}
+.opt {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 9px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  background: none;
+  color: var(--gp-ink);
+  font: inherit;
+  font-size: 14.5px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+.opt b {
+  color: var(--gp-m600);
+  flex: none;
+}
+.opt:hover:not(:disabled) {
+  background: var(--gp-m50);
+}
+.opt.isOn {
+  border-color: var(--gp-moss);
+  background: var(--gp-m50);
+  font-weight: 700;
+}
+.opt:disabled {
+  cursor: default;
+}
+.opt.isCorrect {
+  border-color: var(--gp-ok);
+  background: var(--gp-ok-soft);
+  color: var(--gp-ok);
+  font-weight: 700;
+}
+.opt.isCorrect b {
+  color: var(--gp-ok);
+}
+.opt.isWrong {
+  border-color: var(--gp-bad);
+  background: var(--gp-bad-soft);
+  color: var(--gp-bad);
+}
+.opt.isWrong b {
+  color: var(--gp-bad);
+}
+.opt.isWrong.isOld {
+  opacity: 0.6;
+  font-weight: 400;
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--gp-bad) 55%, transparent);
+}
+.optIc {
+  flex: none;
+  align-self: center;
+  margin-left: auto;
+}
+
+/* ---------- Typed answers ---------- */
+.lnRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-top: 6px;
+  max-width: 560px;
+}
+.lnRow.isWide {
+  max-width: none;
+}
+.lnLb {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: flex-end;
+  gap: 8px;
+}
+.lnLb > span {
+  flex: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gp-m600);
+  padding-bottom: 4px;
+}
+.ln {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 2px;
+  border: 0;
+  border-bottom: 1.5px solid var(--gp-subtle);
+  border-radius: 0;
+  background: transparent;
+  color: var(--gp-ink);
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+}
+.ln:focus {
+  border-bottom-color: var(--gp-moss);
+}
+.ln:disabled {
+  color: var(--gp-ink);
+}
+.ln.isCorrect {
+  border-bottom: 2px solid var(--gp-ok);
+  background: var(--gp-ok-soft);
+  color: var(--gp-ok);
+  font-weight: 600;
+}
+.ln.isWrong {
+  border-bottom: 2px solid var(--gp-bad);
+  background: var(--gp-bad-soft);
+  color: var(--gp-bad);
+}
+.lnIc {
+  flex: none;
+  margin-bottom: 6px;
+}
+.lnIc.isCorrect {
+  color: var(--gp-ok);
+}
+.lnIc.isWrong {
+  color: var(--gp-bad);
+}
+.check {
+  flex: none;
+  align-self: flex-end;
+  margin-top: 6px;
+  padding: 3px 11px;
+  border: 1.5px solid var(--gp-moss);
+  border-radius: 7px;
+  background: var(--gp-surface);
+  color: var(--gp-moss);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.check:hover {
+  background: var(--gp-fill);
+  border-color: var(--gp-fill);
+  color: var(--gp-on-fill);
+}
+.check:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ---------- Error ---------- */
+.err {
+  line-height: 2.7;
+}
+.ul {
+  position: relative;
+  display: inline-block;
+  min-width: 26px;
+  margin: 0 2px;
+  padding: 0 1px;
+  border: 0;
+  border-bottom: 1.5px solid var(--gp-ink);
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+}
+.ul i {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin-top: 1px;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--gp-m600);
+  line-height: 1;
+  white-space: nowrap;
+}
+.ul:hover:not(:disabled) {
+  background: var(--gp-m50);
+}
+.ul.isOn {
+  background: var(--gp-m100);
+  border-bottom-color: var(--gp-moss);
+  border-bottom-width: 2.5px;
+}
+.ul.isCorrect {
+  background: var(--gp-ok-soft);
+  border-bottom: 2.5px solid var(--gp-ok);
+  color: var(--gp-ok);
+}
+.ul.isWrong {
+  background: var(--gp-bad-soft);
+  border-bottom: 2.5px solid var(--gp-bad);
+  color: var(--gp-bad);
+}
+.ul.isCorrect i {
+  color: var(--gp-ok);
+}
+.ul.isWrong i {
+  color: var(--gp-bad);
+}
+.ul:disabled {
+  cursor: default;
+  color: inherit;
+}
+.errAns {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+.errAns > span {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gp-m600);
+  padding-bottom: 4px;
+}
+.errAns .lnRow {
+  flex: 1;
+  min-width: 220px;
+  margin: 0;
+}
+.lbox {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 22px;
+  margin-left: 4px;
+  border: 1.2px solid var(--gp-m600);
+  border-radius: 4px;
+  color: var(--gp-ink);
+  vertical-align: middle;
+}
+.lbox.isCorrect {
+  border-color: var(--gp-ok);
+  background: var(--gp-ok-soft);
+  color: var(--gp-ok);
+}
+.lbox.isWrong {
+  border-color: var(--gp-bad);
+  background: var(--gp-bad-soft);
+  color: var(--gp-bad);
+}
+
+/* ---------- Order ---------- */
+.chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1px solid var(--gp-m600);
+  border-radius: 7px;
+  background: var(--gp-surface);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gp-ink);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+  min-height: 30px;
+}
+.chipBtn {
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+.chipBtn:hover:not(:disabled) {
+  background: var(--gp-m50);
+}
+.chipOn {
+  border-color: var(--gp-moss);
+  background: var(--gp-lime-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+}
+.orderLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 2px;
+  border-bottom: 1.5px solid var(--gp-subtle);
+}
+.orderLine.isCorrect {
+  border-bottom: 2px solid var(--gp-ok);
+  background: var(--gp-ok-soft);
+}
+.orderLine.isWrong {
+  border-bottom: 2px solid var(--gp-bad);
+  background: var(--gp-bad-soft);
+}
+.orderLine .lnIc {
+  margin: 0 0 0 auto;
+}
+
+/* ---------- Parse / match ---------- */
+.parse {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 4px;
+}
+.parse > div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+.seg {
+  padding: 3px 10px;
+  border: 1px solid var(--gp-m600);
+  border-radius: 6px;
+  background: var(--gp-m50);
+  font-weight: 600;
+  text-align: center;
+}
+.sel {
+  padding: 3px 6px;
+  border: 1px dashed var(--gp-subtle);
+  border-radius: 6px;
+  background: var(--gp-surface);
+  color: var(--gp-ink);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+.sel:focus {
+  outline: 2px solid var(--gp-moss);
+  outline-offset: 1px;
+}
+.sel.isCorrect {
+  border: 1.5px solid var(--gp-ok);
+  background: var(--gp-ok-soft);
+  color: var(--gp-ok);
+}
+.sel.isWrong {
+  border: 1.5px solid var(--gp-bad);
+  background: var(--gp-bad-soft);
+  color: var(--gp-bad);
+}
+.sel:disabled {
+  cursor: default;
+  opacity: 1;
+}
+.legend {
+  font-size: 12.5px;
+  color: var(--gp-muted);
+}
+.legend b {
+  color: var(--gp-m700);
+}
+.match {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 24px;
+  margin-top: 4px;
+}
+.match ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.match li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 3px 0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--gp-m50);
+}
+.match li b {
+  color: var(--gp-m600);
+}
+.match li > span {
+  flex: 1;
+}
+
+/* ---------- Judge ---------- */
+.judge {
+  display: flex;
+  gap: 10px;
+  margin: 4px 0;
+}
+.reasons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin: 4px 0;
+}
+.pick {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 4px 9px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  background: none;
+  color: var(--gp-ink);
+  font: inherit;
+  font-size: 14.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.pick b {
+  color: var(--gp-m600);
+}
+.box {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 15px;
+  height: 15px;
+  margin-top: 4px;
+  border: 1.3px solid var(--gp-m600);
+  border-radius: 3px;
+  color: var(--gp-on-fill);
+}
+.pick.isOn {
+  font-weight: 700;
+}
+.pick.isOn .box {
+  background: var(--gp-fill);
+  border-color: var(--gp-fill);
+}
+.pick:hover:not(:disabled) {
+  background: var(--gp-m50);
+}
+.pick:disabled {
+  cursor: default;
+}
+.pick.isCorrect {
+  border-color: var(--gp-ok);
+  background: var(--gp-ok-soft);
+  color: var(--gp-ok);
+}
+.pick.isCorrect .box {
+  background: var(--gp-ok);
+  border-color: var(--gp-ok);
+  color: var(--gp-surface);
+}
+.pick.isWrong {
+  border-color: var(--gp-bad);
+  background: var(--gp-bad-soft);
+  color: var(--gp-bad);
+}
+.pick.isWrong .box {
+  background: var(--gp-bad);
+  border-color: var(--gp-bad);
+  color: var(--gp-surface);
+}
+
+/* ---------- Part 6 ---------- */
+.cloze {
+  padding-left: 0;
+}
+.clozeH {
+  margin: 0 0 8px;
+  font-weight: 700;
+  color: var(--gp-m800);
+}
+.passage {
+  padding: 14px 20px;
+  border: 1.5px solid var(--gp-m600);
+  border-radius: 9px;
+  background: var(--gp-surface);
+  font-size: 14.5px;
+  line-height: 1.75;
+}
+.passage p {
+  margin: 0 0 8px;
+}
+.passage p:last-child {
+  margin-bottom: 0;
+}
+.passage .meta {
+  color: var(--gp-m700);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gp-m100);
+}
+.passage .titleText {
+  font-weight: 800;
+  color: var(--gp-m800);
+  text-align: center;
+  font-size: 15.5px;
+}
+.passage .sig {
+  margin-bottom: 1px;
+}
+.gap {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  min-width: 70px;
+  padding: 0 8px;
+  border-bottom: 1.5px solid var(--gp-ink);
+  text-align: center;
+  font-weight: 800;
+  color: var(--gp-m600);
+  line-height: 1.3;
+}
+.gap.gapWide {
+  min-width: 150px;
+}
+.gap.isFilled > span {
+  color: var(--gp-moss);
+}
+.gap.isFilled > b {
+  font-size: 11px;
+  color: var(--gp-muted);
+}
+.gap.isCorrect {
+  border-bottom-color: var(--gp-ok);
+  background: var(--gp-ok-soft);
+}
+.gap.isCorrect > span {
+  color: var(--gp-ok);
+}
+.gap.isWrong {
+  border-bottom-color: var(--gp-bad);
+  background: var(--gp-bad-soft);
+}
+.gap.isWrong > span {
+  color: var(--gp-bad);
+}
+.subs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* ---------- Brief explanation: 1–2 lines under the question ---------- */
+.why {
+  margin-top: 6px;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.whyRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+.whyB {
+  margin-top: 4px;
+  padding-left: 10px;
+  border-left: 2px solid var(--gp-m100);
+  color: var(--gp-muted);
+}
+.why.isCorrect .whyB {
+  margin-top: 2px;
+  border-left-color: var(--gp-ok);
+}
+.whyB p {
+  margin: 1px 0;
+}
+.whyB b {
+  color: var(--gp-m700);
+  font-weight: 700;
+}
+.whyDone u {
+  text-decoration: none;
+  background: var(--gp-hl);
+  border-radius: 2px;
+  padding: 0 2px;
+  color: var(--gp-ink);
+  font-weight: 700;
+}
+.parseAns {
+  margin-right: 8px;
+  font-weight: 600;
+}
+.hint {
+  margin: 4px 0 0;
+  color: var(--gp-bad);
+  font-size: 13px;
+}
+
+/* --gp-m700 is a deep fill in dark mode: its text uses move to the light accent. */
+:global([data-color-mode="dark"]) .root,
+:global([data-color-mode="dark"]) .legend b,
+:global([data-color-mode="dark"]) .passage .meta,
+:global([data-color-mode="dark"]) .whyB b {
+  color: var(--gp-m800);
+}
+
+@media (max-width: 760px) {
+  .q {
+    padding-left: 34px;
+  }
+  .c4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .c2 {
+    grid-template-columns: 1fr;
+  }
+  .match {
+    grid-template-columns: 1fr;
+  }
+  .passage {
+    padding: 12px 14px;
+  }
+}

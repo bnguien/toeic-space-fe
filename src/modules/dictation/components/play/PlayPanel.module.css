@@ -1,0 +1,269 @@
+/* Floating panels of the play screen: contents drawer (left) + settings drawer (right). */
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: var(--ui-backdrop);
+  animation: fadeIn 0.2s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+.panel {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  width: min(420px, calc(100% - 24px));
+  border: 2px solid var(--page-line);
+  border-radius: 22px;
+  background: var(--page-panel);
+  color: var(--page-ink);
+  box-shadow: 8px 8px 0 rgb(0 0 0 / 0.18);
+  outline: none;
+}
+
+.left {
+  left: 12px;
+  animation: slideLeft 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.right {
+  right: 12px;
+  width: min(520px, calc(100% - 24px));
+  animation: slideRight 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 18px 10px;
+  border-bottom: 1px solid var(--page-line);
+}
+
+.head h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.head h3 small {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--page-muted);
+}
+
+.head button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--page-soft);
+  color: var(--page-ink);
+}
+
+/* Segmented control */
+.segmented {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--page-soft);
+}
+
+.segmented button {
+  flex: 1;
+  padding: 8px 4px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--page-ink);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.segmented button small {
+  font-size: 11px;
+  color: var(--page-muted);
+}
+
+.segmented button.active {
+  background: var(--page-primary);
+  color: var(--page-primary-ink);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--page-primary) 30%, transparent);
+}
+
+.segmented button.active small {
+  color: inherit;
+  opacity: 0.8;
+}
+
+/* One settings line: short label left, choices right */
+.row {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.row > span {
+  font-size: 12.5px;
+  font-weight: 750;
+  color: var(--page-muted);
+}
+
+.row > div {
+  min-width: 0;
+}
+
+.row .segmented button {
+  padding: 7px 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--page-ink);
+  text-align: left;
+}
+
+.toggle strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.toggle i {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 23px;
+  border-radius: 99px;
+  background: var(--page-line);
+  transition: background 0.2s;
+}
+
+.toggle i::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  transition: transform 0.2s;
+}
+
+.toggleOn i {
+  background: var(--page-primary);
+}
+
+.toggleOn i::after {
+  transform: translateX(17px);
+}
+
+.voice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.voice > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.iconButton {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--page-line);
+  border-radius: 10px;
+  background: var(--page-panel);
+  color: var(--page-ink);
+}
+
+.iconButton:hover {
+  border-color: var(--page-primary);
+}
+
+.select {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1.5px solid var(--page-line);
+  border-radius: 10px;
+  background: var(--page-panel);
+  color: var(--page-ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.note {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--page-muted);
+}
+
+@media (max-width: 760px) {
+  .panel {
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
+    max-height: 86svh;
+    animation-name: slideUp;
+  }
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

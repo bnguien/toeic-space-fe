@@ -1,0 +1,197 @@
+/* Word tray under the video (desktop): "Thẻ từ" tab · word card, or nearby tiered words + shortcuts. */
+.panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 2px -18px 0 -22px;
+  border-top: 1px solid var(--vr-line);
+}
+
+.tabs {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+  padding: 0 18px 0 22px;
+  border-bottom: 1px solid var(--vr-line);
+}
+
+.tab {
+  position: relative;
+  padding: 12px 0 11px;
+  color: var(--vr-ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--vr-moss);
+}
+
+[data-reader-theme="night"] .tab::after {
+  background: var(--vr-accent-line);
+}
+
+.tabCount {
+  margin-left: auto;
+  align-self: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vr-muted);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px 18px 24px 22px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--vr-line2) transparent;
+}
+
+.empty {
+  padding: 8px 2px;
+  color: var(--vr-muted);
+}
+
+.emptyBig {
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--vr-ink2);
+}
+
+.empty p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--vr-trans);
+}
+
+.keys {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 14px;
+  margin: 18px 0 0;
+  font-size: 12.5px;
+}
+
+.keys > div {
+  display: contents;
+}
+
+.keys dt {
+  white-space: nowrap;
+}
+
+.keys dd {
+  margin: 0;
+  align-self: center;
+  color: var(--vr-ink3);
+  font-weight: 500;
+}
+
+.keys kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 1px 6px;
+  border: 1px solid var(--vr-line2);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--vr-card);
+  color: var(--vr-ink2);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Tiered words around the sentence playing (empty tray). */
+.near {
+  margin-bottom: 22px;
+}
+
+.nearTitle {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--vr-muted);
+}
+
+.near ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--vr-line);
+}
+
+.near button {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--vr-line);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.near button:hover {
+  background: var(--vr-hover);
+}
+
+.nearWord {
+  flex: none;
+  min-width: 7.5em;
+  color: var(--vr-ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+
+.levelToeic {
+  text-decoration-color: var(--vr-lv-toeic);
+  text-decoration-style: dotted;
+  text-decoration-thickness: 2px;
+}
+
+.levelB2 {
+  text-decoration-color: var(--vr-lv-b2);
+}
+
+.levelC1 {
+  text-decoration-color: var(--vr-lv-c1);
+  text-decoration-style: double;
+}
+
+.nearPartOfSpeech {
+  flex: none;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--vr-hover);
+  color: var(--vr-ipa);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.nearMeaning {
+  min-width: 0;
+  color: var(--vr-trans);
+  font-size: 13px;
+  line-height: 1.45;
+}

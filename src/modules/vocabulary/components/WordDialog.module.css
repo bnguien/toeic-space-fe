@@ -1,0 +1,22 @@
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+}
+
+.wide,
+.error {
+  grid-column: 1 / -1;
+}
+
+.error {
+  color: var(--ui-rose);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+}

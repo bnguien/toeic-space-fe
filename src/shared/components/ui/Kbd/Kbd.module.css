@@ -1,0 +1,29 @@
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: 1px solid var(--ui-line);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-md);
+  background: var(--ui-surface);
+  color: var(--ui-subtle);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kbd[data-inverted] {
+  border-color: color-mix(in srgb, var(--ui-on-fill) 35%, transparent);
+  background: transparent;
+  color: color-mix(in srgb, var(--ui-on-fill) 85%, transparent);
+}
+
+@media (hover: none), (max-width: 767px) {
+  .kbd {
+    display: none;
+  }
+}

@@ -1,0 +1,212 @@
+/* Bilingual news list: 1440px content, faint grid on the canvas; the global navbar is fixed above. */
+.page {
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+  background-color: var(--ui-canvas);
+  background-image:
+    linear-gradient(var(--ui-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ui-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ui-ink);
+  font-family: var(--font-sans);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 20px 56px;
+}
+
+.library {
+  min-width: 0;
+  padding: 30px 32px 18px;
+  border: 2px solid var(--ui-cream-line);
+  border-radius: 22px;
+  background: var(--ui-cream);
+  box-shadow: var(--ui-shadow-hard);
+}
+
+.libraryHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.libraryTitle {
+  padding-left: 18px;
+  border-left: 4px solid var(--ui-navy);
+}
+
+.kicker {
+  color: var(--ui-muted);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.libraryTitle h2 {
+  margin: 6px 0;
+  color: var(--ui-navy);
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 850;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.libraryTitle p {
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 15px;
+}
+
+.progress {
+  display: grid;
+  gap: 10px;
+  width: min(420px, 40%);
+}
+
+.progress > div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.progress b {
+  color: var(--ui-navy);
+  font-size: 32px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.progress > div span {
+  color: var(--ui-muted);
+  font-size: 14px;
+}
+
+.track {
+  display: block;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: var(--ui-cream-line);
+}
+
+.track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ui-navy);
+}
+
+.progress small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ui-muted);
+  font-size: 12px;
+}
+
+.progress small i {
+  width: 7px;
+  height: 7px;
+  margin-left: 6px;
+  border-radius: 2px;
+}
+
+.progress small i:first-child {
+  margin-left: 0;
+}
+
+.legendDone {
+  background: var(--ui-navy);
+}
+
+.legendReading {
+  background: var(--ui-mark-bright);
+}
+
+.summary {
+  margin: 12px 0 0;
+  color: var(--ui-muted);
+  font-size: 13px;
+}
+
+.summary b {
+  color: var(--ui-ink);
+}
+
+.summary button,
+.empty button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ui-navy);
+  font: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rows {
+  margin: 18px -32px 0;
+}
+
+.empty {
+  margin: 24px 32px;
+  color: var(--ui-muted);
+  font-size: 14px;
+}
+
+.moreTopics {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 32px 8px;
+  padding: 9px 16px;
+  border: 1.5px dashed var(--ui-divider);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ui-navy);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.moreTopics:hover {
+  border-color: var(--ui-blue);
+  background: var(--ui-surface);
+}
+
+@media (max-width: 900px) {
+  .libraryHead {
+    flex-direction: column;
+  }
+
+  .progress {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .inner {
+    gap: 16px;
+    padding: 16px 12px 44px;
+  }
+
+  .library {
+    padding: 22px 16px 12px;
+  }
+
+  .rows {
+    margin: 14px -16px 0;
+  }
+}

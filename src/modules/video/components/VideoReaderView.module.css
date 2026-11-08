@@ -1,0 +1,424 @@
+/* Full-screen bilingual reader (port of Studychill VideoReaderView.css; spec docs/ui/video-reader.md there).
+   Desktop: two columns — left sticks (video · transport · current sentence · word tray), right (modebar · transcript).
+   Phone portrait: video on top · modes · transcript · transport at the bottom (thumb reach).
+   Phone landscape: video + transport left · transcript right.
+   Colour tokens --vr-* live on the root; sub-components and the satellites (word card, summary, settings) read
+   them. `data-reader-theme` switches the palette, `data-playing` / `data-dragging` mark state for descendants. */
+
+.root {
+  position: fixed;
+  inset: 0;
+  /* dvh follows the visible area when the mobile address bar collapses; vh is the fallback. */
+  height: 100vh;
+  height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+
+  /* "Giấy" (default): TOEIC Space palette — warm reading surface (pearl) on the canvas, one accent family
+     (blue/navy) for the spoken word and selected UI, rose only for done / wrong, gold for blanks and saved dots. */
+  --vr-bg: var(--ui-pearl);
+  --vr-side: var(--ui-canvas);
+  --vr-card: var(--ui-surface);
+  --vr-hover: var(--ui-hover);
+  --vr-line: var(--ui-line);
+  --vr-line2: var(--ui-divider);
+  --vr-ink: var(--ui-ink);
+  --vr-ink2: color-mix(in srgb, var(--ui-text) 82%, var(--ui-muted));
+  --vr-ink3: var(--ui-muted);
+  --vr-muted: var(--ui-muted);
+  --vr-todo: color-mix(in srgb, var(--ui-muted) 80%, var(--ui-subtle));
+  --vr-said: var(--ui-ink);
+  --vr-moss: var(--ui-blue);
+  --vr-moss-hi: var(--ui-blue-strong);
+  --vr-moss-deep: var(--ui-navy);
+  --vr-on-moss: var(--ui-on-accent);
+  --vr-moss-ink: var(--ui-navy);
+  --vr-tint: var(--ui-blue-soft);
+  --vr-active-bg: var(--ui-blue-soft);
+  --vr-hl: color-mix(in srgb, var(--ui-blue-line) 60%, var(--ui-surface));
+  --vr-hl-soft: color-mix(in srgb, var(--ui-blue-line) 35%, var(--ui-surface));
+  --vr-now-ink: var(--ui-blue);
+  --vr-accent-line: var(--ui-blue);
+  --vr-word-hover: color-mix(in srgb, var(--ui-mark) 32%, var(--ui-surface));
+  --vr-trans: color-mix(in srgb, var(--ui-text) 55%, var(--ui-muted));
+  --vr-ipa: var(--ui-pearl-text);
+  --vr-gloss: var(--ui-navy);
+  --vr-kept: var(--ui-mark-strong);
+  --vr-gold: var(--ui-mark);
+  --vr-blank-line: var(--ui-mark-strong);
+  --vr-blank-bg: color-mix(in srgb, var(--ui-mark) 16%, var(--ui-surface));
+  --vr-blank-focus: color-mix(in srgb, var(--ui-mark) 30%, var(--ui-surface));
+  --vr-bad: var(--ui-rose-strong);
+  --vr-bad-line: var(--ui-rose);
+  --vr-bad-bg: var(--ui-rose-soft);
+  --vr-ok: var(--ui-green);
+  --vr-ok-bg: var(--ui-green-soft);
+  --vr-lo: var(--ui-pearl-text);
+  --vr-done: var(--ui-rose);
+  --vr-warn: var(--ui-pearl-text);
+  --vr-warn-bg: color-mix(in srgb, var(--ui-mark) 14%, var(--ui-surface));
+  --vr-warn-line: var(--ui-pearl-line);
+  --vr-lv-toeic: var(--ui-green);
+  --vr-lv-b2: var(--ui-blue-strong);
+  --vr-lv-c1: var(--ui-pink-strong);
+  --vr-tip-bg: var(--ui-navy);
+  --vr-tip-ink: var(--ui-on-accent);
+  --vr-tip-vi: var(--ui-mark-bright);
+  --vr-focus: var(--ui-blue);
+  --vr-shadow: var(--ui-shadow), 0 6px 20px rgb(37 44 63 / 0.07);
+  --vr-frame-shadow: 0 1px 2px rgb(0 0 0 / 0.08), 0 12px 32px rgb(52 80 143 / 0.18);
+  --vr-base: 1.125rem;
+  --vr-measure: 40em;
+
+  background: var(--vr-bg);
+  color: var(--vr-ink);
+  font-family: var(--font-sans);
+  color-scheme: light;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Extra palettes (kept from Studychill: main text ≥ 13:1 but ≤ 16:1, secondary text ≥ 4.5:1). ── */
+.root[data-reader-theme="moss"] {
+  --vr-bg: #eef2e8;
+  --vr-side: #e5ebdc;
+  --vr-card: #f8faf4;
+  --vr-hover: #e3eada;
+  --vr-line: #d3dcc7;
+  --vr-line2: #bfcbb0;
+  --vr-ink: #1f2b1d;
+  --vr-ink2: #33412f;
+  --vr-ink3: #5b6856;
+  --vr-muted: #5a6655;
+  --vr-todo: #66705f;
+  --vr-said: #1f2b1d;
+  --vr-moss: #3d6b2c;
+  --vr-moss-hi: #335a25;
+  --vr-moss-deep: #23401b;
+  --vr-moss-ink: #23401b;
+  --vr-tint: #dfe9d3;
+  --vr-active-bg: #e2ebd7;
+  --vr-hl: #c5d8b4;
+  --vr-hl-soft: #d8e4cb;
+  --vr-now-ink: #3a6f1d;
+  --vr-accent-line: #3d6b2c;
+  --vr-trans: #475343;
+  --vr-ipa: #3e5f80;
+  --vr-gloss: #3a6627;
+  --vr-tip-bg: #23401b;
+  --vr-tip-vi: #cfe6bf;
+  --vr-focus: #3d6b2c;
+}
+
+.root[data-reader-theme="ink"] {
+  --vr-bg: #f1f4f8;
+  --vr-side: #e7ecf3;
+  --vr-card: #fafbfd;
+  --vr-hover: #e4e9f2;
+  --vr-line: #d6dde9;
+  --vr-line2: #c2ccdc;
+  --vr-ink: #1b2638;
+  --vr-ink2: #2f3c52;
+  --vr-ink3: #586377;
+  --vr-muted: #566175;
+  --vr-todo: #646e81;
+  --vr-said: #1b2638;
+  --vr-moss: #2e4f86;
+  --vr-moss-hi: #264372;
+  --vr-moss-deep: #1a2f55;
+  --vr-moss-ink: #1a2f55;
+  --vr-tint: #e0e8f5;
+  --vr-active-bg: #e3eaf6;
+  --vr-hl: #c6d4ec;
+  --vr-hl-soft: #d9e2f2;
+  --vr-now-ink: #2453a0;
+  --vr-accent-line: #2e4f86;
+  --vr-trans: #445068;
+  --vr-ipa: #674c8b;
+  --vr-gloss: #2a528c;
+  --vr-tip-bg: #1a2f55;
+  --vr-tip-vi: #c9d9f5;
+  --vr-focus: #2e4f86;
+}
+
+.root[data-reader-theme="clay"] {
+  --vr-bg: #f5eee2;
+  --vr-side: #ede3d3;
+  --vr-card: #fbf7f0;
+  --vr-hover: #eadfce;
+  --vr-line: #dfd2bd;
+  --vr-line2: #cfbea5;
+  --vr-ink: #2e2118;
+  --vr-ink2: #44342a;
+  --vr-ink3: #6a5a4e;
+  --vr-muted: #695a4e;
+  --vr-todo: #76665a;
+  --vr-said: #2e2118;
+  --vr-moss: #8f3b22;
+  --vr-moss-hi: #7a311c;
+  --vr-moss-deep: #5a2414;
+  --vr-moss-ink: #5a2414;
+  --vr-tint: #f0dfd0;
+  --vr-active-bg: #f1e3d3;
+  --vr-hl: #e6c9b2;
+  --vr-hl-soft: #eddac8;
+  --vr-now-ink: #9a3f1c;
+  --vr-accent-line: #8f3b22;
+  --vr-trans: #544539;
+  --vr-ipa: #3e5f80;
+  --vr-gloss: #874720;
+  --vr-tip-bg: #3a2418;
+  --vr-tip-vi: #f0c9a8;
+  --vr-focus: #8f3b22;
+}
+
+/* "Đêm": warm charcoal (not pure black), cream text (not pure white) against halation when reading at night.
+   "Biển đêm" shares this block (dark state colours) and overrides the sea tones below. */
+.root[data-reader-theme="night"],
+.root[data-reader-theme="night-sea"] {
+  --vr-bg: #1c1f1d;
+  --vr-side: #232724;
+  --vr-card: #262b27;
+  --vr-hover: #252a26;
+  --vr-line: #323833;
+  --vr-line2: #454c46;
+  --vr-ink: #ece7da;
+  --vr-ink2: #d4d0c4;
+  --vr-ink3: #a3a89f;
+  --vr-muted: #9a9f97;
+  --vr-todo: #8f948a;
+  --vr-said: #f4f0e4;
+  --vr-moss: #3a6b54;
+  --vr-moss-hi: #437a60;
+  --vr-moss-deep: #a9d3b9;
+  --vr-moss-ink: #a9d3b9;
+  --vr-on-moss: #f2f5ec;
+  --vr-tint: #2b3a31;
+  --vr-active-bg: #24302a;
+  --vr-hl: #3d6a54;
+  --vr-hl-soft: #2e4239;
+  --vr-now-ink: #8fdcab;
+  --vr-accent-line: #6fae8c;
+  --vr-word-hover: #4a3f22;
+  --vr-trans: #c4bfb2;
+  --vr-ipa: #9cc3e0;
+  --vr-gloss: #9fcbb0;
+  --vr-kept: #e2b96d;
+  --vr-gold: #e2b96d;
+  --vr-blank-line: #e2b96d;
+  --vr-blank-bg: rgb(226 185 109 / 0.1);
+  --vr-blank-focus: rgb(226 185 109 / 0.2);
+  --vr-bad: #f2a99c;
+  --vr-bad-line: #e07a6a;
+  --vr-bad-bg: rgb(224 122 106 / 0.14);
+  --vr-ok: #a9d3b9;
+  --vr-ok-bg: #2b3a31;
+  --vr-lo: #e2b96d;
+  --vr-done: #e87565;
+  --vr-warn: #f6c58f;
+  --vr-warn-bg: #2d2418;
+  --vr-warn-line: #6b4a26;
+  --vr-lv-toeic: #5cc9b5;
+  --vr-lv-b2: #8db8f0;
+  --vr-lv-c1: #d9a1e6;
+  --vr-tip-bg: #f4f0e4;
+  --vr-tip-ink: #1c2a22;
+  --vr-tip-vi: #1e5a3e;
+  --vr-focus: #3a6b54;
+  --vr-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 22px rgb(0 0 0 / 0.25);
+  --vr-frame-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+  color-scheme: dark;
+}
+
+.root[data-reader-theme="night"] {
+  --vr-focus: #7fb398;
+}
+
+.root[data-reader-theme="night-sea"] {
+  --vr-bg: #161d24;
+  --vr-side: #1b232b;
+  --vr-card: #1e272f;
+  --vr-hover: #212b34;
+  --vr-line: #2b3742;
+  --vr-line2: #3b4955;
+  --vr-ink: #e1e6ea;
+  --vr-ink2: #cbd3d9;
+  --vr-ink3: #98a4ad;
+  --vr-muted: #95a1aa;
+  --vr-todo: #8a97a3;
+  --vr-said: #edf1f3;
+  --vr-moss: #2f6b74;
+  --vr-moss-hi: #377a84;
+  --vr-moss-deep: #9fd3da;
+  --vr-moss-ink: #9fd3da;
+  --vr-on-moss: #eef6f7;
+  --vr-tint: #22363c;
+  --vr-active-bg: #1f3038;
+  --vr-hl: #2f5b63;
+  --vr-hl-soft: #253f46;
+  --vr-now-ink: #7fd3dd;
+  --vr-accent-line: #5fb2bd;
+  --vr-word-hover: #3a3824;
+  --vr-trans: #b7c1c8;
+  --vr-ipa: #b3aee3;
+  --vr-gloss: #8fcfc3;
+  --vr-ok: #9fd3da;
+  --vr-ok-bg: #22363c;
+  --vr-tip-bg: #e9eef1;
+  --vr-tip-ink: #16232b;
+  --vr-tip-vi: #1d5560;
+  --vr-focus: #2f6b74;
+}
+
+.root button {
+  font-family: inherit;
+  /* No 300 ms delay and no double-tap zoom on buttons. */
+  touch-action: manipulation;
+}
+
+.root button:focus-visible {
+  outline: 2px solid var(--vr-focus);
+  outline-offset: 2px;
+}
+
+/* ── Two columns ────────────────────────────────────────────────────────── */
+.split {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+/* Video column: the column stands still, only the word tray below scrolls. Default width follows the screen; the
+   divider changes it (inline width from JS, remembered in localStorage). */
+.media {
+  flex: none;
+  width: clamp(440px, 40vw, 800px);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 18px 0 22px;
+  background: var(--vr-side);
+}
+
+/* Divider: 10 px hit area, 2 px visible line; hover / dragging thickens it in the accent colour. */
+.divider {
+  flex: none;
+  position: relative;
+  width: 10px;
+  margin: 0 -5px;
+  z-index: 3;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 2px;
+  background: var(--vr-line2);
+  transition:
+    background 0.15s ease,
+    width 0.15s ease,
+    left 0.15s ease;
+}
+
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: 6px;
+  height: 36px;
+  margin-top: -18px;
+  border-radius: 3px;
+  background: var(--vr-line2);
+  transition: background 0.15s ease;
+}
+
+.divider:hover::before,
+.divider:focus-visible::before,
+.root[data-dragging] .divider::before {
+  left: 3.5px;
+  width: 3px;
+  background: var(--vr-moss);
+}
+
+.divider:hover::after,
+.divider:focus-visible::after,
+.root[data-dragging] .divider::after {
+  background: var(--vr-moss);
+}
+
+.divider:focus-visible {
+  outline: none;
+}
+
+/* Dragging: the iframe swallows mouse events (disabled in ReaderPlayerFrame); no text selection; col-resize cursor. */
+.root[data-dragging],
+.root[data-dragging] * {
+  cursor: col-resize !important;
+  user-select: none;
+}
+
+.reader {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--vr-bg);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PHONE / TABLET PORTRAIT (≤ 1000px): the video column dissolves into the flow (display: contents) so its children
+   re-order: video · modes + transcript · transport at the bottom.
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1000px) {
+  .root {
+    padding-bottom: 0;
+    --vr-base: 1.0625rem;
+  }
+
+  .split {
+    flex-direction: column;
+  }
+
+  .media {
+    display: contents;
+  }
+
+  .reader {
+    order: 2;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PHONE LANDSCAPE — very short height: video left, transcript right
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1000px) and (orientation: landscape) and (max-height: 600px) {
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 10px;
+    padding: 6px max(8px, env(safe-area-inset-right, 0px)) 0
+      max(8px, env(safe-area-inset-left, 0px));
+  }
+
+  .reader {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    min-height: 0;
+    border-left: 1px solid var(--vr-line);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .divider::before {
+    transition: none;
+  }
+}
