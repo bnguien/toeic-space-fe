@@ -1,0 +1,45 @@
+.couponPage {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.filterToolbar {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.filterToolbar :global([class*="toolbarRow"]) {
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.filterToolbar :global(form[role="search"]) {
+  flex: 0 1 46%;
+  width: 46%;
+  min-width: min(100%, 280px);
+}
+
+.filterSelect {
+  flex: 0 1 46%;
+  width: 46%;
+  min-width: 0;
+}
+
+.filterSelect > div {
+  min-height: 40px;
+}
+
+@media (max-width: 720px) {
+  .filterToolbar :global([class*="toolbarRow"]) {
+    flex-wrap: wrap;
+  }
+
+  .filterToolbar :global(form[role="search"]),
+  .filterSelect {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}

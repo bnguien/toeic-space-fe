@@ -18,7 +18,12 @@ import {
   CourseDetailPage,
   CoursePreviewPage,
   CoursesLayout,
+  CheckoutPage,
+  OrderPage,
+  MyCoursesPage,
+  LearningPage,
 } from "@/modules/courses";
+import { RequireAuth } from "@/modules/auth";
 import { RootLayout } from "./RootLayout";
 
 // Render errors and unknown paths (handled by the "/" route) show a friendly screen.
@@ -39,6 +44,46 @@ export const router = createBrowserRouter(
           children: [
             { path: "/courses", element: <CourseCatalogPage /> },
             { path: "/courses/:id", element: <CourseDetailPage /> },
+            {
+              path: "/courses/:courseId/checkout",
+              element: (
+                <RequireAuth roles={["User"]}>
+                  <CheckoutPage />
+                </RequireAuth>
+              ),
+            },
+            {
+              path: "/orders/:id",
+              element: (
+                <RequireAuth roles={["User"]}>
+                  <OrderPage />
+                </RequireAuth>
+              ),
+            },
+            {
+              path: "/my-courses",
+              element: (
+                <RequireAuth roles={["User"]}>
+                  <MyCoursesPage />
+                </RequireAuth>
+              ),
+            },
+            {
+              path: "/my-courses/:courseId",
+              element: (
+                <RequireAuth roles={["User"]}>
+                  <LearningPage />
+                </RequireAuth>
+              ),
+            },
+            {
+              path: "/my-courses/:courseId/lessons/:lessonId",
+              element: (
+                <RequireAuth roles={["User"]}>
+                  <LearningPage />
+                </RequireAuth>
+              ),
+            },
             {
               path: "/courses/:courseId/lessons/:lessonId/preview",
               element: <CoursePreviewPage />,

@@ -1,6 +1,6 @@
 import { useEffect, type CSSProperties, type ReactNode } from "react";
 
-import { ResizeHandle, ToastViewport } from "@/shared/components/ui";
+import { ResizeHandle } from "@/shared/components/ui";
 import { useColorModeScope } from "@/shared/hooks/useColorMode";
 import { useMediaQuery } from "@/shared/hooks/useMediaQuery";
 import { useResizable } from "@/shared/hooks/useResizable";
@@ -98,7 +98,6 @@ export function WorkspaceLayout({
         )}
         {collapsed ? (rail ?? sidebar) : sidebar}
       </aside>
-      <ToastViewport />
     </div>
   );
 }

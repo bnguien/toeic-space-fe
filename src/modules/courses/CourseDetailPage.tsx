@@ -30,11 +30,7 @@ export function CourseDetailPage() {
         />
       ) : (
         <>
-          <CourseBanner
-            title={query.data.title}
-            description={query.data.shortDescription || "Khám phá nội dung và lộ trình học."}
-            back={back}
-          />
+          <CourseBanner course={query.data} back={back} />
           <div className={styles.detailContent}>
             <section className={styles.highlights} aria-label="Thông tin khóa học">
               <div className={styles.learnBlock}>

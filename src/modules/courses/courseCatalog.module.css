@@ -59,7 +59,7 @@
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   align-items: center;
   gap: 32px;
-  max-width: 1200px;
+  max-width: 1280px;
   min-height: 390px;
   margin: 0 auto;
   padding: 45px 24px 140px;
@@ -94,10 +94,6 @@
   font-size: 0.82rem;
   font-weight: 700;
 }
-.coursePrice s {
-  color: #5f687c;
-  font-size: 1.1rem;
-}
 .coursePrice strong {
   color: #273e60;
   font-size: clamp(1.4rem, 2.5vw, 2rem);
@@ -108,7 +104,11 @@
   justify-items: end;
   gap: 6px;
 }
-.coursePriceAction button {
+.coursePriceAction > button,
+.coursePriceAction > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 46px;
   padding: 9px 22px;
   border: 2px solid #273e60;
@@ -118,11 +118,36 @@
   box-shadow: 4px 4px 0 var(--ui-blue-mid);
   font: inherit;
   font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+}
+.coursePriceAction > button:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
+}
+.coursePriceAction > button:focus-visible,
+.coursePriceAction > a:focus-visible {
+  outline: 3px solid #4867a8;
+  outline-offset: 4px;
+}
+.coursePrice .priceRetry {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #273e60;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.coursePrice .priceTextLink {
+  color: #273e60;
+  font-weight: 700;
 }
 .coursePriceAction small {
   color: #3e5177;
   text-align: right;
+  max-width: 340px;
 }
 .catalogIntro {
   min-width: 0;
@@ -282,9 +307,15 @@
 .catalogContent {
   position: relative;
   z-index: 2;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 24px;
+}
+.page:has(.myCoursesContent) .catalogHeroInner {
+  padding-bottom: 60px;
+}
+.myCoursesContent {
+  padding-top: 36px;
 }
 .bannerLink {
   display: inline-flex;
@@ -302,19 +333,239 @@
 .bannerLink:hover {
   background: #37548f;
 }
-.filters {
+.catalogHeaderBar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  gap: 16px;
-  position: relative;
-  z-index: 3;
-  margin: -60px 8px 48px 0;
-  padding: 20px 24px 24px;
-  background: #fff;
-  border: 2px solid #273e60;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  padding-top: 28px;
+}
+
+.catalogTitle {
+  font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  color: var(--ui-ink, #183348);
+  margin: 0 0 4px;
+  line-height: 1.25;
+}
+
+.catalogSubtitle {
+  font-size: 0.92rem;
+  color: var(--ui-muted, #5f687c);
+  margin: 0;
+  font-weight: 600;
+}
+
+.filterToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border: 1.5px solid var(--ui-ink, #273e60);
+  border-radius: 9999px;
+  background: #ffffff;
+  color: var(--ui-ink, #273e60);
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 2px 2px 0 var(--ui-ink, #273e60);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.filterToggleBtn:hover {
+  background: var(--ui-hover, #f0f2f8);
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ui-ink, #273e60);
+}
+
+.catalogLayout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 48px;
+}
+
+.catalogLayout[data-sidebar="hidden"] {
+  grid-template-columns: 1fr;
+}
+
+.filterSidebar {
+  border: 1.5px solid var(--ui-ink, #273e60);
+  border-radius: 16px;
+  background: var(--ui-surface, #ffffff);
+  box-shadow: 3px 3px 0 var(--ui-ink, #273e60);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 6rem;
+  z-index: 30;
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.sidebarTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ui-ink, #183348);
+  margin: 0;
+}
+
+.sidebarClearBtn {
+  background: transparent;
+  border: none;
+  color: var(--ui-muted, #5f687c);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.sidebarClearBtn:hover {
+  color: var(--ui-rose, #9d4b70);
+  text-decoration: underline;
+}
+
+.sidebarSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebarSectionTitle {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--ui-ink, #183348);
+  margin: 0;
+}
+
+.radioList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radioItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.radioCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  background: #ffffff;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.radioItem:hover .radioCircle {
+  border-color: #94a3b8;
+}
+
+.radioInput:checked + .radioCircle {
+  border-color: var(--ui-ink, #183348);
+}
+
+.radioInput:checked + .radioCircle::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ui-ink, #183348);
+}
+
+.radioLabel {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ui-text, #252c3f);
+  line-height: 1.3;
+}
+
+.sidebarDivider {
+  border: none;
+  border-top: 1px solid var(--ui-divider, #e2e8f0);
+  margin: 16px 0;
+}
+
+.sidebarSelect [role="combobox"] {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--ui-ink, #273e60);
   border-radius: 10px;
-  box-shadow: 8px 8px 0 #9cb2d6;
+  background: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.sidebarSelect [role="listbox"] {
+  border: 1.5px solid var(--ui-ink, #273e60);
+  border-radius: 10px;
+  box-shadow: 4px 4px 0 #9cb2d6;
+  background: #ffffff;
+  z-index: 100;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.sidebarSelect [role="option"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 9px 12px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  color: var(--ui-ink, #252c3f) !important;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none !important;
+  text-align: left;
+  width: 100%;
+  min-height: 38px;
+}
+
+.sidebarSelect [role="option"]:hover {
+  background: var(--ui-hover, #f0f2f8) !important;
+  color: var(--ui-ink, #252c3f) !important;
+}
+
+.sidebarSelect [role="option"][aria-selected="true"] {
+  background: var(--ui-blue-soft, #eef2fb) !important;
+  color: var(--ui-blue, #4867a8) !important;
+  font-weight: 700 !important;
+}
+
+.catalogMain {
+  min-width: 0;
+}
+
+.filters {
+  display: none;
 }
 .filterField {
   display: grid;
@@ -399,25 +650,53 @@
   gap: 22px;
   margin-bottom: 34px;
 }
+.catalogLayout[data-sidebar="visible"] .grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.catalogLayout[data-sidebar="hidden"] .grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 1140px) {
+  .catalogLayout[data-sidebar="visible"] .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 860px) {
+  .catalogLayout {
+    grid-template-columns: 1fr;
+  }
+  .catalogLayout[data-sidebar="visible"] .grid,
+  .catalogLayout[data-sidebar="hidden"] .grid,
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .catalogLayout[data-sidebar="visible"] .grid,
+  .catalogLayout[data-sidebar="hidden"] .grid,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 420px;
+  min-height: 380px;
   overflow: hidden;
   border: 2px solid #273e60;
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--ui-surface, #fff);
   color: inherit;
   text-decoration: none;
-  box-shadow: 5px 5px 0 #9cb2d6;
+  box-shadow: 4px 4px 0 #9cb2d6;
   transition:
     box-shadow 0.25s,
     transform 0.25s;
 }
 .card:hover,
 .card:focus-visible {
-  box-shadow: 9px 9px 0 #4867a8;
+  box-shadow: 8px 8px 0 #4867a8;
   transform: translate(-3px, -3px);
   outline: 3px solid #4867a8;
   outline-offset: 3px;
@@ -426,7 +705,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #e7eef9;
   color: #4867a8;
@@ -450,62 +729,149 @@
   gap: 8px;
   padding: 20px;
 }
-.cardMeta {
+.cardTagsRow {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 6px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid var(--ui-line, #e2e8f0);
 }
 .cardTags {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-wrap: nowrap;
 }
 .examTag {
-  padding: 5px 8px;
-  border-radius: 5px;
-  background: #eaf0fa;
-  color: #37548f;
+  padding: 3px 8px;
+  border-radius: 6px;
   font-size: 0.76rem;
   font-weight: 700;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.examTag[data-exam="ListeningReading"],
+.examTag:not([data-exam]) {
+  background: #e0edff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+.examTag[data-exam="SpeakingWriting"] {
+  background: #ffedd5;
+  color: #c2410c;
+  border-color: #fed7aa;
+}
+.examTag[data-exam="FourSkills"] {
+  background: #f3e8ff;
+  color: #7e22ce;
+  border-color: #e9d5ff;
 }
 .cardScore {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #37548f;
-  font-weight: 700;
+  color: #385d9c;
+  font-size: 0.92rem;
+  font-weight: 800;
   white-space: nowrap;
   margin-left: auto;
+  flex-shrink: 0;
 }
 .levelTag {
-  align-self: flex-start;
-  padding: 4px 10px;
-  border: 1px solid currentColor;
-  border-radius: 4px;
-  font-size: 0.78rem;
-  font-weight: 800;
+  align-self: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 1px solid transparent;
 }
 .levelTag[data-level="Beginner"] {
-  color: #286047;
-  background: #e3f3e9;
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #bbf7d0;
 }
 .levelTag[data-level="Intermediate"] {
-  color: #385d9c;
-  background: #e8eefb;
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #fde68a;
 }
 .levelTag[data-level="Advanced"] {
-  color: #944b69;
-  background: #f9e8f0;
+  background: #ffe4e6;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ui-line, #e2e8f0);
+}
+.cardPriceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+}
+.cardPriceGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cardPriceSale {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: #16a34a;
+  letter-spacing: -0.01em;
+}
+.cardPriceOriginal {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  text-decoration: line-through;
+}
+.cardDiscountBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+.cardSeats {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ui-muted, #64748b);
+  white-space: nowrap;
+}
+.cardEnrolled {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #286047;
 }
 .cardBody h2 {
   font-size: 1.12rem;
   line-height: 1.4;
   margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 .cardBody p {
   margin: 0;
@@ -519,16 +885,10 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-.cardPrice {
-  display: none;
-  color: #5f687c;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
 .cardOverlay {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -565,35 +925,37 @@
 }
 .overlayBottom {
   display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   gap: 14px;
   margin-top: auto;
   padding-top: 15px;
   border-top: 2px solid #273e60;
 }
-.overlayBottom div {
-  display: grid;
-  gap: 5px;
-}
-.overlayBottom small {
-  color: #5f687c;
-}
-.overlayBottom strong {
-  font-size: 1rem;
-}
 .overlayAction {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 11px 13px;
+  width: 100%;
+  padding: 11px 16px;
   border: 2px solid #273e60;
-  border-radius: 5px;
+  border-radius: 6px;
   background: #4867a8;
   color: white;
   font-weight: 800;
   box-shadow: 3px 3px 0 #273e60;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+.overlayAction:hover {
+  background: #37548f;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #273e60;
 }
 .cardSkeleton {
   min-height: 420px;
@@ -672,7 +1034,8 @@
 .levelCtaWrap {
   position: relative;
   z-index: 2;
-  margin: 100px 8px -110px 0;
+  margin: 150px 8px -110px 0;
+  clear: both;
 }
 .levelCta {
   --cta-bg: var(--ui-blue-line);
@@ -790,9 +1153,6 @@
 @media (hover: none) {
   .cardOverlay {
     display: none;
-  }
-  .cardPrice {
-    display: block;
   }
   .cardDescription {
     -webkit-line-clamp: 4;

@@ -1,0 +1,448 @@
+/* Textbook content styled after Grammar game (KnowledgeView / GrammarKit) */
+.textbook {
+  color: var(--gp-ink, #252c3f);
+  font-size: 15px;
+  line-height: 1.7;
+  font-family: inherit;
+  word-break: break-word;
+}
+
+/* ---------- Goals Box ("Học done bài này, bạn sẽ") ---------- */
+.goals {
+  margin: 0 0 24px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1.5px solid var(--gp-lime, #84cc16);
+  background: var(--gp-lime-soft, #f7fee7);
+}
+
+.goalsT {
+  font-family: inherit;
+  font-size: 16.5px;
+  font-weight: 800;
+  color: var(--gp-m800, #1e3a8a);
+  line-height: 1.25;
+}
+
+.goals ul {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goals li {
+  position: relative;
+  margin: 4px 0;
+  padding-left: 26px;
+  font-size: 14.5px;
+  color: var(--gp-ink, #252c3f);
+}
+
+.goals li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--gp-fill, #3b82f6);
+}
+
+.goals li::after {
+  content: "";
+  position: absolute;
+  left: 4.5px;
+  top: 7.5px;
+  width: 5px;
+  height: 3px;
+  border-left: 1.8px solid var(--gp-on-fill, #ffffff);
+  border-bottom: 1.8px solid var(--gp-on-fill, #ffffff);
+  transform: rotate(-45deg);
+}
+
+/* ---------- Section Title (SECTION A KIẾN THỨC...) ---------- */
+.sectionTitle {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 28px 0 18px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--gp-m800, #1e3a8a);
+  font-size: inherit;
+}
+
+.sectionTitle b {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gp-m800, #1e3a8a);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.sectionTitle span {
+  font-size: 14.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--gp-ink, #252c3f);
+}
+
+/* ---------- Units & Headings ---------- */
+.unitHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 32px 0 10px;
+  font-size: 16.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--gp-m800, #1e3a8a);
+  line-height: 1.4;
+}
+
+.unitBadge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 5px;
+  border-radius: 7px;
+  background: var(--gp-fill, #3b82f6);
+  color: var(--gp-on-fill, #ffffff);
+  font-size: 13.5px;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.unitDesc {
+  margin: 0 0 14px;
+  color: var(--gp-ink, #252c3f);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.subHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin: 18px 0 8px;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--gp-ink, #252c3f);
+}
+
+.subNumber {
+  color: var(--gp-primary, #3b82f6);
+  font-weight: 800;
+}
+
+.paragraph {
+  margin: 0 0 14px;
+  color: var(--gp-ink, #252c3f);
+  line-height: 1.7;
+}
+
+/* ---------- Framed Formula Box (Đóng khung Công thức / Cấu trúc) ---------- */
+.formulaCard {
+  margin: 18px 0;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1.5px solid var(--gp-m600, #3b82f6);
+  background: var(--gp-m50, #eff6ff);
+  box-shadow: 0 2px 5px rgba(59, 130, 246, 0.07);
+}
+
+.formulaHeader {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--gp-m700, #1e3a8a);
+  margin-bottom: 8px;
+}
+
+.formulaBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formulaCode {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--gp-m800, #1e3a8a);
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  line-height: 1.5;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+}
+
+/* ---------- Framed Example Card (Đóng khung Ví dụ) ---------- */
+.exampleCard {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1.5px solid var(--gp-line, #e2e8f0);
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.exampleHeader {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--gp-moss, #3b82f6);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gp-line2, #e2e8f0);
+}
+
+.exampleSentence {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gp-ink, #252c3f);
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+
+.exampleTranslation {
+  font-size: 14px;
+  color: var(--gp-muted, #64748b);
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.exampleExplanation {
+  font-size: 13.5px;
+  color: var(--gp-m800, #1e3a8a);
+  background: var(--gp-surface-2, #f8fafc);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid var(--gp-moss, #3b82f6);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+/* ---------- Other Educational Callouts ---------- */
+
+/* Signals / Recognition (Nhận diện) */
+.signals {
+  margin: 16px 0;
+  padding: 12px 18px;
+  border-left: 4px solid var(--gp-m600, #3b82f6);
+  border-radius: 0 10px 10px 0;
+  background: var(--gp-m50, #eff6ff);
+  font-size: 14.5px;
+}
+
+.signalsLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--gp-m600, #3b82f6);
+  margin-bottom: 6px;
+}
+
+.signalsList {
+  margin: 0;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.signalsList li {
+  margin: 3px 0;
+}
+
+.signalsList li::marker {
+  color: var(--gp-m600, #3b82f6);
+}
+
+/* Trap (Bẫy TOEIC) */
+.trap {
+  margin: 16px 0;
+  padding: 12px 18px;
+  border: 1.5px solid var(--gp-gold, #f59e0b);
+  border-radius: 10px;
+  background: var(--gp-gold-soft, #fef3c7);
+  font-size: 14px;
+}
+
+.trapHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-weight: 800;
+  color: var(--gp-gold-ink, #92400e);
+}
+
+.trapBadge {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--gp-gold, #f59e0b);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Tip (Mẹo Oysteic) */
+.tip {
+  margin: 16px 0;
+  padding: 12px 18px;
+  border: 1.5px solid var(--gp-lime, #84cc16);
+  border-radius: 10px;
+  background: var(--gp-lime-soft, #f7fee7);
+  font-size: 14px;
+}
+
+.tipHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-weight: 800;
+  color: var(--gp-m800, #1e3a8a);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+/* General Note (Lưu ý / Ghi chú) */
+.calloutNote {
+  margin: 16px 0;
+  padding: 12px 18px;
+  border-left: 4px solid var(--gp-gold, #f59e0b);
+  border-radius: 0 10px 10px 0;
+  background: var(--gp-gold-soft, #fef3c7);
+  font-size: 14px;
+}
+
+.calloutNoteHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-weight: 800;
+  color: var(--gp-gold-ink, #92400e);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+/* Markdown Tables */
+.tableWrapper {
+  margin: 20px 0;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--gp-line, #e2e8f0);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+.table th {
+  padding: 10px 14px;
+  background: var(--gp-surface-2, #fafbfc);
+  border-bottom: 2px solid var(--gp-line, #e2e8f0);
+  font-weight: 700;
+  color: var(--gp-m800, #1e3a8a);
+  text-align: left;
+}
+
+.table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--gp-line2, #e2e8f0);
+  color: var(--gp-ink, #252c3f);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Code Blocks */
+.codeBlock {
+  margin: 16px 0;
+  padding: 14px 18px;
+  background: #1e293b;
+  color: #f8fafc;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* Inline Elements */
+.inlineCode {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--gp-m50, #eff6ff);
+  color: var(--gp-m800, #1e3a8a);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.highlightMark {
+  padding: 0 4px;
+  border-radius: 3px;
+  background: #fef08a;
+  color: #854d0e;
+  font-weight: 600;
+}
+
+.timestampBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0 3px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--gp-fill, #3b82f6);
+  background: var(--gp-m50, #eff6ff);
+  color: var(--gp-fill, #3b82f6);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  vertical-align: baseline;
+}
+
+.timestampBtn:hover {
+  background: var(--gp-fill, #3b82f6);
+  color: #ffffff;
+}
+
+.link {
+  color: var(--gp-fill, #3b82f6);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+
+.link:hover {
+  color: var(--gp-fill-hover, #2563eb);
+}

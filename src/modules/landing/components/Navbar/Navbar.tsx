@@ -260,6 +260,11 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
 
   const handleDropdownNavigate = (anchor: string) => {
     setDropdownOpen(false);
+    if (anchor === "courses" && user?.role === "User") {
+      setMobileMenuOpen(false);
+      navigate("/my-courses");
+      return;
+    }
     const element = document.getElementById(anchor);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });

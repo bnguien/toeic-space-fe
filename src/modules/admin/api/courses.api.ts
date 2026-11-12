@@ -29,6 +29,8 @@ const lessonsBase = (courseId: string, moduleId: string) =>
 const lessonUploadsBase = "/content/api/v1/uploads/lessons";
 
 export const coursesApi = {
+  updatePricing: async (id: string, price: number, capacity: number | null): Promise<CourseItem> =>
+    (await httpClient.put<CourseItem>(`${coursesBase}/${id}/pricing`, { price, capacity })).data,
   modules: async (courseId: string, signal?: AbortSignal): Promise<CourseModule[]> =>
     (await httpClient.get<CourseModule[]>(modulesBase(courseId), { signal })).data,
   createModule: async (courseId: string, payload: CourseModulePayload) =>

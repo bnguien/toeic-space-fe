@@ -1,0 +1,189 @@
+/* Lesson Attachments styled after Grammar clean kit */
+.attachmentsCard {
+  margin: 20px 0;
+  padding: 18px 20px;
+  background: var(--gp-surface, #ffffff);
+  border: 1px solid var(--gp-line, #e2e8f0);
+  border-radius: 12px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gp-line2, #e2e8f0);
+}
+
+.headerTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--gp-m800, #1e3a8a);
+  margin: 0;
+}
+
+.countBadge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--gp-m50, #eff6ff);
+  color: var(--gp-moss, #3b82f6);
+}
+
+.refreshBtn {
+  background: transparent;
+  border: 1px solid var(--gp-line, #cbd5e1);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gp-muted, #64748b);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.refreshBtn:hover {
+  border-color: var(--gp-moss, #3b82f6);
+  color: var(--gp-moss, #3b82f6);
+}
+
+/* File list: no bullets, clean column */
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each file item: strictly 1 ROW */
+.fileItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px;
+  background: var(--gp-surface-2, #f8fafc);
+  border: 1.5px solid var(--gp-line, #e2e8f0);
+  border-radius: 10px;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.fileItem:hover {
+  border-color: var(--gp-fill, #3b82f6);
+  background: #ffffff;
+}
+
+.fileLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.fileIconWrapper {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--gp-m50, #eff6ff);
+  color: var(--gp-fill, #3b82f6);
+  flex-shrink: 0;
+}
+
+.fileMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.fileName {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gp-ink, #252c3f);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.fileSubText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--gp-muted, #64748b);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.fileTypeBadge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--gp-line2, #e2e8f0);
+  color: var(--gp-m700, #1e3a8a);
+}
+
+.fileActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  border: 1px solid var(--gp-line, #cbd5e1);
+  background: #ffffff;
+  color: var(--gp-ink, #252c3f);
+  white-space: nowrap;
+}
+
+.actionBtn:hover {
+  border-color: var(--gp-fill, #3b82f6);
+  color: var(--gp-fill, #3b82f6);
+}
+
+.downloadBtn {
+  background: var(--gp-m50, #eff6ff);
+  color: var(--gp-fill, #3b82f6);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.downloadBtn:hover {
+  background: var(--gp-fill, #3b82f6);
+  color: #ffffff;
+  border-color: var(--gp-fill, #3b82f6);
+}
+
+@media (max-width: 520px) {
+  .actionBtn span {
+    display: none;
+  }
+  .fileSubText {
+    display: none;
+  }
+}
