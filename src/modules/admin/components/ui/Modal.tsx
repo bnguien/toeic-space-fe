@@ -17,7 +17,7 @@ interface ModalProps {
   /** While true the modal cannot be dismissed, so a pending request is not orphaned. */
   busy?: boolean;
   onClose: () => void;
-  footer: ReactNode;
+  footer?: ReactNode;
   children?: ReactNode;
 }
 
@@ -99,7 +99,7 @@ export function Modal({
             </div>
           )}
           {children}
-          <footer className={styles.modalFooter}>{footer}</footer>
+          {footer && <footer className={styles.modalFooter}>{footer}</footer>}
         </div>
       )}
     </dialog>

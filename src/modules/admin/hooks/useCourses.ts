@@ -37,6 +37,18 @@ export function useCourseActions() {
   const refresh = () => client.invalidateQueries({ queryKey: courseKeys.all });
 
   return {
+    pricing: useMutation({
+      mutationFn: ({
+        id,
+        price,
+        capacity,
+      }: {
+        id: string;
+        price: number;
+        capacity: number | null;
+      }) => coursesApi.updatePricing(id, price, capacity),
+      onSuccess: refresh,
+    }),
     create: useMutation({
       mutationFn: (payload: CreateCoursePayload) => coursesApi.create(payload),
       onSuccess: refresh,

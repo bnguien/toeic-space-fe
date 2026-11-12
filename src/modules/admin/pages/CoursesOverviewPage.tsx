@@ -1,26 +1,14 @@
-import { BookOpen, CheckCircle, FileText, Layers } from "lucide-react";
+import { CheckCircle, FileText, Layers } from "lucide-react";
 import courseMascot from "@/assets/mascot/oy2-reading.png";
 import { AdminPage, ButtonLink, OverviewHero } from "../components/ui";
 import { useCourses } from "../hooks/useCourses";
 import type { CourseStatus } from "../types/course.types";
 import styles from "./ClassesOverviewPage.module.css";
 
-const statuses: { status: CourseStatus | "All"; label: string; path: string }[] = [
-  {
-    status: "Published",
-    label: "Đã xuất bản",
-    path: "/admin/courses/list?status=Published",
-  },
-  {
-    status: "Draft",
-    label: "Bản nháp",
-    path: "/admin/courses/list?status=Draft",
-  },
-  {
-    status: "Archived",
-    label: "Đã lưu trữ",
-    path: "/admin/courses/lifecycle",
-  },
+const statuses: { status: CourseStatus; label: string; path: string }[] = [
+  { status: "Published", label: "Đã xuất bản", path: "/admin/courses/list?status=Published" },
+  { status: "Draft", label: "Bản nháp", path: "/admin/courses/list?status=Draft" },
+  { status: "Archived", label: "Đã lưu trữ", path: "/admin/courses/lifecycle" },
 ];
 
 export function CoursesOverviewPage() {
@@ -28,6 +16,7 @@ export function CoursesOverviewPage() {
   const publishedCourses = useCourses({ status: "Published", page: 1, pageSize: 1 });
   const draftCourses = useCourses({ status: "Draft", page: 1, pageSize: 1 });
   const archivedCourses = useCourses({ status: "Archived", page: 1, pageSize: 1 });
+  const statusQueries = [publishedCourses, draftCourses, archivedCourses];
 
   // Breakdown by Exam Type
   const lrCourses = useCourses({ examType: "ListeningReading", page: 1, pageSize: 1 });
@@ -39,15 +28,13 @@ export function CoursesOverviewPage() {
   const intermediateCourses = useCourses({ level: "Intermediate", page: 1, pageSize: 1 });
   const advancedCourses = useCourses({ level: "Advanced", page: 1, pageSize: 1 });
 
-  const statusQueries = [publishedCourses, draftCourses, archivedCourses];
-
   return (
     <AdminPage
       theme="blue"
       hero={
         <OverviewHero
           eyebrow="Quản trị nội dung / Khóa học"
-          icon={<BookOpen size={15} />}
+          icon={<Layers size={15} />}
           title="Tổng quan"
           highlight="khóa học"
           description="Theo dõi tình trạng xuất bản, chương trình và quản lý các khóa học trong hệ thống ToeicSpace."

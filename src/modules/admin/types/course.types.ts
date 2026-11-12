@@ -13,6 +13,9 @@ export interface CourseItem {
   examType: CourseExamType;
   level: CourseLevel;
   targetScore: number | null;
+  price: number;
+  capacity: number | null;
+  currency: string;
   skills: string[];
   objectives: string[];
   prerequisites: string[];

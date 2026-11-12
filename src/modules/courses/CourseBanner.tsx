@@ -1,16 +1,10 @@
 import { Link } from "react-router-dom";
+import type { PublicCourseDetail } from "./courseCatalog";
+import { CourseEnrollmentAction } from "./CourseEnrollmentAction";
 import { CourseHero } from "./CourseHero";
 import styles from "./courseCatalog.module.css";
 
-export function CourseBanner({
-  title,
-  description,
-  back,
-}: {
-  title: string;
-  description: string;
-  back: string;
-}) {
+export function CourseBanner({ course, back }: { course: PublicCourseDetail; back: string }) {
   return (
     <CourseHero
       detail
@@ -20,28 +14,9 @@ export function CourseBanner({
           TIẾT
         </>
       }
-      title={title}
-      description={description}
-      footer={
-        <div className={styles.coursePrice} aria-label="Giá khóa học minh họa">
-          <div>
-            <span className={styles.priceLabel}>Giá niêm yết</span>
-            <s>1.200.000 đ</s>
-          </div>
-          <div>
-            <span className={styles.priceLabel}>Giá khuyến mãi</span>
-            <strong>890.000 đ</strong>
-          </div>
-          <div className={styles.coursePriceAction}>
-            <button type="button" disabled aria-describedby="course-price-note">
-              Mua ngay
-            </button>
-            <small id="course-price-note">
-              Giá minh họa · tính năng mua khóa học chưa khả dụng
-            </small>
-          </div>
-        </div>
-      }
+      title={course.title}
+      description={course.shortDescription || "Khám phá nội dung và lộ trình học."}
+      footer={<CourseEnrollmentAction course={course} />}
     >
       <Link className={styles.bannerLink} to={back}>
         ← Danh sách khóa học

@@ -39,6 +39,7 @@ interface OverviewHeroProps {
   panelLabel: string;
   panelTitle: ReactNode;
   stats: HeroStat[];
+  pastel?: boolean;
 }
 
 /**
@@ -57,9 +58,10 @@ export function OverviewHero({
   panelLabel,
   panelTitle,
   stats,
+  pastel = false,
 }: OverviewHeroProps) {
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} data-pastel={pastel || undefined}>
       <div className={styles.intro}>
         <span className={styles.watermark} aria-hidden="true">
           {watermark}
@@ -135,6 +137,7 @@ interface ListHeroProps {
   mascot: string;
   /** The three key counts; those with onSelect filter the list below. */
   items: SummaryItem[];
+  pastel?: boolean;
 }
 
 /**
@@ -150,9 +153,10 @@ export function ListHero({
   actions,
   mascot,
   items,
+  pastel = false,
 }: ListHeroProps) {
   return (
-    <section className={styles.listHero}>
+    <section className={styles.listHero} data-pastel={pastel || undefined}>
       <span className={styles.listRing} aria-hidden="true" />
       <span className={styles.listMoon} aria-hidden="true" />
       <img className={styles.listMascot} src={mascot} alt="" width={140} height={140} />
@@ -175,7 +179,10 @@ export function ListHero({
         {actions && <div className={styles.listActions}>{actions}</div>}
       </div>
 
-      <div className={styles.listStats}>
+      <div
+        className={styles.listStats}
+        style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
+      >
         {items.map((item) => {
           const content = (
             <>

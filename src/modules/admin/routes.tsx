@@ -12,6 +12,8 @@ import { ClassesPage } from "./pages/ClassesPage";
 import { ClassesOverviewPage } from "./pages/ClassesOverviewPage";
 import { ClassesLifecyclePage } from "./pages/ClassesLifecyclePage";
 import { CoursesPage } from "./pages/CoursesPage";
+import { CouponsPage } from "./pages/CouponsPage";
+import { PromotionsPage } from "./pages/PromotionsPage";
 import { CoursesOverviewPage } from "./pages/CoursesOverviewPage";
 import { CoursesLifecyclePage } from "./pages/CoursesLifecyclePage";
 import { UserDetailRedirect } from "./pages/UserDetailRedirect";
@@ -73,6 +75,8 @@ export const adminRoutes: RouteObject[] = [
       { path: "courses/lifecycle", element: <CoursesLifecyclePage /> },
       { path: "courses/lifecycle/:id", element: <CoursesLifecyclePage /> },
       { path: "courses/archived", element: <Navigate to="/admin/courses/lifecycle" replace /> },
+      { path: "courses/coupons", element: <CouponsPage /> },
+      { path: "courses/promotions", element: <PromotionsPage /> },
 
       /* Lớp học */
       { path: "classes", element: <ClassesOverviewPage /> },

@@ -48,7 +48,7 @@ export { SelectionBar, type SelectionBarProps } from "./SelectionBar/SelectionBa
 export { Sheet, type SheetProps } from "./Sheet/Sheet";
 export { Skeleton, type SkeletonProps } from "./Skeleton/Skeleton";
 export { toast, useToastStore, type ToastItem } from "./Toast/toast-store";
-export { ToastViewport } from "./Toast/ToastViewport";
+export { Toast, ToastViewport } from "./Toast/ToastViewport";
 export { Snowfall, type SnowfallProps } from "./Snowfall/Snowfall";
 export { Stat, type StatProps } from "./Stat/Stat";
 export { Switch, type SwitchProps } from "./Switch/Switch";

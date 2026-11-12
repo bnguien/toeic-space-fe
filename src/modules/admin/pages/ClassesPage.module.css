@@ -30,6 +30,9 @@
   font-weight: 700;
   padding: 0.5rem 0;
 }
+.backTop {
+  margin-bottom: 12px;
+}
 .modal h2 {
   font-size: clamp(1.45rem, 2.6vw, 2rem);
   line-height: 1.2;

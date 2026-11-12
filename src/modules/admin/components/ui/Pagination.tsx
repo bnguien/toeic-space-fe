@@ -22,6 +22,7 @@ export interface PaginationProps {
   pageSize: number;
   onChange: (page: number) => void;
   showSinglePage?: boolean;
+  showRange?: boolean;
 }
 
 export function Pagination({
@@ -31,6 +32,7 @@ export function Pagination({
   pageSize,
   onChange,
   showSinglePage = false,
+  showRange = true,
 }: PaginationProps) {
   const lastPage = Math.max(1, pages);
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
@@ -38,10 +40,12 @@ export function Pagination({
 
   return (
     <nav className={styles.pagination} aria-label="Phân trang">
-      <span>
-        {from.toLocaleString("vi-VN")}–{to.toLocaleString("vi-VN")} /{" "}
-        {total.toLocaleString("vi-VN")}
-      </span>
+      {showRange && (
+        <span>
+          {from.toLocaleString("vi-VN")}–{to.toLocaleString("vi-VN")} /{" "}
+          {total.toLocaleString("vi-VN")}
+        </span>
+      )}
       {(lastPage > 1 || showSinglePage) && (
         <div className={styles.pages}>
           <button

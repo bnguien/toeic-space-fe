@@ -12,6 +12,18 @@ export interface PublicCourseSummary {
   examType: CourseExamType;
   level: CourseLevel;
   targetScore: number | null;
+  price: number;
+  promotion: {
+    promotionId: string;
+    name: string;
+    originalPrice: number;
+    discountAmount: number;
+    sellingPrice: number;
+    expiresAt: string;
+  } | null;
+  capacity: number | null;
+  remainingSeats: number | null;
+  currency: string;
 }
 export interface PublicLesson {
   id: string;

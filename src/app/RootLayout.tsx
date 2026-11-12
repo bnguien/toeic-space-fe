@@ -1,5 +1,6 @@
 import { Outlet, useLocation, useMatches } from "react-router-dom";
 import { BackToTop } from "@/shared/components/BackToTop/BackToTop";
+import { ToastViewport } from "@/shared/components/ui";
 import { isAppRouteHandle } from "@/shared/types/route-handle.types";
 import { Navbar } from "@/modules/landing";
 import { SelectionLookupProvider } from "@/modules/vocabulary";
@@ -20,6 +21,7 @@ export const RootLayout = () => {
       {!isAdminRoute && !isTeacherRoute && !isBare && <Navbar />}
       <Outlet />
       {!isBare && <BackToTop />}
+      <ToastViewport />
     </SelectionLookupProvider>
   );
 };
