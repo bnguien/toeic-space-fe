@@ -1,0 +1,223 @@
+.panel {
+  position: relative;
+  padding: 28px 30px 20px;
+  overflow: hidden;
+  border-radius: 20px;
+  background:
+    repeating-radial-gradient(
+      circle at 0% 100%,
+      transparent 0 46px,
+      rgb(255 255 255 / 0.035) 46px 47px
+    ),
+    var(--ui-navy);
+  color: #fff;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.kicker {
+  color: rgb(255 255 255 / 0.72);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.head h3 {
+  margin: 6px 0 0;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+.goal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1.5px solid rgb(255 255 255 / 0.28);
+  border-radius: 12px;
+  color: var(--ui-mark-bright);
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 16px 13px;
+  border: 1.5px solid rgb(255 255 255 / 0.22);
+  border-radius: 16px;
+  background: rgb(255 255 255 / 0.06);
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.stage:hover {
+  transform: translateY(-3px);
+  border-color: rgb(255 255 255 / 0.45);
+  background: rgb(255 255 255 / 0.1);
+}
+
+.stage:focus-visible {
+  outline: 2px solid var(--ui-mark-bright);
+  outline-offset: 2px;
+}
+
+.stageTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(255 255 255 / 0.78);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.stageScore {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 10px 0 2px;
+  font-size: clamp(30px, 2.9vw, 40px);
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stageScore small {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+.stage b {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.stageNote {
+  color: rgb(255 255 255 / 0.72);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.stageBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: 12.5px;
+}
+
+.stageBottom small {
+  font-size: 12.5px;
+  opacity: 0.8;
+}
+
+.stageBottom span {
+  padding: 4px 9px;
+  border: 1px solid rgb(255 255 255 / 0.4);
+  border-radius: 6px;
+  font-weight: 800;
+}
+
+.stageActive {
+  border-color: var(--ui-mark-bright);
+  background: var(--ui-mark);
+  color: var(--ui-on-mark);
+}
+
+.stageActive:hover {
+  border-color: var(--ui-mark-bright);
+  background: var(--ui-mark);
+}
+
+.stageActive .stageTop,
+.stageActive .stageNote {
+  color: rgb(37 44 63 / 0.75);
+}
+
+.stageActive .stageBottom span {
+  border-color: var(--ui-ink);
+  background: var(--ui-ink);
+  color: #fff;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 0 0;
+  color: rgb(255 255 255 / 0.78);
+  font-size: 13.5px;
+}
+
+.foot button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  /* Narrow screens: the five stages become a horizontal snap strip. */
+  .stages {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(176px, 1fr);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
+
+  .stage {
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 600px) {
+  .panel {
+    padding: 20px 16px 14px;
+  }
+
+  .goal {
+    display: none;
+  }
+
+  .stageScore {
+    font-size: 34px;
+  }
+}

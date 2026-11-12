@@ -1,0 +1,43 @@
+.track {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--ui-line);
+}
+
+.track[data-size="xs"] {
+  height: 4px;
+  gap: 1px;
+}
+
+.segment {
+  flex: 0 0 var(--segment-width);
+  height: 100%;
+  background: var(--ui-subtle);
+  transition: flex-basis var(--transition-normal);
+}
+
+.segment[data-tone="green"] {
+  background: var(--ui-green);
+}
+
+.segment[data-tone="blue"] {
+  background: var(--ui-blue-mid);
+}
+
+.segment[data-tone="rose"] {
+  background: var(--ui-rose-mid);
+}
+
+.segment[data-tone="pearl"] {
+  background: var(--ui-mark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segment {
+    transition: none;
+  }
+}

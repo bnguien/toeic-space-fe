@@ -1,0 +1,173 @@
+.phonetic {
+  color: var(--ui-muted);
+  font-size: var(--text-sm);
+}
+
+/* Row: list item */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+}
+
+.rowMain {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rowHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+}
+
+.rowHeadword {
+  color: var(--ui-text);
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.rowMeaning {
+  color: var(--ui-muted);
+  font-size: var(--text-base);
+}
+
+.aside {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Card: flashcard front */
+.card {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.cardHeadword {
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  overflow-wrap: anywhere;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.cardMeaning {
+  color: var(--ui-muted);
+  font-size: var(--text-lg);
+}
+
+/* Sheet: flashcard back */
+.sheet {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  text-align: center;
+}
+
+.sheetHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sheetHeadword {
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+
+.sheetMeaning {
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+
+.example {
+  display: grid;
+  gap: var(--space-1);
+  width: 100%;
+  max-width: 560px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-xl);
+  background: var(--ui-canvas);
+  text-align: left;
+}
+
+.exampleLine {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--ui-text);
+  font-size: var(--text-base);
+}
+
+.exampleVi {
+  color: var(--ui-muted);
+  font-size: var(--text-sm);
+}
+
+.synonyms {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.synonymLabel {
+  color: var(--ui-subtle);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+/* Compact card: library grid. */
+.card[data-compact] {
+  gap: var(--space-2);
+}
+
+.card[data-compact] .cardHeadword {
+  font-size: var(--text-xl);
+}
+
+.card[data-compact] .cardMeaning {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .row {
+    padding: var(--space-3);
+  }
+
+  .cardHeadword {
+    font-size: var(--text-2xl);
+  }
+
+  .sheetMeaning {
+    font-size: var(--text-xl);
+  }
+}

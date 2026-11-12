@@ -1,0 +1,152 @@
+/* ---- End-of-stage checkpoint ---- */
+.test {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  align-items: center;
+  width: 100%;
+  margin: 14px 0 6px;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--gp-fill);
+  color: var(--gp-on-fill);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s var(--gp-ease);
+}
+
+.test svg {
+  grid-row: span 2;
+  color: var(--gp-on-fill);
+}
+.title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 800;
+}
+.description {
+  font-size: 12.5px;
+  color: color-mix(in srgb, var(--gp-on-fill) 78%, transparent);
+}
+.test:hover {
+  transform: translateY(-1px);
+  background: var(--gp-fill-hover);
+}
+.isOn {
+  background: var(--gp-fill-hover);
+  box-shadow:
+    0 0 0 2px var(--gp-surface),
+    0 0 0 4px var(--gp-fill);
+}
+.test:focus-visible {
+  outline: 2px solid var(--gp-moss);
+  outline-offset: 2px;
+}
+
+.best {
+  padding: 0 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gp-on-fill) 18%, transparent);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.isLocked {
+  padding: 9px 14px;
+  border: 1px solid var(--gp-line);
+  background: var(--gp-surface);
+  color: var(--gp-muted);
+}
+.isLocked svg {
+  color: var(--gp-subtle);
+}
+.isLocked .title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gp-ink);
+}
+.isLocked .description {
+  color: var(--gp-muted);
+  font-size: 12px;
+}
+.isLocked:hover {
+  background: var(--gp-surface-2);
+  transform: none;
+}
+.isLocked.isOn {
+  box-shadow:
+    0 0 0 2px var(--gp-surface),
+    0 0 0 3px var(--gp-rail);
+  background: var(--gp-surface-2);
+}
+
+.bar {
+  display: block;
+  height: 3px;
+  margin-top: 5px;
+  border-radius: 999px;
+  background: var(--gp-line);
+  overflow: hidden;
+}
+.bar > span {
+  display: block;
+  height: 100%;
+  background: var(--gp-moss);
+  border-radius: inherit;
+  transition: width 0.6s var(--gp-ease);
+}
+
+.isPassed {
+  border: 2px solid var(--gp-son);
+  background: var(--gp-surface);
+  color: var(--gp-son);
+}
+.isPassed svg {
+  color: var(--gp-son);
+}
+.isPassed .description {
+  color: var(--gp-muted);
+}
+.isPassed .best {
+  background: var(--gp-son-fill);
+  color: var(--gp-on-fill);
+}
+.isPassed:hover {
+  background: var(--gp-son-soft);
+}
+
+/* hover of the roadmap column (grammar-extra.css) */
+.test:not(.isLocked):hover {
+  box-shadow: 0 10px 20px -12px color-mix(in srgb, var(--gp-m900) 65%, transparent);
+}
+.isLocked:hover {
+  background: var(--gp-m50);
+}
+.isLocked:hover svg {
+  color: var(--gp-moss);
+}
+
+:global([data-color-mode="dark"]) .isLocked:hover,
+:global([data-color-mode="dark"]) .isLocked.isOn {
+  background: var(--gp-surface-2);
+  box-shadow:
+    0 0 0 2px var(--gp-surface),
+    0 0 0 3px var(--gp-rail);
+}
+:global([data-color-mode="dark"]) .bar {
+  background: var(--gp-rail);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .test,
+  .bar > span {
+    transition: none;
+  }
+}

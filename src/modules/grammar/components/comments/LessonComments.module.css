@@ -1,0 +1,334 @@
+/* Comment panel (Studychill "Khung bình luận" + grammar-dark.css). */
+.cmt {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 2px solid var(--gp-ink);
+  border-radius: 18px;
+  background: var(--gp-surface);
+  box-shadow: 5px 5px 0 var(--gp-rail);
+}
+
+/* Kiến thức document drawer. */
+.drawer {
+  position: fixed;
+  z-index: 950;
+  top: calc(var(--gp-nav) + 12px);
+  right: 16px;
+  bottom: 16px;
+  width: min(400px, calc(100vw - 32px));
+  animation: gp-cmt-in 0.28s var(--gp-ease);
+}
+
+/* Inside a host panel (Lĩnh hội discussion drawer). */
+.flush {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+@keyframes gp-cmt-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--gp-ink);
+  color: var(--gp-ink);
+  font-size: 14.5px;
+}
+.count {
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--gp-primary-soft);
+  color: var(--gp-moss);
+  font-size: 12px;
+  font-weight: 800;
+}
+.x {
+  display: grid;
+  place-items: center;
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--gp-muted);
+  cursor: pointer;
+}
+.x:hover {
+  background: var(--gp-surface-2);
+  color: var(--gp-ink);
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  overscroll-behavior: contain;
+}
+.note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 2px;
+  color: var(--gp-muted);
+  font-size: 13.5px;
+}
+.empty {
+  margin: 36px 8px;
+  color: var(--gp-muted);
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.thread + .thread {
+  margin-top: 12px;
+}
+.item {
+  display: flex;
+  gap: 9px;
+}
+.isReply {
+  margin: 8px 0 0 40px;
+}
+/* Comment opened from a link (?bl=) */
+.isFocus .bubble {
+  animation: gp-cmt-focus 2.4s ease both;
+}
+@keyframes gp-cmt-focus {
+  0%,
+  55% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--gp-lime) 85%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--gp-lime) 0%, transparent);
+  }
+}
+/* Initial avatar (TOEIC Space has no community profile pictures here). */
+.face {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--gp-m100);
+  color: var(--gp-m700);
+  font-size: 13.5px;
+  font-weight: 800;
+}
+.isReply .face {
+  width: 26px;
+  height: 26px;
+  font-size: 11.5px;
+}
+.main {
+  min-width: 0;
+  flex: 1;
+}
+.bubble {
+  display: inline-block;
+  max-width: 100%;
+  padding: 7px 12px;
+  border-radius: 14px;
+  background: var(--gp-surface-2);
+}
+.name {
+  color: var(--gp-ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+.text {
+  margin: 1px 0 0;
+  color: var(--gp-ink);
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 3px 0 0 6px;
+  color: var(--gp-muted);
+  font-size: 12px;
+}
+.meta button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gp-muted);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.meta button:hover:not(:disabled) {
+  color: var(--gp-ink);
+}
+.meta button:disabled {
+  cursor: default;
+}
+.meta button.isLiked {
+  color: var(--gp-son);
+}
+.confirm {
+  display: inline-flex;
+  gap: 8px;
+  color: var(--gp-son);
+  font-weight: 700;
+}
+.meta .confirm button {
+  color: var(--gp-son);
+}
+.moreReplies,
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gp-moss);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.more {
+  display: block;
+  margin: 16px auto 4px;
+}
+
+.compose {
+  padding: 10px 12px 12px;
+  border-top: 1.5px solid var(--gp-line);
+  background: var(--gp-surface);
+}
+.composeGuest {
+  color: var(--gp-muted);
+  font-size: 13.5px;
+  text-align: center;
+  padding: 14px;
+}
+.composeGuest a {
+  color: var(--gp-moss);
+  font-weight: 800;
+}
+.replying {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  color: var(--gp-muted);
+  font-size: 12.5px;
+}
+.replying button {
+  display: grid;
+  place-items: center;
+  margin-left: auto;
+  padding: 2px;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+.field {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 6px 6px 6px 14px;
+  border: 1.5px solid var(--gp-rail);
+  border-radius: 18px;
+  background: var(--gp-surface-2);
+}
+.field:focus-within {
+  border-color: var(--gp-moss);
+}
+.field textarea {
+  flex: 1;
+  min-width: 0;
+  max-height: 140px;
+  padding: 6px 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: none;
+  color: var(--gp-ink);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.field textarea::placeholder {
+  color: var(--gp-muted);
+}
+.send {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--gp-fill);
+  color: var(--gp-on-fill);
+  cursor: pointer;
+}
+.send:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.error {
+  margin: 6px 4px 0;
+  color: var(--gp-son);
+  font-size: 12.5px;
+}
+
+/* Dark: Studychill drew the frame in a muted line with a black offset shadow. */
+:global([data-color-mode="dark"]) .cmt {
+  border-color: var(--gp-rail);
+  box-shadow: 5px 5px 0 #000;
+}
+:global([data-color-mode="dark"]) .flush {
+  box-shadow: none;
+}
+:global([data-color-mode="dark"]) .head {
+  border-color: var(--gp-rail);
+}
+
+@keyframes gp-vt-sheet {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@media (max-width: 760px) {
+  .drawer {
+    top: auto;
+    height: 72dvh;
+    right: 8px;
+    left: 8px;
+    bottom: 8px;
+    width: auto;
+  }
+}

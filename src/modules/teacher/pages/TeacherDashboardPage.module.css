@@ -1,0 +1,342 @@
+.page {
+  display: grid;
+  gap: 1.15rem;
+}
+.welcome {
+  min-height: 175px;
+  padding: 1.45rem 1.65rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #d7ebf3;
+  border-radius: 20px;
+  background: linear-gradient(108deg, #fff 0%, #f5fcfe 60%, #ddf2f8);
+}
+.welcome > div {
+  z-index: 1;
+}
+.welcome > div > span,
+.cardHeader > div > span {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #638ca2;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+.welcome h1 {
+  margin: 0.35rem 0;
+  color: #3a4a63;
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
+}
+.welcome p {
+  max-width: 630px;
+  color: #65778a;
+  font-size: 0.82rem;
+}
+.welcome a {
+  width: fit-content;
+  margin-top: 0.9rem;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 9px;
+  background: #8fbfe0;
+  color: #344b60;
+  font-size: 0.73rem;
+  font-weight: 800;
+}
+.welcome img {
+  width: 155px;
+  height: 155px;
+  margin: -6px 5% -15px auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 10px rgb(63 137 169 / 0.16));
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+}
+.stats article {
+  min-height: 115px;
+  padding: 1rem;
+  border: 1px solid #e1e9ef;
+  border-radius: 15px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 23px 1fr;
+  column-gap: 0.55rem;
+}
+.stats svg {
+  color: #79b4cf;
+}
+.stats span {
+  color: #728398;
+  font-size: 0.67rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.stats strong {
+  grid-column: 2;
+  color: #3a4a63;
+  font: 800 1.65rem/1 var(--font-display);
+}
+.stats small {
+  grid-column: 2;
+  color: #92a0ad;
+  font-size: 0.63rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1.15rem;
+}
+.grid > article {
+  padding: 1.15rem;
+  border: 1px solid #e1e9ef;
+  border-radius: 16px;
+  background: #fff;
+}
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.cardHeader h2 {
+  margin-top: 0.17rem;
+  color: #3a4a63;
+  font: 800 1rem var(--font-sans);
+}
+.cardHeader button,
+.cardHeader > a {
+  padding: 0.4rem 0.55rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #54768a;
+  border: 1px solid #dce8ed;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+.cardHeader .add {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  justify-content: center;
+}
+.days {
+  min-height: 155px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+.days > div {
+  min-height: 142px;
+  position: relative;
+  padding: 0.55rem 0.5rem;
+  border: 1px solid #e6edf1;
+  border-radius: 10px;
+  background: #fcfeff;
+}
+.days b,
+.days > div > small {
+  display: block;
+  text-align: center;
+}
+.days b {
+  color: #5c7082;
+  font-size: 0.69rem;
+}
+.days > div > small {
+  color: #94a1ad;
+  font-size: 0.64rem;
+}
+.today {
+  background: #f4fbfd !important;
+  border-color: #a8d6e7 !important;
+}
+.session {
+  position: absolute;
+  top: 54px;
+  left: 0.35rem;
+  right: 0.35rem;
+  padding: 0.45rem;
+  display: grid;
+  border-radius: 7px;
+  background: #f7dfa0a8;
+  color: #536071;
+}
+.session strong {
+  font-size: 0.61rem;
+  line-height: 1.2;
+}
+.session span {
+  margin-top: 0.2rem;
+  font-size: 0.57rem;
+}
+.mockHint {
+  margin-top: 0.75rem;
+  color: #9aa6b0;
+  font-size: 0.65rem;
+}
+.todo label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid #edf1f3;
+  cursor: pointer;
+}
+.todo label:last-child {
+  border: 0;
+}
+.todo input {
+  position: absolute;
+  opacity: 0;
+}
+.todo i {
+  width: 17px;
+  height: 17px;
+  margin-top: 0.1rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid #bad9e5;
+  border-radius: 50%;
+  color: transparent;
+}
+.todo input:checked + i {
+  color: #fff;
+  background: #8fbfe0;
+}
+.todo label > span {
+  color: #536679;
+  font-size: 0.71rem;
+  line-height: 1.35;
+}
+.todo label small {
+  display: block;
+  margin-top: 0.12rem;
+  color: #96a2ad;
+  font-size: 0.61rem;
+}
+.done {
+  color: #9ba8b3 !important;
+  text-decoration: line-through;
+}
+.classes > p {
+  color: #7c8b9b;
+  font-size: 0.75rem;
+}
+.classes > a {
+  padding: 0.6rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-bottom: 1px solid #edf1f3;
+}
+.classes > a > span {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #c7e3f0;
+  color: #496174;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+.classes > a div {
+  min-width: 0;
+  flex: 1;
+}
+.classes strong,
+.classes small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.classes strong {
+  color: #506476;
+  font-size: 0.7rem;
+}
+.classes small {
+  margin-top: 0.12rem;
+  color: #8b99a6;
+  font-size: 0.6rem;
+}
+.classes svg {
+  color: #7793a3;
+}
+.activity > div:not(.cardHeader) {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+}
+.activity i {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f6c9d285;
+  color: #745362;
+}
+.activity p {
+  color: #718195;
+  font-size: 0.67rem;
+  line-height: 1.4;
+}
+.activity strong,
+.activity small {
+  display: block;
+}
+.activity strong {
+  color: #4c6072;
+}
+.activity small {
+  margin-top: 0.15rem;
+  color: #9aa6b0;
+  font-size: 0.6rem;
+}
+@media (max-width: 1050px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 580px) {
+  .welcome {
+    min-height: 190px;
+    padding: 1.1rem;
+  }
+  .welcome img {
+    width: 90px;
+    height: 90px;
+    position: absolute;
+    right: 1.3rem;
+    top: 80px;
+    opacity: 0.55;
+  }
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stats article {
+    min-height: 105px;
+    padding: 0.75rem;
+  }
+  .days {
+    overflow-x: auto;
+    grid-template-columns: repeat(4, 104px);
+  }
+}

@@ -1,0 +1,164 @@
+.card {
+  background: var(--ui-surface, #ffffff);
+  border-radius: var(--radius-xl, 10px);
+  border: 1px solid var(--ui-line, #e4e7ef);
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-shadow: var(--ui-shadow, 0 1px 2px rgb(37 44 63 / 0.05));
+  position: relative;
+  height: 100%;
+}
+
+.userSummary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+
+.name {
+  font-family: var(--font-display, "Baloo 2", sans-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text-main, #252c3f);
+  margin-top: 4px;
+  word-break: break-word;
+}
+
+.email {
+  font-size: 0.88rem;
+  color: var(--color-text-muted, #5f687c);
+  word-break: break-all;
+}
+
+.tagGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: var(--ui-blue-soft, #eef2fb);
+  color: var(--primary, #4867a8);
+  border: 1px solid var(--ui-blue-line, #a9bde6);
+}
+
+.levelBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: var(--ui-rose-soft, #fcf0f4);
+  color: var(--ui-rose, #9d4b70);
+  border: 1px solid var(--ui-rose-line, #e7b3c7);
+}
+
+.divider {
+  height: 1px;
+  background: var(--ui-line, #e4e7ef);
+  width: 100%;
+}
+
+.targetScoreSection {
+  background: var(--ui-canvas, #f6f7fb);
+  border-radius: var(--radius-lg, 8px);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--ui-line, #e4e7ef);
+}
+
+.targetScoreHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.targetLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #5f687c);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.targetValue {
+  font-family: var(--font-display, "Baloo 2", sans-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary, #4867a8);
+}
+
+.targetBarTrack {
+  width: 100%;
+  height: 8px;
+  background: var(--ui-line, #e4e7ef);
+  border-radius: var(--radius-full, 9999px);
+  overflow: hidden;
+}
+
+.targetBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #4867a8 0%, #7593d3 100%);
+  border-radius: var(--radius-full, 9999px);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.targetBarNote {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--color-text-light, #8a92a5);
+}
+
+.mascotWidget {
+  background: linear-gradient(135deg, #fdf8f0 0%, #fffbf5 100%);
+  border: 1px solid #fae8c8;
+  border-radius: var(--radius-lg, 8px);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.mascotImg {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.mascotContent {
+  flex: 1;
+}
+
+.mascotTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #854d0e;
+  margin-bottom: 2px;
+}
+
+.mascotText {
+  font-size: 0.76rem;
+  color: #713f12;
+  line-height: 1.35;
+}

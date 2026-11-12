@@ -1,0 +1,24 @@
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--tone-strong, var(--ui-blue-strong));
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.eyebrow[data-accent] {
+  padding-left: 10px;
+  border-left: 3px solid var(--tone-fill, var(--ui-mark));
+}
+
+.eyebrow[data-inverted] {
+  color: color-mix(in srgb, var(--ui-on-fill) 90%, transparent);
+}
+
+.eyebrow svg {
+  flex-shrink: 0;
+}

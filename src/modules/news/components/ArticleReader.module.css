@@ -1,0 +1,580 @@
+/* Reader root. --ink / --accent / --soft / --karaoke / --fs come from the random palette (inline style); the paper
+   tokens below never change with the palette, so long reading stays easy on the eyes. Full height, two scrolling
+   columns. */
+.page {
+  --paper: var(--ui-pearl);
+  --card: var(--ui-cream);
+  --line: var(--ui-cream-line);
+  --text: var(--ui-text);
+  --muted: var(--ui-muted);
+  --pop-bg: var(--ui-surface);
+  --toast-bg: var(--ui-ink);
+  --toast-fg: #fff;
+  --overlay: var(--ui-backdrop);
+  --float-shadow: rgb(37 44 63 / 0.18);
+  --cover-bg: linear-gradient(135deg, var(--ui-watermark), var(--ui-cream-line));
+  --cover-placeholder: var(--ui-subtle);
+  --split-line: var(--line);
+  --ok: var(--ui-green);
+
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+/* Dark mode: warm grey night paper, palette text uses its light variants (inkDark / accentDark / softDark). */
+.dark {
+  --paper: #1d1c1a;
+  --card: #232220;
+  --line: #36332e;
+  --text: #cbc4b6;
+  --muted: #8e877a;
+  --pop-bg: #24221e;
+  --toast-bg: #e6e1d6;
+  --toast-fg: #171614;
+  --overlay: rgb(0 0 0 / 0.55);
+  --float-shadow: rgb(0 0 0 / 0.5);
+  --cover-bg: linear-gradient(135deg, #2a2723, #24211d);
+  --cover-placeholder: #5e574c;
+  --split-line: #3a362f;
+  --ok: #8fca8f;
+
+  color-scheme: dark;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+/* Body: reading column | splitter | side panel */
+.body {
+  flex: 1;
+  display: grid;
+  min-height: 0;
+}
+
+.reading {
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.reading::-webkit-scrollbar {
+  display: none;
+}
+
+.dark .reading {
+  scrollbar-color: #4a453d transparent;
+}
+
+.document {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 32px 56px 90px 72px;
+}
+
+/* Article header: cover left, title right */
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 18px;
+}
+
+.cover {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--cover-bg);
+}
+
+.cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coverPlaceholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--cover-placeholder);
+}
+
+.kicker {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0 0 10px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.dark .title {
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.listen {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.listen:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Paragraphs: justified, no hyphenation (words must stay whole to be clicked / underlined) */
+.paragraph {
+  position: relative;
+  margin: 0 0 1.4em;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs);
+  line-height: 1.85;
+  letter-spacing: 0.005em;
+  text-align: justify;
+  text-justify: inter-word;
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+
+.paragraph:has([data-meaning]) {
+  line-height: 2.15;
+}
+
+.paragraphNumber {
+  position: absolute;
+  left: -44px;
+  top: 0.3em;
+  padding: 2px 5px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--soft);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.paragraphNumber:hover,
+.paragraphNumber:focus-visible {
+  color: var(--accent);
+  outline: none;
+}
+
+/* Two columns: one continuous divider at --split; both columns keep the same gap from it. */
+.pairs {
+  --gap: 32px;
+
+  position: relative;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: var(--split) minmax(0, 1fr);
+  margin-bottom: 1.4em;
+}
+
+.pair .paragraph {
+  margin-bottom: 0;
+  padding-right: var(--gap);
+}
+
+.paragraphTranslation {
+  margin: 0;
+  padding-left: var(--gap);
+  color: var(--muted);
+  font-size: calc(var(--fs) - 2px);
+  line-height: 1.75;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: manual;
+}
+
+.translationReading {
+  color: var(--ink);
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 1.4em;
+  left: var(--split);
+  z-index: 2;
+  width: 18px;
+  margin-left: -9px;
+  outline: none;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.divider span {
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: var(--soft);
+  transition:
+    background 0.15s ease,
+    width 0.15s ease,
+    left 0.15s ease;
+}
+
+.divider::after {
+  content: "";
+  position: sticky;
+  top: 45%;
+  display: block;
+  width: 6px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 99px;
+  background: var(--soft);
+  transition: background 0.15s ease;
+}
+
+.divider:hover span,
+.divider:focus-visible span {
+  left: 7.5px;
+  width: 3px;
+  background: var(--accent);
+}
+
+.divider:hover::after,
+.divider:focus-visible::after {
+  background: var(--accent);
+}
+
+/* Source and image credit (required for CC BY / BY-SA covers) */
+.credit {
+  margin: 36px 0 0;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.credit p {
+  margin: 0 0 4px;
+}
+
+.credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.done {
+  margin-top: 40px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.done p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.done button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.done button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.done button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.doneNote {
+  display: block;
+  margin-top: 10px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Draggable splitter of the side panel */
+.splitter {
+  position: relative;
+  outline: none;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.splitter span {
+  position: absolute;
+  left: 5px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--split-line);
+  transition:
+    background 0.15s ease,
+    width 0.15s ease,
+    left 0.15s ease;
+}
+
+.splitter::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  width: 6px;
+  height: 36px;
+  margin-top: -18px;
+  border-radius: 99px;
+  background: var(--split-line);
+  transition: background 0.15s ease;
+}
+
+.splitter:hover span,
+.splitter:focus-visible span {
+  left: 4px;
+  width: 3px;
+  background: var(--accent);
+}
+
+.splitter:hover::after,
+.splitter:focus-visible::after {
+  background: var(--accent);
+}
+
+.sideWrap {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.dark .sideWrap :where(*) {
+  scrollbar-color: #4a453d transparent;
+}
+
+/* Mobile: one column; the vocabulary opens from a floating pill as a bottom sheet */
+.sheetButton {
+  display: none;
+}
+
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: flex-end;
+  background: var(--overlay);
+}
+
+.sheetCard {
+  position: relative;
+  width: 100%;
+  height: min(78dvh, 640px);
+  overflow: hidden;
+  border-radius: 18px 18px 0 0;
+  background: var(--card);
+  animation: sheetUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes sheetUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sheetClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 1200;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--toast-bg);
+  color: var(--toast-fg);
+  font-size: 13.5px;
+  font-weight: 700;
+  transform: translateX(-50%);
+  animation: toastIn 0.2s ease;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 900px) {
+  .shell {
+    height: auto;
+  }
+
+  /* The top bar is fixed (96px); the body leaves room for it. */
+  .body {
+    display: block;
+    padding-top: 96px;
+  }
+
+  .reading {
+    overflow: visible;
+  }
+
+  .splitter,
+  .sideWrap {
+    display: none;
+  }
+
+  .document {
+    padding: 22px 18px 140px;
+  }
+
+  .head {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .paragraphNumber {
+    display: none;
+  }
+
+  .pair {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .pair .paragraph {
+    padding-right: 0;
+  }
+
+  .paragraphTranslation {
+    padding-left: 12px;
+    border-left: 1.5px solid var(--soft);
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .sheetButton {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 18px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    box-shadow: 0 8px 22px var(--float-shadow);
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheetCard {
+    animation: none;
+  }
+}

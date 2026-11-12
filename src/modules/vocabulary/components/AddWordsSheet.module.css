@@ -1,0 +1,8 @@
+.tabs {
+  width: 100%;
+}
+
+.tabs > * {
+  flex: 1;
+  justify-content: center;
+}

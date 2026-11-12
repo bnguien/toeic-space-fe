@@ -1,0 +1,136 @@
+/* Delete confirmation modal */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--ui-backdrop);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.card {
+  background: var(--ui-cream);
+  border: 1.5px solid var(--ui-cream-line);
+  border-radius: 20px;
+  padding: 26px 28px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 16px 36px rgb(37 44 63 / 0.25);
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.dangerCircle {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--ui-rose-soft);
+  color: var(--ui-rose);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ui-text);
+}
+
+.description {
+  margin: 0 0 22px;
+  font-size: 14px;
+  color: var(--ui-muted);
+  line-height: 1.5;
+}
+
+.description strong {
+  color: var(--ui-text);
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel {
+  background: var(--ui-hover);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ui-muted);
+  cursor: pointer;
+  transition: 0.15s ease;
+  transition-property:
+    color, background-color, background, border-color, box-shadow, transform, opacity, filter,
+    outline-color, text-decoration-color, fill, stroke;
+}
+
+.cancel:hover:not(:disabled) {
+  background: var(--ui-line);
+  color: var(--ui-text);
+}
+
+.confirm {
+  background: var(--ui-danger-fill);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ui-on-fill);
+  cursor: pointer;
+  transition: 0.15s ease;
+  transition-property:
+    color, background-color, background, border-color, box-shadow, transform, opacity, filter,
+    outline-color, text-decoration-color, fill, stroke;
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--ui-danger-fill) 25%, transparent);
+}
+
+.confirm:hover:not(:disabled) {
+  background: var(--ui-danger-fill-hover);
+  transform: translateY(-1px);
+}
+
+.confirm:disabled,
+.cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

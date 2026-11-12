@@ -1,0 +1,120 @@
+.toastContainer {
+  position: fixed;
+  top: 84px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 420px;
+  width: calc(100vw - 48px);
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius-lg, 8px);
+  background: #ffffff;
+  box-shadow:
+    0 10px 25px -5px rgba(30, 41, 59, 0.12),
+    0 8px 10px -6px rgba(30, 41, 59, 0.08);
+  border: 1px solid var(--ui-line, #e4e7ef);
+  animation: slideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.toastSuccess {
+  border-left: 4px solid var(--success, #10b981);
+}
+
+.toastError {
+  border-left: 4px solid var(--coral, #f43f5e);
+}
+
+.toastInfo {
+  border-left: 4px solid var(--primary, #4867a8);
+}
+
+.iconWrap {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
+}
+
+.toastSuccess .iconWrap {
+  color: var(--success, #10b981);
+}
+
+.toastError .iconWrap {
+  color: var(--coral, #f43f5e);
+}
+
+.toastInfo .iconWrap {
+  color: var(--primary, #4867a8);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-main, #252c3f);
+  margin-bottom: 2px;
+}
+
+.message {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #5f687c);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.closeBtn {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--ui-subtle, #8a92a5);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.closeBtn:hover {
+  color: var(--color-text-main, #252c3f);
+  background: var(--ui-hover, #f0f2f8);
+}
+
+@media (max-width: 767px) {
+  .toastContainer {
+    top: 72px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+  }
+}

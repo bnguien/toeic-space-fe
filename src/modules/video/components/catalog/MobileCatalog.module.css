@@ -1,0 +1,14 @@
+/* Mobile layout container; shown instead of the desktop one at 768px. */
+
+.view {
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .view {
+    display: flex !important;
+  }
+}

@@ -1,0 +1,84 @@
+/* Section headers: desktop card header and the plain mobile heading row. */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Monochrome icon square */
+.iconCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--ui-hover);
+  color: var(--ui-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ui-text);
+  letter-spacing: -0.01em;
+}
+
+.count {
+  background: var(--ui-line);
+  color: var(--ui-muted);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Mobile: no card, the heading sits straight on the page. */
+.plainHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+.plainTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plainTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 850;
+  color: var(--ui-text);
+  letter-spacing: -0.01em;
+}
+
+.plainCount {
+  background: var(--ui-line);
+  color: var(--ui-muted);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7.5px;
+  border-radius: 999px;
+}

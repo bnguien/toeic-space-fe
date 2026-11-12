@@ -1,0 +1,16 @@
+.notice {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.notice img {
+  width: 110px;
+}
+
+.message {
+  margin: 0;
+  font-weight: 750;
+}

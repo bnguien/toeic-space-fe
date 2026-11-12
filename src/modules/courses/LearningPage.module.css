@@ -1,0 +1,323 @@
+/* LearningPage shell styled after GrammarPage (two-column unified layout) */
+
+.page {
+  --gp-ink: var(--ui-text, #252c3f);
+  --gp-muted: var(--ui-muted, #64748b);
+  --gp-subtle: var(--ui-subtle, #94a3b8);
+  --gp-primary: var(--ui-blue, #4867a8);
+  --gp-primary-soft: var(--ui-blue-soft, #eef2fb);
+  --gp-line: var(--ui-line, #e2e8f0);
+  --gp-line2: var(--ui-divider, #cbd5e1);
+  --gp-rail: var(--ui-divider, #cbd5e1);
+  --gp-divider: var(--ui-blue-line, #c7d7f2);
+  --gp-moss: var(--ui-blue, #4867a8);
+  --gp-moss-hover: var(--ui-blue-strong, #37548f);
+  --gp-fill: var(--ui-accent-fill, #3b82f6);
+  --gp-fill-hover: var(--ui-accent-fill-hover, #2563eb);
+  --gp-on-fill: var(--ui-on-fill, #ffffff);
+  --gp-surface: var(--ui-surface, #ffffff);
+  --gp-surface-2: var(--ui-canvas, #f8fafc);
+  --gp-hover: var(--ui-hover, #f1f5f9);
+  --gp-son: var(--ui-rose, #f43f5e);
+  --gp-m900: var(--ui-navy, #102a43);
+  --gp-m800: var(--ui-blue-strong, #1e3a8a);
+  --gp-m700: var(--ui-navy-inner, #243b53);
+  --gp-m600: var(--ui-blue, #3b82f6);
+  --gp-m100: var(--ui-blue-soft, #eff6ff);
+  --gp-m50: var(--ui-hover, #eff6ff);
+  --gp-lime: var(--ui-mark-bright, #bef264);
+  --gp-lime-soft: color-mix(
+    in srgb,
+    var(--ui-mark-bright, #bef264) 16%,
+    var(--ui-surface, #ffffff)
+  );
+  --gp-hl: color-mix(in srgb, var(--ui-mark-bright, #bef264) 38%, transparent);
+  --gp-gold: var(--ui-mark, #f59e0b);
+  --gp-gold-soft: var(--ui-pearl, #fef3c7);
+  --gp-gold-line: var(--ui-pearl-line, #fde68a);
+  --gp-gold-ink: var(--ui-pearl-text, #92400e);
+  --gp-ok: var(--ui-green, #22c55e);
+  --gp-ok-line: var(--ui-green-line, #86efac);
+  --gp-nav: var(--nav-height, 64px);
+
+  box-sizing: border-box;
+  height: 100vh;
+  height: 100dvh;
+  padding-top: var(--gp-nav, 64px);
+  overflow: hidden;
+  background: var(--gp-surface, #ffffff);
+  color: var(--gp-ink, #252c3f);
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: minmax(360px, 420px) 0 minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  transition: grid-template-columns 0.22s ease;
+}
+
+.shell.sideCollapsed {
+  grid-template-columns: 0 0 minmax(0, 1fr);
+}
+
+/* Left column (Roadmap / Curriculum) */
+.side {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  background: var(--gp-surface, #ffffff);
+}
+
+.shell.sideCollapsed .side {
+  overflow: hidden;
+  display: none;
+}
+
+/* Divider & Collapse button */
+.split {
+  position: relative;
+  z-index: 3;
+  width: 0;
+  outline: none;
+}
+
+.splitBtn {
+  position: absolute;
+  top: 18px;
+  left: -14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  border: 2px solid var(--gp-divider, #e2e8f0);
+  background: var(--gp-surface, #ffffff);
+  color: var(--gp-moss, #3b82f6);
+  box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.25);
+  transition:
+    transform 0.15s,
+    background 0.15s;
+  z-index: 10;
+}
+
+.splitBtn:hover {
+  transform: scale(1.08);
+  background: var(--gp-hover, #f8fafc);
+}
+
+.shell.sideCollapsed .splitBtn {
+  left: 8px;
+}
+
+/* Right column (Main Lesson) */
+.main {
+  height: 100%;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-top: 16px;
+  background: var(--gp-surface, #ffffff);
+}
+
+.mainInner {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 32px 64px;
+}
+
+/* ---------- Parts bar (Tabs) ---------- */
+.tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  margin: 20px 0 24px;
+  border-bottom: 1px solid var(--gp-line, #e2e8f0);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: -1px;
+  padding: 10px 16px;
+  border: 0;
+  border-bottom: 2.5px solid transparent;
+  background: none;
+  color: var(--gp-muted, #64748b);
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--gp-moss, #3b82f6);
+}
+
+.tab.isOn {
+  color: var(--gp-moss, #3b82f6);
+  border-bottom-color: var(--gp-moss, #3b82f6);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--gp-moss, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Extra tab action (e.g. mobile open sidebar) */
+.tabExtra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Video Section in document flow */
+.videoSection {
+  margin-bottom: 24px;
+}
+
+.videoSelector {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.videoTabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--gp-surface-2, #fafbfc);
+  border: 1px solid var(--gp-line, #e2e8f0);
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gp-ink, #252c3f);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.videoTabBtn:hover {
+  border-color: var(--gp-moss, #3b82f6);
+  color: var(--gp-moss, #3b82f6);
+}
+
+.videoTabBtnActive {
+  background: var(--gp-m50, #eff6ff);
+  border-color: var(--gp-moss, #3b82f6);
+  color: var(--gp-moss, #3b82f6);
+  font-weight: 700;
+}
+
+/* Goals Box ("Học done bài này, bạn sẽ") */
+.goals {
+  margin: 0 0 24px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1.5px solid var(--gp-lime, #84cc16);
+  background: var(--gp-lime-soft, #f7fee7);
+}
+
+.goalsT {
+  font-family: inherit;
+  font-size: 16.5px;
+  font-weight: 800;
+  color: var(--gp-m800, #1e3a8a);
+  line-height: 1.25;
+}
+
+.goals ul {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goals li {
+  position: relative;
+  margin: 4px 0;
+  padding-left: 26px;
+  font-size: 14.5px;
+  color: var(--gp-ink, #252c3f);
+}
+
+.goals li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--gp-fill, #3b82f6);
+}
+
+.goals li::after {
+  content: "";
+  position: absolute;
+  left: 4.5px;
+  top: 7.5px;
+  width: 5px;
+  height: 3px;
+  border-left: 1.8px solid var(--gp-on-fill, #ffffff);
+  border-bottom: 1.8px solid var(--gp-on-fill, #ffffff);
+  transform: rotate(-45deg);
+}
+
+/* Mobile top bar */
+.mobileBar {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .side {
+    display: none;
+  }
+
+  .split {
+    display: none;
+  }
+
+  .mobileBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--gp-surface, #ffffff);
+    border-bottom: 1px solid var(--gp-line, #e2e8f0);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  .mobileSidebarBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--gp-m50, #eff6ff);
+    border: 1px solid var(--gp-moss, #3b82f6);
+    color: var(--gp-moss, #3b82f6);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .mainInner {
+    padding: 16px 16px 48px;
+  }
+}

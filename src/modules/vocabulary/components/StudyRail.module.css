@@ -1,0 +1,61 @@
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Every rail control (tools and the save toggle) shares the round sticker look. */
+.rail button[data-variant] {
+  --btn-h: 48px;
+
+  width: 48px;
+  min-height: 48px;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: var(--radius-full);
+  background: var(--ui-surface);
+  box-shadow: 0 3px 0 rgb(37 44 63 / 0.4);
+  color: var(--ui-text);
+}
+
+.rail button[data-variant]:hover:not(:disabled) {
+  background: var(--ui-surface);
+  transform: translateY(-1px);
+}
+
+.rail button[data-variant][aria-pressed="true"] {
+  background: var(--ui-navy);
+  color: var(--ui-on-fill);
+}
+
+.rail button[data-variant][data-saved] {
+  background: var(--ui-pink-fill);
+  color: var(--ui-on-fill);
+}
+
+.rail button[data-variant]:focus-visible {
+  box-shadow:
+    0 3px 0 rgb(37 44 63 / 0.4),
+    var(--ui-focus);
+}
+
+/* Phones: a compact row over the card's top-right corner. */
+@media (max-width: 600px) {
+  .rail {
+    flex-direction: row;
+    gap: var(--space-1);
+  }
+
+  .rail button[data-variant] {
+    --btn-h: 34px;
+
+    width: 34px;
+    min-height: 34px;
+    border-width: 1px;
+    box-shadow: none;
+  }
+
+  .rail button[data-variant] svg {
+    width: 17px;
+    height: 17px;
+  }
+}

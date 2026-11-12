@@ -1,0 +1,156 @@
+/* Colours come from the reader root: --ink / --accent / --soft / --karaoke (palette), --text / --muted (paper). */
+.sentence {
+  transition: color 0.2s ease;
+}
+
+.english {
+  cursor: text;
+}
+
+.word {
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.word:hover,
+.word:focus-visible {
+  color: var(--accent);
+  outline: none;
+}
+
+.suggested {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.suggested.word {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.suggestedGap {
+  text-decoration-color: var(--accent);
+}
+
+:global([data-reader-dark="true"]) .suggested {
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.translation {
+  display: block;
+  margin: 4px 0 12px;
+  padding-left: 12px;
+  border-left: 2px solid var(--soft);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: calc(var(--fs) - 3px);
+  line-height: 1.6;
+  text-align: left;
+  animation: slideIn 0.22s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Karaoke (painted on the DOM every frame by useReadAloud): the current word fills by --p, read words keep the
+   karaoke colour, deliberately unlike the vocabulary underline. */
+.word[data-karaoke="current"] {
+  --p: 0%;
+  background-image: linear-gradient(
+    90deg,
+    var(--karaoke) calc(var(--p) - 6%),
+    currentColor calc(var(--p) + 6%)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.word[data-karaoke="passed"] {
+  color: var(--karaoke);
+  -webkit-text-fill-color: var(--karaoke);
+}
+
+/* Looked-up words: bold (no colour change, so they never mix with underline / karaoke); short meaning above. */
+.word.lookedUp {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.word.lookedUp[data-karaoke="passed"] {
+  color: var(--karaoke);
+}
+
+.word[data-meaning] {
+  position: relative;
+}
+
+/* The meaning floats above the word: it takes no width, so the line never stretches. */
+.word[data-meaning]::before {
+  content: attr(data-meaning);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, 2px);
+  color: var(--muted);
+  -webkit-text-fill-color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Looked-up phrase (2–5 adjacent words): one dashed underline across the phrase; its meaning centred over it. */
+.word.phrase,
+span.phrase {
+  text-decoration: underline dashed;
+  text-decoration-color: var(--ink);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 5px;
+}
+
+.word.phraseStart[data-meaning]::before {
+  left: calc(var(--phrase-width, 0px) / 2);
+  transform: translate(var(--phrase-shift, 0), 2px);
+}
+
+.word.phraseStart[style*="--phrase-width"][data-meaning]::before {
+  --phrase-shift: -50%;
+}
+
+/* Flash of a word reached from the side panel */
+.word.flash {
+  border-radius: 4px;
+  animation: flash 2.2s ease-out;
+}
+
+@keyframes flash {
+  0%,
+  35% {
+    background-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 32%, transparent);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: 0 0 0 3px transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .translation {
+    animation: none;
+  }
+}
