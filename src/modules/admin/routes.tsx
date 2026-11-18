@@ -11,6 +11,7 @@ import { AdminSectionPage } from "./pages/AdminSectionPage";
 import { ClassesPage } from "./pages/ClassesPage";
 import { ClassesOverviewPage } from "./pages/ClassesOverviewPage";
 import { ClassesLifecyclePage } from "./pages/ClassesLifecyclePage";
+import { FacilitiesPage } from "./pages/FacilitiesPage";
 import { CoursesPage } from "./pages/CoursesPage";
 import { CouponsPage } from "./pages/CouponsPage";
 import { PromotionsPage } from "./pages/PromotionsPage";
@@ -82,6 +83,8 @@ export const adminRoutes: RouteObject[] = [
       { path: "classes", element: <ClassesOverviewPage /> },
       { path: "classes/list", element: <ClassesPage /> },
       { path: "classes/list/:id", element: <ClassesPage /> },
+      { path: "classes/facilities", element: <FacilitiesPage /> },
+      { path: "facilities", element: <Navigate to="/admin/classes/facilities" replace /> },
       { path: "classes/lifecycle", element: <ClassesLifecyclePage /> },
       { path: "classes/lifecycle/:id", element: <ClassesLifecyclePage /> },
       { path: "classes/archived", element: <Navigate to="/admin/classes/lifecycle" replace /> },

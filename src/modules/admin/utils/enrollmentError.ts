@@ -18,6 +18,8 @@ const messages: Record<string, string> = {
   not_student: "Tài khoản không phải học viên.",
   unverified_student: "Học viên chưa xác minh email.",
   inactive_student: "Học viên không còn hoạt động.",
+  ineligible_student: "Chỉ học viên đang hoạt động và đã xác minh mới được ghi danh.",
+  invalid_students: "Danh sách học viên không hợp lệ. Vui lòng kiểm tra lại lựa chọn.",
 };
 
 export const enrollmentErrorMessage = (error: unknown) => apiErrorMessage(error, messages);

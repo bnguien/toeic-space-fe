@@ -52,6 +52,7 @@ export { Toast, ToastViewport } from "./Toast/ToastViewport";
 export { Snowfall, type SnowfallProps } from "./Snowfall/Snowfall";
 export { Stat, type StatProps } from "./Stat/Stat";
 export { Switch, type SwitchProps } from "./Switch/Switch";
+export { StudentConflictWarningDialog } from "./StudentConflictWarningDialog";
 export { EmptyState, type EmptyStateProps } from "./StatusView/EmptyState";
 export { ErrorState, type ErrorStateProps } from "./StatusView/ErrorState";
 export { cx, type ButtonVariant, type ControlSize, type Tone } from "./types";

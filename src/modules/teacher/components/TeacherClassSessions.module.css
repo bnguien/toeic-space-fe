@@ -1,0 +1,325 @@
+.mainColumn {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+.facts dt {
+  font-size: 0.75rem;
+  color: #738196;
+}
+.facts dd {
+  margin: 0.25rem 0 0;
+  color: #3a4a63;
+  font-size: 0.85rem;
+}
+.form label {
+  display: grid;
+  gap: 0.35rem;
+  color: #4c6275;
+  font-size: 0.83rem;
+}
+.form input {
+  width: 100%;
+  padding: 0.65rem;
+  border: 1px solid #dbe7ec;
+  border-radius: 8px;
+}
+.error {
+  color: #a45868;
+  font-size: 0.82rem;
+}
+.tabToolbar,
+.studentTabToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+}
+.studentTabToolbar {
+  justify-content: flex-end;
+  margin-bottom: -0.25rem;
+}
+.tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  border: 1px solid #dce6ef;
+  border-radius: 10px;
+  background: #fff;
+}
+.tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 36px;
+  padding: 0 0.8rem;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #718296;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tabs button[data-active] {
+  background: var(--theme-panel, #34508f);
+  color: #fff;
+}
+.tabs button:focus-visible {
+  outline: 2px solid var(--theme-mid, #7593d3);
+  outline-offset: 2px;
+}
+.studentPanel {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid #e0e8f1;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 2px 2px 0 #eaf0f6;
+}
+.studentHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.studentHeading h3 {
+  margin: 0;
+  color: #3a4a63;
+  font-size: 0.95rem;
+}
+.studentHeading span {
+  color: #7f8fa0;
+  font-size: 0.75rem;
+}
+.studentState {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  color: #718296;
+  font-size: 0.82rem;
+}
+.studentTableWrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e5ebf1;
+  border-radius: 9px;
+}
+.studentTable {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  color: #53677a;
+  font-size: 0.8rem;
+  text-align: left;
+}
+.studentTable th,
+.studentTable td {
+  padding: 0.75rem 0.8rem;
+  border-bottom: 1px solid #edf1f5;
+}
+.studentTable th {
+  background: #f8fafc;
+  color: #62758a;
+  font-weight: 800;
+}
+.studentTable tr:last-child td {
+  border-bottom: 0;
+}
+.studentTable td:first-child {
+  color: #3a4a63;
+  font-weight: 700;
+}
+.detailPanel {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem;
+  border: 1px solid #e1e9ef;
+  border-radius: 16px;
+  background: #fff;
+}
+@media (max-width: 640px) {
+  .tabToolbar {
+    align-items: flex-start;
+    flex-direction: column-reverse;
+  }
+  .tabToolbar > button {
+    width: 100%;
+  }
+  .tabs {
+    width: 100%;
+  }
+  .tabs button {
+    flex: 1;
+  }
+  .studentPanel {
+    padding: 0.75rem;
+  }
+}
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+.panelHeader h2 {
+  margin: 0;
+  color: #3a4a63;
+  font-size: 1.05rem;
+}
+.panelClose {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #7a8b9b;
+  cursor: pointer;
+}
+.panelClose:hover {
+  background: #f4f9fc;
+  color: #37548f;
+}
+.panelSession {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #e9eef1;
+}
+.panelIcon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  flex: 0 0 48px;
+  place-items: center;
+  border-radius: 12px;
+  background: #eaf5f9;
+  color: #3f7f9a;
+}
+.panelIcon[data-status="Completed"] {
+  background: #e6f6ed;
+  color: #2d7655;
+}
+.panelIcon[data-status="Cancelled"] {
+  background: #fff0f3;
+  color: #a45868;
+}
+.panelSession h3 {
+  margin: 0;
+  color: #3a4a63;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+.panelBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+.panelType {
+  padding: 0.17rem 0.42rem;
+  border-radius: 5px;
+  background: #eaf5f9;
+  color: #59758a;
+  font-size: 0.63rem;
+  font-weight: 700;
+}
+.panelStatus {
+  padding: 0.17rem 0.42rem;
+  border-radius: 5px;
+  background: #eaf3fc;
+  color: #37548f;
+  font-size: 0.63rem;
+  font-weight: 700;
+}
+.panelStatus[data-status="Completed"] {
+  background: #e6f6ed;
+  color: #2d7655;
+}
+.panelStatus[data-status="Cancelled"] {
+  background: #fff0f3;
+  color: #a45868;
+}
+.panelFacts {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+.panelFact {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: start;
+}
+.panelFact svg {
+  margin-top: 0.1rem;
+  color: #7f96a4;
+}
+.panelFactLabel {
+  color: #8794a2;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.panelFact p {
+  margin: 0.15rem 0 0;
+  color: #3a4a63;
+  font-size: 0.79rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.panelReason {
+  margin: 0;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #f0d5dc;
+  border-radius: 8px;
+  background: #fff7f9;
+  color: #9d4b70;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.panelActions {
+  display: grid;
+  gap: 0.5rem;
+  padding-top: 0.1rem;
+}
+.dialogActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.panelActionRow {
+  display: grid;
+  gap: 0.5rem;
+}
+.panelActions > button {
+  width: 100%;
+  justify-content: center;
+}
+.panelActionRow > button {
+  width: 100%;
+  justify-content: center;
+}
+@media (max-width: 520px) {
+  .facts {
+    grid-template-columns: 1fr;
+  }
+}

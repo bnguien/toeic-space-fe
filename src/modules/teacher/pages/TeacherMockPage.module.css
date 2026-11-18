@@ -1,5 +1,10 @@
+.wrapper {
+  display: grid;
+  gap: 1rem;
+  color: #3a4a63;
+}
 .page {
-  min-height: 480px;
+  min-height: 360px;
   display: grid;
   place-content: center;
   justify-items: center;
@@ -19,7 +24,7 @@
   font-weight: 800;
   letter-spacing: 0.1em;
 }
-.page h1 {
+.page h2 {
   margin: 0.35rem 0;
   color: #425a6d;
   font-size: 1.45rem;

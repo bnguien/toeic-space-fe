@@ -4,6 +4,10 @@
   padding: 1.25rem;
   color: var(--text-primary, #183348);
 }
+.management {
+  max-width: none;
+  padding: 0;
+}
 .student {
   padding-top: 7rem;
   min-height: 75vh;

@@ -1,6 +1,7 @@
 .page {
   display: grid;
   gap: 1.15rem;
+  color: #3a4a63;
 }
 .welcome {
   min-height: 175px;
@@ -139,7 +140,8 @@
 }
 .days > div {
   min-height: 142px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
   padding: 0.55rem 0.5rem;
   border: 1px solid #e6edf1;
   border-radius: 10px;
@@ -163,15 +165,38 @@
   border-color: #a8d6e7 !important;
 }
 .session {
-  position: absolute;
-  top: 54px;
-  left: 0.35rem;
-  right: 0.35rem;
+  min-width: 0;
   padding: 0.45rem;
   display: grid;
   border-radius: 7px;
   background: #f7dfa0a8;
   color: #536071;
+}
+.sessionsForDay {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+.noSession {
+  margin: auto 0;
+  color: #a0acb8;
+  font-size: 0.58rem;
+  text-align: center;
+}
+.moreSessions {
+  color: #7b8792;
+  font-size: 0.58rem;
+  text-align: center;
+}
+.scheduleState {
+  grid-column: 1 / -1;
+  min-height: 142px;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: #8493a2;
+  font-size: 0.78rem;
+  text-align: center;
 }
 .session strong {
   font-size: 0.61rem;
@@ -181,7 +206,7 @@
   margin-top: 0.2rem;
   font-size: 0.57rem;
 }
-.mockHint {
+.scheduleHint {
   margin-top: 0.75rem;
   color: #9aa6b0;
   font-size: 0.65rem;

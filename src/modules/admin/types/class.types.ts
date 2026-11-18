@@ -14,6 +14,7 @@ export interface ClassItem {
   updatedAt: string;
   updatedBy: string;
   teacherId: string | null;
+  defaultRoomId?: string | null;
 }
 
 export interface ClassInstructor {

@@ -1,5 +1,6 @@
 import { Outlet, useLocation, useMatches } from "react-router-dom";
 import { BackToTop } from "@/shared/components/BackToTop/BackToTop";
+import { DocumentTitleReset } from "@/shared/components/DocumentTitle/DocumentTitleReset";
 import { ToastViewport } from "@/shared/components/ui";
 import { isAppRouteHandle } from "@/shared/types/route-handle.types";
 import { Navbar } from "@/modules/landing";
@@ -18,6 +19,8 @@ export const RootLayout = () => {
   return (
     // "Bôi đen để tra" is site-wide for learners; the CMS keeps plain text selection.
     <SelectionLookupProvider disabled={isAdminRoute || isTeacherRoute}>
+      {/* Before Outlet: resets the tab title first, then the routed page can set its own. */}
+      <DocumentTitleReset />
       {!isAdminRoute && !isTeacherRoute && !isBare && <Navbar />}
       <Outlet />
       {!isBare && <BackToTop />}

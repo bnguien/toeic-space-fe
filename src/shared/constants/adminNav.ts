@@ -56,6 +56,7 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
     children: [
       { key: "classes-overview", label: "Tổng quan", path: "/admin/classes" },
       { key: "classes-list", label: "Danh sách lớp học", path: "/admin/classes/list" },
+      { key: "classes-facilities", label: "Cơ sở & Phòng học", path: "/admin/classes/facilities" },
       { key: "classes-lifecycle", label: "Lưu trữ & đã xóa", path: "/admin/classes/lifecycle" },
     ],
   },

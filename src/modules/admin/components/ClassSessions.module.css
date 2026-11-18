@@ -1,0 +1,241 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.headingTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #2b415a;
+}
+
+.headingSubtitle {
+  font-size: 0.83rem;
+  color: #617387;
+  margin-top: 0.25rem;
+}
+
+.headingActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.toolbarRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background: #f7fafc;
+  padding: 0.85rem 1rem;
+  border-radius: 9px;
+  border: 1px solid #dce7ee;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.dateFilterBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #4b6277;
+}
+
+.sessionTitleCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sessionTitle {
+  font-weight: 700;
+  color: #263e58;
+}
+
+.overridesList {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.overrideTag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: #fff3d6;
+  color: #8c5b08;
+  border: 1px solid #eedaa8;
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.formGrid {
+  display: grid;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.formRow2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.formLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #384e66;
+}
+
+.formControl {
+  height: 2.6rem;
+  padding: 0 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #d5e0e9;
+  font: inherit;
+  font-size: 0.88rem;
+  color: #30445c;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formControl:focus {
+  outline: none;
+  border-color: #5b92ba;
+}
+
+.formTextarea {
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #d5e0e9;
+  font: inherit;
+  font-size: 0.88rem;
+  color: #30445c;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.formTextarea:focus {
+  outline: none;
+  border-color: #5b92ba;
+}
+
+.errorBanner {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: #fdf2f4;
+  border: 1px solid #f5c2cb;
+  color: #b03a48;
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+.auditItem {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #edf3f7;
+  font-size: 0.8rem;
+}
+
+.auditItem:last-child {
+  border-bottom: none;
+}
+
+.meetPanel {
+  display: grid;
+  gap: 0.9rem;
+  padding: 0.35rem 0;
+}
+
+.meetSummary {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  color: #4f6578;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.meetMuted {
+  margin: 0;
+  color: #748698;
+  font-size: 0.85rem;
+}
+
+.meetError {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #f0c9d3;
+  border-radius: 8px;
+  background: #fff7f9;
+  color: #9d4b70;
+  font-size: 0.82rem;
+}
+
+.meetError code {
+  width: fit-content;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #f7e7ed;
+  color: #85415e;
+  font-size: 0.72rem;
+}
+
+.meetRetry {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.meetRetry p {
+  margin: 0;
+  color: #617387;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.meetLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #37548f;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}

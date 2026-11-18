@@ -135,8 +135,8 @@ interface ListHeroProps {
   description?: ReactNode;
   actions?: ReactNode;
   mascot: string;
-  /** The three key counts; those with onSelect filter the list below. */
-  items: SummaryItem[];
+  /** Key counts; those with onSelect filter the list below. */
+  items?: SummaryItem[];
   pastel?: boolean;
 }
 
@@ -152,7 +152,7 @@ export function ListHero({
   description,
   actions,
   mascot,
-  items,
+  items = [],
   pastel = false,
 }: ListHeroProps) {
   return (
@@ -179,34 +179,36 @@ export function ListHero({
         {actions && <div className={styles.listActions}>{actions}</div>}
       </div>
 
-      <div
-        className={styles.listStats}
-        style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
-      >
-        {items.map((item) => {
-          const content = (
-            <>
-              <strong>{value(item.value)}</strong>
-              <span>{item.label}</span>
-            </>
-          );
-          return item.onSelect ? (
-            <button
-              key={item.key}
-              type="button"
-              className={styles.listStat}
-              aria-pressed={Boolean(item.active)}
-              onClick={item.onSelect}
-            >
-              {content}
-            </button>
-          ) : (
-            <div key={item.key} className={styles.listStat}>
-              {content}
-            </div>
-          );
-        })}
-      </div>
+      {items.length > 0 && (
+        <div
+          className={styles.listStats}
+          style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}
+        >
+          {items.map((item) => {
+            const content = (
+              <>
+                <strong>{value(item.value)}</strong>
+                <span>{item.label}</span>
+              </>
+            );
+            return item.onSelect ? (
+              <button
+                key={item.key}
+                type="button"
+                className={styles.listStat}
+                aria-pressed={Boolean(item.active)}
+                onClick={item.onSelect}
+              >
+                {content}
+              </button>
+            ) : (
+              <div key={item.key} className={styles.listStat}>
+                {content}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

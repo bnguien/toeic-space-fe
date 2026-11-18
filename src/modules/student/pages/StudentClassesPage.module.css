@@ -2,7 +2,7 @@
   width: min(1200px, 100%);
   min-height: calc(100vh - 90px);
   margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
+  padding: 7rem 1.25rem 4rem;
   display: grid;
   align-content: start;
   gap: 1.5rem;
@@ -13,6 +13,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0.45rem;
+  margin-bottom: 0.5rem;
   color: var(--color-text-muted, #5f687c);
   font-size: 0.82rem;
 }
@@ -20,8 +21,7 @@
   color: inherit;
 }
 .breadcrumb a:hover,
-.heading a:hover,
-.table a:hover {
+.heading a:hover {
   color: var(--primary, #4867a8);
   text-decoration: underline;
 }
@@ -31,6 +31,16 @@
   align-items: baseline;
   flex-wrap: wrap;
   gap: 0.6rem 1rem;
+}
+.calendarSection {
+  display: grid;
+  gap: 0.7rem;
+  min-width: 0;
+}
+.calendarSection > h2 {
+  margin: 0;
+  color: #3a4a63;
+  font-size: 1.05rem;
 }
 .heading h1 {
   font-size: clamp(1.5rem, 2.5vw, 2rem);
@@ -44,6 +54,48 @@
 .heading a {
   color: var(--primary, #4867a8);
   font-size: 0.86rem;
+}
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid #e3e7eb;
+  scrollbar-width: thin;
+}
+.tabs button {
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 0 1.05rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #5f687c;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.tabs button:hover:not([data-active]) {
+  background: #f1f3f5;
+  color: #252c3f;
+}
+.tabs button[data-active] {
+  background: #171717;
+  color: #fff;
+}
+.tabs button:focus-visible {
+  outline: 2px solid #4867a8;
+  outline-offset: 2px;
+}
+.tabPanel {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  min-width: 0;
 }
 .controls {
   display: flex;
@@ -94,71 +146,81 @@
   border-radius: 10px;
   background: #fff;
 }
+.results {
+  border: 0;
+  background: transparent;
+}
 .count {
-  padding: 1rem 1.25rem;
+  margin-bottom: 0.85rem;
   color: #607088;
   font-size: 0.8rem;
   font-weight: 700;
 }
-.tableScroll {
-  width: 100%;
-  overflow-x: auto;
+.classGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  align-items: stretch;
+  gap: 1rem;
 }
-.table {
-  width: 100%;
-  min-width: 900px;
-  table-layout: fixed;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 0.8rem;
+.classCard {
+  min-width: 0;
+  min-height: 204px;
+  display: grid;
+  align-content: start;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #dfe7f0;
+  border-radius: 12px;
+  background: #fff;
+  color: #3a4a63;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 #e9eff5;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
-.table th,
-.table td {
-  padding: 0.9rem 0.6rem;
-  border-top: 1px solid #e9eef1;
-  vertical-align: middle;
+.classCard:hover {
+  transform: translate(-1px, -1px);
+  border-color: #b9cfe2;
+  box-shadow: 4px 4px 0 #e2eaf2;
+  text-decoration: none;
 }
-.table th {
-  color: #607088;
+.classCardRow {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 48px;
+  padding: 0.45rem 0;
+  min-width: 0;
+  border-bottom: 1px solid #edf1f5;
+}
+.classCardRow:last-child {
+  border-bottom: 0;
+}
+.classCardLabel {
+  color: #8593a2;
   font-size: 0.72rem;
+  font-weight: 700;
+}
+.classCardValue {
+  min-width: 0;
+  color: #53677a;
+  font-size: 0.8rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.classCardName {
+  grid-column: 1 / -1;
+  color: #33465a;
+  font-size: 0.9rem;
   font-weight: 800;
 }
-.table tbody tr:hover {
-  background: #f7fafc;
-}
-.table th:nth-child(1) {
-  width: 13%;
-}
-.table th:nth-child(2) {
-  width: 21%;
-}
-.table th:nth-child(3) {
-  width: 18%;
-}
-.table th:nth-child(4),
-.table th:nth-child(5) {
-  width: 11%;
-}
-.table th:nth-child(6) {
-  width: 15%;
-}
-.table th:nth-child(7) {
-  width: 11%;
-}
-.table td:nth-child(1) span,
-.table td:nth-child(2) a,
-.table td:nth-child(3) span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.table td:last-child {
-  white-space: nowrap;
-}
-.table a {
-  color: #37548f;
-  font-weight: 700;
+.classCardStatus .classCardValue {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 .code {
   color: #526e82;
@@ -285,7 +347,7 @@
 }
 @media (max-width: 767px) {
   .page {
-    padding: 1.25rem 1rem 3rem;
+    padding: 6rem 1rem 3rem;
     gap: 1.15rem;
   }
   .search {

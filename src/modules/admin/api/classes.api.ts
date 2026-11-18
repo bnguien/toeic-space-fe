@@ -60,4 +60,22 @@ export const classesApi = {
         signal,
       })
     ).data,
+  setDefaultRoom: async (
+    id: string,
+    payload: { roomId: string | null; reason?: string | null; applyToFutureSessions?: boolean },
+  ) => (await httpClient.put<ClassDetail>(`${classroomBase}/${id}/default-room`, payload)).data,
+  defaultRoomHistory: async (id: string, signal?: AbortSignal) =>
+    (
+      await httpClient.get<
+        {
+          id: string;
+          classId: string;
+          previousRoomId: string | null;
+          newRoomId: string | null;
+          changedBy: string;
+          changedAt: string;
+          reason: string | null;
+        }[]
+      >(`${classroomBase}/${id}/default-room/history`, { signal })
+    ).data,
 };

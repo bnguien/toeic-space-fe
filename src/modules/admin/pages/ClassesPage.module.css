@@ -461,6 +461,9 @@
   font-weight: 800;
   background: transparent;
 }
+.detailTabs {
+  margin: 1.25rem 0 1rem;
+}
 .lifecycle > div {
   display: flex;
   flex-wrap: wrap;

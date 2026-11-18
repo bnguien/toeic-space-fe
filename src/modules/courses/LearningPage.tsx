@@ -1,6 +1,6 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   BookOpen,
   Paperclip,
@@ -21,14 +21,21 @@ import { LessonTextbookContent } from "./components/LessonTextbookContent";
 import { LessonCurriculumSidebar } from "./components/LessonCurriculumSidebar";
 import { LessonAttachments } from "./components/LessonAttachments";
 import { LessonNavigation } from "./components/LessonNavigation";
+import { firstLessonPath } from "./lessonRoutes";
+import { COURSE_SIDE_MAX, COURSE_SIDE_MIN, COURSE_SPLIT_BUTTON_ATTR } from "./courseSidePanel";
+import { useCourseSidePanel } from "./useCourseSidePanel";
 import styles from "./LearningPage.module.css";
 
 export function LearningPage() {
   const { courseId = "", lessonId } = useParams();
+  const navigate = useNavigate();
   const course = usePublicCourse(courseId);
   const enrollment = useEnrollment(courseId);
 
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const shellRef = useRef<HTMLDivElement>(null);
+  const sideRef = useRef<HTMLDivElement>(null);
+  const sidePanel = useCourseSidePanel(shellRef, sideRef);
+
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [userSelectedTab, setUserSelectedTab] = useState<{
     lessonId?: string;
@@ -71,6 +78,8 @@ export function LearningPage() {
       })),
     );
   }, [modules]);
+
+  const firstLessonHref = useMemo(() => firstLessonPath(courseId, modules), [courseId, modules]);
 
   // Determine current lesson
   const currentLessonMeta = useMemo(() => {
@@ -128,11 +137,21 @@ export function LearningPage() {
   const hasAttachments = Boolean(lesson?.attachments && lesson.attachments.length > 0);
   const effectiveTab = activeTab === "attachments" && !hasAttachments ? "content" : activeTab;
 
+  // Entering a course without a lesson opens the first lesson of the curriculum.
+  useEffect(() => {
+    if (lessonId || !isEnrolled || !firstLessonHref) return;
+    navigate(firstLessonHref, { replace: true });
+  }, [firstLessonHref, isEnrolled, lessonId, navigate]);
+
   return (
     <div className={styles.page}>
-      <div className={`${styles.shell} ${isSidebarCollapsed ? styles.sideCollapsed : ""}`}>
+      <div
+        ref={shellRef}
+        className={`${styles.shell} ${sidePanel.collapsed ? styles.sideCollapsed : ""} ${sidePanel.hasWidth ? styles.hasSideWidth : ""} ${sidePanel.dragging ? styles.dragging : ""}`}
+        style={sidePanel.style}
+      >
         {/* Left Column: Curriculum Roadmap Sidebar */}
-        <div className={styles.side}>
+        <div className={styles.side} ref={sideRef} inert={sidePanel.collapsed || undefined}>
           <LessonCurriculumSidebar
             modules={modules}
             currentLessonId={lessonId}
@@ -143,16 +162,29 @@ export function LearningPage() {
           />
         </div>
 
-        {/* Divider with collapse button */}
-        <div className={styles.split} role="separator">
+        {/* Divider: drag to resize, double-click to reset, button to collapse */}
+        <div
+          className={styles.split}
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="Kéo để đổi độ rộng danh sách bài học, Enter để thu gọn"
+          aria-valuemin={COURSE_SIDE_MIN}
+          aria-valuemax={COURSE_SIDE_MAX}
+          aria-valuenow={sidePanel.collapsed ? 0 : (sidePanel.side.width ?? undefined)}
+          tabIndex={0}
+          onPointerDown={sidePanel.onPointerDown}
+          onKeyDown={sidePanel.onKeyDown}
+          onDoubleClick={sidePanel.reset}
+        >
           <button
             type="button"
             className={styles.splitBtn}
-            onClick={() => setIsSidebarCollapsed((prev) => !prev)}
-            aria-label={isSidebarCollapsed ? "Mở rộng danh sách" : "Thu gọn danh sách"}
-            title={isSidebarCollapsed ? "Mở rộng danh sách" : "Thu gọn danh sách"}
+            onClick={sidePanel.toggle}
+            aria-label={sidePanel.collapsed ? "Mở rộng danh sách" : "Thu gọn danh sách"}
+            title={sidePanel.collapsed ? "Mở rộng danh sách" : "Thu gọn danh sách"}
+            {...{ [COURSE_SPLIT_BUTTON_ATTR]: "" }}
           >
-            {isSidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            {sidePanel.collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
         </div>
 
@@ -187,6 +219,17 @@ export function LearningPage() {
                   </Link>
                 }
               />
+            ) : !lessonId ? (
+              firstLessonHref ? (
+                <div style={{ textAlign: "center", padding: "60px 0", color: "var(--gp-muted)" }}>
+                  Đang mở bài học đầu tiên…
+                </div>
+              ) : (
+                <EmptyState
+                  title="Khóa học chưa có bài học"
+                  description="Nội dung khóa học đang được cập nhật. Vui lòng quay lại sau."
+                />
+              )
             ) : lessonQuery.isPending ? (
               <div style={{ textAlign: "center", padding: "60px 0", color: "var(--gp-muted)" }}>
                 Đang chuẩn bị nội dung bài học…
