@@ -11,6 +11,7 @@ export interface TeacherClass {
   createdAt: string;
   updatedAt: string;
   teacherId: string | null;
+  defaultRoomId?: string | null;
 }
 
 export interface TeacherClassPage {
@@ -23,4 +24,24 @@ export interface TeacherClassPage {
 export interface TeacherClassDetail {
   class: TeacherClass;
   instructorHistory: never[];
+}
+
+export interface TeacherClassStudent {
+  id: string;
+  classId: string;
+  studentId: string;
+  studentName: string | null;
+  studentEmail: string | null;
+  status: "Active" | "Withdrawn";
+  enrolledAt: string;
+  enrolledBy: string;
+  withdrawnAt: string | null;
+  withdrawnBy: string | null;
+}
+
+export interface TeacherClassStudentPage {
+  items: TeacherClassStudent[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
 }

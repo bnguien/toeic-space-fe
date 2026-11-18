@@ -1,4 +1,13 @@
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
+import { createPortal } from "react-dom";
 import { MoreHorizontal } from "lucide-react";
 
 import { IconButton } from "../Button/Button";
@@ -22,6 +31,8 @@ export interface MenuProps {
   size?: ControlSize;
   align?: "start" | "end";
   className?: string;
+  /** Render the list in a portal so scroll containers cannot clip it. */
+  portal?: boolean;
 }
 
 /** Icon trigger with a small action list; closes on outside click, Escape or selection. */
@@ -33,15 +44,21 @@ export function Menu({
   size = "sm",
   align = "end",
   className,
+  portal = false,
 }: MenuProps) {
   const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const listId = useId();
 
   useEffect(() => {
     if (!open) return;
     const onPointerDown = (event: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) setOpen(false);
+      const target = event.target as Node;
+      if (rootRef.current?.contains(target) || listRef.current?.contains(target)) return;
+      setOpen(false);
     };
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
@@ -54,9 +71,80 @@ export function Menu({
     };
   }, [open]);
 
+  useLayoutEffect(() => {
+    if (!open || !portal) return;
+    const update = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+      const rect = trigger.getBoundingClientRect();
+      const width = listRef.current?.offsetWidth ?? 180;
+      const height = listRef.current?.offsetHeight ?? 0;
+      const viewportWidth = document.documentElement.clientWidth;
+      const viewportHeight = window.innerHeight;
+      const left =
+        align === "end"
+          ? Math.max(8, Math.min(viewportWidth - width - 8, rect.right - width))
+          : Math.max(8, Math.min(viewportWidth - width - 8, rect.left));
+      const top =
+        rect.bottom + height + 8 > viewportHeight && rect.top > height + 8
+          ? rect.top - height - 4
+          : rect.bottom + 4;
+      setPosition((current) =>
+        current?.left === left && current.top === top ? current : { left, top },
+      );
+    };
+    update();
+    window.addEventListener("resize", update);
+    window.addEventListener("scroll", update, true);
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", update, true);
+    };
+  }, [align, open, portal]);
+
+  const portalStyle: CSSProperties | undefined = portal
+    ? {
+        position: "fixed",
+        top: position?.top ?? 0,
+        left: position?.left ?? 0,
+        visibility: position ? "visible" : "hidden",
+        zIndex: 1000,
+      }
+    : undefined;
+
+  const list = (
+    <div
+      ref={listRef}
+      id={listId}
+      role="menu"
+      className={styles.list}
+      data-align={portal ? undefined : align}
+      style={portalStyle}
+    >
+      {items.map((item) => (
+        <button
+          key={item.label}
+          type="button"
+          role="menuitem"
+          className={styles.item}
+          data-tone={item.tone ?? "default"}
+          disabled={item.disabled}
+          onClick={() => {
+            setOpen(false);
+            item.onSelect();
+          }}
+        >
+          {item.icon}
+          {item.label}
+        </button>
+      ))}
+    </div>
+  );
+
   return (
     <div ref={rootRef} className={cx(styles.root, className)}>
       <IconButton
+        ref={triggerRef}
         label={label}
         variant={variant}
         size={size}
@@ -67,27 +155,7 @@ export function Menu({
       >
         {icon ?? <MoreHorizontal size={18} />}
       </IconButton>
-      {open && (
-        <div id={listId} role="menu" className={styles.list} data-align={align}>
-          {items.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              role="menuitem"
-              className={styles.item}
-              data-tone={item.tone ?? "default"}
-              disabled={item.disabled}
-              onClick={() => {
-                setOpen(false);
-                item.onSelect();
-              }}
-            >
-              {item.icon}
-              {item.label}
-            </button>
-          ))}
-        </div>
-      )}
+      {open && (portal ? createPortal(list, document.body) : list)}
     </div>
   );
 }

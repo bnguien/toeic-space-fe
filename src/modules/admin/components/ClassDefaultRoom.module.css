@@ -1,0 +1,193 @@
+.section {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e9eef1;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.eyebrow {
+  display: block;
+  color: #6288a2;
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.heading h3 {
+  font-size: 1.05rem;
+  color: #31445b;
+  margin-top: 0.2rem;
+  font-weight: 700;
+}
+
+.roomCard {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border-radius: 9px;
+  background: #f7fafc;
+  border: 1px solid #dce7ee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.roomInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.roomName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #27405c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.roomMeta {
+  font-size: 0.8rem;
+  color: #607488;
+}
+
+.emptyState {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fdfefe;
+  border: 1px dashed #cddde6;
+  color: #728498;
+  font-size: 0.84rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.roomActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.historyToggle {
+  margin-top: 0.85rem;
+  background: transparent;
+  border: none;
+  color: #4b6a88;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.historyToggle:hover {
+  text-decoration: underline;
+}
+
+.historyList {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.historyItem {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.78rem;
+  color: #556c82;
+}
+
+.historyDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #68a2bc;
+  margin-top: 0.35rem;
+  flex-shrink: 0;
+}
+
+.historyContent strong {
+  color: #293f55;
+}
+
+.historyReason {
+  color: #7b8e9f;
+  font-style: italic;
+  margin-top: 0.15rem;
+}
+
+.dialogForm {
+  display: grid;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.dialogField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.dialogLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #384e66;
+}
+
+.dialogControl {
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #d5e0e9;
+  font: inherit;
+  font-size: 0.88rem;
+  color: #30445c;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dialogControl:focus {
+  outline: none;
+  border-color: #5b92ba;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.84rem;
+  color: #334a62;
+  cursor: pointer;
+}
+
+.checkboxRow input {
+  cursor: pointer;
+}
+
+.errorBanner {
+  margin-top: 0.6rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  background: #fdf2f4;
+  border: 1px solid #f5c2cb;
+  color: #b03a48;
+  font-size: 0.82rem;
+  font-weight: 600;
+}

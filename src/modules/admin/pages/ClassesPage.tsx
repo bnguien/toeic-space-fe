@@ -2,23 +2,30 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   Archive,
+  Building2,
+  CalendarDays,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
+  Clock,
   Edit3,
   Plus,
   RotateCcw,
   Search,
   Trash2,
+  Users,
 } from "lucide-react";
 
 import { ClassActionDialog, type ClassActionConfirmation } from "../components/ClassActionDialog";
 import { ClassListTable } from "../components/ClassListTable";
 import { ClassEnrollments } from "../components/ClassEnrollments";
+import { ClassDefaultRoom } from "../components/ClassDefaultRoom";
+import { ClassSchedules } from "../components/ClassSchedules";
+import { ClassSessions } from "../components/ClassSessions";
 import { useCurrentUser } from "@/modules/auth";
 import { DatePicker } from "@/shared/components/DatePicker";
 import { Select, type SelectOption } from "@/shared/components/Select";
-import { Button, Modal } from "../components/ui";
+import { Button, Modal, Segmented } from "../components/ui";
 import {
   useClassActions,
   useClassDetail,
@@ -34,6 +41,8 @@ import type {
 } from "../types/class.types";
 import { classErrorMessage } from "../utils/classErrorMessage";
 import styles from "./ClassesPage.module.css";
+
+type DetailTab = "info" | "schedules" | "sessions" | "enrollments";
 
 const statusLabel: Record<ClassStatus, string> = {
   Draft: "Bản nháp",
@@ -218,6 +227,7 @@ export function ClassesPage({ archived = false }: { archived?: boolean }) {
   const status: ClassStatus | "" =
     statusParam && statusParam in statusLabel ? (statusParam as ClassStatus) : "";
   const [page, setPage] = useState(1);
+  const [detailTab, setDetailTab] = useState<DetailTab>("info");
   const [formClass, setFormClass] = useState<ClassItem | "new" | null>(() =>
     searchParams.get("create") === "1" ? "new" : null,
   );
@@ -470,203 +480,281 @@ export function ClassesPage({ archived = false }: { archived?: boolean }) {
                 <p className={styles.description}>
                   {selectedClass.description || "Chưa có mô tả cho lớp học này."}
                 </p>
-                <dl className={styles.meta}>
-                  <div>
-                    <dt>Thời gian bắt đầu</dt>
-                    <dd>{dateText(selectedClass.startDate)}</dd>
-                  </div>
-                  <div>
-                    <dt>Thời gian kết thúc</dt>
-                    <dd>{dateText(selectedClass.endDate)}</dd>
-                  </div>
-                  <div>
-                    <dt>Cập nhật gần nhất</dt>
-                    <dd>
-                      {new Intl.DateTimeFormat("vi-VN", { dateStyle: "medium" }).format(
-                        new Date(selectedClass.updatedAt),
-                      )}
-                    </dd>
-                  </div>
-                </dl>
-                <section className={styles.assignment}>
-                  <div className={styles.sectionHeading}>
-                    <div>
-                      <span className={styles.eyebrow}>GIÁO VIÊN PHỤ TRÁCH</span>
-                      <h3>
-                        {selectedClass.teacherId
-                          ? !isAdmin
-                            ? "Giáo viên phụ trách"
-                            : (historyTeachers.data?.[selectedClass.teacherId] ??
-                              (historyTeachers.isPending
-                                ? "Đang tải giáo viên..."
-                                : "Giáo viên không có thông tin"))
-                          : "Chưa phân công"}
-                      </h3>
-                    </div>
-                  </div>
-                  {isAdmin && (
-                    <>
-                      <div className={styles.teacherSearch}>
-                        <Search size={15} />
-                        <input
-                          value={teacherSearch}
-                          onChange={(event) => setTeacherSearch(event.target.value)}
-                          placeholder="Tìm giáo viên để phân công..."
-                        />
+
+                <div className={styles.detailTabs}>
+                  <Segmented
+                    label="Các mục quản lý lớp học"
+                    value={detailTab}
+                    onChange={(val) => setDetailTab(val as DetailTab)}
+                    options={[
+                      {
+                        value: "info",
+                        label: "Thông tin & Phòng",
+                        icon: <Building2 size={15} />,
+                      },
+                      {
+                        value: "schedules",
+                        label: "Lịch định kỳ",
+                        icon: <CalendarDays size={15} />,
+                      },
+                      {
+                        value: "sessions",
+                        label: "Buổi học",
+                        icon: <Clock size={15} />,
+                      },
+                      {
+                        value: "enrollments",
+                        label: "Học viên",
+                        icon: <Users size={15} />,
+                      },
+                    ]}
+                  />
+                </div>
+
+                {detailTab === "info" && (
+                  <>
+                    <dl className={styles.meta}>
+                      <div>
+                        <dt>Thời gian bắt đầu</dt>
+                        <dd>{dateText(selectedClass.startDate)}</dd>
                       </div>
-                      <div className={styles.teacherList}>
-                        {teachers.isPending && (
-                          <p className={styles.inlineState} role="status">
-                            Đang tải giáo viên...
-                          </p>
-                        )}
-                        {teachers.isError && (
-                          <p className={styles.inlineState}>
-                            Không tải được giáo viên.{" "}
-                            <button onClick={() => void teachers.refetch()}>Thử lại</button>
-                          </p>
-                        )}
-                        {teachers.isSuccess && !teachers.data.items.length && (
-                          <p className={styles.inlineState}>Không tìm thấy giáo viên phù hợp.</p>
-                        )}
-                        {teachers.data?.items.slice(0, 5).map((teacher) => (
-                          <button
-                            key={teacher.id}
-                            disabled={busy || teacher.id === selectedClass.teacherId}
-                            onClick={() =>
-                              void run(() =>
-                                actions.assign.mutateAsync({
-                                  id: selectedClass.id,
-                                  teacherId: teacher.id,
-                                }),
-                              )
-                            }
-                          >
-                            <span>{teacher.fullName.slice(0, 1)}</span>
-                            <div>
-                              <strong>{teacher.fullName}</strong>
-                              <small>{teacher.email}</small>
+                      <div>
+                        <dt>Thời gian kết thúc</dt>
+                        <dd>{dateText(selectedClass.endDate)}</dd>
+                      </div>
+                      <div>
+                        <dt>Cập nhật gần nhất</dt>
+                        <dd>
+                          {new Intl.DateTimeFormat("vi-VN", { dateStyle: "medium" }).format(
+                            new Date(selectedClass.updatedAt),
+                          )}
+                        </dd>
+                      </div>
+                    </dl>
+                    <section className={styles.assignment}>
+                      <div className={styles.sectionHeading}>
+                        <div>
+                          <span className={styles.eyebrow}>GIÁO VIÊN PHỤ TRÁCH</span>
+                          <h3>
+                            {selectedClass.teacherId
+                              ? !isAdmin
+                                ? "Giáo viên phụ trách"
+                                : (historyTeachers.data?.[selectedClass.teacherId] ??
+                                  (historyTeachers.isPending
+                                    ? "Đang tải giáo viên..."
+                                    : "Giáo viên không có thông tin"))
+                              : "Chưa phân công"}
+                          </h3>
+                        </div>
+                      </div>
+                      {isAdmin && (
+                        <>
+                          <div className={styles.teacherSearch}>
+                            <Search size={15} />
+                            <input
+                              value={teacherSearch}
+                              onChange={(event) => setTeacherSearch(event.target.value)}
+                              placeholder="Tìm giáo viên để phân công..."
+                            />
+                          </div>
+                          <div className={styles.teacherList}>
+                            {teachers.isPending && (
+                              <p className={styles.inlineState} role="status">
+                                Đang tải giáo viên...
+                              </p>
+                            )}
+                            {teachers.isError && (
+                              <p className={styles.inlineState}>
+                                Không tải được giáo viên.{" "}
+                                <button onClick={() => void teachers.refetch()}>Thử lại</button>
+                              </p>
+                            )}
+                            {teachers.isSuccess && !teachers.data.items.length && (
+                              <p className={styles.inlineState}>
+                                Không tìm thấy giáo viên phù hợp.
+                              </p>
+                            )}
+                            {teachers.data?.items.slice(0, 5).map((teacher) => (
+                              <button
+                                key={teacher.id}
+                                disabled={busy || teacher.id === selectedClass.teacherId}
+                                onClick={() =>
+                                  void run(() =>
+                                    actions.assign.mutateAsync({
+                                      id: selectedClass.id,
+                                      teacherId: teacher.id,
+                                    }),
+                                  )
+                                }
+                              >
+                                <span>{teacher.fullName.slice(0, 1)}</span>
+                                <div>
+                                  <strong>{teacher.fullName}</strong>
+                                  <small>{teacher.email}</small>
+                                </div>
+                                {teacher.id === selectedClass.teacherId && (
+                                  <CheckCircle2 size={16} />
+                                )}
+                              </button>
+                            ))}
+                          </div>
+                          {selectedClass.teacherId && selectedClass.status === "Draft" && (
+                            <button
+                              className={styles.unlinkButton}
+                              disabled={busy}
+                              onClick={() =>
+                                void run(() => actions.unassign.mutateAsync(selectedClass.id))
+                              }
+                            >
+                              Bỏ phân công giáo viên
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </section>
+
+                    {isAdmin && (
+                      <ClassDefaultRoom
+                        key={selectedClass.id}
+                        classId={selectedClass.id}
+                        classStatus={selectedClass.status}
+                        defaultRoomId={selectedClass.defaultRoomId ?? null}
+                      />
+                    )}
+
+                    {isAdmin && (
+                      <section className={styles.lifecycle}>
+                        <span className={styles.eyebrow}>VÒNG ĐỜI LỚP HỌC</span>
+                        <div>
+                          {editableStatus[selectedClass.status].map((next) => (
+                            <button
+                              key={next}
+                              className={styles.secondaryButton}
+                              disabled={busy}
+                              onClick={() =>
+                                void run(() =>
+                                  actions.status.mutateAsync({
+                                    id: selectedClass.id,
+                                    status: next,
+                                  }),
+                                )
+                              }
+                            >
+                              {next === "Active"
+                                ? "Kích hoạt lớp"
+                                : next === "Completed"
+                                  ? "Hoàn thành lớp"
+                                  : "Lưu trữ lớp"}
+                            </button>
+                          ))}
+                          {selectedClass.status === "Archived" ? (
+                            <>
+                              <button
+                                className={styles.secondaryButton}
+                                disabled={busy}
+                                onClick={() =>
+                                  void run(async () => {
+                                    await actions.restore.mutateAsync(selectedClass.id);
+                                    navigate("/admin/classes/list");
+                                  })
+                                }
+                              >
+                                <RotateCcw size={15} /> Khôi phục về{" "}
+                                {selectedClass.archivedFromStatus
+                                  ? statusLabel[selectedClass.archivedFromStatus]
+                                  : "trạng thái trước lưu trữ"}
+                              </button>
+                              <button
+                                className={styles.archiveButton}
+                                disabled={busy}
+                                onClick={() => runDelete(selectedClass.id)}
+                              >
+                                <Trash2 size={15} /> Xóa lớp
+                              </button>
+                            </>
+                          ) : (
+                            <button
+                              className={styles.archiveButton}
+                              disabled={busy}
+                              onClick={() =>
+                                void run(async () => {
+                                  await actions.archive.mutateAsync(selectedClass.id);
+                                  navigate("/admin/classes/lifecycle");
+                                })
+                              }
+                            >
+                              <Archive size={15} /> Lưu trữ lớp
+                            </button>
+                          )}
+                        </div>
+                      </section>
+                    )}
+
+                    {isAdmin && (
+                      <section className={styles.history}>
+                        <span className={styles.eyebrow}>LỊCH SỬ PHÂN CÔNG</span>
+                        {selected.data.instructorHistory.length ? (
+                          selected.data.instructorHistory.map((record) => (
+                            <div key={record.id}>
+                              <span className={styles.historyDot} />
+                              <p>
+                                <strong>
+                                  {historyTeachers.data?.[record.teacherId] ??
+                                    (historyTeachers.isPending
+                                      ? "Đang tải tên giáo viên..."
+                                      : "Giáo viên không có thông tin")}
+                                </strong>
+                                <br />
+                                <small>
+                                  Phân công{" "}
+                                  {new Intl.DateTimeFormat("vi-VN", { dateStyle: "medium" }).format(
+                                    new Date(record.assignedAt),
+                                  )}
+                                  {record.unassignedAt
+                                    ? ` · Kết thúc ${new Intl.DateTimeFormat("vi-VN", { dateStyle: "medium" }).format(new Date(record.unassignedAt))}`
+                                    : " · Đang phụ trách"}
+                                </small>
+                              </p>
                             </div>
-                            {teacher.id === selectedClass.teacherId && <CheckCircle2 size={16} />}
-                          </button>
-                        ))}
-                      </div>
-                      {selectedClass.teacherId && selectedClass.status === "Draft" && (
-                        <button
-                          className={styles.unlinkButton}
-                          disabled={busy}
-                          onClick={() =>
-                            void run(() => actions.unassign.mutateAsync(selectedClass.id))
-                          }
-                        >
-                          Bỏ phân công giáo viên
-                        </button>
-                      )}
-                    </>
-                  )}
-                </section>
-                {isAdmin && (
+                          ))
+                        ) : (
+                          <p className={styles.notice}>Chưa có lịch sử phân công.</p>
+                        )}
+                      </section>
+                    )}
+                  </>
+                )}
+
+                {detailTab === "schedules" && isAdmin && (
+                  <ClassSchedules
+                    key={selectedClass.id}
+                    classId={selectedClass.id}
+                    classStatus={selectedClass.status}
+                    defaultRoomId={selectedClass.defaultRoomId}
+                    classStartDate={selectedClass.startDate}
+                    classEndDate={selectedClass.endDate}
+                    assignedTeacherId={selectedClass.teacherId}
+                  />
+                )}
+
+                {detailTab === "sessions" && (
+                  <ClassSessions
+                    key={selectedClass.id}
+                    classId={selectedClass.id}
+                    classStatus={selectedClass.status}
+                    defaultRoomId={selectedClass.defaultRoomId}
+                    classStartDate={selectedClass.startDate}
+                    classEndDate={selectedClass.endDate}
+                    assignedTeacherId={selectedClass.teacherId}
+                  />
+                )}
+
+                {detailTab === "enrollments" && isAdmin && (
                   <ClassEnrollments
                     key={selectedClass.id}
                     classId={selectedClass.id}
                     classStatus={selectedClass.status}
                   />
-                )}
-                {isAdmin && (
-                  <section className={styles.lifecycle}>
-                    <span className={styles.eyebrow}>VÒNG ĐỜI LỚP HỌC</span>
-                    <div>
-                      {editableStatus[selectedClass.status].map((next) => (
-                        <button
-                          key={next}
-                          className={styles.secondaryButton}
-                          disabled={busy}
-                          onClick={() =>
-                            void run(() =>
-                              actions.status.mutateAsync({ id: selectedClass.id, status: next }),
-                            )
-                          }
-                        >
-                          {next === "Active"
-                            ? "Kích hoạt lớp"
-                            : next === "Completed"
-                              ? "Hoàn thành lớp"
-                              : "Lưu trữ lớp"}
-                        </button>
-                      ))}
-                      {selectedClass.status === "Archived" ? (
-                        <>
-                          <button
-                            className={styles.secondaryButton}
-                            disabled={busy}
-                            onClick={() =>
-                              void run(async () => {
-                                await actions.restore.mutateAsync(selectedClass.id);
-                                navigate("/admin/classes/list");
-                              })
-                            }
-                          >
-                            <RotateCcw size={15} /> Khôi phục về{" "}
-                            {selectedClass.archivedFromStatus
-                              ? statusLabel[selectedClass.archivedFromStatus]
-                              : "trạng thái trước lưu trữ"}
-                          </button>
-                          <button
-                            className={styles.archiveButton}
-                            disabled={busy}
-                            onClick={() => runDelete(selectedClass.id)}
-                          >
-                            <Trash2 size={15} /> Xóa lớp
-                          </button>
-                        </>
-                      ) : (
-                        <button
-                          className={styles.archiveButton}
-                          disabled={busy}
-                          onClick={() =>
-                            void run(async () => {
-                              await actions.archive.mutateAsync(selectedClass.id);
-                              navigate("/admin/classes/lifecycle");
-                            })
-                          }
-                        >
-                          <Archive size={15} /> Lưu trữ lớp
-                        </button>
-                      )}
-                    </div>
-                  </section>
-                )}
-                {isAdmin && (
-                  <section className={styles.history}>
-                    <span className={styles.eyebrow}>LỊCH SỬ PHÂN CÔNG</span>
-                    {selected.data.instructorHistory.length ? (
-                      selected.data.instructorHistory.map((record) => (
-                        <div key={record.id}>
-                          <span className={styles.historyDot} />
-                          <p>
-                            <strong>
-                              {historyTeachers.data?.[record.teacherId] ??
-                                (historyTeachers.isPending
-                                  ? "Đang tải tên giáo viên..."
-                                  : "Giáo viên không có thông tin")}
-                            </strong>
-                            <br />
-                            <small>
-                              Phân công{" "}
-                              {new Intl.DateTimeFormat("vi-VN", { dateStyle: "medium" }).format(
-                                new Date(record.assignedAt),
-                              )}
-                              {record.unassignedAt
-                                ? ` · Kết thúc ${new Intl.DateTimeFormat("vi-VN", { dateStyle: "medium" }).format(new Date(record.unassignedAt))}`
-                                : " · Đang phụ trách"}
-                            </small>
-                          </p>
-                        </div>
-                      ))
-                    ) : (
-                      <p className={styles.notice}>Chưa có lịch sử phân công.</p>
-                    )}
-                  </section>
                 )}
               </>
             )}

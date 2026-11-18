@@ -3,10 +3,10 @@ import { PracticeSetEditorPage, PracticeSetManagementPage } from "@/modules/prac
 import { RequireAuth } from "@/modules/auth";
 import { TeacherLayout } from "./components/TeacherLayout";
 import { TeacherClassesPage } from "./pages/TeacherClassesPage";
+import { TeacherSchedulePage } from "./pages/TeacherSchedulePage";
 import { TeacherDashboardPage } from "./pages/TeacherDashboardPage";
 import { TeacherMockPage } from "./pages/TeacherMockPage";
 import { TeacherProfilePage } from "./pages/TeacherProfilePage";
-import { TeacherSchedulePage } from "./pages/TeacherSchedulePage";
 
 export const teacherRoutes: RouteObject[] = [
   {

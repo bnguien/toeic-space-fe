@@ -3,14 +3,14 @@ import { teacherClassesApi } from "../api/teacher-classes.api";
 
 export const teacherClassKeys = {
   all: ["teacher", "classes"] as const,
-  list: (page: number) => [...teacherClassKeys.all, page] as const,
+  list: (page: number, pageSize = 20) => [...teacherClassKeys.all, page, pageSize] as const,
   detail: (id: string) => [...teacherClassKeys.all, "detail", id] as const,
 };
 
-export const useTeacherClasses = (page = 1) =>
+export const useTeacherClasses = (page = 1, pageSize = 20) =>
   useQuery({
-    queryKey: teacherClassKeys.list(page),
-    queryFn: ({ signal }) => teacherClassesApi.list(page, signal),
+    queryKey: teacherClassKeys.list(page, pageSize),
+    queryFn: ({ signal }) => teacherClassesApi.list(page, pageSize, signal),
   });
 
 export const useTeacherClassDetail = (id: string | null) =>

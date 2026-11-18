@@ -5,6 +5,7 @@ import { StudentEnrollmentDialog } from "./StudentEnrollmentDialog";
 import { EnrollmentImportDialog } from "./EnrollmentImportDialog";
 import { useClassEnrollments, useEnrollmentActions } from "../hooks/useClassEnrollments";
 import { useTimedMessage } from "../hooks/useTimedMessage";
+import { enrollmentsApi } from "../api/enrollments.api";
 import type { ClassStatus } from "../types/class.types";
 import type { ClassEnrollment, EnrollmentStatus } from "../types/enrollment.types";
 import { enrollmentErrorMessage } from "../utils/enrollmentError";
@@ -258,6 +259,7 @@ export function ClassEnrollments({
             }
             return result;
           }}
+          onPreviewEnroll={(ids) => enrollmentsApi.preview(classId, ids)}
         />
       )}
       {importing && canModify && (

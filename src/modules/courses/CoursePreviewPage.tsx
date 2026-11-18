@@ -18,6 +18,8 @@ import { LessonTextbookContent } from "./components/LessonTextbookContent";
 import { LessonCurriculumSidebar } from "./components/LessonCurriculumSidebar";
 import { LessonAttachments } from "./components/LessonAttachments";
 import { LessonNavigation } from "./components/LessonNavigation";
+import { COURSE_SIDE_MAX, COURSE_SIDE_MIN, COURSE_SPLIT_BUTTON_ATTR } from "./courseSidePanel";
+import { useCourseSidePanel } from "./useCourseSidePanel";
 import styles from "./LearningPage.module.css";
 
 export function CoursePreviewPage() {
@@ -26,7 +28,10 @@ export function CoursePreviewPage() {
   const course = usePublicCourse(courseId);
   const query = usePublicPreview(courseId, lessonId);
 
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const shellRef = useRef<HTMLDivElement>(null);
+  const sideRef = useRef<HTMLDivElement>(null);
+  const sidePanel = useCourseSidePanel(shellRef, sideRef);
+
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [userSelectedTab, setUserSelectedTab] = useState<{
     lessonId?: string;
@@ -121,9 +126,13 @@ export function CoursePreviewPage() {
 
   return (
     <div className={styles.page}>
-      <div className={`${styles.shell} ${isSidebarCollapsed ? styles.sideCollapsed : ""}`}>
+      <div
+        ref={shellRef}
+        className={`${styles.shell} ${sidePanel.collapsed ? styles.sideCollapsed : ""} ${sidePanel.hasWidth ? styles.hasSideWidth : ""} ${sidePanel.dragging ? styles.dragging : ""}`}
+        style={sidePanel.style}
+      >
         {/* Left Column: Curriculum Roadmap Sidebar */}
-        <div className={styles.side}>
+        <div className={styles.side} ref={sideRef} inert={sidePanel.collapsed || undefined}>
           <LessonCurriculumSidebar
             modules={modules}
             currentLessonId={lessonId}
@@ -135,16 +144,29 @@ export function CoursePreviewPage() {
           />
         </div>
 
-        {/* Divider with collapse button */}
-        <div className={styles.split} role="separator">
+        {/* Divider: drag to resize, double-click to reset, button to collapse */}
+        <div
+          className={styles.split}
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="Kéo để đổi độ rộng danh sách bài học, Enter để thu gọn"
+          aria-valuemin={COURSE_SIDE_MIN}
+          aria-valuemax={COURSE_SIDE_MAX}
+          aria-valuenow={sidePanel.collapsed ? 0 : (sidePanel.side.width ?? undefined)}
+          tabIndex={0}
+          onPointerDown={sidePanel.onPointerDown}
+          onKeyDown={sidePanel.onKeyDown}
+          onDoubleClick={sidePanel.reset}
+        >
           <button
             type="button"
             className={styles.splitBtn}
-            onClick={() => setIsSidebarCollapsed((prev) => !prev)}
-            aria-label={isSidebarCollapsed ? "Mở rộng danh sách" : "Thu gọn danh sách"}
-            title={isSidebarCollapsed ? "Mở rộng danh sách" : "Thu gọn danh sách"}
+            onClick={sidePanel.toggle}
+            aria-label={sidePanel.collapsed ? "Mở rộng danh sách" : "Thu gọn danh sách"}
+            title={sidePanel.collapsed ? "Mở rộng danh sách" : "Thu gọn danh sách"}
+            {...{ [COURSE_SPLIT_BUTTON_ATTR]: "" }}
           >
-            {isSidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            {sidePanel.collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
         </div>
 

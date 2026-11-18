@@ -1,4 +1,5 @@
 import { httpClient } from "@/services/http";
+import type { StudentConflictPreview } from "@/shared/types/student-conflicts.types";
 import type {
   BulkEnrollmentResult,
   ClassEnrollment,
@@ -17,6 +18,15 @@ export const enrollmentsApi = {
         params: filters,
         signal,
       })
+    ).data,
+  preview: async (classId: string, studentIds: string[]) =>
+    (
+      await httpClient.post<StudentConflictPreview>(
+        `${base}/${classId}/enrollments/conflicts/preview`,
+        {
+          studentIds,
+        },
+      )
     ).data,
   students: async (search: string, page: number, signal?: AbortSignal) =>
     (

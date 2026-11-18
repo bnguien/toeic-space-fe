@@ -1,0 +1,370 @@
+.picker {
+  display: grid;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.mapToolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mapSearch {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.35rem;
+  padding-left: 0.7rem;
+  border: 1px solid #d5e0e9;
+  border-radius: 8px;
+  background: #fff;
+  color: #7b8a9b;
+}
+
+.mapSearch:focus-within {
+  border-color: #5b92ba;
+  box-shadow: 0 0 0 3px rgb(91 146 186 / 0.18);
+}
+
+.mapSearch input {
+  flex: 1;
+  min-width: 0;
+  height: 2.2rem;
+  border: 0;
+  background: transparent;
+  color: #30445c;
+  font: inherit;
+  font-size: 0.84rem;
+}
+
+.mapSearch input:focus {
+  outline: none;
+}
+
+.mapSearch > button {
+  align-self: stretch;
+  padding: 0 0.85rem;
+  border: 0;
+  border-left: 1px solid #e3ebf1;
+  border-radius: 0 8px 8px 0;
+  background: #f3f7fa;
+  color: #3c5a76;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mapSearch > button:disabled {
+  color: #9aa8b6;
+  cursor: not-allowed;
+}
+
+.zoomControls {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.zoomControls button {
+  width: 2.35rem;
+  height: 2.35rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d5e0e9;
+  border-radius: 8px;
+  background: #fff;
+  color: #3c5a76;
+  cursor: pointer;
+}
+
+.zoomControls button:hover:not(:disabled) {
+  background: #f3f7fa;
+}
+
+.zoomControls button:disabled {
+  color: #b3c0cb;
+  cursor: not-allowed;
+}
+
+.map {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  border: 1px solid #d5e0e9;
+  border-radius: 10px;
+  background: #e8eef3;
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.map[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.map:active {
+  cursor: grabbing;
+}
+
+.tile {
+  position: absolute;
+  width: 256px;
+  height: 256px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.marker {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  color: #d0343f;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 35%));
+  pointer-events: none;
+}
+
+.userDot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #2f6fed;
+  box-shadow: 0 0 0 5px rgb(47 111 237 / 22%);
+  pointer-events: none;
+}
+
+.mapLoading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: rgb(232 238 243 / 0.7);
+  color: #56697c;
+  font-size: 0.78rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.mapHint {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.9);
+  color: #56697c;
+  font-size: 0.7rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.attribution {
+  position: absolute;
+  right: 0.4rem;
+  bottom: 0.4rem;
+  padding: 0 0.3rem;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 0.85);
+  color: #4a5d70;
+  font-size: 0.65rem;
+  text-decoration: none;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  color: #63788c;
+  font-size: 0.76rem;
+}
+
+.status[data-kind="success"] {
+  color: #2f7d4f;
+}
+
+.status[data-kind="error"] {
+  color: #b03a48;
+}
+
+.spinner {
+  animation: addressPickerSpin 1s linear infinite;
+}
+
+@keyframes addressPickerSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.field {
+  position: relative;
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.streetField {
+  grid-column: 1 / -1;
+}
+
+.fieldLabel {
+  color: #384e66;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.textInput,
+.comboInput {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid #d5e0e9;
+  border-radius: 8px;
+  background: #fff;
+  color: #30445c;
+  font: inherit;
+  font-size: 0.86rem;
+}
+
+.textInput:focus,
+.comboInput:focus {
+  outline: none;
+  border-color: #5b92ba;
+  box-shadow: 0 0 0 3px rgb(91 146 186 / 0.18);
+}
+
+.textInput:disabled,
+.comboInput:disabled {
+  background: #f5f8fa;
+  color: #90a0b0;
+}
+
+.combo {
+  position: relative;
+}
+
+.combo .comboInput {
+  padding-right: 2rem;
+  text-overflow: ellipsis;
+}
+
+.comboChevron {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7b8a9b;
+  pointer-events: none;
+}
+
+.comboClear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: #eef3f7;
+  color: #5a6d80;
+  cursor: pointer;
+}
+
+.comboClear:hover {
+  background: #e1eaf1;
+}
+
+.comboList {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  max-height: 210px;
+  overflow-y: auto;
+  padding: 0.25rem;
+  border: 1px solid #d5e0e9;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgb(24 42 60 / 16%);
+}
+
+.comboOption {
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #33465a;
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.comboOption:hover,
+.comboOptionActive {
+  background: #eef4fa;
+}
+
+.comboOption[aria-selected="true"] {
+  color: #2f5d8a;
+  font-weight: 700;
+}
+
+.comboEmpty {
+  margin: 0;
+  padding: 0.5rem 0.55rem;
+  color: #7b8a9b;
+  font-size: 0.78rem;
+}
+
+.preview {
+  margin: 0;
+  padding: 0.5rem 0.7rem;
+  border: 1px dashed #d5e0e9;
+  border-radius: 8px;
+  background: #f8fbfd;
+  color: #56697c;
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.preview > span {
+  color: #384e66;
+  font-weight: 700;
+}
+
+.preview em {
+  color: #8c9aa9;
+}
+
+@media (max-width: 640px) {
+  .fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .map {
+    height: 200px;
+  }
+}

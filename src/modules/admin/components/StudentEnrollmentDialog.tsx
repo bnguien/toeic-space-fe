@@ -1,5 +1,11 @@
 import { useMemo, useState } from "react";
 import { Button, DataTable, Modal, type Column } from "./ui";
+import type { StudentConflictPreview } from "@/shared/types/student-conflicts.types";
+import {
+  isStudentConflictPreviewError,
+  previewStudentConflictsBeforeSave,
+} from "@/shared/utils/student-conflicts";
+import { StudentConflictWarningDialog } from "@/shared/components/ui";
 import { useEligibleStudents } from "../hooks/useClassEnrollments";
 import type { BulkEnrollmentResult, StudentOption } from "../types/enrollment.types";
 import { enrollmentErrorMessage, enrollmentRowErrorMessage } from "../utils/enrollmentError";
@@ -13,12 +19,14 @@ export function StudentEnrollmentDialog({
   error,
   onClose,
   onEnroll,
+  onPreviewEnroll,
   onResetError,
 }: {
   pending: boolean;
   error: unknown;
   onClose: () => void;
   onEnroll: (studentIds: string[]) => Promise<BulkEnrollmentResult>;
+  onPreviewEnroll: (studentIds: string[]) => Promise<StudentConflictPreview>;
   onResetError: () => void;
 }) {
   const [draft, setDraft] = useState("");
@@ -27,14 +35,22 @@ export function StudentEnrollmentDialog({
   const [selected, setSelected] = useState<StudentOption[]>([]);
   const [selectionError, setSelectionError] = useState("");
   const [result, setResult] = useState<BulkEnrollmentResult | null>(null);
+  const [previewing, setPreviewing] = useState(false);
+  const [proceeding, setProceeding] = useState(false);
+  const [previewError, setPreviewError] = useState("");
+  const [conflictWarning, setConflictWarning] = useState<{
+    preview: StudentConflictPreview;
+    proceed: () => Promise<BulkEnrollmentResult>;
+  } | null>(null);
   const students = useEligibleStudents(search, page, true);
   const selectedIds = useMemo(() => new Set(selected.map((student) => student.id)), [selected]);
   const visible = students.data?.items ?? [];
   const allVisibleSelected =
     visible.length > 0 && visible.every((student) => selectedIds.has(student.id));
+  const busy = pending || previewing || proceeding;
 
   const toggleStudent = (student: StudentOption) => {
-    if (pending || students.isFetching) return;
+    if (busy || students.isFetching) return;
     setSelectionError("");
     setResult(null);
     onResetError();
@@ -74,7 +90,7 @@ export function StudentEnrollmentDialog({
         <input
           type="checkbox"
           checked={selectedIds.has(row.id)}
-          disabled={pending || students.isFetching}
+          disabled={busy || students.isFetching}
           aria-label={`Chọn ${row.fullName || row.email || row.id}`}
           onClick={(event) => event.stopPropagation()}
           onChange={() => toggleStudent(row)}
@@ -86,23 +102,58 @@ export function StudentEnrollmentDialog({
   ];
 
   const submit = async () => {
-    if (pending || students.isFetching || selected.length === 0) return;
+    if (busy || students.isFetching || selected.length === 0) return;
     setResult(null);
     setSelectionError("");
+    setPreviewError("");
     onResetError();
+    const studentIds = selected.map((student) => student.id);
+    setPreviewing(true);
     try {
-      const response = await onEnroll(selected.map((student) => student.id));
-      if (response.failedCount === 0) {
-        onClose();
-        return;
-      }
-      setResult(response);
-      const succeeded = new Set(
-        response.items.filter((item) => item.enrollmentId).map((item) => item.studentId),
+      const outcome = await previewStudentConflictsBeforeSave(
+        () => onPreviewEnroll(studentIds),
+        () => enroll(studentIds),
       );
-      setSelected((current) => current.filter((item) => !succeeded.has(item.id)));
+      if (outcome.kind === "warning") {
+        setConflictWarning({ preview: outcome.preview, proceed: outcome.proceed });
+      }
+    } catch (cause) {
+      if (isStudentConflictPreviewError(cause)) {
+        setPreviewError(
+          `Không thể kiểm tra trùng lịch. ${enrollmentErrorMessage(cause.cause)} Chưa thêm học viên; hãy thử lại.`,
+        );
+      }
+    } finally {
+      setPreviewing(false);
+    }
+  };
+
+  const enroll = async (studentIds: string[]) => {
+    const response = await onEnroll(studentIds);
+    if (response.failedCount === 0) {
+      onClose();
+      return response;
+    }
+    setResult(response);
+    const succeeded = new Set(
+      response.items.filter((item) => item.enrollmentId).map((item) => item.studentId),
+    );
+    setSelected((current) => current.filter((item) => !succeeded.has(item.id)));
+    return response;
+  };
+
+  const confirmConflictEnroll = async () => {
+    if (!conflictWarning || busy) return;
+    setProceeding(true);
+    setPreviewError("");
+    try {
+      await conflictWarning.proceed();
+      setConflictWarning(null);
     } catch {
-      // The mutation error is displayed below; failed requests do not change the selection.
+      setConflictWarning(null);
+      // Mutation errors are rendered by the parent; failed requests preserve the selection.
+    } finally {
+      setProceeding(false);
     }
   };
 
@@ -112,19 +163,23 @@ export function StudentEnrollmentDialog({
       wide
       title="Thêm học viên"
       description="Có thể chọn học viên ở nhiều trang; Chọn tất cả chỉ áp dụng cho trang đang xem."
-      busy={pending}
+      busy={busy}
       onClose={onClose}
       footer={
         <>
-          <Button onClick={onClose} disabled={pending}>
+          <Button onClick={onClose} disabled={busy}>
             Đóng
           </Button>
           <Button
             variant="primary"
-            disabled={!selected.length || pending || students.isFetching}
+            disabled={!selected.length || busy || students.isFetching}
             onClick={() => void submit()}
           >
-            {pending ? "Đang thêm..." : `Xác nhận thêm (${selected.length})`}
+            {previewing
+              ? "Đang kiểm tra trùng lịch…"
+              : pending || proceeding
+                ? "Đang thêm…"
+                : `Xác nhận thêm (${selected.length})`}
           </Button>
         </>
       }
@@ -140,12 +195,13 @@ export function StudentEnrollmentDialog({
         <input
           type="search"
           value={draft}
+          disabled={busy}
           onChange={(event) => setDraft(event.target.value)}
           placeholder="Tìm theo tên hoặc email học viên"
           aria-label="Tìm học viên"
           maxLength={100}
         />
-        <Button type="submit" disabled={students.isFetching}>
+        <Button type="submit" disabled={students.isFetching || busy}>
           Tìm kiếm
         </Button>
       </form>
@@ -153,7 +209,7 @@ export function StudentEnrollmentDialog({
         <span role="status">Đã chọn {selected.length} học viên</span>
         <Button
           size="sm"
-          disabled={!visible.length || students.isFetching || pending}
+          disabled={!visible.length || students.isFetching || busy}
           onClick={togglePage}
         >
           {allVisibleSelected ? "Bỏ chọn trang này" : "Chọn tất cả trang này"}
@@ -165,7 +221,7 @@ export function StudentEnrollmentDialog({
         columns={columns}
         rows={students.data?.items}
         getRowId={(row) => row.id}
-        onRowClick={students.isFetching || pending ? undefined : toggleStudent}
+        onRowClick={students.isFetching || busy ? undefined : toggleStudent}
         loading={students.isPending}
         fetching={students.isFetching}
         error={students.isError ? enrollmentErrorMessage(students.error) : undefined}
@@ -182,6 +238,11 @@ export function StudentEnrollmentDialog({
           }
         }
       />
+      {previewError && (
+        <p className={styles.messageError} role="alert">
+          {previewError}
+        </p>
+      )}
       {selectionError && (
         <p className={styles.messageError} role="alert">
           {selectionError}
@@ -219,6 +280,15 @@ export function StudentEnrollmentDialog({
           )}
         </div>
       )}
+      <StudentConflictWarningDialog
+        open={Boolean(conflictWarning)}
+        affectedStudentCount={conflictWarning?.preview.affectedStudentCount ?? 0}
+        conflictCount={conflictWarning?.preview.conflictCount}
+        pending={pending || proceeding}
+        confirmLabel="Vẫn thêm học viên"
+        onBack={() => setConflictWarning(null)}
+        onProceed={() => void confirmConflictEnroll()}
+      />
     </Modal>
   );
 }

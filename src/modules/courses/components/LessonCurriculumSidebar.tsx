@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ChevronDown, BookOpen, LockKeyhole, ArrowLeft, X } from "lucide-react";
 import type { PublicModule } from "../courseCatalog";
 import { durationLabel } from "../courseCatalog";
+import { curriculumBackPath } from "../lessonRoutes";
 import styles from "./LessonCurriculumSidebar.module.css";
 
 interface LessonCurriculumSidebarProps {
@@ -69,11 +70,12 @@ export function LessonCurriculumSidebar({
       {/* Back to course overview */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Link
-          to={`/courses/${courseId}${previewQuery}`}
+          to={curriculumBackPath(isEnrolled, courseId, previewQuery)}
           className={styles.backLink}
-          title="Về trang chi tiết khóa học"
+          title={isEnrolled ? "Về danh sách khóa học của tôi" : "Về trang chi tiết khóa học"}
         >
-          <ArrowLeft size={14} /> {courseTitle || "Chi tiết khóa học"}
+          <ArrowLeft size={14} />{" "}
+          {isEnrolled ? "Khóa học của tôi" : courseTitle || "Chi tiết khóa học"}
         </Link>
         {isOpenMobile && (
           <button

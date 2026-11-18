@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonLink, ConfirmDialog, Pagination } from "@/modules/admin";
+import {
+  AdminPage,
+  Button,
+  ButtonLink,
+  ConfirmDialog,
+  ListHero,
+  Pagination,
+} from "@/modules/admin";
 import { useCurrentUser } from "@/modules/auth";
+import practiceMascot from "@/assets/mascot/oysteic-cheer.png";
 import { practiceSetsApi, type PracticeSet } from "../api/practice-sets.api";
 import { usePracticeFilters } from "../hooks/usePracticeFilters";
 import { PracticeFilters } from "../components/PracticeFilters";
@@ -31,93 +39,119 @@ export function PracticeSetManagementPage() {
   });
   const remove = usePracticeMutation((id: string) => practiceSetsApi.remove(id));
   const totalPages = query.data?.totalPages;
+  const publishedCount = query.data?.items.filter((set) => set.status === "Active").length;
+  const draftCount = query.data?.items.filter((set) => set.status === "Draft").length;
   useEffect(() => {
     if (totalPages != null && page > Math.max(1, totalPages)) setPage(Math.max(1, totalPages));
   }, [totalPages, page, setPage]);
   return (
-    <div className={styles.page}>
-      <div className={styles.heading}>
-        <div>
-          <p className={styles.eyebrow}>TEACHER DASHBOARD</p>
-          <h1>Bộ luyện tập của tôi</h1>
-        </div>
-        <ButtonLink to="/teacher/practice-sets/create" variant="primary">
-          Tạo bộ luyện tập
-        </ButtonLink>
-      </div>
-      <PracticeFilters
-        value={filters}
-        onChange={(next) => {
-          setFilters(next);
-        }}
-        management
-      />
-      <PracticeState
-        pending={query.isPending}
-        error={query.error}
-        retry={() => void query.refetch()}
-      />
-      {query.data && (
-        <>
-          {query.data.items.length === 0 && (
-            <PracticeState empty="Bạn chưa có bộ luyện tập phù hợp. Hãy tạo bộ đầu tiên." />
-          )}
-          <div className={styles.grid}>
-            {query.data.items.map((set) => (
-              <article className={styles.card} key={set.id}>
-                <span className={styles.eyebrow}>
-                  {partLabel(set.part)} · {kindLabels[set.kind]}
-                </span>
-                <h2>{set.title}</h2>
-                <p>{set.description}</p>
-                <div className={styles.meta}>
-                  <span>{statusLabels[set.status]}</span>
-                  <span>{set.questionCount} câu</span>
-                  {set.kind === "Level" && <span>Cấp độ {set.level}</span>}
-                </div>
-                {canManageSet(user, set) && (
-                  <div className={styles.actions}>
-                    <ButtonLink to={`/teacher/practice-sets/${set.id}/edit`}>Chỉnh sửa</ButtonLink>
-                    <Button
-                      variant="danger-outline"
-                      onClick={() => {
-                        remove.reset();
-                        setDeleting(set);
-                      }}
-                    >
-                      Xóa
-                    </Button>
+    <AdminPage
+      theme="amber"
+      hero={
+        <ListHero
+          eyebrow="Bộ luyện tập"
+          title="Bộ luyện tập"
+          highlight="của tôi"
+          description="Tạo, chỉnh sửa và chia sẻ bộ câu hỏi luyện theo Part để học viên ôn tập đúng trọng tâm."
+          mascot={practiceMascot}
+          actions={
+            <ButtonLink to="/teacher/practice-sets/create" variant="primary">
+              Tạo bộ luyện tập
+            </ButtonLink>
+          }
+          items={[
+            { key: "all", label: "Tổng bộ", value: query.data?.totalCount },
+            {
+              key: "published",
+              label: "Đã xuất bản",
+              value: query.isPending ? undefined : publishedCount,
+            },
+            {
+              key: "draft",
+              label: "Bản nháp",
+              value: query.isPending ? undefined : draftCount,
+            },
+          ]}
+        />
+      }
+    >
+      <div className={`${styles.page} ${styles.management}`}>
+        <PracticeFilters
+          value={filters}
+          onChange={(next) => {
+            setFilters(next);
+          }}
+          management
+        />
+        <PracticeState
+          pending={query.isPending}
+          error={query.error}
+          retry={() => void query.refetch()}
+        />
+        {query.data && (
+          <>
+            {query.data.items.length === 0 && (
+              <PracticeState empty="Bạn chưa có bộ luyện tập phù hợp. Hãy tạo bộ đầu tiên." />
+            )}
+            <div className={styles.grid}>
+              {query.data.items.map((set) => (
+                <article className={styles.card} key={set.id}>
+                  <span className={styles.eyebrow}>
+                    {partLabel(set.part)} · {kindLabels[set.kind]}
+                  </span>
+                  <h2>{set.title}</h2>
+                  <p>{set.description}</p>
+                  <div className={styles.meta}>
+                    <span>{statusLabels[set.status]}</span>
+                    <span>{set.questionCount} câu</span>
+                    {set.kind === "Level" && <span>Cấp độ {set.level}</span>}
                   </div>
-                )}
-              </article>
-            ))}
-          </div>
-          <Pagination
-            page={page}
-            pages={query.data.totalPages}
-            total={query.data.totalCount}
-            pageSize={12}
-            onChange={setPage}
-          />
-        </>
-      )}
-      <ConfirmDialog
-        open={Boolean(deleting)}
-        title="Xóa bộ luyện tập?"
-        description={
-          deleting?.status === "Active"
-            ? `Bộ “${deleting.title}” đang xuất bản. Xóa sẽ khiến học viên không thể mở bộ này.`
-            : deleting?.title
-        }
-        confirmLabel="Xóa"
-        tone="danger"
-        pending={remove.isPending}
-        error={remove.error ? practiceError(remove.error) : null}
-        onClose={() => setDeleting(null)}
-        onConfirm={() => {
-          if (deleting) remove.mutate(deleting.id, { onSuccess: () => setDeleting(null) });
-        }}
-      />
-    </div>
+                  {canManageSet(user, set) && (
+                    <div className={styles.actions}>
+                      <ButtonLink to={`/teacher/practice-sets/${set.id}/edit`}>
+                        Chỉnh sửa
+                      </ButtonLink>
+                      <Button
+                        variant="danger-outline"
+                        onClick={() => {
+                          remove.reset();
+                          setDeleting(set);
+                        }}
+                      >
+                        Xóa
+                      </Button>
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+            <Pagination
+              page={page}
+              pages={query.data.totalPages}
+              total={query.data.totalCount}
+              pageSize={12}
+              onChange={setPage}
+            />
+          </>
+        )}
+        <ConfirmDialog
+          open={Boolean(deleting)}
+          title="Xóa bộ luyện tập?"
+          description={
+            deleting?.status === "Active"
+              ? `Bộ “${deleting.title}” đang xuất bản. Xóa sẽ khiến học viên không thể mở bộ này.`
+              : deleting?.title
+          }
+          confirmLabel="Xóa"
+          tone="danger"
+          pending={remove.isPending}
+          error={remove.error ? practiceError(remove.error) : null}
+          onClose={() => setDeleting(null)}
+          onConfirm={() => {
+            if (deleting) remove.mutate(deleting.id, { onSuccess: () => setDeleting(null) });
+          }}
+        />
+      </div>
+    </AdminPage>
   );
 }

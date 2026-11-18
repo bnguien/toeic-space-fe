@@ -55,6 +55,13 @@ export const useHistoryTeachers = (ids: string[], enabled: boolean) =>
     },
   });
 
+export const useDefaultRoomHistory = (classId: string | null) =>
+  useQuery({
+    queryKey: classId ? [...classKeys.all, "default-room-history", classId] : classKeys.all,
+    queryFn: ({ signal }) => (classId ? classesApi.defaultRoomHistory(classId, signal) : []),
+    enabled: Boolean(classId),
+  });
+
 export function useClassActions() {
   const client = useQueryClient();
   const refresh = () => client.invalidateQueries({ queryKey: classKeys.all });
@@ -84,5 +91,15 @@ export function useClassActions() {
       onSuccess: refresh,
     }),
     unassign: useMutation({ mutationFn: classesApi.unassignTeacher, onSuccess: refresh }),
+    setDefaultRoom: useMutation({
+      mutationFn: ({
+        id,
+        payload,
+      }: {
+        id: string;
+        payload: { roomId: string | null; reason?: string | null; applyToFutureSessions?: boolean };
+      }) => classesApi.setDefaultRoom(id, payload),
+      onSuccess: refresh,
+    }),
   };
 }

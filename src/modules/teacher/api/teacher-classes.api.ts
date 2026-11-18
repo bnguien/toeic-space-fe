@@ -1,21 +1,32 @@
 import { httpClient } from "@/services/http";
 import { repairVietnameseText } from "@/shared/utils/text";
-import type { TeacherClassDetail, TeacherClassPage } from "../types/teacher.types";
+import type {
+  TeacherClassDetail,
+  TeacherClassPage,
+  TeacherClassStudentPage,
+} from "../types/teacher.types";
 
 const base = "/classroom/api/v1/classes";
 
 export const teacherClassesApi = {
-  list: async (page: number, signal: AbortSignal) =>
+  list: async (page: number, pageSize: number, signal: AbortSignal) =>
     repairClassPage(
       (
         await httpClient.get<TeacherClassPage>(`${base}/me`, {
-          params: { page, pageSize: 20 },
+          params: { page, pageSize },
           signal,
         })
       ).data,
     ),
   detail: async (id: string, signal: AbortSignal) =>
     repairClassDetail((await httpClient.get<TeacherClassDetail>(`${base}/${id}`, { signal })).data),
+  students: async (id: string, page: number, pageSize: number, signal: AbortSignal) =>
+    (
+      await httpClient.get<TeacherClassStudentPage>(`${base}/${id}/students`, {
+        params: { page, pageSize },
+        signal,
+      })
+    ).data,
 };
 
 const repairClassDetail = (detail: TeacherClassDetail): TeacherClassDetail => ({
