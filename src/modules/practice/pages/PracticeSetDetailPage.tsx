@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useCurrentUser } from "@/modules/auth";
 import { Footer } from "@/modules/landing";
 import { PracticeContent } from "../components/PracticeContent";
+import { PracticeStartAction } from "../components/PracticeStartAction";
 import { PracticeState } from "../components/PracticeState";
 import { usePracticePreview } from "../hooks/usePracticePreview";
 import { kindLabels, partLabel } from "../utils/practice";
@@ -40,19 +41,24 @@ export function PracticeSetDetailPage() {
                 <span>{set.durationMinutes} phút</span>
                 {set.targetScore != null && <span>Điểm mục tiêu: {set.targetScore}</span>}
               </div>
-              <h2>Xem trước câu hỏi</h2>
-              {!user ? (
-                <p>
-                  <Link to={`/login?next=${encodeURIComponent(`/practice/parts/${id}`)}`}>
-                    Đăng nhập
-                  </Link>{" "}
-                  để xem câu hỏi, đáp án và lời giải.
-                </p>
-              ) : content ? (
-                <PracticeContent content={content} items={set.items} />
-              ) : null}
             </>
           ))}
+        <PracticeStartAction setId={id} canStart={set?.status === "Active"} />
+        {set?.status === "Active" && (
+          <>
+            <h2>Xem trước câu hỏi</h2>
+            {!user ? (
+              <p>
+                <Link to={`/login?next=${encodeURIComponent(`/practice/parts/${id}`)}`}>
+                  Đăng nhập
+                </Link>{" "}
+                để xem câu hỏi, đáp án và lời giải.
+              </p>
+            ) : content ? (
+              <PracticeContent content={content} items={set.items} />
+            ) : null}
+          </>
+        )}
       </main>
       <Footer />
     </>

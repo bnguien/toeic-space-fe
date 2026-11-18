@@ -61,9 +61,59 @@
 .optionLabel {
   white-space: nowrap;
 }
+.options[data-interactive="true"] > li {
+  display: block;
+  padding: 0;
+}
+.optionChoice {
+  display: grid;
+  grid-template-columns: 1.25rem 1.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.625rem 0;
+  cursor: pointer;
+}
+.optionChoice input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--ui-accent-fill);
+}
+.optionChoice input:focus-visible {
+  outline: 2px solid var(--ui-blue);
+  outline-offset: 3px;
+}
+.optionChoice:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
 .optionContent {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+.mediaRetry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin: 0.5rem 0;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--ui-line);
+  border-radius: 8px;
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mediaRetry:hover {
+  background: var(--ui-hover);
+  border-color: var(--ui-divider);
+}
+.mediaRetry:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
 }
 .unavailable {
   color: var(--ui-muted, #536f80);
@@ -84,4 +134,28 @@
 .options[data-variant="cards"] .optionLabel {
   font-weight: 700;
   color: var(--ui-muted);
+}
+.options[data-variant="cards"][data-interactive="true"] > li {
+  padding: 0;
+  border-radius: 0.75rem;
+  overflow-wrap: anywhere;
+}
+.options[data-variant="cards"] .optionChoice {
+  padding: 0.875rem;
+}
+.options[data-variant="cards"][data-interactive="true"] > li:hover:not(:has(input:disabled)) {
+  border-color: var(--ui-blue-line);
+  background: var(--ui-blue-soft);
+}
+.options[data-variant="cards"] > li[data-selected="true"] {
+  border-color: var(--ui-blue);
+  background: var(--ui-blue-soft);
+  box-shadow: inset 3px 0 0 var(--ui-blue);
+}
+.options[data-variant="cards"] > li[data-selected="true"] .optionLabel {
+  color: var(--ui-blue);
+}
+.options[data-variant="cards"] > li:focus-within {
+  outline: 2px solid var(--ui-blue);
+  outline-offset: 2px;
 }

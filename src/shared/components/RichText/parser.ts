@@ -274,7 +274,7 @@ const MEDIA_SPLIT = /<\s*image_split\s*\/?\s*>/i;
 
 /**
  * Media fields may hold several URLs joined by "<image_split>" (multi-page Part 7 scans).
- * Only absolute http(s) URLs are returned.
+ * Absolute http(s) URLs and our exact immutable media route are returned.
  */
 export function mediaUrls(value: string | null | undefined): string[] {
   if (!value) {
@@ -284,6 +284,7 @@ export function mediaUrls(value: string | null | undefined): string[] {
     .split(MEDIA_SPLIT)
     .map((item) => item.trim())
     .filter((item) => {
+      if (/^\/assessment\/api\/v1\/practice-media\/[a-f0-9]{64}$/.test(item)) return true;
       try {
         const url = new URL(item);
         return url.protocol === "https:" || url.protocol === "http:";

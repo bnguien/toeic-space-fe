@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci
+RUN npm ci && (node -e "require('lightningcss')" || npm install --no-save --ignore-scripts --no-audit --no-fund lightningcss-linux-$(node -p process.arch)-musl@$(node -p "require('./node_modules/lightningcss/package.json').version"))
 
 COPY . .
 
