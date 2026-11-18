@@ -20,6 +20,7 @@ import { CoursesLifecyclePage } from "./pages/CoursesLifecyclePage";
 import { UserDetailRedirect } from "./pages/UserDetailRedirect";
 import { UserListPage } from "./pages/UserListPage";
 import { UserOverviewPage } from "./pages/UserOverviewPage";
+import { AssistantRoute } from "./assistant/pages/AssistantRoute";
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -35,6 +36,7 @@ export const adminRoutes: RouteObject[] = [
         index: true,
         element: <AdminDashboardPage />,
       },
+      { path: "assistant", element: <AssistantRoute /> },
 
       /* Giáo viên, học viên: chưa có API */
       { path: "teachers/approval", element: <AdminSectionPage /> },

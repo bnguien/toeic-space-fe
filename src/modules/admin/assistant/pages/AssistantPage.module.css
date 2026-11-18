@@ -1,0 +1,35 @@
+/* One centred column: the conversation and its composer. */
+
+.layout {
+  display: flex;
+  justify-content: center;
+  min-height: calc(100dvh - 190px);
+}
+
+.main {
+  --assistant-bubble-bg: var(--ui-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  max-width: 920px;
+  width: 100%;
+}
+
+.main > :first-child {
+  flex: 1;
+}
+
+.composerBar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  padding: 12px 0 20px;
+  background: var(--bg-app, var(--ui-canvas));
+}
+
+@media (max-width: 1023px) {
+  .layout {
+    min-height: 0;
+  }
+}

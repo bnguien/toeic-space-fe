@@ -8,6 +8,12 @@ export const ADMIN_NAV_SECTIONS: NavSection[] = [
     path: "/admin",
   },
   {
+    key: "assistant",
+    label: "Trợ lý AI",
+    icon: "✦",
+    path: "/admin/assistant",
+  },
+  {
     key: "teachers",
     label: "Giáo viên",
     icon: "♙",

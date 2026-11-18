@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { ADMIN_NAV_SECTIONS } from "@/shared/constants/adminNav";
 import { IconExams } from "@/shared/components/icons";
@@ -13,9 +13,16 @@ interface AdminLayoutProps {
   account?: AdminAccount;
   onLogout?: () => void;
   loggingOut?: boolean;
+  /** Rendered in the header, right side (e.g. the AI assistant button). */
+  headerActions?: ReactNode;
 }
 
-export const AdminLayout = ({ account, onLogout, loggingOut = false }: AdminLayoutProps) => {
+export const AdminLayout = ({
+  account,
+  onLogout,
+  loggingOut = false,
+  headerActions,
+}: AdminLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const colorMode = useColorMode();
@@ -74,6 +81,7 @@ export const AdminLayout = ({ account, onLogout, loggingOut = false }: AdminLayo
           onToggleColorMode={colorMode.toggle}
           onLogout={onLogout}
           loggingOut={loggingOut}
+          actions={headerActions}
         />
         <main key={location.pathname} className={`${styles.content} ${styles.pageEnter}`}>
           <Outlet />

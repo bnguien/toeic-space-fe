@@ -11,6 +11,7 @@ import {
   IconExams,
   IconLogout,
   IconRevenue,
+  IconSparkles,
   IconStudents,
   IconSystem,
   IconTeachers,
@@ -26,6 +27,8 @@ const getSectionIcon = (key: string) => {
   switch (key) {
     case "overview":
       return <IconDashboard size={19} />;
+    case "assistant":
+      return <IconSparkles size={19} />;
     case "teachers":
       return <IconTeachers size={19} />;
     case "students":
