@@ -211,3 +211,67 @@ export const bankOverviewSchema = z.object({
     z.object({ kind: z.string(), sets: z.number().int(), questions: z.number().int() }),
   ),
 });
+
+/* Identity: /identity/api/v1/admin/assistant (forwarded to the AI assistant) */
+
+const looseText = z
+  .string()
+  .nullish()
+  .transform((value) => value ?? "");
+const looseId = z
+  .union([z.string(), z.number()])
+  .nullish()
+  .transform((value) => (value === null || value === undefined ? null : String(value)));
+
+export const assistantSpecialistSchema = z.object({
+  code: z.string().min(1),
+  name: looseText,
+  capability: looseText,
+});
+
+export const assistantReplySchema = z.object({
+  /** null: answered at once (greeting, a lesson to remember) or asked back. */
+  taskId: looseId,
+  reply: looseText,
+  route: looseText,
+  specialist: assistantSpecialistSchema.nullish().transform((value) => value ?? null),
+  question: optional(z.string()),
+  options: z
+    .array(z.string())
+    .nullish()
+    .transform((value) => value ?? []),
+});
+
+export const assistantTaskSchema = z.object({
+  task: z.object({
+    id: z.union([z.string(), z.number()]).transform(String),
+    status: z.string(),
+    resultLines: z
+      .array(z.string())
+      .nullish()
+      .transform((value) => value ?? []),
+  }),
+});
+
+export const assistantAgentSchema = z.object({
+  code: z.string().min(1),
+  name: z.string(),
+  kind: looseText,
+  role: looseText,
+  capabilities: z
+    .array(z.string())
+    .nullish()
+    .transform((value) => value ?? []),
+  status: looseText,
+  persona: looseText,
+  uses: z
+    .number()
+    .nullish()
+    .transform((value) => value ?? 0),
+  wins: z
+    .number()
+    .nullish()
+    .transform((value) => value ?? 0),
+});
+
+export const assistantAgentsSchema = z.array(assistantAgentSchema);

@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Globe, KeyRound, LogOut, Moon, Settings } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -16,6 +16,8 @@ interface AdminHeaderProps {
   onToggleColorMode: () => void;
   onLogout?: () => void;
   loggingOut?: boolean;
+  /** Extra buttons on the right, before the settings link (e.g. the AI assistant). */
+  actions?: ReactNode;
 }
 
 const initials = (name: string) =>
@@ -41,6 +43,7 @@ export const AdminHeader = ({
   onToggleColorMode,
   onLogout,
   loggingOut = false,
+  actions,
 }: AdminHeaderProps) => {
   const location = useLocation();
   const { parent, current } = breadcrumb(location.pathname);
@@ -58,6 +61,7 @@ export const AdminHeader = ({
       </div>
 
       <div className={styles.right}>
+        {actions}
         <Link
           to="/admin/system/config"
           className={styles.actionBtn}

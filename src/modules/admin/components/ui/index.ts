@@ -2,14 +2,23 @@ export { AdminPage, Card, CardGrid, Section, type PageTheme } from "./AdminPage"
 export { Badge, type Tone } from "./Badge";
 export { Button, ButtonLink, IconButton } from "./Button";
 export {
+  BarChart,
   Breakdown,
+  ChartLegend,
+  DonutChart,
+  LineChart,
   SegmentBar,
   TrendChart,
   TrendLegend,
   type BreakdownRow,
+  type ChartDatum,
+  type ChartSeries,
+  type DonutSlice,
+  type LegendItem,
   type Segment,
   type TrendSeries,
 } from "./Charts";
+export { formatCompact, formatNumber, withUnit } from "./numberFormat";
 export { collectPages, downloadCsv, type CsvColumn } from "./csv";
 export { DataTable, type Column } from "./DataTable";
 export { DataToolbar, Segmented, type FilterField, type ToolbarAction } from "./DataToolbar";
