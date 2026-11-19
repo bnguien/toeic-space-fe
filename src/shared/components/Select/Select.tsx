@@ -1,15 +1,18 @@
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useId,
   useRef,
   useState,
+  type CSSProperties,
   type ForwardedRef,
   type KeyboardEvent,
   type ReactNode,
 } from "react";
 import { Check, ChevronDown, X } from "lucide-react";
 
+import { selectPopoverPosition } from "./selectPopoverPosition";
 import styles from "./Select.module.css";
 
 export interface SelectOption<T extends string = string> {
@@ -65,6 +68,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   );
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
+  const [dropdownStyle, setDropdownStyle] = useState<CSSProperties>({});
 
   const containerRef = useRef<HTMLDivElement>(null);
   const internalButtonRef = useRef<HTMLButtonElement>(null);
@@ -74,6 +78,45 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   const selectedValue = isControlled ? controlledValue : internalValue;
 
   const selectedOption = options.find((opt) => opt.value === selectedValue);
+
+  const positionDropdown = useCallback(() => {
+    const anchor = containerRef.current?.getBoundingClientRect();
+    if (!anchor) return;
+    setDropdownStyle(
+      selectPopoverPosition(
+        {
+          top: anchor.top,
+          bottom: anchor.bottom,
+          left: anchor.left,
+          width: anchor.width,
+        },
+        window.innerWidth,
+        window.innerHeight,
+      ),
+    );
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const reposition = (event: Event) => {
+      // Scrolling the option list itself must not move the menu.
+      if (
+        event.type === "scroll" &&
+        event.target instanceof Node &&
+        listboxRef.current?.contains(event.target)
+      ) {
+        return;
+      }
+      positionDropdown();
+    };
+    window.addEventListener("resize", reposition);
+    // Capture also catches the scroll of a modal body around the select.
+    window.addEventListener("scroll", reposition, true);
+    return () => {
+      window.removeEventListener("resize", reposition);
+      window.removeEventListener("scroll", reposition, true);
+    };
+  }, [isOpen, positionDropdown]);
 
   // Click outside listener
   useEffect(() => {
@@ -135,7 +178,12 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
 
   const handleToggle = () => {
     if (disabled) return;
-    setIsOpen((prev) => !prev);
+    if (isOpen) {
+      setIsOpen(false);
+      return;
+    }
+    positionDropdown();
+    setIsOpen(true);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
@@ -144,6 +192,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     if (e.key === "ArrowDown") {
       e.preventDefault();
       if (!isOpen) {
+        positionDropdown();
         setIsOpen(true);
       } else {
         setFocusedIndex((prev) => {
@@ -154,6 +203,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (!isOpen) {
+        positionDropdown();
         setIsOpen(true);
       } else {
         setFocusedIndex((prev) => {
@@ -258,6 +308,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           role="listbox"
           tabIndex={-1}
           className={styles.dropdown}
+          style={{ ...dropdownStyle, position: "fixed", right: "auto" }}
           aria-label={ariaLabel || placeholder}
         >
           {options.map((option, index) => {

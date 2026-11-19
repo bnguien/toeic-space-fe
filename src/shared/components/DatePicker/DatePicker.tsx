@@ -1,6 +1,7 @@
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { CalendarDays, ChevronLeft, ChevronRight, X } from "lucide-react";
 
+import { datePopoverPosition } from "./datePopoverPosition";
 import styles from "./DatePicker.module.css";
 
 interface DatePickerProps {
@@ -46,9 +47,26 @@ export function DatePicker({
     return new Date(source.getFullYear(), source.getMonth(), 1);
   });
   const containerRef = useRef<HTMLDivElement>(null);
+  const [popoverPosition, setPopoverPosition] = useState({ top: 12, left: 12 });
+
+  const positionPopover = useCallback(() => {
+    const anchor = containerRef.current?.getBoundingClientRect();
+    if (!anchor) return;
+    setPopoverPosition(
+      datePopoverPosition(
+        { top: anchor.top, bottom: anchor.bottom, right: anchor.right },
+        window.innerWidth,
+        window.innerHeight,
+      ),
+    );
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
+    const reposition = () => positionPopover();
+    window.addEventListener("resize", reposition);
+    // Capture also catches the scroll of the modal body around the field.
+    window.addEventListener("scroll", reposition, true);
     const onPointerDown = (event: MouseEvent) => {
       if (!containerRef.current?.contains(event.target as Node)) setIsOpen(false);
     };
@@ -58,10 +76,12 @@ export function DatePicker({
     document.addEventListener("mousedown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
     return () => {
+      window.removeEventListener("resize", reposition);
+      window.removeEventListener("scroll", reposition, true);
       document.removeEventListener("mousedown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, positionPopover]);
 
   const days = useMemo(() => {
     const firstDay = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1);
@@ -110,13 +130,31 @@ export function DatePicker({
         aria-describedby={ariaDescribedBy}
         aria-invalid={Boolean(error)}
         disabled={disabled}
-        onClick={() => setIsOpen((open) => !open)}
+        onClick={() => {
+          if (isOpen) setIsOpen(false);
+          else {
+            const source = selectedDate || new Date();
+            setDisplayedMonth(new Date(source.getFullYear(), source.getMonth(), 1));
+            positionPopover();
+            setIsOpen(true);
+          }
+        }}
       >
         <span className={selectedDate ? styles.value : styles.placeholder}>{formattedValue}</span>
         <CalendarDays size={18} aria-hidden="true" />
       </button>
       {isOpen && (
-        <div className={styles.popover} role="dialog" aria-label="Chọn ngày">
+        <div
+          className={styles.popover}
+          style={{
+            position: "fixed",
+            top: popoverPosition.top,
+            left: popoverPosition.left,
+            right: "auto",
+          }}
+          role="dialog"
+          aria-label="Chọn ngày"
+        >
           <div className={styles.header}>
             <button
               type="button"

@@ -26,6 +26,7 @@
   color: #31445b;
   margin-top: 0.2rem;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .roomCard {
@@ -39,12 +40,14 @@
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .roomInfo {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  min-width: 0;
 }
 
 .roomName {
@@ -53,7 +56,10 @@
   color: #27405c;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .roomMeta {
@@ -135,7 +141,9 @@
 
 .dialogForm {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
+  min-width: 0;
   padding: 0.5rem 0;
 }
 
@@ -143,12 +151,14 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  min-width: 0;
 }
 
 .dialogLabel {
   font-size: 0.82rem;
   font-weight: 700;
   color: #384e66;
+  overflow-wrap: anywhere;
 }
 
 .dialogControl {
@@ -160,6 +170,8 @@
   color: #30445c;
   background: #fff;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -170,15 +182,24 @@
 
 .checkboxRow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
+  min-width: 0;
   font-size: 0.84rem;
+  line-height: 1.45;
   color: #334a62;
   cursor: pointer;
 }
 
 .checkboxRow input {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
   cursor: pointer;
+}
+
+.checkboxRow span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .errorBanner {

@@ -1103,13 +1103,14 @@
   color: var(--ui-text);
   box-shadow: var(--ui-shadow-raised);
   scrollbar-width: none;
+  /* Tall forms scroll instead of being cut off at the viewport edge. */
+  overflow-y: auto;
 }
 .modal::-webkit-scrollbar {
   display: none;
 }
 .modal[data-wide="true"] {
   width: min(760px, calc(100vw - 32px));
-  overflow-y: auto;
 }
 
 .modal::backdrop {
@@ -1121,6 +1122,22 @@
   flex-direction: column;
   gap: 16px;
   padding: 20px;
+  /* Long names, emails and codes must wrap or shrink instead of widening the dialog. */
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.modalBody > *,
+.modalBody form,
+.modalBody fieldset,
+.modalBody label {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.modalBody :is(input, textarea, select) {
+  max-width: 100%;
 }
 
 .modalHeader {
@@ -1131,8 +1148,14 @@
 }
 
 .modalHeader h2 {
+  min-width: 0;
   margin: 4px 0 0;
+  overflow-wrap: anywhere;
   font-size: 18px;
+}
+
+.modalHeader > button {
+  flex-shrink: 0;
 }
 
 .modalDescription {
