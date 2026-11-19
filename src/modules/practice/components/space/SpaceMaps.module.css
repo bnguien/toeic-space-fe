@@ -1,0 +1,292 @@
+.kicker {
+  font-size: 0.72em;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.meta {
+  font-size: 0.8em;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* ---- Listening: circles ---- */
+.circles {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.circleCell {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  min-width: 0;
+}
+
+.link {
+  flex: 0 0 1.4em;
+  height: 3px;
+  border-radius: 9px;
+  background: var(--ui-ink);
+}
+
+.circle {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.15em;
+  width: 100%;
+  max-width: 10.5em;
+  aspect-ratio: 1;
+  margin: 0 auto;
+  padding: 0.8em;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 50%;
+  background: var(--tone-fill);
+  color: var(--tone-on-fill);
+  text-align: center;
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.circle:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+
+.circle:focus-visible,
+.step:focus-visible,
+.examPart:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+.circle b,
+.step b {
+  font-family: var(--font-display);
+  font-size: 1.2em;
+  line-height: 1.1;
+}
+
+/* ---- Reading: rising steps ---- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.9em;
+  width: 100%;
+  max-width: 820px;
+  height: 12em;
+  margin: 0 auto;
+  list-style: none;
+}
+
+.steps li {
+  height: var(--h);
+}
+
+.step {
+  display: grid;
+  align-content: end;
+  gap: 0.15em;
+  width: 100%;
+  height: 100%;
+  padding: 0.9em 1.1em;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 14px 14px 6px 6px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 0.9em,
+      rgb(255 255 255 / 0.08) 0.9em calc(0.9em + 2px)
+    ),
+    var(--tone-fill);
+  color: var(--tone-on-fill);
+  text-align: left;
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.step:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+
+/* ---- Exam: structure of one test ---- */
+.exam {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1em;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  list-style: none;
+}
+
+.examCard {
+  --card: var(--ui-accent-fill);
+
+  position: relative;
+  display: grid;
+  gap: 1em;
+  padding: 1.2em 1.3em 1.3em;
+  overflow: hidden;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 18px;
+  background: linear-gradient(160deg, var(--card), color-mix(in srgb, var(--card) 72%, #000));
+  color: var(--ui-on-fill);
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+}
+
+.examCard[data-section="reading"] {
+  --card: var(--ui-rose-fill);
+}
+
+.examCard::after {
+  content: "";
+  position: absolute;
+  top: -2.6em;
+  right: -2.6em;
+  width: 8em;
+  height: 8em;
+  border: 1.6em solid rgb(255 255 255 / 0.07);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.examHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.examHead .kicker {
+  align-self: flex-start;
+}
+
+.examNums {
+  display: flex;
+  gap: 1.2em;
+}
+
+.examNums b {
+  font-family: var(--font-display);
+  font-size: 2.6em;
+  font-weight: 800;
+  line-height: 0.9;
+}
+
+.examNums small {
+  margin-left: 0.15em;
+  font-size: 0.38em;
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+.examParts {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 3.4em;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgb(0 0 0 / 0.22);
+}
+
+.examPart {
+  display: grid;
+  flex-basis: 0;
+  align-content: center;
+  justify-items: center;
+  min-width: 2.4em;
+  background: rgb(255 255 255 / 0.1);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--transition-fast);
+}
+
+.examPart:nth-child(even) {
+  background: rgb(255 255 255 / 0.2);
+}
+
+.examPart + .examPart {
+  border-left: 1px solid rgb(255 255 255 / 0.25);
+}
+
+.examPart:hover {
+  background: rgb(255 255 255 / 0.32);
+}
+
+.examPart b {
+  font-family: var(--font-display);
+  font-size: 1em;
+  line-height: 1;
+}
+
+.examPart small {
+  font-size: 0.78em;
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .circles {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .circleCell {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .link {
+    flex: 0 0 0.9em;
+    width: 3px;
+    height: 0.9em;
+    margin-left: 2.2em;
+  }
+
+  .circle {
+    justify-items: start;
+    max-width: none;
+    aspect-ratio: auto;
+    border-radius: 16px;
+    text-align: left;
+  }
+
+  .steps {
+    height: 10em;
+    gap: 0.5em;
+  }
+
+  .step {
+    padding: 0.6em;
+  }
+
+  .step .meta {
+    display: none;
+  }
+
+  .exam {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .examNums b {
+    font-size: 2em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circle,
+  .step {
+    transition: none;
+  }
+}

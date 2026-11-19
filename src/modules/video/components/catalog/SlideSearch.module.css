@@ -1,0 +1,91 @@
+/* Sliding search box (opens smoothly from right to left). */
+
+.container {
+  display: flex;
+  align-items: center;
+  background: var(--ui-hover);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.container.isOpen {
+  background: var(--ui-surface);
+  border-color: var(--ui-divider);
+  box-shadow: 0 2px 8px rgb(37 44 63 / 0.08);
+}
+
+.input {
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--ui-text);
+  font-weight: 500;
+  transition:
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s ease,
+    padding 0.3s ease;
+}
+
+.container.isOpen .input {
+  width: 190px;
+  opacity: 1;
+  padding: 6px 6px 6px 12px;
+}
+
+.input::placeholder {
+  color: var(--ui-subtle);
+  font-size: 12px;
+}
+
+.clear {
+  background: none;
+  border: none;
+  color: var(--ui-subtle);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.clear:hover {
+  color: var(--ui-text);
+}
+
+.toggle {
+  width: 32px;
+  height: 32px;
+  background: var(--ui-hover);
+  border: none;
+  border-radius: 8px;
+  color: var(--ui-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.15s ease;
+  transition-property:
+    color, background-color, background, border-color, box-shadow, transform, opacity, filter,
+    outline-color, text-decoration-color, fill, stroke;
+  flex-shrink: 0;
+}
+
+.toggle:hover,
+.toggle.active {
+  background: var(--ui-line);
+  color: var(--ui-text);
+}
+
+@media (max-width: 640px) {
+  .container.isOpen .input {
+    width: 130px;
+  }
+}

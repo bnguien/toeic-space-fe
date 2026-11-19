@@ -1,0 +1,15 @@
+.message {
+  display: grid;
+  gap: 0.65rem;
+  color: var(--ui-text, #252c3f);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.message p {
+  margin: 0;
+}
+
+.message strong {
+  font-weight: 800;
+}

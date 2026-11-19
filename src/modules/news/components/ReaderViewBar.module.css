@@ -1,0 +1,262 @@
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 26px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.chip:hover {
+  border-color: var(--ink);
+}
+
+.chipOn {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.chip:not(.chipOn) {
+  text-decoration: line-through;
+  text-decoration-color: var(--line);
+}
+
+.chip:not(.chipOn) svg {
+  opacity: 0.5;
+}
+
+.chip b {
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 99px;
+  background: var(--ink);
+  color: var(--card);
+  font-size: 10.5px;
+}
+
+/* Hack não is an action, not a switch: never struck through */
+.chipHack,
+.chipHack:not(.chipOn) {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.chipHack:not(.chipOn) svg {
+  opacity: 1;
+}
+
+.chipHackOn {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hackMode {
+  padding-left: 6px;
+  border-left: 1px solid currentColor;
+  font-style: normal;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.caret {
+  margin-left: -2px;
+  transition: transform 0.18s ease;
+}
+
+.chipOpen .caret {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  left: 0;
+  top: 38px;
+  z-index: 30;
+  display: grid;
+  gap: 2px;
+  width: 290px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.12);
+  animation: menuIn 0.16s ease;
+}
+
+.menuNarrow {
+  width: 230px;
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: color-mix(in srgb, var(--soft) 55%, transparent);
+}
+
+.item input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+
+.item strong {
+  display: block;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.item small {
+  display: block;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.sample {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sampleSuggested {
+  font-weight: 600;
+  text-decoration: underline 2px var(--accent);
+  text-underline-offset: 3px;
+}
+
+.sampleLookedUp {
+  font-weight: 800;
+}
+
+.option {
+  grid-template-columns: auto 1fr;
+  width: 100%;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.radio {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+}
+
+.optionOn .radio {
+  border: 5px solid var(--accent);
+}
+
+.exit {
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 8px 8px;
+  color: var(--muted);
+}
+
+.keys {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  border-radius: 8px;
+  color: var(--muted);
+  outline: none;
+  cursor: help;
+}
+
+.keysTip {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  z-index: 30;
+  width: max-content;
+  max-width: 420px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 2;
+  box-shadow: 0 12px 30px var(--float-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.keys:hover .keysTip,
+.keys:focus-visible .keysTip {
+  opacity: 1;
+}
+
+.keysTip kbd {
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .keys {
+    display: none;
+  }
+}

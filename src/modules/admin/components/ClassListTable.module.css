@@ -1,0 +1,128 @@
+.scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+.table {
+  width: 100%;
+  min-width: 920px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.8rem;
+  color: #53667a;
+}
+.deletedTable {
+  min-width: 640px;
+}
+.table th:nth-child(1) {
+  width: 16%;
+}
+.table th:nth-child(2) {
+  width: 24%;
+}
+.table th:nth-child(3) {
+  width: 12%;
+}
+.table th:nth-child(4),
+.table th:nth-child(5) {
+  width: 11%;
+}
+.table th:nth-child(6) {
+  width: 16%;
+}
+.table th:nth-child(7) {
+  width: 10%;
+}
+.deletedTable th:nth-child(1) {
+  width: 18%;
+}
+.deletedTable th:nth-child(2) {
+  width: 36%;
+}
+.deletedTable th:nth-child(3) {
+  width: 14%;
+}
+.deletedTable th:nth-child(4) {
+  width: 32%;
+}
+.table th,
+.table td {
+  padding: 0.9rem 0.65rem;
+  border-bottom: 1px solid #e3eaf0;
+  vertical-align: middle;
+}
+.table th {
+  color: #607088;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.table td:nth-child(4),
+.table td:nth-child(5),
+.table td:last-child {
+  white-space: nowrap;
+}
+.table tbody tr:hover {
+  background: #f1f6f9;
+}
+.ellipsis {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code {
+  color: #526e82;
+  font:
+    700 0.72rem ui-monospace,
+    SFMono-Regular,
+    monospace;
+}
+.name {
+  color: #30445c;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.view {
+  color: #365e82;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.name:hover,
+.view:hover {
+  text-decoration: underline;
+}
+.name:focus-visible,
+.view:focus-visible {
+  outline: 2px solid #365e82;
+  outline-offset: 2px;
+}
+.status {
+  display: inline-flex;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.Draft,
+.Deleted {
+  color: #697789;
+  background: #edf1f4;
+}
+.Active {
+  color: #287151;
+  background: #e7f7ee;
+}
+.Completed {
+  color: #6f5794;
+  background: #f2eafe;
+}
+.Archived {
+  color: #a45868;
+  background: #fff0f3;
+}

@@ -1,0 +1,8 @@
+.button {
+  color: var(--ui-blue);
+}
+
+.button[data-speaking] {
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+}

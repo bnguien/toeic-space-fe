@@ -1,0 +1,75 @@
+/*
+ * Colour variables of the grammar page (Studychill `--gp-*` names kept so the ported rules read 1:1), built from the
+ * TOEIC Space tokens. Applied on the page root (and on the Lĩnh hội portal host); dark mode = `data-color-mode="dark"`
+ * on the same element, which flips the `--ui-*` tokens these variables point at.
+ *
+ * Fills that carry white text use the `*-fill` variables (deep in both modes); text/border accents use the plain ones.
+ */
+.theme {
+  --gp-ink: var(--ui-text);
+  --gp-muted: var(--ui-muted);
+  --gp-subtle: var(--ui-subtle);
+  --gp-primary: var(--ui-blue);
+  --gp-primary-soft: var(--ui-blue-soft);
+  --gp-line: var(--ui-line);
+  --gp-line2: var(--ui-divider);
+  --gp-rail: var(--ui-divider);
+  --gp-divider: var(--ui-blue-line);
+  /* moss green → periwinkle blue */
+  --gp-moss: var(--ui-blue);
+  --gp-moss-hover: var(--ui-blue-strong);
+  --gp-fill: var(--ui-accent-fill);
+  --gp-fill-hover: var(--ui-accent-fill-hover);
+  --gp-on-fill: var(--ui-on-fill);
+  --gp-surface: var(--ui-surface);
+  --gp-surface-2: var(--ui-canvas);
+  --gp-hover: var(--ui-hover);
+  /* đỏ son = HOÀN THÀNH → rose */
+  --gp-son: var(--ui-rose);
+  --gp-son-soft: var(--ui-rose-soft);
+  --gp-son-line: var(--ui-rose-line);
+  --gp-son-fill: var(--ui-danger-fill);
+  /* moss scale → navy / blue scale */
+  --gp-m900: var(--ui-navy);
+  --gp-m800: var(--ui-blue-strong);
+  --gp-m700: var(--ui-navy-inner);
+  --gp-m600: var(--ui-blue);
+  --gp-m100: var(--ui-blue-soft);
+  --gp-m50: var(--ui-hover);
+  /* lime / gold / mustard highlights → mark family */
+  --gp-lime: var(--ui-mark-bright);
+  --gp-lime-soft: color-mix(in srgb, var(--ui-mark-bright) 16%, var(--ui-surface));
+  --gp-hl: color-mix(in srgb, var(--ui-mark-bright) 38%, transparent);
+  --gp-gold: var(--ui-mark);
+  --gp-gold-soft: var(--ui-pearl);
+  --gp-gold-line: var(--ui-pearl-line);
+  --gp-gold-ink: var(--ui-pearl-text);
+  --gp-on-mark: var(--ui-on-mark);
+  /* grading: correct green, wrong rose */
+  --gp-ok: var(--ui-green);
+  --gp-ok-soft: var(--ui-green-soft);
+  --gp-ok-line: var(--ui-green-line);
+  --gp-bad: var(--ui-rose);
+  --gp-bad-soft: var(--ui-rose-soft);
+  --gp-bad-line: var(--ui-rose-line);
+  --gp-pink: var(--ui-pink);
+  --gp-pink-soft: var(--ui-pink-soft);
+  --gp-focus: var(--ui-focus);
+  --gp-shadow-hard: var(--ui-shadow-hard);
+  --gp-nav: var(--nav-height);
+  --gp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --gp-font-display: var(--font-display);
+  --gp-font: var(--font-sans);
+  color: var(--gp-ink);
+  font-family: var(--gp-font);
+}
+
+/* Tokens the global dark block does not redeclare. */
+.theme[data-color-mode="dark"] {
+  --gp-m900: #1f2a45;
+  --gp-m700: #2b3a63;
+  --gp-pink: #e48bb2;
+  --gp-pink-soft: #3a2230;
+  --gp-on-fill: #ffffff;
+  --gp-shadow-hard: 5px 5px 0 var(--ui-cream-shadow);
+}

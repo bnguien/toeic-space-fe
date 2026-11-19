@@ -1,0 +1,56 @@
+/* Catalog page frame: grid-paper canvas, centred container, main column + sidebar. */
+
+.page {
+  min-height: 100vh;
+  background-color: var(--ui-canvas);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ui-line) 60%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ui-line) 60%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center top;
+  color: var(--ui-text);
+  font-family: var(--font-sans);
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  /* The site navbar is fixed; the same breathing room as the other learner pages. */
+  padding: calc(var(--nav-offset) + 8px) 24px 60px;
+  box-sizing: border-box;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 20px;
+  align-items: start;
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: calc(var(--nav-offset) - 4px) 14px 40px;
+  }
+}

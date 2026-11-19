@@ -1,0 +1,200 @@
+/* Mobile only: "Tạo video song ngữ" button (navy → rose gradient) and its dropdown box. */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.createButton {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(
+    115deg,
+    var(--ui-navy) 0%,
+    var(--ui-navy-inner) 28%,
+    var(--ui-rose-strong) 68%,
+    var(--ui-rose-strong) 100%
+  );
+  color: var(--ui-on-fill);
+  border: 1.5px solid rgb(255 255 255 / 0.16);
+  border-radius: 18px;
+  padding: 16px 24px;
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 800;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ui-rose-strong) 32%, transparent);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.createButton:hover {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--ui-rose-strong) 42%, transparent);
+  border-color: rgb(255 255 255 / 0.28);
+}
+
+.createButton:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--ui-rose-strong) 28%, transparent);
+}
+
+.createButton.isOpen {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--ui-rose-strong) 24%, transparent);
+}
+
+/* Faint YouTube mark on the left */
+.watermark {
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px;
+  height: 100px;
+  color: #ffffff;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.watermark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: var(--ui-rose-strong);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.3);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  text-align: left;
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.text {
+  font-size: 1.15rem;
+  font-weight: 850;
+  letter-spacing: -0.01em;
+  color: var(--ui-on-fill);
+  line-height: 1.25;
+}
+
+.sub {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgb(255 245 245 / 0.82);
+  line-height: 1.2;
+}
+
+.arrowWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: 0.2s ease;
+  transition-property:
+    color, background-color, background, border-color, box-shadow, transform, opacity, filter,
+    outline-color, text-decoration-color, fill, stroke;
+}
+
+.createButton:hover .arrowWrap {
+  background: rgb(255 255 255 / 0.22);
+}
+
+.arrow {
+  flex-shrink: 0;
+  color: var(--ui-on-fill);
+  transition: transform 0.25s ease;
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+}
+
+/* Dropdown box under the button */
+.collapse {
+  background: var(--ui-cream);
+  border: 1.5px solid var(--ui-cream-line);
+  border-top: none;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 24px rgb(37 44 63 / 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: dropdownSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .createButton {
+    padding: 14px 16px;
+    gap: 12px;
+    border-radius: 14px;
+  }
+
+  .badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+  }
+
+  .text {
+    font-size: 1.02rem;
+  }
+
+  .sub {
+    font-size: 0.76rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .arrowWrap {
+    width: 30px;
+    height: 30px;
+  }
+}

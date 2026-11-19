@@ -1,0 +1,164 @@
+/* One topic row: heading + arrows, horizontal scroller with drag and scroll-snap. */
+
+.row {
+  padding-top: 14px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 24px 10px;
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ui-text);
+}
+
+.arrows {
+  display: flex;
+  gap: 6px;
+}
+
+.arrows button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--ui-cream-line);
+  border-radius: 50%;
+  background: var(--ui-cream);
+  color: var(--ui-text);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.arrows button:hover:not(:disabled) {
+  background: var(--ui-hover);
+}
+
+.arrows button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Touch: swiping is enough, the arrows only take room */
+@media (hover: none) {
+  .arrows {
+    display: none;
+  }
+
+  .scroller {
+    scrollbar-width: none;
+  }
+
+  .scroller::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.scroller {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 24px;
+  padding: 2px 24px 14px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-divider) transparent;
+  cursor: grab;
+}
+
+.scroller.isDragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+.scroller.isDragging > * {
+  pointer-events: none;
+}
+
+.more {
+  flex: none;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ui-muted);
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--ui-line) 0%, var(--ui-hover) 50%, var(--ui-line) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.skeletonTitle {
+  display: block;
+  width: 180px;
+  height: 16px;
+  border-radius: 6px;
+}
+
+.skeletonCard {
+  flex: none;
+  width: 216px;
+  height: 180px;
+  border-radius: 12px;
+  cursor: default;
+  scroll-snap-align: start;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .head {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  /* The row bleeds to the screen edge so the learner sees there is more to swipe */
+  .scroller {
+    margin: 0 -16px;
+    padding: 2px 16px 12px;
+    scroll-padding-left: 16px;
+    gap: 12px;
+  }
+
+  .skeletonCard {
+    width: 168px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin,
+  .skeleton {
+    animation: none;
+  }
+}

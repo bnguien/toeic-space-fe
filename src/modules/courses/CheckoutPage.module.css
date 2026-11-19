@@ -1,0 +1,644 @@
+.page {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 7.5rem 1.5rem 4rem;
+  min-height: 80vh;
+  color: var(--ui-text, #252c3f);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ui-muted, #5f687c);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  transition: color 0.15s ease;
+}
+
+.backLink:hover {
+  color: var(--ui-ink, #252c3f);
+}
+
+.heading {
+  font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 2rem;
+  color: var(--ui-ink, #252c3f);
+}
+
+/* Two-column layout */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+}
+
+/* Neo-Brutalism Cards */
+.card {
+  border: 1.5px solid var(--ui-ink, #252c3f);
+  border-radius: 18px;
+  background: var(--ui-surface, #ffffff);
+  box-shadow: 4px 4px 0px var(--ui-ink, #252c3f);
+  padding: 1.75rem;
+  min-width: 0;
+}
+
+/* Left Card: Course Details */
+.courseRow {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+@media (max-width: 540px) {
+  .courseRow {
+    flex-direction: column;
+  }
+}
+
+.thumbnailWrapper {
+  width: 160px;
+  aspect-ratio: 16 / 10;
+  flex-shrink: 0;
+  border: 1.5px solid var(--ui-ink, #252c3f);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e7eef9;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+@media (max-width: 540px) {
+  .thumbnailWrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.thumbnailImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thumbnailFallback {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #4867a8;
+  opacity: 0.85;
+}
+
+.courseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.courseBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  background: #eef2fb;
+  border: 1.2px solid var(--ui-ink, #252c3f);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #37548f;
+  width: fit-content;
+}
+
+.courseTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ui-ink, #252c3f);
+  line-height: 1.35;
+  margin: 0;
+  word-break: break-word;
+}
+
+.originalCoursePrice {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #4867a8;
+  margin-top: 0.25rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1.5px dashed var(--ui-divider, #d3d8e3);
+  margin: 1.5rem 0;
+}
+
+/* Coupon Section */
+.couponSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sectionTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ui-ink, #252c3f);
+  margin: 0;
+}
+
+.couponForm {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+@media (max-width: 480px) {
+  .couponForm {
+    flex-direction: column;
+  }
+}
+
+.couponInput {
+  flex: 1;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 1.5px solid var(--ui-ink, #252c3f);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--ui-ink, #252c3f);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
+}
+
+.couponInput:focus {
+  outline: 2px solid var(--ui-blue, #4867a8);
+  outline-offset: 1px;
+}
+
+.couponInput::placeholder {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--ui-subtle, #8a92a5);
+}
+
+.couponButton {
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border: 1.5px solid var(--ui-ink, #252c3f);
+  border-radius: 10px;
+  background: var(--ui-cream, #fdfbf6);
+  color: var(--ui-ink, #252c3f);
+  font-size: 0.88rem;
+  font-weight: 800;
+  box-shadow: 2px 2px 0px var(--ui-ink, #252c3f);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.couponButton:hover:not(:disabled) {
+  background: var(--ui-surface, #ffffff);
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--ui-ink, #252c3f);
+}
+
+.couponButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.appliedCouponBadge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 0.9rem;
+  background: #eaf6ef;
+  border: 1.2px solid #2e7a57;
+  border-radius: 10px;
+  color: #1e5c41;
+  font-size: 0.85rem;
+  font-weight: 600;
+  gap: 0.75rem;
+}
+
+.removeCouponBtn {
+  background: transparent;
+  border: 1px solid #2e7a57;
+  border-radius: 6px;
+  padding: 0.2rem 0.55rem;
+  color: #1e5c41;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.removeCouponBtn:hover {
+  background: #d8eedf;
+}
+
+.couponError {
+  color: var(--ui-rose, #9d4b70);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Reservation timer banner */
+.reservationBanner {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: #fdf8f0;
+  border: 1.5px solid #e6c27a;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #7a6440;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.reservationBanner[data-expired="true"] {
+  background: #fcf0f4;
+  border-color: #e7b3c7;
+  color: #853d5e;
+}
+
+/* Right Card: Order Summary */
+.summaryTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ui-ink, #252c3f);
+  margin: 0 0 1.25rem;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--ui-muted, #5f687c);
+  font-weight: 600;
+}
+
+.summaryValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ui-ink, #252c3f);
+}
+
+.summaryValueDiscount {
+  color: #2e7a57;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0.25rem 0 1.5rem;
+}
+
+.totalLabel {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ui-ink, #252c3f);
+}
+
+.totalAmount {
+  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+  font-weight: 800;
+  color: #37548f;
+  line-height: 1;
+}
+
+.checkoutButton {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0 1.5rem;
+  border: 1.5px solid var(--ui-ink, #252c3f);
+  border-radius: 12px;
+  background: var(--ui-blue, #4867a8);
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  box-shadow: 3px 3px 0px var(--ui-ink, #252c3f);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+}
+
+.checkoutButton:hover:not(:disabled) {
+  background: var(--ui-blue-strong, #37548f);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--ui-ink, #252c3f);
+}
+
+.checkoutButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 3px 3px 0px var(--ui-ink, #252c3f);
+}
+
+.priceChangeAlert {
+  margin-top: 1rem;
+  padding: 0.65rem 0.85rem;
+  background: #fdf8f0;
+  border: 1.2px solid #e6c27a;
+  border-radius: 8px;
+  color: #7a6440;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.orderErrorAlert {
+  margin-top: 1rem;
+  padding: 0.65rem 0.85rem;
+  background: #fcf0f4;
+  border: 1.2px solid #e7b3c7;
+  border-radius: 8px;
+  color: #853d5e;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* Modal Content Styles */
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.modalHeaderCourse {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  background: #eef2fb;
+  border: 1.2px solid var(--ui-ink, #252c3f);
+  border-radius: 10px;
+}
+
+.modalCourseTitle {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #37548f;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modalStatusBadge {
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 1px solid currentColor;
+}
+
+.statusPending {
+  background: #fdf8f0;
+  color: #7a6440;
+  border-color: #e6c27a;
+}
+
+.statusPaid {
+  background: #eaf6ef;
+  color: #2e7a57;
+  border-color: #2e7a57;
+}
+
+.statusExpired {
+  background: #fcf0f4;
+  color: #9d4b70;
+  border-color: #e7b3c7;
+}
+
+.qrContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.qrBox {
+  width: 220px;
+  height: 220px;
+  border: 1.5px solid var(--ui-ink, #252c3f);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 3px 3px 0px var(--ui-ink, #252c3f);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.qrImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.qrLoading {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ui-muted, #5f687c);
+}
+
+.qrErrorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--ui-rose, #9d4b70);
+  font-weight: 600;
+}
+
+.instructionBox {
+  padding: 0.65rem 0.85rem;
+  background: #f6f7fb;
+  border: 1px solid var(--ui-line, #e4e7ef);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: var(--ui-muted, #5f687c);
+  line-height: 1.45;
+  text-align: center;
+}
+
+.bankDetailsCard {
+  border: 1.5px solid var(--ui-ink, #252c3f);
+  border-radius: 12px;
+  background: var(--ui-cream, #fdfbf6);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.bankRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.bankLabel {
+  color: var(--ui-muted, #5f687c);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.bankValue {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  color: var(--ui-ink, #252c3f);
+}
+
+.copyButton {
+  padding: 0.2rem 0.45rem;
+  background: #ffffff;
+  border: 1px solid var(--ui-ink, #252c3f);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ui-ink, #252c3f);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.15s ease;
+}
+
+.copyButton:hover {
+  background: #f0f2f8;
+}
+
+.copySuccess {
+  color: #2e7a57;
+  border-color: #2e7a57;
+}
+
+.timerCountdown {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #7a6440;
+}
+
+.timerCountdownDanger {
+  color: #9d4b70;
+}
+
+/* Success View in Modal */
+.successView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  gap: 1rem;
+}
+
+.successIconWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #eaf6ef;
+  border: 2px solid #2e7a57;
+  color: #2e7a57;
+  display: grid;
+  place-items: center;
+}
+
+.successTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1e5c41;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.redirectNotice {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--ui-muted, #5f687c);
+  margin: 0;
+}
+
+.countdownHighlight {
+  color: var(--ui-blue, #4867a8);
+  font-size: 1.05rem;
+}
+
+.fulfillingNotice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 1.25rem 0.5rem;
+  color: #37548f;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.expiredView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.85rem;
+  padding: 1.25rem 0.5rem;
+}
+
+.expiredTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #853d5e;
+  margin: 0;
+}

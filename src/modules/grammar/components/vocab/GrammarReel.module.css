@@ -1,0 +1,174 @@
+/*
+ * Full-screen study layer of the grammar Vocabulary tab: the PBL-75 study shell (StudySession.module.css) around the
+ * PBL-75 Reel / Quiz cards, with the Studychill NotebookReel end screen. Uses the global --ui-* tokens because the
+ * layer may be portalled outside the grammar page (it picks up the page's dark mode when portalled inside it).
+ */
+.shell {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow-y: auto;
+  isolation: isolate;
+  background: var(--ui-canvas);
+  color: var(--ui-text);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: calc(720px + 2 * var(--page-pad));
+  margin: 0 auto;
+  padding: calc(var(--space-3) + env(safe-area-inset-top, 0px)) var(--page-pad) var(--space-3);
+  background: var(--ui-canvas);
+}
+
+.title {
+  flex: none;
+  max-width: 34%;
+  overflow: hidden;
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progress {
+  flex: 1;
+}
+
+.count {
+  min-width: 48px;
+  color: var(--ui-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: calc(720px + 2 * var(--page-pad));
+  margin: 0 auto;
+  padding: var(--space-4) var(--page-pad) var(--space-8);
+}
+
+/* ---------- End screen (NotebookReel .nbr-finish) ---------- */
+.summary {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-5);
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 18px;
+  background: var(--ui-cream);
+  box-shadow: var(--ui-shadow-hard);
+  text-align: center;
+}
+
+.image {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.doneTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--ui-text);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 460px;
+}
+
+.stats > div {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3) var(--space-2);
+  border: 1px solid var(--ui-line);
+  border-radius: var(--radius-xl);
+  background: var(--ui-surface);
+}
+
+.stats strong {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1.1;
+  color: var(--ui-blue);
+}
+
+.stats > div:last-child strong {
+  color: var(--ui-mark-strong);
+}
+
+.stats span {
+  color: var(--ui-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  max-width: 560px;
+}
+
+.words span {
+  padding: 4px 10px;
+  border: 1px solid var(--ui-pearl-line);
+  border-radius: var(--radius-full);
+  background: var(--ui-pearl);
+  color: var(--ui-text);
+  font-size: var(--text-sm);
+}
+
+.words b {
+  color: var(--ui-pearl-text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+@media (max-width: 600px) {
+  .title {
+    display: none;
+  }
+
+  .stage {
+    align-content: start;
+    padding-bottom: var(--space-6);
+  }
+}
+
+/* The Reel card sits above the StudyBackdrop clip layer (absolute, z-index 0). */
+.cardLayer {
+  position: relative;
+  z-index: 1;
+}

@@ -1,0 +1,105 @@
+.courses {
+  display: grid;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.courses h3 {
+  margin: 0;
+  color: #2b3e54;
+  font-size: 0.85rem;
+}
+
+.status {
+  margin: 0;
+  color: #607088;
+  font-size: 0.78rem;
+}
+
+.bulkActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.error {
+  margin: 0;
+  color: #a43838;
+  font-size: 0.8rem;
+}
+
+.search {
+  display: grid;
+  gap: 0.35rem;
+  color: #40556b;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.search input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #d5e0e9;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #24384c;
+  font: inherit;
+  font-size: 0.84rem;
+}
+
+.search input:focus {
+  border-color: #4867a8;
+  outline: 2px solid #4867a8;
+  outline-offset: 1px;
+}
+
+.list,
+.selected {
+  display: grid;
+  gap: 0.35rem;
+  max-height: 13rem;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #e1e9f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #40556b;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.check input {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  accent-color: #4867a8;
+}
+
+.selected li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #e1e9f0;
+  border-radius: 8px;
+  background: #f8fbfd;
+  color: #40556b;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.selected li span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

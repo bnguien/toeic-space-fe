@@ -1,0 +1,417 @@
+/* One-sided word card of the video reader. Colours follow the reader palette (--vr-*, paper and night families);
+   fallbacks are the TOEIC Space tokens for use outside the reader. */
+
+.card {
+  --wfc-ink: var(--vr-ink, var(--ui-ink));
+  --wfc-ink2: var(--vr-trans, var(--ui-muted));
+  --wfc-muted: var(--vr-muted, var(--ui-muted));
+  --wfc-line: var(--vr-line, var(--ui-line));
+  --wfc-line2: var(--vr-line2, var(--ui-divider));
+  --wfc-surface: var(--vr-card, var(--ui-surface));
+  --wfc-moss: var(--vr-moss, var(--ui-blue));
+  --wfc-moss-hi: var(--vr-moss-hi, var(--ui-blue-strong));
+  --wfc-moss-ink: var(--vr-moss-ink, var(--ui-blue-strong));
+  --wfc-on-moss: var(--vr-on-moss, var(--ui-on-accent));
+  --wfc-tint: var(--vr-tint, var(--ui-blue-soft));
+  --wfc-mark: var(--vr-hl, var(--ui-blue-line));
+  --wfc-hover: var(--vr-hover, var(--ui-hover));
+  --wfc-bg: var(--vr-bg, var(--ui-pearl));
+  --wfc-ipa: var(--vr-ipa, var(--ui-blue));
+  --wfc-bad: var(--vr-bad, var(--ui-rose));
+  --wfc-lv-toeic: var(--vr-lv-toeic, var(--ui-green));
+  --wfc-lv-b2: var(--vr-lv-b2, var(--ui-blue));
+  --wfc-lv-c1: var(--vr-lv-c1, var(--ui-rose));
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--wfc-line);
+  border-radius: 14px;
+  background: var(--wfc-surface);
+  color: var(--wfc-ink);
+  box-shadow: var(--vr-shadow, none);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.card p {
+  margin: 0;
+}
+
+/* ── Head: word · listen · close / IPA · part of speech · tier ─────────── */
+.top {
+  position: relative;
+  padding: 16px 52px 12px 18px;
+}
+
+.wordline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.word {
+  overflow-wrap: anywhere;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--wfc-ink);
+}
+
+.speak {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--wfc-tint);
+  color: var(--wfc-moss-ink);
+  cursor: pointer;
+}
+
+.speak:hover {
+  background: var(--wfc-moss);
+  color: var(--wfc-on-moss);
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--wfc-muted);
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--wfc-hover);
+  color: var(--wfc-ink);
+}
+
+.speak:focus-visible,
+.close:focus-visible,
+.mini:focus-visible,
+.save:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--wfc-moss);
+  outline-offset: 2px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: 8px;
+}
+
+.ipa {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--wfc-ipa);
+}
+
+.accentTag {
+  margin-left: -4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--wfc-muted);
+}
+
+.tag {
+  padding: 1px 8px;
+  border: 1px solid var(--wfc-line);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wfc-ink2);
+}
+
+.level {
+  border-width: 1.5px;
+}
+
+.levelToeic {
+  border-color: var(--wfc-lv-toeic);
+  color: var(--wfc-lv-toeic);
+}
+
+.levelB2 {
+  border-color: var(--wfc-lv-b2);
+  color: var(--wfc-lv-b2);
+}
+
+.levelC1 {
+  border-color: var(--wfc-lv-c1);
+  color: var(--wfc-lv-c1);
+}
+
+/* ── Content blocks ──────────────────────────────────────────────────────── */
+.sec {
+  padding: 12px 18px;
+  border-top: 1px solid var(--wfc-line);
+}
+
+.secHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.lbl {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--wfc-muted);
+}
+
+.secHead .lbl {
+  margin: 0;
+}
+
+.meaning {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--wfc-moss-ink);
+}
+
+.card .meaningOthers {
+  margin-top: 2px;
+  font-size: 13.5px;
+  color: var(--wfc-ink2);
+}
+
+.card .definition {
+  margin-top: 8px;
+  font-size: 13.5px;
+  color: var(--wfc-ink2);
+}
+
+.dim {
+  color: var(--wfc-muted);
+}
+
+.card .ctx {
+  background: var(--wfc-tint);
+}
+
+.card .sentence {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--wfc-ink);
+}
+
+.card .sentenceVi {
+  margin-top: 3px;
+  font-size: 13.5px;
+  color: var(--wfc-ink2);
+}
+
+.card mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--wfc-mark);
+  color: var(--wfc-moss-ink);
+  font-weight: 700;
+}
+
+.rel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.relRow {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.relRow .lbl {
+  margin: 0;
+}
+
+.relList {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 13.5px;
+  color: var(--wfc-ink2);
+}
+
+.fam b {
+  color: var(--wfc-ink);
+  font-weight: 600;
+}
+
+.fam i,
+.def i {
+  margin-left: 5px;
+  font-size: 12px;
+  font-style: normal;
+  color: var(--wfc-muted);
+}
+
+.def i {
+  margin-left: 0;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  padding: 3px 10px;
+  border: 1px solid var(--wfc-line2);
+  border-radius: 999px;
+  background: var(--wfc-surface);
+  color: var(--wfc-moss-ink);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mini:hover {
+  border-color: var(--wfc-moss);
+}
+
+.mini:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.foot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 18px 16px;
+  border-top: 1px solid var(--wfc-line);
+}
+
+.save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--wfc-moss);
+  color: var(--wfc-on-moss);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.save:hover {
+  background: var(--wfc-moss-hi);
+}
+
+.save:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.savedRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1.5px solid var(--wfc-moss);
+  border-radius: 10px;
+  background: var(--wfc-tint);
+  color: var(--wfc-moss-ink);
+  font-weight: 700;
+}
+
+.link {
+  min-height: 40px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--wfc-muted);
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: var(--wfc-bad);
+}
+
+.note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.noteInput {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--wfc-line);
+  border-radius: 10px;
+  background: var(--wfc-bg);
+  color: var(--wfc-ink);
+  font: inherit;
+  font-size: 13.5px;
+  resize: vertical;
+}
+
+.noteInput:focus {
+  outline: 2px solid var(--wfc-moss);
+  outline-offset: 0;
+  border-color: transparent;
+}
+
+.noteInput::placeholder {
+  color: var(--wfc-muted);
+}
+
+.guest {
+  font-size: 13.5px;
+  color: var(--wfc-ink2);
+}
+
+.guest a {
+  color: var(--wfc-moss-ink);
+  font-weight: 700;
+}
+
+.sourceNote {
+  font-size: 12px;
+  color: var(--wfc-muted);
+}

@@ -1,0 +1,33 @@
+.invite {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 8px 0 0;
+  padding: 3px 4px 3px 2px;
+  border-bottom: 1px dashed var(--gp-line2);
+  color: var(--gp-muted);
+  font-size: 13px;
+}
+.invite a {
+  color: var(--gp-moss);
+  font-weight: 800;
+}
+.invite button {
+  display: inline-grid;
+  place-items: center;
+  padding: 3px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--gp-muted);
+  cursor: pointer;
+}
+.invite button:hover {
+  background: var(--gp-m50);
+  color: var(--gp-ink);
+}
+
+:global([data-focus="true"]) .invite {
+  display: none;
+}

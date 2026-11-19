@@ -1,0 +1,1167 @@
+/* ==========================================================================
+   DICTATION TOPIC MAP — game map: a cobbled road winding down the screen through several
+   regions, CSS scenery, raised numbered pedestals. Geometry mirrors Studychill; UI chrome uses
+   the TOEIC Space tokens, the regions keep their nature palettes.
+   ========================================================================== */
+.root {
+  --ink: var(--ui-ink);
+  --lane-w: min(780px, calc(100vw - 40px));
+  --lane-left: calc(50% - var(--lane-w) / 2);
+  position: fixed;
+  inset: 0;
+  z-index: 900; /* below the mode modal (999) */
+  overflow: hidden;
+  background: #bfe3f2;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-user-select: none;
+  user-select: none;
+}
+.root :where(button) {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.root.narrow {
+  --lane-w: calc(100vw - 24px);
+}
+
+/* ── Region palettes ─────────────────────────────────────────────────────── */
+.biomeMeadow {
+  --bg: #92cf70;
+  --bg2: #84c262;
+  --tree: #3f8f45;
+  --tree-hi: #6dbb5d;
+  --accent: #ffd34d;
+}
+.biomeForest {
+  --bg: #66a65d;
+  --bg2: #5a9852;
+  --tree: #2c6a38;
+  --tree-hi: #4f9450;
+  --accent: #ffd34d;
+}
+.biomeBeach {
+  --bg: #f2dca2;
+  --bg2: #e9cf8c;
+  --tree: #4fa35a;
+  --tree-hi: #7cc56b;
+  --accent: #4cb8d8;
+}
+.biomeSunset {
+  --bg: #ecbe78;
+  --bg2: #e2ae62;
+  --tree: #6f9a3f;
+  --tree-hi: #93b95a;
+  --accent: #ff8a3d;
+}
+.biomeSnow {
+  --bg: #eef4f8;
+  --bg2: #dde8f0;
+  --tree: #3d7a62;
+  --tree-hi: #5e9a80;
+  --accent: #6aa8d8;
+}
+.biomeBlossom {
+  --bg: #a9d991;
+  --bg2: #9bcd82;
+  --tree: #e8789e;
+  --tree-hi: #ffa9c4;
+  --accent: #ff7fa8;
+}
+.biomeCrystal {
+  --bg: #baa6e4;
+  --bg2: #ab96d8;
+  --tree: #6c4fb0;
+  --tree-hi: #9677d6;
+  --accent: #8ee3f0;
+}
+.biomeNight {
+  --bg: #2f5b52;
+  --bg2: #284f47;
+  --tree: #1d4038;
+  --tree-hi: #2f6052;
+  --accent: #ffd76a;
+}
+
+/* ── Scroll + sky ────────────────────────────────────────────────────────── */
+.scroll {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #00000030 transparent;
+}
+.world {
+  position: relative;
+  width: 100%;
+}
+.sky {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 360px;
+  background: linear-gradient(180deg, #a9dbf2, #dff2fa);
+  pointer-events: none;
+}
+.sky i {
+  position: absolute;
+  height: 30px;
+  border-radius: 40px;
+  background: #fff;
+  box-shadow:
+    22px -12px 0 -2px #fff,
+    50px 0 0 -4px #fff;
+  opacity: 0.85;
+  animation: drift 30s linear infinite alternate;
+}
+.sky i:nth-child(1) {
+  top: 60px;
+  left: 8%;
+  width: 76px;
+}
+.sky i:nth-child(2) {
+  top: 140px;
+  right: 12%;
+  width: 90px;
+  animation-duration: 38s;
+}
+.sky i:nth-child(3) {
+  top: 34px;
+  left: 46%;
+  width: 54px;
+  opacity: 0.7;
+  animation-duration: 42s;
+}
+.sky i:nth-child(4) {
+  top: 190px;
+  left: 22%;
+  width: 48px;
+  opacity: 0.6;
+  animation-duration: 26s;
+}
+.sky i:nth-child(5) {
+  top: 96px;
+  right: 34%;
+  width: 40px;
+  opacity: 0.6;
+  animation-duration: 34s;
+}
+@keyframes drift {
+  to {
+    transform: translateX(60px);
+  }
+}
+
+.intro {
+  position: absolute;
+  top: 74px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 0 20px;
+  text-align: center;
+}
+.flag {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 99px;
+  background: var(--ui-navy);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+.root .intro h2 {
+  max-width: 760px;
+  margin: 10px auto 4px;
+  color: var(--ink);
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+.root .intro p {
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ── Regions (every 10 courses) ──────────────────────────────────────────── */
+.band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 10px 4px at 20% 30%, var(--bg2) 98%, transparent),
+    radial-gradient(ellipse 8px 3px at 70% 65%, var(--bg2) 98%, transparent),
+    radial-gradient(circle 2px at 45% 85%, #ffffff40 98%, transparent);
+  background-size:
+    90px 70px,
+    110px 90px,
+    60px 50px;
+}
+/* scalloped top edge overlapping the previous region → soft transition */
+.band:not(.bandFirst)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -22px;
+  height: 24px;
+  background: radial-gradient(circle at 30px 30px, var(--bg) 26px, transparent 27px) 0 0 / 60px 30px
+    repeat-x;
+}
+.band.bandFirst {
+  border-radius: 50% 50% 0 0 / 70px 70px 0 0;
+  box-shadow: inset 0 8px 0 var(--bg2);
+}
+
+/* ── Scenery ─────────────────────────────────────────────────────────────── */
+.decor {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  width: calc(46px * var(--s, 1));
+  height: calc(46px * var(--s, 1));
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.12));
+}
+.decor::before,
+.decor::after {
+  content: "";
+  position: absolute;
+}
+
+.decorTree {
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, var(--tree-hi), var(--tree) 62%);
+}
+.decorTree::after {
+  left: 50%;
+  bottom: -15px;
+  z-index: -1;
+  width: 9px;
+  height: 18px;
+  margin-left: -4.5px;
+  border: 2.5px solid var(--ink);
+  border-radius: 3px;
+  background: #8a5d36;
+}
+
+.decorPine {
+  width: calc(40px * var(--s, 1));
+  height: calc(56px * var(--s, 1));
+  background: var(--ink);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.decorPine::before {
+  inset: 5px 4px 3px;
+  background: linear-gradient(160deg, var(--tree-hi), var(--tree));
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.decorBush {
+  width: calc(58px * var(--s, 1));
+  height: calc(32px * var(--s, 1));
+  border: 3px solid var(--ink);
+  border-radius: 50% 50% 40% 40% / 70% 70% 30% 30%;
+  background: radial-gradient(circle at 40% 30%, var(--tree-hi), var(--tree) 70%);
+}
+
+.decorRock {
+  width: calc(42px * var(--s, 1));
+  height: calc(28px * var(--s, 1));
+  border: 3px solid var(--ink);
+  border-radius: 45% 55% 40% 50% / 60% 55% 45% 40%;
+  background: linear-gradient(160deg, #d7d2c6, #a9a293);
+}
+
+.decorFlower {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    14px 6px 0 #fff,
+    -10px 10px 0 #ff8fb3,
+    4px 18px 0 var(--accent),
+    22px 20px 0 #fff,
+    -16px -4px 0 #ffb3c9;
+  filter: none;
+}
+
+.decorPond {
+  width: calc(96px * var(--s, 1));
+  height: calc(44px * var(--s, 1));
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 40% 35%, #b9ecf8, #5cbfe0 70%);
+  filter: none;
+}
+.decorPond::after {
+  left: 22%;
+  top: 30%;
+  width: 28%;
+  height: 14%;
+  border-radius: 99px;
+  background: #ffffffb0;
+}
+
+/* Palm: star-cut crown in ::before, leaning trunk in ::after (not clipped by the crown) */
+.decorPalm {
+  width: calc(70px * var(--s, 1));
+  height: calc(70px * var(--s, 1));
+  background: none;
+  clip-path: none;
+}
+.decorPalm::before {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 46%;
+  background: radial-gradient(circle at 50% 60%, var(--tree-hi), var(--tree) 70%);
+  clip-path: polygon(50% 45%, 100% 15%, 64% 55%, 96% 95%, 50% 66%, 4% 95%, 36% 55%, 0 15%);
+  z-index: 1;
+}
+.decorPalm::after {
+  left: 47%;
+  top: 28%;
+  width: 9px;
+  height: 64%;
+  border: 2.5px solid var(--ink);
+  border-radius: 6px;
+  background: repeating-linear-gradient(180deg, #b07a43 0 6px, #94622f 6px 9px);
+  transform: rotate(6deg);
+  transform-origin: top;
+}
+
+.decorCactus {
+  width: calc(18px * var(--s, 1));
+  height: calc(50px * var(--s, 1));
+  border: 3px solid var(--ink);
+  border-radius: 10px 10px 4px 4px;
+  background: #5f9e4a;
+}
+.decorCactus::before {
+  left: -16px;
+  top: 12px;
+  width: 12px;
+  height: 18px;
+  border: 3px solid var(--ink);
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
+  background: #5f9e4a;
+}
+.decorCactus::after {
+  right: -16px;
+  top: 6px;
+  width: 12px;
+  height: 16px;
+  border: 3px solid var(--ink);
+  border-left: 0;
+  border-radius: 0 8px 8px 0;
+  background: #5f9e4a;
+}
+
+.decorSnowman {
+  width: calc(34px * var(--s, 1));
+  height: calc(34px * var(--s, 1));
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: #fff;
+}
+.decorSnowman::before {
+  left: 50%;
+  top: -20px;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.decorCrystal {
+  width: calc(26px * var(--s, 1));
+  height: calc(44px * var(--s, 1));
+  background: var(--ink);
+  clip-path: polygon(50% 0, 100% 35%, 50% 100%, 0 35%);
+}
+.decorCrystal::before {
+  inset: 4px;
+  background: linear-gradient(160deg, #e8fbff, var(--accent) 60%, #7b5fc4);
+  clip-path: polygon(50% 0, 100% 35%, 50% 100%, 0 35%);
+}
+
+.decorMushroom {
+  width: calc(36px * var(--s, 1));
+  height: calc(20px * var(--s, 1));
+  border: 3px solid var(--ink);
+  border-radius: 50% 50% 8px 8px / 100% 100% 8px 8px;
+  background:
+    radial-gradient(circle at 30% 40%, #fff 3px, transparent 4px),
+    radial-gradient(circle at 68% 30%, #fff 3px, transparent 4px), #e0574b;
+}
+.decorMushroom::after {
+  left: 50%;
+  top: 100%;
+  width: 12px;
+  height: 14px;
+  margin-left: -6px;
+  border: 2.5px solid var(--ink);
+  border-radius: 0 0 4px 4px;
+  background: #f6ecd8;
+}
+
+.decorShell {
+  width: calc(22px * var(--s, 1));
+  height: calc(18px * var(--s, 1));
+  border: 2.5px solid var(--ink);
+  border-radius: 50% 50% 20% 20%;
+  background: repeating-linear-gradient(90deg, #ffc3cf 0 4px, #ffa3b6 4px 7px);
+}
+
+/* Low hills at both edges: depth for the background */
+.decorHill {
+  z-index: 0;
+  width: calc(120px * var(--s, 1));
+  height: calc(54px * var(--s, 1));
+  border: 3px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: linear-gradient(180deg, var(--bg2), var(--bg));
+  filter: none;
+}
+
+/* ── Road lane ───────────────────────────────────────────────────────────── */
+.lane {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--lane-left);
+  z-index: 2;
+  width: var(--lane-w);
+}
+.road {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.road path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.roadEdge {
+  stroke: #9f7d4c;
+  stroke-width: 46px;
+}
+.roadFill {
+  stroke: #f6e7c4;
+  stroke-width: 36px;
+}
+.roadDots {
+  stroke: #dcc590;
+  stroke-width: 7px;
+  stroke-dasharray: 0.1 18;
+}
+.roadTrail {
+  stroke: var(--ui-mark-bright);
+  stroke-width: 11px;
+  stroke-dasharray: 0.1 18;
+  stroke-linecap: round;
+}
+.narrow .roadEdge {
+  stroke-width: 38px;
+}
+.narrow .roadFill {
+  stroke-width: 29px;
+}
+
+/* ── Course pedestals ────────────────────────────────────────────────────── */
+.node {
+  position: absolute;
+  z-index: 3;
+  width: 0;
+  height: 0;
+}
+.nodeButton {
+  --hi: var(--ui-canvas);
+  --face: var(--ui-divider);
+  --side: var(--ui-subtle);
+  --num: var(--ui-subtle);
+  position: absolute;
+  left: -34px;
+  top: -38px;
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  padding: 0;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, var(--hi), var(--face) 65%);
+  box-shadow:
+    0 7px 0 var(--side),
+    0 12px 10px rgba(0, 0, 0, 0.18),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.nodeButton span {
+  color: var(--num);
+  font-size: 25px;
+  font-weight: 900;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.35);
+}
+.nodeButton:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 11px 0 var(--side),
+    0 16px 14px rgba(0, 0, 0, 0.2),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.08);
+}
+.nodeButton:active {
+  transform: translateY(4px);
+  box-shadow: 0 3px 0 var(--side);
+}
+.nodePassed .nodeButton {
+  --hi: color-mix(in srgb, var(--ui-green) 45%, #fff);
+  --face: var(--ui-green);
+  --side: color-mix(in srgb, var(--ui-green) 70%, #000);
+  --num: #fff;
+}
+.nodePassed .nodeButton span {
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+.nodeActive .nodeButton {
+  --hi: color-mix(in srgb, var(--ui-mark-bright) 35%, #fff);
+  --face: var(--ui-mark-bright);
+  --side: var(--ui-mark-strong);
+  --num: var(--ui-on-mark);
+  left: -42px;
+  top: -48px;
+  width: 84px;
+  height: 84px;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+.nodeActive .nodeButton span {
+  font-size: 30px;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    outline: 0 solid color-mix(in srgb, var(--ui-mark-bright) 53%, transparent);
+    outline-offset: 0;
+  }
+  50% {
+    outline: 12px solid color-mix(in srgb, var(--ui-mark-bright) 0%, transparent);
+    outline-offset: 4px;
+  }
+}
+
+/* Course title on hover (instead of dense labels) */
+.nodeButton::after {
+  content: attr(data-title);
+  position: absolute;
+  bottom: calc(100% + 26px);
+  left: 50%;
+  z-index: 10;
+  width: max-content;
+  max-width: 220px;
+  padding: 6px 10px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--ui-cream);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 6px);
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
+}
+.nodeButton:hover::after,
+.nodeButton:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.nodeActive .nodeButton::after {
+  display: none;
+}
+
+.stars {
+  position: absolute;
+  left: 0;
+  top: -66px;
+  display: flex;
+  gap: 1px;
+  width: max-content;
+  transform: translateX(-50%);
+  font-size: 18px;
+  line-height: 1;
+}
+.stars i {
+  color: #ffffffb8;
+  font-style: normal;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+}
+.stars i.starOn {
+  color: var(--ui-mark-bright);
+  text-shadow: 0 2px 0 color-mix(in srgb, var(--ui-mark-strong) 60%, #000);
+}
+.stars i:nth-child(2) {
+  transform: translateY(-5px);
+}
+
+/* Current course: mascot + floating card with Play, placed on the free side */
+.mascot {
+  position: absolute;
+  top: -96px;
+  left: -30px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  pointer-events: none;
+  animation: bob 2.4s ease-in-out infinite;
+}
+@keyframes bob {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.card {
+  position: absolute;
+  top: -48px;
+  z-index: 6;
+  display: grid;
+  gap: 4px;
+  width: 200px;
+  padding: 10px 12px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--ui-cream);
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+  animation: pop 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+.sideRight .card {
+  left: 58px;
+}
+.sideLeft .card {
+  right: 58px;
+}
+.card small {
+  color: var(--ui-pearl-text);
+  font-size: 10.5px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.card strong {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 850;
+  line-height: 1.3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.card button {
+  justify-self: start;
+  margin-top: 4px;
+  padding: 7px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ui-mark-bright);
+  color: var(--ui-on-mark);
+  font-size: 13px;
+  font-weight: 900;
+  box-shadow: 0 3px 0 var(--ui-mark-strong);
+}
+.card button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--ui-mark-strong);
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+/* ── Milestone gate (every 10 courses) ───────────────────────────────────── */
+.gate {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 0;
+  transform: translateY(-60px);
+}
+.gateSign {
+  position: relative;
+  width: max-content;
+  padding: 6px 14px;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #c58b4f, #a86f3b);
+  color: #fff6e3;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 0 #6b4520;
+}
+.gateSign::before,
+.gateSign::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  width: 7px;
+  height: 14px;
+  border: 2.5px solid var(--ink);
+  border-top: 0;
+  background: #8a5d36;
+}
+.gateSign::before {
+  left: 12px;
+}
+.gateSign::after {
+  right: 12px;
+}
+.gateChest {
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 52px;
+  margin-top: 12px;
+  border: 3px solid var(--ink);
+  border-radius: 14px 14px 10px 10px;
+  background: linear-gradient(180deg, #b98149 0 42%, #8f5c2c 42% 50%, #a86f3b 50%);
+  color: #fff6e3;
+  font-size: 14px;
+  font-weight: 900;
+  box-shadow: 0 6px 0 #5a3a1a;
+}
+.gate.gateOpen .gateChest {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ui-mark-bright) 55%, #fff),
+    var(--ui-mark-bright)
+  );
+  color: var(--ui-on-mark);
+  font-size: 24px;
+  box-shadow:
+    0 6px 0 var(--ui-mark-strong),
+    0 0 24px var(--ui-mark-bright);
+  animation: bob 2s ease-in-out infinite;
+}
+
+/* ── Trophy castle at the finish ─────────────────────────────────────────── */
+.castle {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 0;
+  transform: translateY(-80px);
+}
+.castleBody {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 130px;
+  height: 96px;
+  border: 3px solid var(--ink);
+  border-radius: 6px 6px 14px 14px;
+  background: linear-gradient(180deg, #e2d9c3, #bdb197);
+  box-shadow: 0 8px 0 #7d6e52;
+}
+.castleBody::before {
+  content: "";
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  top: -18px;
+  height: 18px;
+  background: linear-gradient(
+      90deg,
+      var(--ink) 3px,
+      #e2d9c3 3px 23px,
+      var(--ink) 23px 26px,
+      transparent 26px 34px
+    )
+    0 0 / 34px 100%;
+}
+.castleBody::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -48px;
+  width: 26px;
+  height: 18px;
+  border: 2.5px solid var(--ink);
+  background: #e0574b;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.castleBody b {
+  padding: 6px 12px 4px;
+  border: 3px solid var(--ink);
+  border-bottom: 0;
+  border-radius: 30px 30px 0 0;
+  background: #6b4a2a;
+  color: #ffe08a;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  transform: translateY(18px);
+}
+.castle.castleOpen .castleBody {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ui-mark-bright) 55%, #fff),
+    var(--ui-mark-bright)
+  );
+  box-shadow:
+    0 8px 0 var(--ui-mark-strong),
+    0 0 34px var(--ui-mark-bright);
+}
+.castleSign {
+  margin-top: 18px;
+  padding: 5px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ui-cream);
+  font-size: 12.5px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+/* ── Top bar + bottom dock ───────────────────────────────────────────────── */
+.topBar {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  right: 18px;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+.topBar > * {
+  pointer-events: auto;
+}
+.exitButton,
+.totalStars {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ui-cream);
+  font-size: 13px;
+  font-weight: 850;
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+.exitButton:hover {
+  background: var(--ink);
+  color: #fff;
+}
+.packTitle {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.totalStars {
+  color: var(--ui-pearl-text);
+}
+
+.dock {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  z-index: 8;
+  display: flex;
+  gap: 10px;
+  transform: translateX(-50%);
+}
+.dockButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ui-cream);
+  font-size: 14px;
+  font-weight: 850;
+  white-space: nowrap;
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+.dockButton b {
+  padding: 1px 8px;
+  border-radius: 99px;
+  background: var(--ui-mark-bright);
+  color: var(--ui-on-mark);
+  font-size: 12.5px;
+}
+.dockButton.dockButtonDark {
+  border-color: var(--ink);
+  background: var(--ui-navy);
+  color: #fff;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.dockButton:hover {
+  transform: translateY(-2px);
+}
+
+/* ── Region overview dialog ──────────────────────────────────────────────── */
+.overview {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: color-mix(in srgb, var(--ui-ink) 55%, transparent);
+  backdrop-filter: blur(4px);
+  animation: fade 0.2s;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+.overviewPanel {
+  display: flex;
+  flex-direction: column;
+  width: min(1080px, 100%);
+  max-height: calc(100svh - 40px);
+  padding: 22px 24px;
+  border: 2px solid var(--ink);
+  border-radius: 26px;
+  background: var(--ui-cream);
+  box-shadow: 8px 8px 0 var(--ui-cream-shadow);
+  animation: rise 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+.overviewHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.root .overviewHead h3 {
+  margin: 6px 0 0;
+  color: var(--ink);
+  font-size: 19px;
+  font-weight: 850;
+}
+.overviewClose {
+  padding: 9px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ui-surface);
+  font-size: 13px;
+  font-weight: 800;
+}
+.overviewList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 4px 6px 8px 2px;
+  overflow-y: auto;
+  list-style: none;
+}
+.tile {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--ui-cream) 0 52%, var(--bg) 52%);
+  color: var(--ink);
+  text-align: left;
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.tile:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ui-cream-shadow);
+}
+.tile.tileCurrent {
+  box-shadow:
+    0 0 0 3px var(--ui-mark-bright),
+    4px 4px 0 var(--ui-cream-shadow);
+}
+.tileNumber {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--ui-surface);
+  font-size: 13px;
+  font-weight: 900;
+}
+.tile.tileDone .tileNumber {
+  background: var(--ui-mark-bright);
+}
+.tile strong {
+  font-size: 15px;
+  font-weight: 850;
+}
+.tile small {
+  color: var(--ui-muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+.tileBar {
+  display: block;
+  height: 6px;
+  margin-top: 14px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #ffffff80;
+}
+.tileBar i {
+  display: block;
+  height: 100%;
+  background: var(--ui-mark-bright);
+}
+.tileFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 850;
+}
+.tileFoot em {
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--ui-navy);
+  color: #fff;
+  font-size: 10.5px;
+  font-style: normal;
+  white-space: nowrap;
+}
+.tile.biomeNight .tileFoot {
+  color: #fff;
+}
+
+/* ── Phones ──────────────────────────────────────────────────────────────── */
+.root.narrow .topBar {
+  top: 10px;
+  left: 12px;
+  right: 12px;
+}
+.root.narrow .exitButton,
+.root.narrow .totalStars {
+  padding: 7px 12px;
+  font-size: 12px;
+}
+.root.narrow .intro {
+  top: 60px;
+}
+.root.narrow .intro h2 {
+  font-size: 21px;
+}
+.root.narrow .intro p {
+  font-size: 12.5px;
+}
+.root.narrow .nodeButton {
+  left: -29px;
+  top: -33px;
+  width: 58px;
+  height: 58px;
+}
+.root.narrow .nodeButton span {
+  font-size: 21px;
+}
+.root.narrow .nodeActive .nodeButton {
+  left: -36px;
+  top: -42px;
+  width: 72px;
+  height: 72px;
+}
+.root.narrow .stars {
+  top: -58px;
+  font-size: 15px;
+}
+.root.narrow .card {
+  width: 158px;
+  padding: 8px 10px 10px;
+}
+.root.narrow .sideRight .card {
+  left: 46px;
+}
+.root.narrow .sideLeft .card {
+  right: 46px;
+}
+.root.narrow .mascot {
+  width: 50px;
+  height: 50px;
+  top: -86px;
+}
+.root.narrow .dock {
+  bottom: 14px;
+  gap: 8px;
+}
+.root.narrow .dockButton {
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.root.narrow .overviewList {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.root.narrow .overviewPanel {
+  padding: 16px 14px;
+}
+
+@media (hover: none) {
+  .nodeButton::after {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .root *,
+  .root *::before,
+  .root *::after {
+    animation: none !important;
+  }
+}

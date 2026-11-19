@@ -1,0 +1,122 @@
+/* Shell of the "Cài đặt đọc" bottom sheet (content rules: ReadingSettingsBody.module.css). Reader palette (--vr-*),
+   TOEIC Space tokens as fallbacks. */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  animation: rss-fade 0.16s ease;
+}
+
+@keyframes rss-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  max-height: 88dvh;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-radius: 20px 20px 0 0;
+  background: var(--vr-bg, var(--ui-pearl));
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease;
+  animation: rss-up 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes rss-up {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Grab handle — only signals "draggable"; the drag itself is on .grab */
+.handle {
+  flex: none;
+  width: 38px;
+  height: 4px;
+  margin: 10px auto 0;
+  border-radius: 999px;
+  background: var(--vr-line2, var(--ui-divider));
+}
+
+.head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 6px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--vr-ink, var(--ui-ink));
+}
+
+.close {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--vr-muted, var(--ui-muted));
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--vr-ink, var(--ui-ink));
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--vr-moss, var(--ui-blue));
+  outline-offset: 2px;
+}
+
+/* Scrollable part — the settings list is taller than a phone screen */
+.scroll {
+  padding: 6px 20px 28px;
+  overflow-y: auto;
+}
+
+/* Grab area: swipe down here to close (useSwipeDown). touch-action none so the browser does not scroll the page. */
+.grab {
+  flex: none;
+  touch-action: none;
+}
+
+/* ── Dark variant — dark reader themes ─────────────────────────────────── */
+.sheet.dark {
+  border-top: 1px solid var(--vr-line, var(--ui-line));
+  background: var(--vr-side, var(--ui-surface));
+  box-shadow: 0 -12px 34px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .backdrop {
+    animation: none;
+    transition: none;
+  }
+}

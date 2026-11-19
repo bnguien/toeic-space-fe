@@ -1,0 +1,356 @@
+/* Knowledge part (Studychill grammar-lesson.css / grammar-extra.css). Colours via GrammarTheme --gp-* variables. */
+.knowledge {
+  min-width: 0;
+}
+
+.anchor {
+  scroll-margin-top: 18px;
+}
+
+/* ---------- Goals ---------- */
+.goals {
+  margin: 0 0 26px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: 1.5px solid var(--gp-lime);
+  background: var(--gp-lime-soft);
+}
+.goalsT {
+  font-family: var(--gp-font-display);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--gp-m800);
+  line-height: 1.2;
+}
+.goals ul {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.goals li {
+  position: relative;
+  margin: 3px 0;
+  padding-left: 26px;
+  font-size: 14.5px;
+}
+.goals li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--gp-fill);
+}
+.goals li::after {
+  content: "";
+  position: absolute;
+  left: 4.5px;
+  top: 7.5px;
+  width: 5px;
+  height: 3px;
+  border-left: 1.8px solid var(--gp-on-fill);
+  border-bottom: 1.8px solid var(--gp-on-fill);
+  transform: rotate(-45deg);
+}
+
+/* ---------- Units ---------- */
+.unit {
+  margin-bottom: 20px;
+}
+.unit h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 30px 0 10px;
+  font-family: var(--gp-font);
+  font-size: 16.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--gp-m800);
+  line-height: 1.4;
+}
+.unit:first-of-type h3 {
+  margin-top: 6px;
+}
+.unit h3 i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 5px;
+  border-radius: 7px;
+  background: var(--gp-fill);
+  color: var(--gp-on-fill);
+  font-size: 14px;
+  font-style: normal;
+}
+.sub {
+  margin-top: 18px;
+  padding-top: 4px;
+  border-top: 1px dashed var(--gp-line2);
+}
+.sub h4 {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin: 10px 0 8px;
+  font-family: var(--gp-font);
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--gp-m700);
+}
+.sub h4 b {
+  color: var(--gp-m600);
+  font-weight: 800;
+}
+
+/* ---------- Knowledge blocks ---------- */
+.mainIdea {
+  margin: 0 0 12px;
+}
+.signals {
+  margin: 0 0 14px;
+  padding: 8px 16px 9px;
+  border-left: 4px solid var(--gp-m600);
+  border-radius: 0 9px 9px 0;
+  background: var(--gp-m50);
+  font-size: 14.5px;
+}
+.signals ul {
+  margin: 0;
+  padding-left: 18px;
+  list-style: disc;
+}
+.signals li {
+  margin: 2px 0;
+}
+.signals li::marker {
+  color: var(--gp-m600);
+}
+.formula {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 0 0 14px;
+}
+.formula code {
+  padding: 7px 15px;
+  border-radius: 9px;
+  background: var(--gp-m700);
+  color: var(--gp-on-fill);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+}
+.examples {
+  margin: 0 0 14px;
+}
+.examples ol {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: vd;
+}
+.examples li {
+  counter-increment: vd;
+  position: relative;
+  padding: 6px 0 6px 32px;
+  border-bottom: 1px dotted var(--gp-line2);
+}
+.examples li:last-child {
+  border-bottom: 0;
+}
+.examples li::before {
+  content: counter(vd);
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gp-lime-soft);
+  color: var(--gp-m700);
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 20px;
+}
+.exampleSentence {
+  font-weight: 600;
+}
+.exampleTranslation {
+  display: block;
+  color: var(--gp-muted);
+  font-size: 14px;
+}
+.exampleCaption {
+  display: block;
+  color: var(--gp-m600);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.trap {
+  margin: 0 0 10px;
+  padding: 9px 16px 10px;
+  border: 1.5px solid var(--gp-gold);
+  border-radius: 10px;
+  background: var(--gp-gold-soft);
+  font-size: 14px;
+}
+.bayH {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-weight: 800;
+  color: var(--gp-gold-ink);
+}
+.bayH span:first-child {
+  font-family: var(--gp-font-display);
+  font-size: 16.5px;
+  line-height: 1.2;
+}
+.bayH small {
+  flex: none;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--gp-gold);
+  color: var(--gp-on-mark);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+.trap p {
+  margin: 3px 0 0;
+}
+.trap p b {
+  color: var(--gp-gold-ink);
+}
+
+.tip {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 14px;
+  padding: 8px 16px 8px 4px;
+  border: 1.5px dashed var(--gp-gold);
+  border-radius: 10px;
+  background: var(--gp-gold-soft);
+}
+.tip img {
+  width: 88px;
+  height: auto;
+}
+.tipTitle {
+  font-family: var(--gp-font-display);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--gp-gold-ink);
+  line-height: 1.1;
+}
+.tip p {
+  margin: 4px 0 0;
+  font-size: 14.5px;
+}
+.recall {
+  margin: 0 0 12px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: var(--gp-m100);
+  font-size: 13.5px;
+}
+.recall > b {
+  color: var(--gp-m600);
+}
+
+/* ---------- One-page summary ---------- */
+.summary {
+  margin: 30px 0 10px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--gp-m900);
+  color: var(--gp-on-fill);
+}
+.summaryT {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--gp-font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gp-lime);
+  line-height: 1.2;
+}
+.summaryT small {
+  font-family: var(--gp-font);
+  font-size: 11px;
+  color: rgb(255 255 255 / 0.78);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.summary ol {
+  margin: 8px 0 0;
+  padding-left: 22px;
+  font-size: 14.5px;
+  list-style: decimal;
+}
+.summary li {
+  margin: 3px 0;
+}
+.summary li::marker {
+  color: var(--gp-lime);
+  font-weight: 800;
+}
+.ftab {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.ftab td {
+  padding: 7px 8px;
+  border-top: 1px solid rgb(255 255 255 / 0.15);
+  vertical-align: top;
+}
+.ftab td:first-child {
+  width: 28px;
+  color: var(--gp-lime);
+  font-weight: 800;
+}
+.ftab td:nth-child(2) {
+  width: 34%;
+  font-weight: 700;
+}
+.ftab code {
+  font-family: inherit;
+  color: var(--gp-gold);
+  font-weight: 700;
+}
+
+/* --gp-m700 is a deep fill in dark mode: its text uses move to the light accent. */
+:global([data-color-mode="dark"]) .sub h4,
+:global([data-color-mode="dark"]) .examples li::before {
+  color: var(--gp-m800);
+}
+
+@media (max-width: 760px) {
+  .anchor {
+    scroll-margin-top: calc(var(--gp-nav, 64px) + 64px);
+  }
+  .tip {
+    grid-template-columns: 64px 1fr;
+  }
+  .tip img {
+    width: 62px;
+  }
+  .ftab td:nth-child(2) {
+    width: auto;
+  }
+}

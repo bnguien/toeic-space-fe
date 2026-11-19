@@ -1,0 +1,135 @@
+/* Date-time variant: compact calendar beside direct, keyboard-friendly time fields. */
+.popover {
+  box-sizing: border-box;
+  margin-top: 0;
+  width: min(560px, calc(100vw - 24px)) !important;
+  max-height: min(78vh, 620px);
+  overflow-y: auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 160px;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.timePicker {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 16px;
+  border-left: 1px solid #e2eaf1;
+}
+
+.timeTitle {
+  color: #314966;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.timeControls {
+  display: grid;
+  gap: 10px;
+}
+
+.timeField {
+  display: grid;
+  gap: 5px;
+  color: #657b91;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.timeInputWrap {
+  position: relative;
+  min-width: 0;
+}
+
+.timeField input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 34px 0 10px;
+  border: 1px solid #d7e5ef;
+  border-radius: 9px;
+  background: #fff;
+  color: #314966;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.timeField input::-webkit-inner-spin-button,
+.timeField input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.timeField input {
+  appearance: textfield;
+}
+
+.timeField input:hover {
+  border-color: #8bb9d8;
+}
+
+.timeField input:focus-visible {
+  border-color: #4a91c5;
+  outline: 3px solid rgb(74 145 197 / 16%);
+}
+
+.timeSteppers {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  bottom: 4px;
+  display: grid;
+  width: 24px;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.timeSteppers button {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #71869a;
+  cursor: pointer;
+}
+
+.timeSteppers button:hover {
+  background: #edf4f9;
+  color: #315f84;
+}
+
+.timeHint {
+  color: #8495a6;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 560px) {
+  .popover {
+    width: min(400px, calc(100vw - 24px)) !important;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .timePicker {
+    padding: 12px 0 0;
+    border-top: 1px solid #e2eaf1;
+    border-left: 0;
+  }
+
+  .timeControls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

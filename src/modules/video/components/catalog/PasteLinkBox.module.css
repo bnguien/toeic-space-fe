@@ -1,0 +1,211 @@
+/* Paste-URL box of the hero card and of the mobile "Tạo video song ngữ" collapse. */
+
+.searchBarWrap {
+  margin-bottom: 10px;
+}
+
+.inputBox {
+  display: flex;
+  align-items: center;
+  background: var(--ui-surface);
+  border: 1.5px solid var(--ui-divider);
+  border-radius: 12px;
+  padding: 5px 6px 5px 14px;
+  box-shadow: 0 3px 10px rgb(37 44 63 / 0.05);
+  transition: 0.2s ease;
+  transition-property:
+    color, background-color, background, border-color, box-shadow, transform, opacity, filter,
+    outline-color, text-decoration-color, fill, stroke;
+}
+
+.inputBox:focus-within {
+  border-color: var(--ui-navy);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ui-navy) 12%, transparent);
+}
+
+.linkIcon {
+  color: var(--ui-subtle);
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.urlInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--ui-text);
+  font-weight: 500;
+  outline: none;
+  padding: 8px 0;
+}
+
+.urlInput::placeholder {
+  color: var(--ui-subtle);
+}
+
+/* "Học ngay" — filled navy */
+.submitHero {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--ui-navy);
+  color: var(--ui-on-fill);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+  transition-property:
+    color, background-color, background, border-color, box-shadow, transform, opacity, filter,
+    outline-color, text-decoration-color, fill, stroke;
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--ui-navy) 25%, transparent);
+}
+
+.submitHero:hover {
+  background: var(--ui-navy-inner);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px color-mix(in srgb, var(--ui-navy) 32%, transparent);
+}
+
+.submitHero:active {
+  transform: translateY(0);
+}
+
+.submitHero:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error {
+  margin-top: 8px;
+  padding: 8px 14px;
+  background: var(--ui-rose-soft);
+  border: 1px solid var(--ui-rose-line);
+  border-radius: 8px;
+  color: var(--ui-rose-strong);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Duplicate public link: not an error, only a note. */
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--ui-pearl-line);
+  border-radius: 10px;
+  background: var(--ui-pearl);
+  color: var(--ui-pearl-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.note button {
+  flex: none;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--ui-pearl-text);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.example {
+  font-size: 12.5px;
+  color: var(--ui-muted);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.exampleLink {
+  background: none;
+  border: none;
+  color: var(--ui-muted);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: 12.5px;
+  font-family: inherit;
+  word-break: break-all;
+  text-align: left;
+  transition: color 0.15s ease;
+}
+
+.exampleLink:hover {
+  color: var(--ui-navy);
+}
+
+/* Mobile collapse: icon + input share one row, the button sits beside it. */
+.inputWrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+/* "Xác nhận" — rose gradient (Studychill's cherry) */
+.submitMobile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--ui-rose) 0%, var(--ui-rose-strong) 100%);
+  color: var(--ui-on-fill);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+  transition-property:
+    color, background-color, background, border-color, box-shadow, transform, opacity, filter,
+    outline-color, text-decoration-color, fill, stroke;
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--ui-rose-strong) 28%, transparent);
+  flex-shrink: 0;
+}
+
+.submitMobile:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--ui-pink) 0%, var(--ui-rose-strong) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px color-mix(in srgb, var(--ui-rose-strong) 38%, transparent);
+}
+
+.submitMobile:active {
+  transform: translateY(0);
+}
+
+.submitMobile:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .inputBox {
+    flex-direction: column;
+    border-radius: 12px;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .submitHero {
+    width: 100%;
+    justify-content: center;
+  }
+}

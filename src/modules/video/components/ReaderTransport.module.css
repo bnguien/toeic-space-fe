@@ -1,0 +1,156 @@
+/* Transport bar: previous · replay · play · next · sentence count · "Kết thúc". */
+.transport {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 0 12px;
+}
+
+.button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--vr-line2);
+  border-radius: 50%;
+  background: var(--vr-card);
+  color: var(--vr-ink2);
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    border-color 0.14s ease,
+    opacity 0.14s ease;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--vr-hover);
+  border-color: var(--vr-ink3);
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.play {
+  width: 48px;
+  height: 48px;
+  background: var(--vr-moss);
+  border-color: var(--vr-moss);
+  color: var(--vr-on-moss);
+}
+
+.play:hover:not(:disabled) {
+  background: var(--vr-moss-hi);
+  border-color: var(--vr-moss-hi);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.count {
+  color: var(--vr-muted);
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.count b {
+  color: var(--vr-ink);
+  font-weight: 800;
+}
+
+/* ── "Kết thúc buổi học" ─────────────────────────────────────────────────── */
+.end {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--vr-line2);
+  border-radius: 999px;
+  background: var(--vr-card);
+  color: var(--vr-ink2);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.end:hover:not(:disabled) {
+  border-color: var(--vr-moss);
+  color: var(--vr-moss-ink);
+}
+
+.end:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+@media (max-width: 1000px) {
+  .transport {
+    order: 3;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 6px max(14px, env(safe-area-inset-left, 0px))
+      calc(6px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--vr-line);
+    background: var(--vr-side);
+  }
+
+  .spacer,
+  .count {
+    display: none;
+  }
+
+  .button {
+    width: 46px;
+    height: 46px;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .play {
+    width: 54px;
+    height: 54px;
+    min-height: 0;
+    background: var(--vr-moss);
+    border-color: var(--vr-moss);
+  }
+
+  .end {
+    width: 46px;
+    height: 46px;
+    justify-content: center;
+    padding: 0;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .endText {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) and (orientation: landscape) and (max-height: 600px) {
+  .transport {
+    grid-column: 1;
+    grid-row: 2;
+    border-top: 0;
+    background: transparent;
+    justify-content: center;
+    padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

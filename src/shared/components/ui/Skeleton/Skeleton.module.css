@@ -1,0 +1,35 @@
+.skeleton {
+  display: block;
+  width: var(--skeleton-w, 100%);
+  height: var(--skeleton-h, 14px);
+  border-radius: var(--radius-md);
+  background: var(--ui-line);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton[data-shape="block"] {
+  height: var(--skeleton-h, 120px);
+  border-radius: var(--radius-2xl);
+}
+
+.skeleton[data-shape="circle"] {
+  width: var(--skeleton-w, 40px);
+  height: var(--skeleton-h, 40px);
+  border-radius: var(--radius-full);
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}

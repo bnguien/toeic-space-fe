@@ -1,0 +1,100 @@
+/* 16:9 player. position: relative is REQUIRED — the subtitle overlay is positioned against this box. */
+.frame {
+  flex: none;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0d1210;
+  box-shadow: var(--vr-frame-shadow);
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+/* object-fit does not apply to an iframe: scale it. */
+.zoom {
+  transform: scale(1.32);
+}
+
+/* While the divider is dragged the iframe would swallow pointer events. */
+[data-dragging] .iframe {
+  pointer-events: none;
+}
+
+/* ── Embedding disabled by the channel owner ─────────────────────────────── */
+.blocked {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px;
+  background: rgb(13 18 16 / 0.94);
+  color: #ece7da;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.blocked b {
+  font-size: 16px;
+}
+
+.blockedActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.blockedActions a,
+.blockedActions button {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgb(236 231 218 / 0.4);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.blockedActions a {
+  background: var(--ui-blue);
+  border-color: var(--ui-blue);
+}
+
+@media (max-width: 1000px) {
+  .frame {
+    order: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 1000px) and (orientation: landscape) and (max-height: 600px) {
+  .frame {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    width: 100%;
+    max-width: min(100%, calc((100dvh - 40px - 72px) * 16 / 9));
+    border-radius: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iframe {
+    transition: none;
+  }
+}

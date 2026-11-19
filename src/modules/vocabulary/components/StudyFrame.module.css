@@ -1,0 +1,65 @@
+.frame {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--space-3);
+  width: var(--frame-w, 440px);
+  height: var(--frame-h, 780px);
+  min-height: 0;
+  animation: enter 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition:
+    width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.body {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+}
+
+.rail {
+  position: absolute;
+  bottom: 0;
+  left: calc(100% + var(--space-4));
+  z-index: 2;
+}
+
+.footer {
+  display: grid;
+  min-width: 0;
+}
+
+/* Landscape: the controls stay one compact row under the wide card. */
+[data-study-layout="landscape"] .footer {
+  justify-self: center;
+  width: min(100%, var(--footer-w, 720px));
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+}
+
+@media (max-width: 600px) {
+  .frame {
+    gap: var(--space-2);
+  }
+
+  .rail {
+    top: var(--space-3);
+    right: var(--space-3);
+    bottom: auto;
+    left: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame {
+    animation: none;
+    transition: none;
+  }
+}

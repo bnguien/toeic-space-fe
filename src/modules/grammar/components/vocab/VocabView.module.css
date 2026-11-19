@@ -1,0 +1,284 @@
+/* Vocabulary part (Studychill grammar-lesson.css "Từ vựng" + grammar-dark.css). */
+.vv {
+  min-width: 0;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin: 0 0 6px;
+}
+.seg {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--gp-m50);
+}
+.seg button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--gp-muted);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.seg button.segOn {
+  background: var(--gp-surface);
+  color: var(--gp-moss);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--gp-ink) 12%, transparent);
+}
+:global([data-color-mode="dark"]) .seg button.segOn {
+  background: var(--gp-surface-2);
+}
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1.5px solid var(--gp-rail);
+  border-radius: 9px;
+  background: var(--gp-surface);
+  color: var(--gp-ink);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.toggleOn {
+  border-color: var(--gp-moss);
+  color: var(--gp-moss);
+  background: var(--gp-lime-soft);
+}
+.count {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--gp-muted);
+}
+.count b {
+  color: var(--gp-ink);
+}
+
+/* List: one 3-column row per word (word · content · icons), only a thin line between rows. */
+.wl {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.w {
+  display: grid;
+  grid-template-columns: minmax(170px, 230px) minmax(0, 1fr) auto;
+  gap: 4px 22px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--gp-line);
+}
+.wordText {
+  min-width: 0;
+}
+.word {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gp-m800);
+  font: inherit;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+}
+.word:hover {
+  color: var(--gp-moss);
+}
+.sub {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  margin-top: 1px;
+}
+.ipa {
+  color: var(--gp-muted);
+  font-size: 13.5px;
+  font-family: "Segoe UI", var(--gp-font);
+}
+.pos {
+  font-size: 12.5px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--gp-m600);
+}
+.on {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gp-gold-ink);
+}
+.signals {
+  min-width: 0;
+  font-size: 14.5px;
+}
+.meaning {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--gp-ink);
+  line-height: 1.45;
+}
+.an {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border: 1px dashed var(--gp-rail);
+  border-radius: 7px;
+  background: none;
+  color: var(--gp-muted);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.examples {
+  margin: 4px 0 0;
+  line-height: 1.55;
+}
+.translation {
+  display: block;
+  color: var(--gp-muted);
+  font-size: 13px;
+}
+.extra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 5px 0 0;
+  font-size: 12.5px;
+  color: var(--gp-muted);
+}
+.addMore {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gp-m600);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--gp-lime);
+  text-underline-offset: 2px;
+}
+.more {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--gp-muted);
+}
+.more p {
+  margin: 2px 0;
+}
+.more b {
+  color: var(--gp-m700);
+}
+.acts {
+  display: flex;
+  gap: 2px;
+}
+.ok.okOn {
+  background: var(--gp-fill);
+  color: var(--gp-on-fill);
+}
+.ok.okOn:hover {
+  background: var(--gp-fill-hover);
+  color: var(--gp-on-fill);
+}
+.isKnown .word {
+  color: var(--gp-m600);
+}
+.isKnown .signals {
+  opacity: 0.72;
+}
+
+/* Học từ vựng: waiting screen before the study layer */
+.study {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  margin: 14px 0 6px;
+  padding: 18px 0;
+  border-top: 1px solid var(--gp-line);
+  border-bottom: 1px solid var(--gp-line);
+}
+.study > :last-child:not(.studyText) {
+  grid-column: 1 / -1;
+}
+.studyIcon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: var(--gp-lime-soft);
+  color: var(--gp-m700);
+}
+.studyText > b {
+  display: block;
+  font-size: 17px;
+  color: var(--gp-m800);
+}
+.studyText p {
+  margin: 6px 0 14px;
+  color: var(--gp-muted);
+  font-size: 14.5px;
+}
+.studyRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+}
+.study kbd {
+  padding: 0 5px;
+  border: 1px solid var(--gp-rail);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--gp-surface);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gp-m700);
+}
+
+@media (max-width: 760px) {
+  .count {
+    margin-left: 0;
+  }
+  .w {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 10px;
+    padding: 14px 0;
+  }
+  .wordText {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .acts {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .signals {
+    grid-column: 1 / -1;
+  }
+  .study {
+    grid-template-columns: 1fr;
+  }
+  .studyIcon {
+    display: none;
+  }
+}

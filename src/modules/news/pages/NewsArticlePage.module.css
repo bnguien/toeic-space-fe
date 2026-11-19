@@ -1,0 +1,17 @@
+.loading {
+  display: grid;
+  place-content: center;
+  gap: 12px;
+  min-height: 100vh;
+  background: var(--ui-pearl);
+  color: var(--ui-muted);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  text-align: center;
+}
+
+.loading a {
+  color: var(--ui-navy);
+  font-weight: 800;
+  text-decoration: underline;
+}

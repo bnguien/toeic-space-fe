@@ -1,0 +1,8 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--ui-canvas);
+  color: var(--ui-text);
+  font-family: var(--font-sans);
+}

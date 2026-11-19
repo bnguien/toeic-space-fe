@@ -1,0 +1,12 @@
+/* "Đang xem dở" sits above the path panel, separated by a dashed rule. */
+
+.continueRow {
+  margin: -8px 0 10px;
+  border-bottom: 1.5px dashed var(--ui-line);
+}
+
+@media (max-width: 768px) {
+  .continueRow {
+    margin: 0 0 10px;
+  }
+}

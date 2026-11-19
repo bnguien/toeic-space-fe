@@ -1,0 +1,264 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.stats {
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stat {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stat > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.stat b {
+  color: var(--ink);
+  font-size: 26px;
+  font-weight: 850;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat b.paused {
+  color: var(--muted);
+}
+
+.stat b small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.stat > small {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.statRow {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.statRow b {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.tabs {
+  flex: none;
+  display: flex;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabs button {
+  flex: 1;
+  padding: 11px 4px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tabs .tabActive {
+  border-bottom-color: var(--accent);
+  color: var(--ink);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  padding: 12px 14px 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.find {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+}
+
+.find:focus-within {
+  border-color: var(--ink);
+}
+
+.find input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.hint {
+  margin: 8px 2px 10px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.hint b {
+  color: var(--ink);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.main {
+  flex: 1;
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  padding: 9px 4px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.main:hover .word {
+  color: var(--accent);
+}
+
+.word {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 800;
+  transition: color 0.15s ease;
+}
+
+.word i {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.word em {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.ipa {
+  color: var(--muted);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 12px;
+}
+
+.meaning {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
+}
+
+.actions button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.actions button:hover:not(:disabled) {
+  color: var(--accent);
+}
+
+.actions button:disabled {
+  color: var(--ink);
+  cursor: default;
+}
+
+.known .word,
+.known .meaning {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--soft);
+}
+
+.notes {
+  width: 100%;
+  min-height: 260px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.notes:focus {
+  border-color: var(--ink);
+  outline: none;
+}

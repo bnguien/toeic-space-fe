@@ -1,0 +1,41 @@
+/* ---------- Previous / next topic ---------- */
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 36px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--gp-line);
+}
+.pager button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 48%;
+  padding: 6px 4px;
+  border: 0;
+  background: none;
+  color: var(--gp-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.pager button.next {
+  margin-left: auto;
+  text-align: right;
+}
+.pager small {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gp-muted);
+}
+.pager button:hover {
+  color: var(--gp-moss);
+}
+
+:global([data-focus="true"]) .pager {
+  display: none;
+}

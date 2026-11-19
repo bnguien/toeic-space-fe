@@ -1,0 +1,71 @@
+.ring {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+}
+
+.ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.track,
+.value {
+  fill: none;
+  stroke-width: 5;
+}
+
+.track {
+  stroke: var(--card-soft, var(--ui-line));
+}
+
+.value {
+  stroke: var(--card-ink, var(--ui-blue));
+  stroke-linecap: round;
+  stroke-dasharray: var(--ring-length);
+  stroke-dashoffset: var(--ring-offset);
+  transition:
+    stroke-dashoffset 0.1s linear,
+    stroke 0.3s ease;
+}
+
+.ring[data-ending] .value {
+  stroke: var(--card-accent, var(--ui-rose-mid));
+}
+
+.ring[data-paused] .value {
+  stroke: var(--card-line, var(--ui-subtle));
+}
+
+.seconds {
+  color: var(--card-ink, var(--ui-text));
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ring[data-ending]:not([data-paused]) .seconds {
+  color: var(--card-accent, var(--ui-rose));
+  animation: beat 1s ease-in-out infinite;
+}
+
+@keyframes beat {
+  50% {
+    transform: scale(1.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .value {
+    transition: none;
+  }
+
+  .ring[data-ending]:not([data-paused]) .seconds {
+    animation: none;
+  }
+}

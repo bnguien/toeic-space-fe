@@ -1,0 +1,41 @@
+.page {
+  display: grid;
+  gap: 1.1rem;
+  color: #3a4a63;
+}
+.content {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 1.1rem;
+  align-items: start;
+}
+.error {
+  min-height: 420px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  border: 1px solid #e0e9ee;
+  border-radius: 16px;
+  background: #fff;
+  color: #718292;
+}
+.error h1 {
+  font-size: 1.2rem;
+}
+.error p {
+  margin: 0.3rem 0 1rem;
+  font-size: 0.78rem;
+}
+.error button {
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  background: #8fbfe0;
+  color: #385166;
+  font-weight: 800;
+}
+@media (max-width: 850px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}

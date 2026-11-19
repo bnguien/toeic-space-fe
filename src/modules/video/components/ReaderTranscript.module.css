@@ -1,0 +1,875 @@
+/* Transcript family: list, sentence rows, flow paragraphs, words (karaoke, IPA, gloss, tiers), cloze blanks and
+   the "Câu đang nói" box. One module because word states depend on the row / segment / box around them. */
+
+/* ── List ─────────────────────────────────────────────────────────────────── */
+.listWrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.list {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  /* Keep scrolling from chaining to the page (pull-to-refresh on mobile). */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px 28px 55vh; /* bottom padding so the last sentence can still reach the anchor */
+  font-size: calc(var(--vr-base) * var(--vr-scale, 1));
+  scrollbar-width: thin;
+  scrollbar-color: var(--vr-line2) transparent;
+}
+
+.list:focus-visible {
+  outline: 2px solid var(--vr-focus);
+  outline-offset: 2px;
+}
+
+.list:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.listNote {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.listEmpty {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: var(--vr-measure);
+  margin: 0 auto;
+  padding: 18px 10px;
+  color: var(--vr-muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.skeleton {
+  display: block;
+  height: 14px;
+  width: 92%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--vr-hover) 0%, var(--vr-line) 50%, var(--vr-hover) 100%);
+  background-size: 200% 100%;
+  animation: skeleton 1.2s linear infinite;
+}
+
+.skeletonShort {
+  width: 60%;
+}
+
+@keyframes skeleton {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ── "Từng câu": one sentence per row ───────────────────────────────────── */
+.rows {
+  max-width: calc(var(--vr-measure) + 4em);
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  gap: 14px;
+  margin: 2px 0;
+  padding: 12px 16px 13px 12px;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+  /* Transcripts have thousands of sentences: skip rendering off-screen rows; 'auto' remembers the real height. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 64px;
+}
+
+.row:hover {
+  background: var(--vr-hover);
+}
+
+.row.active {
+  background: var(--vr-active-bg);
+  box-shadow: inset 3px 0 0 var(--vr-moss);
+}
+
+[data-reader-theme="night"] .row.active {
+  box-shadow: inset 3px 0 0 var(--vr-accent-line);
+}
+
+.time {
+  flex: none;
+  width: 40px;
+  padding-top: 0.3em;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vr-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.row.active .time {
+  color: var(--vr-gloss);
+  font-weight: 800;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+}
+
+.orig {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 2px 0.28em;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* Every word is a column: phonetic above · word · short meaning below. */
+.wordWrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.25;
+  vertical-align: bottom;
+}
+
+.ipa {
+  margin-bottom: 1px;
+  font-size: 0.62em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--vr-ipa);
+}
+
+.partOfSpeech {
+  margin-left: 0.35em;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.gloss {
+  position: relative;
+  align-self: stretch;
+  margin-top: 2px;
+  height: 1.25em;
+  font-size: 0.66em;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--vr-gloss);
+  white-space: nowrap;
+}
+
+.gloss > span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 12em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sounds / music ([Music], (Tiếng cười), ♪): not words to learn. */
+.soundEffect {
+  align-self: center;
+  color: var(--vr-muted);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.w {
+  position: relative;
+  padding: 0 2px;
+  margin: 0 -2px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--vr-ink2);
+  text-decoration-skip-ink: auto;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.row.past .w,
+.para.past .w,
+.segment.past .w {
+  color: var(--vr-ink3);
+}
+
+/* Sentence being spoken: not yet = todo (light), said = ink, speaking word = bright accent. ONLY the text colour
+   changes — no background, no sweep bar, no weight change (weight changes reflow the line). */
+.row.active .w,
+.segment.active .w,
+.nowBox .w {
+  color: var(--vr-todo);
+  transition: color 0.18s ease-out;
+}
+
+.row.active .w.said,
+.segment.active .w.said,
+.nowBox .w.said {
+  color: var(--vr-said);
+}
+
+.row.active .w.speaking,
+.segment.active .w.speaking,
+.nowBox .w.speaking {
+  color: var(--vr-now-ink);
+  transition-duration: 0.08s;
+}
+
+/* Karaoke fills the speaking word GRADUALLY: the accent sweeps left → right over the word's spoken duration (--kd).
+   Pure CSS animation — React does not re-render. Video paused → the sweep pauses. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .row.active .w.speaking,
+  .segment.active .w.speaking,
+  .nowBox .w.speaking {
+    background-image: linear-gradient(90deg, var(--vr-now-ink) 0 50%, var(--vr-todo) 50% 100%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: karaoke var(--kd, 0.35s) linear forwards;
+  }
+
+  [data-reader-theme]:not([data-playing]) .w.speaking {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes karaoke {
+  to {
+    background-position: 0 0;
+  }
+}
+
+/* Clicked word: bold (weight changes ONCE on click; karaoke only changes colour, so no reflow while playing). */
+.w.looked {
+  font-weight: 700;
+}
+
+.row:not(.active) .w.looked,
+.segment:not(.active) .w.looked {
+  color: var(--vr-ink);
+}
+
+.w.phrase {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--vr-ink3);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.24em;
+}
+
+/* Meaning ABOVE a clicked word / centred over a phrase. Rows: the word cell grows one small line (rows align to the
+   bottom so other words do not move); flow: inline text → larger paragraph line-height. */
+.wordWrap[data-meaning] {
+  position: relative;
+}
+
+.wordWrap[data-meaning]::before {
+  content: attr(data-meaning);
+  position: absolute;
+  top: 0;
+  left: var(--tam, 50%);
+  transform: translateX(-50%);
+  color: var(--vr-gloss);
+  -webkit-text-fill-color: var(--vr-gloss);
+  font-size: 0.66em;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.orig .wordWrap[data-meaning] {
+  padding-top: 1.15em;
+}
+
+.segment .wordWrap[data-meaning]::before {
+  top: auto;
+  bottom: 100%;
+  transform: translate(-50%, 0.2em);
+}
+
+.paraEn:has(.wordWrap[data-meaning]) {
+  line-height: 2.35;
+}
+
+/* Word tiers: thin underline with a different stroke per tier (colour is not the only channel); no background. */
+.levelToeic,
+.levelB2,
+.levelC1 {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+}
+
+.levelToeic {
+  text-decoration-color: var(--vr-lv-toeic);
+  text-decoration-style: dotted;
+  text-decoration-thickness: 2px;
+}
+
+.levelB2 {
+  text-decoration-color: var(--vr-lv-b2);
+}
+
+.levelC1 {
+  text-decoration-color: var(--vr-lv-c1);
+  text-decoration-style: double;
+}
+
+/* Saved word: small gold dot at the top corner (underlines belong to tiers). */
+.kept::after {
+  content: "";
+  position: absolute;
+  top: 0.05em;
+  right: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--vr-kept);
+}
+
+/* Hover only for a real mouse — touch screens keep :hover after a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .list .w:hover {
+    background: var(--vr-word-hover);
+    color: var(--vr-ink);
+  }
+}
+
+.list .w:active {
+  background: var(--vr-word-hover);
+  color: var(--vr-ink);
+}
+
+.trans {
+  margin-top: 6px;
+  font-size: 0.92em;
+  font-weight: 400;
+  color: var(--vr-trans);
+  line-height: 1.6;
+}
+
+.row.past .trans {
+  color: var(--vr-ink3);
+}
+
+.row.active .trans {
+  color: var(--vr-ink);
+}
+
+/* ── Cloze blanks ────────────────────────────────────────────────────────── */
+.blankWrap {
+  white-space: nowrap;
+}
+
+.blank {
+  box-sizing: content-box;
+  min-width: 2ch;
+  margin: 0 1px;
+  padding: 0 3px 1px;
+  border: 0;
+  border-bottom: 2px solid var(--vr-blank-line);
+  border-radius: 4px 4px 0 0;
+  background: var(--vr-blank-bg);
+  color: var(--vr-ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.95em;
+  font-weight: 600;
+  line-height: 1.3;
+  vertical-align: baseline;
+  caret-color: var(--vr-moss);
+}
+
+.blank::placeholder {
+  color: var(--vr-muted);
+  opacity: 0.8;
+  letter-spacing: 0;
+}
+
+.blank:focus {
+  outline: none;
+  background: var(--vr-blank-focus);
+}
+
+.blank.wrong {
+  border-bottom: 2px wavy var(--vr-bad-line);
+  background: var(--vr-bad-bg);
+  color: var(--vr-bad);
+  animation: shake 0.28s ease;
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+.row .w.blankDone.ok,
+.row.active .w.blankDone.ok {
+  color: var(--vr-ok);
+  background: var(--vr-ok-bg);
+}
+
+.row .w.blankDone.shown,
+.row.active .w.blankDone.shown {
+  color: var(--vr-lo);
+  text-decoration: underline dotted;
+  text-underline-offset: 4px;
+}
+
+.clozeActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.clozeActions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.clozeCheck {
+  border: 0;
+  background: var(--vr-moss);
+  color: var(--vr-on-moss);
+}
+
+.clozeCheck kbd {
+  display: inline-block;
+  min-width: 0;
+  padding: 0 5px;
+  border: 0;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 0.18);
+  color: inherit;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.clozeShow {
+  border: 1px solid var(--vr-line2);
+  background: transparent;
+  color: var(--vr-ink2);
+}
+
+.clozeShow:hover {
+  color: var(--vr-ink);
+  border-color: var(--vr-ink3);
+}
+
+/* Rose is for "done" only. */
+.row.clozeDone .time::after,
+.row.vlClean .time::after,
+.row.vlPassed .time::after {
+  content: " ✓";
+  color: var(--vr-done);
+  font-weight: 800;
+}
+
+/* ── Replay button at the end of a cloze sentence (a "word column" inside .orig) ── */
+.tail {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.3em;
+  white-space: nowrap;
+}
+
+.replay {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin: -2px 0;
+  padding: 0;
+  border: 1px solid var(--vr-line2);
+  border-radius: 50%;
+  background: var(--vr-card);
+  color: var(--vr-moss-ink);
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    border-color 0.14s ease;
+}
+
+.replay:hover {
+  background: var(--vr-tint);
+  border-color: var(--vr-moss);
+}
+
+.row.active .replay {
+  border-color: var(--vr-moss);
+}
+
+/* Fingers: 40 px hit area, the visible ring stays 28 px (border drawn around the icon), line height unchanged. */
+@media (pointer: coarse) {
+  .replay {
+    width: 40px;
+    height: 40px;
+    margin: -9px -6px;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .replay svg {
+    box-sizing: content-box;
+    padding: 6px;
+    border: 1px solid var(--vr-line2);
+    border-radius: 50%;
+    background: var(--vr-card);
+  }
+
+  .replay:hover,
+  .row.active .replay {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .row.active .replay svg {
+    border-color: var(--vr-moss);
+  }
+
+  .clozeCheck kbd {
+    display: none;
+  }
+
+  .blank {
+    font-size: 16px; /* iOS zooms the page into inputs under 16px */
+  }
+}
+
+/* ── "Liền mạch": paragraphs, translation right below ───────────────────── */
+.flow {
+  max-width: calc(var(--vr-measure) + 18px);
+  margin: 0 auto;
+  padding: 4px 0 0;
+}
+
+.para {
+  position: relative;
+  margin: 0 0 1.6em 0;
+  padding: 0 0 1.6em 18px;
+  border-bottom: 1px solid var(--vr-line);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 220px;
+}
+
+.para:last-child {
+  border-bottom: 0;
+}
+
+/* Accent bar in the left margin of the paragraph being read: peripheral vision finds it at once. */
+.para::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.3em;
+  bottom: calc(1.6em + 0.3em);
+  width: 3px;
+  border-radius: 3px;
+  background: transparent;
+  transition: background-color 0.25s ease;
+}
+
+.para.active::before {
+  background: var(--vr-moss);
+}
+
+[data-reader-theme="night"] .para.active::before {
+  background: var(--vr-accent-line);
+}
+
+.paraEn {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.75;
+  color: var(--vr-ink2);
+}
+
+.segment {
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-color 0.25s ease;
+}
+
+.segment .wordWrap {
+  display: inline;
+}
+
+/* Sentence being spoken inside a paragraph: no background — only the text colour changes, like rows. */
+.segment.active {
+  padding: 0.12em 0;
+}
+
+.paraVi {
+  margin: 0.7em 0 0;
+  font-size: 0.92em;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--vr-trans);
+}
+
+.para.past .paraVi {
+  color: var(--vr-ink3);
+}
+
+/* Vietnamese sentence being spoken: darker than the rest (no background) — the eye still pairs English–Vietnamese. */
+.paraVi .on {
+  color: var(--vr-ink);
+  transition: color 0.2s ease;
+}
+
+/* "Về câu đang phát" — shown when the learner scrolled away. */
+.follow {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 2;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--vr-moss);
+  color: var(--vr-on-moss);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgb(37 44 63 / 0.28);
+  animation: rise 0.18s ease;
+}
+
+.follow:hover {
+  background: var(--vr-moss-hi);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ── "Câu đang nói" box (desktop, under the video) ──────────────────────── */
+.nowBox {
+  flex: none;
+  margin: 2px 0 12px;
+  padding: 12px 16px 14px;
+  border: 1px solid var(--vr-line);
+  border-left: 3px solid var(--vr-moss);
+  background: var(--vr-card);
+  min-height: 112px;
+  font-size: calc(var(--vr-base) * 1.06);
+}
+
+[data-reader-theme="night"] .nowBox {
+  border-left-color: var(--vr-accent-line);
+}
+
+.nowEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vr-muted);
+  font-size: 14px;
+}
+
+.nowHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.nowTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border: 1px solid var(--vr-line2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--vr-gloss);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.nowTime:hover {
+  border-color: var(--vr-moss);
+}
+
+.nowNo {
+  margin-left: auto;
+  color: var(--vr-muted);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* New sentence: the text slides up and fades in (keyed by the cue index so it runs once per sentence). */
+.nowBody {
+  animation: nowIn 0.24s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes nowIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.nowEn {
+  font-weight: 600;
+}
+
+.nowVi {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--vr-line);
+  color: var(--vr-trans);
+  font-size: 0.86em;
+  line-height: 1.55;
+}
+
+/* Gap in the current-sentence box (cloze / rewrite): only a bar, never an input. */
+.mask {
+  display: inline-block;
+  height: 0.9em;
+  margin: 0 1px;
+  vertical-align: -0.05em;
+  border-bottom: 2px solid var(--vr-blank-line);
+  background: var(--vr-blank-bg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ══ Phone / tablet portrait (≤ 1000px) ═══════════════════════════════════ */
+@media (max-width: 1000px) {
+  .list {
+    padding: 10px 6px 50vh;
+  }
+
+  .flow {
+    padding: 4px 12px 0 4px;
+  }
+
+  .para {
+    padding-left: 14px;
+  }
+
+  /* No mouse to point and no room: drop the time column, tapping a row still seeks. */
+  .time {
+    display: none;
+  }
+
+  .row.clozeDone .text::before {
+    content: "✓ ";
+    color: var(--vr-done);
+    font-weight: 800;
+    font-size: 0.85em;
+  }
+
+  .row {
+    margin: 2px 4px;
+    padding: 10px 12px 11px 14px;
+    border-radius: 0;
+  }
+
+  /* Words sit close together; hard to hit on touch screens. */
+  .row .w {
+    padding: 2px;
+    margin: 0 -2px;
+  }
+
+  .orig {
+    gap: 0 0.26em;
+    line-height: 1.6;
+  }
+
+  .follow {
+    bottom: 12px;
+  }
+}
+
+/* The global stylesheet may enlarge inputs on small screens; the blank sits inside a line of text. */
+@media (max-width: 768px) {
+  input.blank {
+    min-height: 0;
+    height: auto;
+    padding: 0 3px 1px;
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blank.wrong {
+    animation: none;
+  }
+
+  .row.active .w.speaking,
+  .segment.active .w.speaking,
+  .nowBox .w.speaking {
+    animation: none;
+    background-image: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  .w,
+  .row,
+  .segment,
+  .para::before,
+  .row.active .w,
+  .segment.active .w,
+  .nowBox .w {
+    transition: none;
+  }
+
+  .nowBody,
+  .follow,
+  .skeleton {
+    animation: none;
+  }
+}

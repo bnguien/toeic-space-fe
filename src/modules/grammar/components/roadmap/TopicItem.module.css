@@ -1,0 +1,407 @@
+/* ---- Topic: timeline joining the number circles ---- */
+.topic {
+  position: relative;
+}
+
+.topic:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: -24px;
+  left: 24px;
+  width: 2px;
+  background: var(--gp-rail);
+}
+
+.head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--gp-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.head:hover {
+  color: var(--gp-moss);
+}
+.isOpen > .head {
+  color: var(--gp-moss);
+}
+.isOpen > .head .title {
+  font-weight: 700;
+}
+.head:focus-visible {
+  outline: 2px solid var(--gp-primary);
+  outline-offset: 2px;
+}
+
+.number {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--gp-rail);
+  border-radius: 50%;
+  background: var(--gp-surface);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gp-ink);
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.35s var(--gp-ease);
+}
+
+.isOpen .number {
+  border-color: var(--gp-fill);
+  background: var(--gp-fill);
+  color: var(--gp-on-fill);
+  transform: scale(1.06);
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+
+.meta {
+  flex-shrink: 0;
+  font-size: 12.5px;
+  color: var(--gp-muted);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--gp-hover);
+  color: var(--gp-muted);
+  font-size: 10.5px;
+  font-weight: 700;
+  vertical-align: 1px;
+}
+
+.badgeFeatured {
+  background: var(--gp-fill);
+  color: var(--gp-on-fill);
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--gp-muted);
+  transition: transform 0.35s var(--gp-ease);
+}
+
+.isOpen > .head .chevron,
+.chevron.isUp {
+  transform: rotate(180deg);
+}
+
+/* ---- Kiến thức / Từ vựng / Bài tập ---- */
+.parts,
+.theoryList,
+.theorySubList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.parts {
+  padding: 6px 0 10px 50px;
+}
+
+.partButton,
+.theoryButton,
+.subButton {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  border: 0;
+  background: none;
+  color: var(--gp-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.partButton {
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.partButton .partIcon {
+  color: var(--gp-primary);
+}
+.partButton:hover,
+.theoryButton:hover,
+.subButton:hover {
+  color: var(--gp-moss);
+}
+
+.partButton.isOn,
+.theoryButton.isOn,
+.subButton.isOn {
+  color: var(--gp-moss);
+  font-weight: 800;
+}
+
+.partButton.isOn .partIcon {
+  color: var(--gp-moss);
+}
+.subButton.isOn .subNumber {
+  color: var(--gp-moss);
+}
+
+.count {
+  margin-left: auto;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--gp-hover);
+  color: var(--gp-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.theoryList {
+  padding: 2px 0 6px 22px;
+}
+
+.theoryButton {
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.theoryNumber {
+  flex-shrink: 0;
+  min-width: 18px;
+  color: var(--gp-primary);
+  font-weight: 800;
+}
+
+.theorySubList {
+  margin: 0 0 4px 28px;
+}
+
+.subButton {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--gp-muted);
+}
+
+.subNumber {
+  flex-shrink: 0;
+  color: var(--gp-subtle);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+/* Knowledge confirmed ("Đã hiểu bài"): every unit + sub-unit in the "done" colour; the selected / scroll-spy item
+   keeps a soft tint + bold text. */
+.theoryDone .theoryButton,
+.theoryDone .theoryButton:hover,
+.theoryDone .theoryNumber,
+.theoryDone .subButton,
+.theoryDone .subButton:hover,
+.theoryDone .subNumber,
+.theoryDone .subButton.isOn .subNumber {
+  color: var(--gp-son);
+}
+.theoryDone .subButton {
+  opacity: 0.85;
+}
+.theoryDone .theoryButton:hover,
+.theoryDone .subButton:hover {
+  background: var(--gp-son-soft);
+}
+.theoryDone .theoryButton.isOn,
+.theoryDone .subButton.isOn {
+  background: var(--gp-son-soft);
+  box-shadow: inset 3px 0 0 var(--gp-son);
+  opacity: 1;
+}
+
+/* ---- Personal status (grammar-extra.css) ---- */
+.isLearning .number {
+  border: 2.5px solid var(--gp-moss);
+  font-weight: 700;
+}
+.isDone .number,
+.isDone.isOpen .number {
+  border-color: var(--gp-son-fill);
+  background: var(--gp-son-fill);
+  color: var(--gp-on-fill);
+}
+.isDone > .head,
+.isDone > .head:hover {
+  color: var(--gp-son);
+}
+
+.partButton.isDone,
+.partButton.isDone .partIcon,
+.partButton.isDone.isOn,
+.partButton.isDone.isOn .partIcon {
+  color: var(--gp-son);
+}
+
+.scoreChip {
+  margin-left: auto;
+  padding: 0 7px;
+  border: 1px solid var(--gp-rail);
+  border-radius: 999px;
+  background: var(--gp-surface-2);
+  color: var(--gp-muted);
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.scoreChip.isPassed {
+  border-color: var(--gp-son-fill);
+  background: var(--gp-son-fill);
+  color: var(--gp-on-fill);
+}
+
+/* ---- Video lessons under the Video item (grammar-video.css) ---- */
+.theoryVideo {
+  margin-top: 2px;
+}
+.theoryTime {
+  margin-left: 6px;
+  color: var(--gp-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.theoryVideo .theoryButton.isWatched {
+  color: var(--gp-moss);
+}
+.theoryVideo .theoryButton.isWatched .theoryNumber {
+  display: inline-grid;
+  place-items: center;
+  color: var(--gp-moss);
+}
+.theoryVideo .theoryButton.isWatched .theoryTime {
+  color: var(--gp-moss);
+  opacity: 0.75;
+}
+
+/* ---- Hover of the roadmap column: soft tint fades in, circle outlined + slightly larger, title nudges right,
+   chevron darkens; sub-items get a bar on the left. Only background / transform animate. ---- */
+.head:hover {
+  background: color-mix(in srgb, var(--gp-moss) 7%, transparent);
+}
+.head:hover .number {
+  border-color: var(--gp-moss);
+  color: var(--gp-moss);
+  transform: scale(1.08);
+}
+.isOpen > .head:hover .number {
+  color: var(--gp-on-fill);
+}
+.title,
+.meta {
+  transition:
+    transform 0.28s var(--gp-ease),
+    color 0.2s ease;
+}
+.head:hover .title {
+  transform: translateX(3px);
+}
+.head:hover .meta,
+.head:hover .chevron {
+  color: var(--gp-moss);
+}
+.head:active {
+  transform: scale(0.99);
+}
+
+.subButton {
+  position: relative;
+  border-radius: 8px;
+}
+.subButton::before {
+  content: "";
+  position: absolute;
+  top: 22%;
+  bottom: 22%;
+  left: 0;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--gp-moss);
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition:
+    opacity 0.2s ease,
+    transform 0.28s var(--gp-ease);
+}
+.subButton:hover {
+  background: color-mix(in srgb, var(--gp-moss) 6%, transparent);
+}
+.subButton:hover::before,
+.subButton.isOn::before {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Dark mode ---- */
+:global([data-color-mode="dark"]) .badge,
+:global([data-color-mode="dark"]) .count,
+:global([data-color-mode="dark"]) .scoreChip:not(.isPassed) {
+  background: var(--gp-surface-2);
+  border-color: var(--gp-rail);
+}
+:global([data-color-mode="dark"]) .head:hover,
+:global([data-color-mode="dark"]) .subButton:hover {
+  background: rgb(255 255 255 / 0.05);
+}
+
+@media (max-width: 760px) {
+  .parts {
+    padding-left: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .head,
+  .number,
+  .chevron,
+  .partButton,
+  .theoryButton,
+  .subButton,
+  .title,
+  .meta,
+  .subButton::before {
+    transition: none;
+  }
+  .head:hover .title {
+    transform: none;
+  }
+}

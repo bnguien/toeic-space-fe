@@ -1,0 +1,175 @@
+/* Topic row: hidden scrollbar, fading edges while there is more, round arrows on hover. */
+.row {
+  padding: 20px 0 6px;
+  border-top: 1px dashed var(--ui-cream-line);
+}
+
+.head {
+  padding: 0 32px 12px;
+}
+
+.head h3 {
+  margin: 0;
+  color: var(--ui-navy);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.head p {
+  margin: 3px 0 0;
+  color: var(--ui-muted);
+  font-size: 12.5px;
+}
+
+.count {
+  margin-left: 6px;
+  color: var(--ui-subtle);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.rail {
+  position: relative;
+}
+
+.scroller {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 32px;
+  padding: 4px 32px 16px;
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.rail::before,
+.rail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 48px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.rail::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--ui-cream), rgb(253 251 246 / 0));
+}
+
+.rail::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--ui-cream), rgb(253 251 246 / 0));
+}
+
+.hasLeft::before,
+.hasRight::after {
+  opacity: 1;
+}
+
+.arrow {
+  position: absolute;
+  top: calc(50% - 40px);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--ui-cream-line);
+  border-radius: 50%;
+  background: var(--ui-surface);
+  color: var(--ui-navy);
+  box-shadow: 0 6px 16px rgb(37 44 63 / 0.16);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease;
+}
+
+.arrowLeft {
+  left: 12px;
+}
+
+.arrowRight {
+  right: 12px;
+}
+
+.hasLeft:hover .arrowLeft,
+.hasRight:hover .arrowRight,
+.hasLeft .arrowLeft:focus-visible,
+.hasRight .arrowRight:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.arrow:hover {
+  transform: scale(1.06);
+  border-color: var(--ui-blue);
+}
+
+/* Retry card when a row failed */
+.retry {
+  flex: none;
+  width: 264px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  aspect-ratio: 16 / 10;
+  border: 1.5px dashed var(--ui-divider);
+  border-radius: 14px;
+  scroll-snap-align: start;
+}
+
+.retry p {
+  margin: 0;
+  color: var(--ui-muted);
+  font-size: 13px;
+}
+
+.retry button {
+  padding: 7px 14px;
+  border: 1.5px solid var(--ui-blue-strong);
+  border-radius: 999px;
+  background: var(--ui-surface);
+  color: var(--ui-blue-strong);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (hover: none) {
+  .arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .head {
+    padding: 0 16px 10px;
+  }
+
+  .scroller {
+    gap: 12px;
+    padding: 4px 16px 14px;
+    scroll-padding: 0 16px;
+  }
+
+  .retry {
+    width: 72vw;
+  }
+}

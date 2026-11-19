@@ -1,0 +1,197 @@
+/* Modebar at the top of the reading column: modes · score · Hiện/Ẩn nghĩa · tier chips. */
+.modebar {
+  flex: none;
+  padding: 12px 28px;
+  border-bottom: 1px solid var(--vr-line);
+  background: var(--vr-bg);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  max-width: calc(var(--vr-measure) * 1.125);
+  margin: 0 auto;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--vr-line);
+  border-radius: 999px;
+  background: var(--vr-side);
+}
+
+.segmented button {
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--vr-ink3);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease;
+}
+
+.segmented button:hover:not([aria-checked="true"]) {
+  color: var(--vr-ink);
+}
+
+.segmented button[aria-checked="true"] {
+  background: var(--vr-moss);
+  color: var(--vr-on-moss);
+}
+
+.legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.legendLabel {
+  margin-right: 2px;
+  color: var(--vr-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.chip {
+  padding: 4px 10px 6px;
+  border: 1px solid var(--vr-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--vr-muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  transition:
+    background 0.14s ease,
+    color 0.14s ease,
+    border-color 0.14s ease;
+}
+
+.chip[aria-pressed="true"] {
+  color: var(--vr-ink);
+  border-color: var(--vr-line2);
+  background: var(--vr-card);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.chip.levelToeic[aria-pressed="true"] {
+  text-decoration-color: var(--vr-lv-toeic);
+  text-decoration-style: dotted;
+}
+
+.chip.levelB2[aria-pressed="true"] {
+  text-decoration-color: var(--vr-lv-b2);
+}
+
+.chip.levelC1[aria-pressed="true"] {
+  text-decoration-color: var(--vr-lv-c1);
+  text-decoration-style: double;
+}
+
+/* ── Cloze / rewrite score ─────────────────────────────────────────────── */
+.score {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-left: auto;
+  color: var(--vr-ink3);
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.score b {
+  color: var(--vr-gloss);
+  font-size: 15px;
+}
+
+.scoreHint {
+  color: var(--vr-muted);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* ── Hiện/Ẩn nghĩa (cloze / rewrite) ───────────────────────────────────── */
+.meaning {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 6px 12px;
+  border: 1px solid var(--vr-line2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--vr-ink3);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.meaning[aria-pressed="true"] {
+  border-color: var(--vr-moss);
+  background: var(--vr-tint);
+  color: var(--vr-moss-ink);
+}
+
+@media (pointer: coarse) {
+  .scoreHint {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .modebar {
+    padding: 8px 10px;
+  }
+
+  .inner {
+    flex-wrap: nowrap;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .segmented {
+    flex: none;
+  }
+
+  .segmented button {
+    padding: 7px 11px;
+  }
+
+  .chip {
+    padding: 4px 8px 6px;
+  }
+
+  .legend {
+    flex: none;
+    margin-left: 0;
+  }
+
+  .legendLabel {
+    display: none;
+  }
+
+  .score {
+    flex: none;
+    margin-left: 0;
+  }
+}

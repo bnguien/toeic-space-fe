@@ -1,0 +1,494 @@
+/* Card look of the TOEIC vocabulary lesson tiles: ink outline, hard offset shadow; the suggested
+   item is filled with the mode tone, finished items are dashed without shadow. */
+.card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: var(--space-4);
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 16px;
+  background: var(--ui-surface);
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+  color: var(--ui-text);
+  text-align: left;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.card:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+
+.card:focus-visible {
+  outline: none;
+  box-shadow:
+    4px 4px 0 var(--ui-cream-shadow),
+    var(--ui-focus);
+}
+
+.card[data-state="next"] {
+  background: var(--tone-fill);
+  color: var(--tone-on-fill);
+}
+
+.card[data-state="done"] {
+  border-style: dashed;
+  background: var(--ui-cream);
+  box-shadow: none;
+}
+
+.card[data-state="done"]:hover {
+  transform: none;
+}
+
+.card[aria-busy="true"] {
+  cursor: progress;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.tag {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.card:not([data-state="next"]) .tag[data-tone="outline"] {
+  color: var(--ui-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.card:not([data-state="next"]) .chips > * {
+  color: var(--ui-muted);
+}
+
+.range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--ui-line);
+  color: var(--ui-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.card[data-state="next"] .range {
+  border-bottom-color: currentColor;
+  color: inherit;
+  opacity: 0.85;
+}
+
+.best {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  color: var(--ui-text);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.card[data-state="next"] .best {
+  color: inherit;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+.bar {
+  flex: 1;
+}
+
+.percent,
+.extra {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.extra {
+  opacity: 0.7;
+}
+
+.play {
+  flex-shrink: 0;
+}
+
+/* ---- Listening card: record + waveform ---- */
+.disc {
+  gap: var(--space-4);
+  border-radius: 20px;
+}
+
+.discHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.vinyl {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 4.4em;
+  height: 4.4em;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--tone-fill) 0 34%, transparent 35%),
+    repeating-radial-gradient(circle, #1b2333 0 2px, #2b3548 2px 4px);
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.06);
+}
+
+.card[data-state="next"] .vinyl {
+  background:
+    radial-gradient(circle, var(--ui-on-fill) 0 34%, transparent 35%),
+    repeating-radial-gradient(circle, #1b2333 0 2px, #2b3548 2px 4px);
+}
+
+.vinyl span {
+  color: var(--ui-on-fill);
+  font-family: var(--font-display);
+  font-size: 0.82em;
+  font-weight: 800;
+}
+
+.card[data-state="next"] .vinyl span {
+  color: var(--tone-fill);
+}
+
+.discText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.discText b {
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 800;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discText small,
+.meta {
+  color: var(--ui-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.card[data-state="next"] .discText small,
+.card[data-state="next"] .meta,
+.card[data-state="next"] .target small {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--tone-strong);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.kicker em {
+  padding: 1px 7px;
+  border-radius: var(--radius-sm);
+  background: var(--tone-soft);
+  color: var(--tone-strong);
+  font-style: normal;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.card[data-state="next"] .kicker {
+  color: inherit;
+}
+
+.card[data-state="next"] .kicker em {
+  background: color-mix(in srgb, var(--ui-on-fill) 22%, transparent);
+  color: inherit;
+}
+
+.wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 2.4em;
+}
+
+.wave i {
+  flex: 1;
+  min-height: 12%;
+  border-radius: 9px;
+  background: var(--tone-soft);
+}
+
+.wave i[data-lit] {
+  background: var(--tone-bar);
+}
+
+.card[data-state="next"] .wave i {
+  background: color-mix(in srgb, var(--ui-on-fill) 22%, transparent);
+}
+
+.card[data-state="next"] .wave i[data-lit] {
+  background: var(--ui-on-fill);
+}
+
+/* ---- Reading card: a page with a coloured spine ---- */
+.page {
+  grid-template-columns: 0.55em minmax(0, 1fr);
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 6px 16px 16px 6px;
+}
+
+.spine {
+  background: var(--tone-fill);
+}
+
+.card[data-state="next"] .spine {
+  background: rgb(0 0 0 / 0.2);
+}
+
+.pageIn {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-width: 0;
+  padding: var(--space-4);
+}
+
+.target {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--tone-strong);
+  font-family: var(--font-display);
+  font-size: 2.1em;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.card[data-state="next"] .target {
+  color: inherit;
+}
+
+.target small {
+  color: var(--ui-subtle);
+  font-family: var(--font-sans);
+  font-size: 0.36em;
+  font-weight: 700;
+}
+
+.level {
+  overflow: hidden;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lines {
+  display: grid;
+  gap: 5px;
+  margin: 2px 0;
+}
+
+.lines i {
+  height: 5px;
+  border-radius: 9px;
+  background: var(--tone-soft);
+}
+
+.card[data-state="next"] .lines i {
+  background: color-mix(in srgb, var(--ui-on-fill) 20%, transparent);
+}
+
+.lines i:nth-child(2) {
+  width: 86%;
+}
+
+.lines i:nth-child(3) {
+  width: 62%;
+}
+
+/* ---- Compact "Từ đề thi" card ---- */
+.mini {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--ui-line);
+  border-radius: 14px;
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  text-align: left;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.mini:hover:not(:disabled) {
+  border-color: var(--tone-line);
+  background: var(--tone-soft);
+}
+
+.mini:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+.mini:disabled {
+  cursor: progress;
+}
+
+.miniNo {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3.1em;
+  height: 3.1em;
+  border-radius: 12px;
+  background: var(--tone-soft);
+  color: var(--tone-strong);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 800;
+  line-height: 0.95;
+}
+
+.miniNo small {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.miniText {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+
+.miniText b,
+.miniText small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.miniText b {
+  font-size: var(--text-sm);
+}
+
+.miniText small {
+  color: var(--ui-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.miniText small[data-open] {
+  color: var(--tone-strong);
+}
+
+.miniText small[data-busy] {
+  color: var(--ui-blue);
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .card {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .page {
+    padding: 0;
+  }
+
+  .pageIn {
+    padding: var(--space-3);
+  }
+
+  .range,
+  .extra {
+    display: none;
+  }
+
+  .vinyl {
+    width: 3.4em;
+    height: 3.4em;
+  }
+
+  .discHead {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .discText b {
+    white-space: normal;
+  }
+
+  .mini {
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  .mini .play {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .mini {
+    transition: none;
+  }
+
+  .spin {
+    animation-duration: 2.4s;
+  }
+}

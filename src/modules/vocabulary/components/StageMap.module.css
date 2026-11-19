@@ -1,0 +1,116 @@
+.map {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.cell {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Connector between two nodes. */
+.link {
+  flex: 0 0 var(--space-5);
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: var(--ui-ink);
+}
+
+.node {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 2px;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 156px;
+  margin: 0 auto;
+  padding: var(--space-3);
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 50%;
+  background: var(--tone-fill, var(--ui-navy));
+  box-shadow: 4px 4px 0 var(--ui-cream-shadow);
+  color: var(--tone-on-fill, var(--ui-on-fill));
+  text-align: center;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.node:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+}
+
+.node:focus-visible {
+  outline: none;
+  box-shadow:
+    4px 4px 0 var(--ui-cream-shadow),
+    var(--ui-focus);
+}
+
+.step {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.target {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.name {
+  overflow: hidden;
+  max-width: 100%;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+@media (max-width: 720px) {
+  .map {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .link {
+    flex-basis: var(--space-4);
+    width: 3px;
+    height: auto;
+    margin-left: 36px;
+  }
+
+  .node {
+    grid-template-columns: auto auto 1fr;
+    justify-items: start;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-3);
+    aspect-ratio: auto;
+    max-width: none;
+    padding: var(--space-3) var(--space-4);
+    border-radius: 16px;
+    text-align: left;
+  }
+
+  .name {
+    grid-column: 1 / -1;
+  }
+
+  .meta {
+    grid-column: 1 / -1;
+  }
+}

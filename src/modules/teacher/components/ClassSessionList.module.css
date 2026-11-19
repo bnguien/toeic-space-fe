@@ -1,0 +1,467 @@
+.section {
+  margin-top: 1.2rem;
+  min-width: 0;
+  color: #40566b;
+}
+.section[data-variant="cards"] {
+  margin-top: 0;
+}
+.section h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1rem;
+  color: #3a4a63;
+}
+.section p {
+  font-size: 0.83rem;
+  color: #68798b;
+}
+
+/* Compact filter bar: date range, status and search share one row. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+.dateRange {
+  flex: 1 1 360px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 42px;
+  padding: 0 0.8rem;
+  border: 1px solid #dbe5ee;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 0 #f1f5f9;
+}
+.dateRange:focus-within {
+  border-color: #9ec3e5;
+  box-shadow: 0 0 0 3px rgb(108 158 212 / 14%);
+}
+.dateField {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.rangeLabel {
+  color: #8494a5;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.datePicker {
+  flex: 1;
+  min-width: 0;
+}
+.datePicker > button {
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #40566b;
+  font-size: 0.79rem;
+}
+.datePicker > button svg {
+  width: 15px;
+  height: 15px;
+  color: #8ea2b4;
+}
+.rangeDivider {
+  flex: 0 0 auto;
+  width: 1px;
+  height: 22px;
+  background: #e4ebf2;
+}
+.statusField {
+  flex: 0 1 210px;
+  min-width: 170px;
+}
+.statusPicker > button {
+  min-height: 42px;
+  border-color: #dbe5ee;
+  border-radius: 10px;
+  background: #fff;
+  color: #40566b;
+  font-size: 0.79rem;
+}
+.searchField {
+  flex: 1 1 240px;
+  min-width: 190px;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 42px;
+  padding: 0 0.8rem;
+  border: 1px solid #dbe5ee;
+  border-radius: 10px;
+  background: #fff;
+  color: #7f96a4;
+}
+.searchField input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #40566b;
+  font: inherit;
+  font-size: 0.79rem;
+  font-weight: 400;
+}
+.searchField:focus-within {
+  border-color: #9ec3e5;
+  box-shadow: 0 0 0 3px rgb(108 158 212 / 14%);
+}
+.toolbarRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  margin-bottom: 0.85rem;
+}
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin: 0 0 0.7rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #e3ebf2;
+}
+.listHeader h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #7f96a4;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.sort > div {
+  width: auto;
+  min-width: 168px;
+}
+.sort > div button {
+  min-height: 32px;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.72rem;
+}
+
+/* Session cards: one row with a pastel status stripe, inline facts and actions. */
+.cards {
+  display: grid;
+  gap: 0.65rem;
+}
+.sessionCard {
+  --accent: #4f7fd6;
+  --accent-soft: #eef4ff;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 86px;
+  padding: 0.95rem 1.05rem 0.95rem 1.3rem;
+  overflow: hidden;
+  border: 1px solid #e0e8f1;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 2px 2px 0 #eaf0f6;
+  color: #53677a;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.sessionCard::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--accent);
+}
+.sessionCard[data-status="Completed"] {
+  --accent: #4f9270;
+  --accent-soft: #e9f7ef;
+}
+.sessionCard[data-status="Cancelled"] {
+  --accent: #d46a7b;
+  --accent-soft: #fdeef1;
+}
+.sessionCard:hover {
+  border-color: #cfdde9;
+  box-shadow: 3px 3px 0 #e2eaf2;
+  transform: translateY(-1px);
+}
+.selectedCard {
+  border-color: var(--accent);
+  background: #fbfdff;
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.cardMain {
+  min-width: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+.cardTitleLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+.cardTitleLine strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #33465a;
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.typeBadge {
+  flex: 0 0 auto;
+  padding: 0.16rem 0.45rem;
+  border-radius: 6px;
+  background: #eef2f6;
+  color: #607286;
+  font-size: 0.63rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.typeBadge[data-type="Makeup"] {
+  background: #fff3d8;
+  color: #94702a;
+}
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.95rem;
+  min-width: 0;
+  color: #7d8d9d;
+  font-size: 0.72rem;
+}
+.cardMeta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.cardMeta svg {
+  flex: 0 0 auto;
+  color: #94a6b7;
+}
+.cardAside {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.sessionCard .badge {
+  padding: 0.28rem 0.6rem;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  font-size: 0.7rem;
+}
+
+.scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e1e8ef;
+  border-radius: 10px;
+}
+.table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  font-size: 0.79rem;
+  text-align: left;
+}
+.table th,
+.table td {
+  padding: 0.75rem 0.6rem;
+  border-bottom: 1px solid #e9eef1;
+  vertical-align: middle;
+}
+.table th {
+  background: #f8fbfc;
+  color: #607088;
+  font-weight: 800;
+}
+.table td small {
+  display: block;
+  margin-top: 0.25rem;
+  color: #7a8b9b;
+}
+.table td strong {
+  display: block;
+  max-width: 210px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.teacherName {
+  display: block;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.badge {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  background: #eaf3fc;
+  color: #37548f;
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.badge[data-status="Completed"] {
+  background: #e6f6ed;
+  color: #2d7655;
+}
+.badge[data-status="Cancelled"] {
+  background: #fff0f3;
+  color: #a45868;
+}
+.actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+.cardAside .actions > button {
+  min-height: 36px;
+  padding: 0 0.8rem;
+  border: 1px solid #dbe5ee;
+  border-radius: 8px;
+  background: #fff;
+  color: #40566b;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+.cardAside .actions > button:hover:not(:disabled) {
+  border-color: #b9cfdf;
+  background: #f8fbfd;
+}
+.cardAside .actions > div > button {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  border: 1px solid #dbe5ee;
+  border-radius: 8px;
+  background: #fff;
+  color: #6d7f90;
+}
+.cardAside .actions > div > button:hover:not(:disabled) {
+  border-color: #b9cfdf;
+  background: #f8fbfd;
+  color: #40566b;
+}
+.actionSpacer {
+  flex: 0 0 32px;
+  width: 32px;
+}
+.cardAside .actionSpacer {
+  flex-basis: 36px;
+  width: 36px;
+}
+@media (pointer: coarse) {
+  .actionSpacer {
+    flex-basis: 44px;
+    width: 44px;
+  }
+  .cardAside .actionSpacer {
+    flex-basis: 44px;
+    width: 44px;
+  }
+  .cardAside .actions > button,
+  .cardAside .actions > div > button {
+    min-height: 44px;
+  }
+  .cardAside .actions > div > button {
+    width: 44px;
+    height: 44px;
+  }
+}
+.actions > button,
+.pagination button,
+.section p button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #dce8ed;
+  border-radius: 7px;
+  background: #fff;
+  color: #37548f;
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.actions > button:disabled,
+.pagination button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.table th:last-child,
+.table td:last-child {
+  width: 1%;
+  white-space: nowrap;
+}
+.table th:last-child {
+  text-align: right;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding-top: 0.8rem;
+  font-size: 0.8rem;
+}
+@media (max-width: 720px) {
+  .filters {
+    align-items: stretch;
+  }
+  .dateRange,
+  .searchField {
+    flex-basis: 100%;
+  }
+  .statusField {
+    flex: 1 1 160px;
+  }
+  .sessionCard {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 0.7rem;
+    padding: 0.9rem 1rem 0.9rem 1.2rem;
+  }
+  .cardAside {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .cardTitleLine strong {
+    white-space: normal;
+  }
+}

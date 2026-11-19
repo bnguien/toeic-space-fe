@@ -14,5 +14,18 @@ services:
     env_file:
       - .env
 
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      # Use the gateway's existing Docker network instead of a host NAT round-trip.
+      VITE_DEV_PROXY_TARGET: ${DOCKER_API_GATEWAY_URL:-http://api-gateway:8080}
+
+    networks:
+      - gateway
+
+networks:
+  gateway:
+    external: true
+    name: ${DOCKER_GATEWAY_NETWORK:-toeic-space-be_frontend-network}
+
 volumes:
   frontend_node_modules:

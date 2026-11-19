@@ -1,0 +1,56 @@
+/* Stage numbers and the library shortcut on top, the expand control on the bottom edge. */
+.rail {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 0;
+  padding: var(--space-3) 0;
+}
+
+.stage {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  background: var(--tone-soft, var(--ui-blue-soft));
+  color: var(--tone-strong, var(--ui-blue-strong));
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 800;
+}
+
+.stage:hover {
+  border-color: var(--tone-line, var(--ui-blue-line));
+}
+
+.stage:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+/* Filled with the stage tone, no outline: the same selection as the expanded rows. */
+.stage[data-selected] {
+  border-color: transparent;
+  background: var(--tone-fill, var(--ui-navy));
+  color: var(--tone-on-fill, var(--ui-on-fill));
+}
+
+.toolbar {
+  margin-top: auto;
+}
+
+@media (max-width: 960px) {
+  .rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: var(--space-2) var(--page-pad);
+  }
+
+  .toolbar {
+    margin-top: 0;
+  }
+}

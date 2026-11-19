@@ -1,0 +1,410 @@
+/* "Lộ trình nghe" panel inside the catalog rows card. */
+
+.panel {
+  padding: 4px 24px 18px;
+  border-bottom: 1.5px dashed var(--ui-line);
+  margin-bottom: 6px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ui-text);
+}
+
+.sub {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ui-muted);
+}
+
+.next {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ui-blue);
+  color: var(--ui-on-fill);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.next:hover:not(:disabled) {
+  background: var(--ui-blue-strong);
+}
+
+.next:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.groups {
+  display: flex;
+  gap: 6px;
+  margin: 12px 0 10px;
+  padding: 3px;
+  border: 1.5px solid var(--ui-line);
+  border-radius: 14px;
+  background: var(--ui-canvas);
+}
+
+.group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 7px 6px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--ui-muted);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.groupLabel {
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.groupHint {
+  font-size: 11px;
+  font-weight: 650;
+  opacity: 0.85;
+}
+
+.group:hover:not(.on) {
+  color: var(--ui-text);
+}
+
+.group.on {
+  background: var(--ui-cream);
+  color: var(--ui-text);
+  box-shadow:
+    0 1px 0 var(--ui-cream-line),
+    0 2px 8px rgb(37 44 63 / 0.08);
+}
+
+.group:focus-visible,
+.stepButton:focus-visible,
+.more:focus-visible,
+.next:focus-visible {
+  outline: 2px solid var(--ui-blue);
+  outline-offset: 2px;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--ui-muted);
+}
+
+.progressText {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progressText b {
+  color: var(--ui-text);
+}
+
+.progressNext {
+  color: var(--ui-text);
+  font-weight: 750;
+}
+
+.progressBar {
+  display: block;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--ui-line);
+  overflow: hidden;
+}
+
+.progressBar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ui-green);
+  transition: width 0.3s ease;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stepButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 8px;
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.stepButton:hover:not(:disabled) {
+  background: var(--ui-hover);
+}
+
+.step.isNext .stepButton {
+  border-color: var(--ui-blue-line);
+  background: var(--ui-blue-soft);
+}
+
+.number {
+  flex: none;
+  width: 24px;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 850;
+  color: var(--ui-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.step.isDone .number {
+  color: var(--ui-green);
+}
+
+.step.isNext .number {
+  color: var(--ui-blue-strong);
+}
+
+.thumb {
+  position: relative;
+  flex: none;
+  width: 84px;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--ui-line);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.step.isDone .thumb img {
+  opacity: 0.7;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--ui-rose);
+}
+
+.opening {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--ui-ink) 60%, transparent);
+  color: var(--ui-cream);
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13.5px;
+  font-weight: 750;
+  color: var(--ui-text);
+}
+
+.step.isDone .title {
+  color: var(--ui-muted);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 11.5px;
+  font-weight: 650;
+  color: var(--ui-subtle);
+  white-space: nowrap;
+}
+
+.topic {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cefr {
+  padding: 0 5px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 850;
+}
+
+.cefrA {
+  background: var(--ui-green-soft);
+  color: var(--ui-green);
+}
+
+.cefrB1 {
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue-strong);
+}
+
+.cefrB2 {
+  background: var(--ui-pearl);
+  color: var(--ui-pearl-text);
+}
+
+.cefrC {
+  background: var(--ui-rose-soft);
+  color: var(--ui-rose-strong);
+}
+
+.estimated {
+  padding: 0 5px;
+  border: 1px dashed var(--ui-divider);
+  border-radius: 4px;
+  font-size: 10.5px;
+}
+
+.seen {
+  color: var(--ui-green);
+  font-weight: 800;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 0 8px;
+  padding: 4px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--ui-blue);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.empty {
+  margin: 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ui-muted);
+}
+
+.skeleton {
+  height: 54px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--ui-line) 0%, var(--ui-hover) 50%, var(--ui-line) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .panel {
+    padding: 0 2px 16px;
+  }
+
+  .heading {
+    font-size: 1.05rem;
+  }
+
+  .thumb {
+    width: 80px;
+  }
+
+  .stepButton {
+    gap: 10px;
+    padding: 6px 4px;
+  }
+
+  .number {
+    width: 20px;
+  }
+
+  .topic {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin,
+  .skeleton {
+    animation: none;
+  }
+
+  .progressBar span {
+    transition: none;
+  }
+}

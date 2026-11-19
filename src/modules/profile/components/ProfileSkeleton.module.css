@@ -1,0 +1,163 @@
+.skeletonContainer {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(228, 231, 239, 0.6) 0%,
+    rgba(240, 242, 248, 0.9) 50%,
+    rgba(228, 231, 239, 0.6) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md, 6px);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.headerSkeleton {
+  background: #ffffff;
+  border-radius: var(--radius-xl, 10px);
+  padding: 28px 24px;
+  border: 1px solid var(--ui-line, #e4e7ef);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.headerTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.headerTitle {
+  width: 220px;
+  height: 28px;
+}
+
+.headerSubtitle {
+  width: 340px;
+  height: 16px;
+}
+
+.gridSkeleton {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+}
+
+.cardSkeleton {
+  background: #ffffff;
+  border-radius: var(--radius-xl, 10px);
+  padding: 28px 24px;
+  border: 1px solid var(--ui-line, #e4e7ef);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.avatarSkeleton {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.nameSkeleton {
+  width: 160px;
+  height: 22px;
+  margin: 0 auto;
+}
+
+.emailSkeleton {
+  width: 200px;
+  height: 14px;
+  margin: 0 auto;
+}
+
+.pillGroup {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.pillSkeleton {
+  width: 80px;
+  height: 26px;
+  border-radius: 9999px;
+}
+
+.statRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.statBar {
+  width: 100%;
+  height: 10px;
+  border-radius: 9999px;
+}
+
+.fieldSkeletonRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.fieldSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.labelSkeleton {
+  width: 90px;
+  height: 14px;
+}
+
+.inputSkeleton {
+  width: 100%;
+  height: 42px;
+}
+
+.textareaSkeleton {
+  width: 100%;
+  height: 90px;
+}
+
+@media (max-width: 1023px) {
+  .gridSkeleton {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .skeletonContainer {
+    padding: 16px 14px 48px;
+  }
+  .fieldSkeletonRow {
+    grid-template-columns: 1fr;
+  }
+  .headerSubtitle {
+    width: 220px;
+  }
+}

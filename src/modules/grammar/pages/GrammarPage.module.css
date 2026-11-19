@@ -1,0 +1,164 @@
+/* Ngữ pháp 0 → 990: full-height two-column shell under the fixed TOEIC Space navbar (--gp-nav = --nav-height). */
+.page {
+  box-sizing: border-box;
+  height: 100vh;
+  height: 100dvh;
+  padding-top: var(--gp-nav);
+  overflow: hidden;
+  background: var(--gp-surface);
+  color: var(--gp-ink);
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: minmax(420px, 500px) 0 minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  transition: grid-template-columns 0.22s ease;
+}
+/* The learner dragged the divider: own width (localStorage ts_grammar_side). While dragging, no transition. */
+.shell.hasSideWidth {
+  grid-template-columns: var(--gp-side-w) 0 minmax(0, 1fr);
+}
+.shell.sideCollapsed {
+  grid-template-columns: 0 0 minmax(0, 1fr);
+}
+.shell.dragging {
+  transition: none;
+  cursor: col-resize;
+  user-select: none;
+}
+.shell.dragging .main {
+  pointer-events: none;
+}
+.shell.sideCollapsed .side {
+  overflow: hidden;
+  padding-left: 0;
+  padding-right: 0;
+  border-right-width: 0;
+  box-shadow: none;
+}
+
+/* Roadmap column: scrolls with a hidden scrollbar. */
+.side {
+  height: 100%;
+  overflow-y: auto;
+  padding: 28px 28px 40px 36px;
+  border-right: 2px solid var(--gp-divider);
+  box-shadow: 6px 0 14px -12px color-mix(in srgb, var(--gp-m900) 45%, transparent);
+  position: relative;
+  z-index: 1;
+  background: var(--gp-surface);
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+
+.side::-webkit-scrollbar {
+  display: none;
+}
+
+/* Lesson column */
+.main {
+  height: 100%;
+  min-width: 0; /* wide diagrams / tables scroll inside their block, never stretch the column */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-top: 16px;
+  background: var(--gp-surface);
+}
+
+.mainInner {
+  /* Content covers almost the whole column; capped only on very wide screens so lines stay readable. */
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 36px 80px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--gp-ink);
+}
+
+/* Overview (nothing selected): the intro fills the column edge to edge. */
+.shell:not(.isDocument) .mainInner {
+  max-width: none;
+  height: 100%;
+  padding: 0;
+}
+
+:global([data-color-mode="dark"]) .side {
+  box-shadow: 6px 0 14px -12px rgb(0 0 0 / 0.8);
+}
+
+/* ---------- Focus mode (mini test / stage test) ---------- */
+.page[data-focus="true"] .shell {
+  grid-template-columns: 1fr;
+}
+.page[data-focus="true"] .side {
+  display: none;
+}
+.page[data-focus="true"] .mainInner {
+  max-width: 940px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *,
+  .page *::before {
+    transition: none !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .mainInner {
+    padding: 24px 28px 70px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .shell {
+    grid-template-columns: minmax(360px, 420px) 0 minmax(0, 1fr);
+  }
+  .side {
+    padding: 24px 20px 32px;
+  }
+}
+
+/* Mobile: the two columns stack and the page scrolls normally; an open lesson hides the roadmap. */
+@media (max-width: 760px) {
+  .page {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .shell,
+  .shell.hasSideWidth,
+  .shell.sideCollapsed {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .shell.sideCollapsed .side {
+    overflow: visible;
+    padding: 20px 16px 28px;
+  }
+  .side {
+    height: auto;
+    overflow: visible;
+    padding: 20px 16px 28px;
+    border-right: 0;
+    border-bottom: 2px solid var(--gp-divider);
+    box-shadow: none;
+  }
+  .main {
+    height: auto;
+    min-height: 40vh;
+    overflow: visible;
+  }
+  .shell.isDocument .side {
+    display: none;
+  }
+  .mainInner {
+    padding: 0 16px 60px;
+    font-size: 15px;
+  }
+  .shell:not(.isDocument) .mainInner {
+    padding: 0;
+  }
+}

@@ -1,0 +1,309 @@
+/* "Select to look up" bubble, shared by the whole site (port of Studychill LookupPopover.css):
+   dark ink card with cream text, mark-gold accents. */
+
+.popover {
+  position: fixed;
+  z-index: 100000;
+  transform: translate(-50%, -100%);
+  width: max-content;
+  max-width: min(360px, calc(100vw - 24px));
+  background: var(--ui-ink);
+  color: var(--ui-cream);
+  border-radius: 12px;
+  box-shadow: 0 14px 40px rgb(37 44 63 / 0.42);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: left;
+  animation: popIn 0.12s ease;
+  overflow: hidden;
+}
+
+.below {
+  transform: translate(-50%, 0);
+  animation: none;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% + 6px));
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Head ── */
+.head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 10px 7px 12px;
+  border-bottom: 1px solid rgb(253 251 246 / 0.12);
+}
+
+.headMain {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.text {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ui-cream);
+  word-break: break-word;
+  /* A long phrase must not push the card up over its meaning. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.phonetic {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--ui-blue-line);
+}
+
+.partOfSpeech {
+  font-size: 10.5px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgb(230 194 122 / 0.22);
+  color: var(--ui-mark);
+  white-space: nowrap;
+}
+
+.cefr {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgb(191 224 205 / 0.2);
+  color: var(--ui-green-line);
+}
+
+.headActions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 6px;
+  background: rgb(253 251 246 / 0.08);
+  color: var(--ui-cream-line);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.iconButton:hover {
+  background: rgb(253 251 246 / 0.2);
+}
+
+/* ── Body ── */
+.body {
+  padding: 9px 12px 10px;
+}
+
+.meaning {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ui-blue-soft);
+}
+
+.meaningPhrase {
+  font-weight: 500;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.definition {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: rgb(253 251 246 / 0.72);
+  padding-left: 8px;
+  border-left: 2px solid rgb(253 251 246 / 0.18);
+}
+
+.example {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11.5px;
+}
+
+.exampleEn {
+  color: rgb(253 251 246 / 0.82);
+  font-style: italic;
+}
+
+.exampleVi {
+  color: var(--ui-blue-line);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: rgb(253 251 246 / 0.72);
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Second pass: the meaning is shown, the AI is adding phonetics / part of speech / example. */
+.enriching {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 7px;
+  font-size: 11px;
+  color: rgb(253 251 246 / 0.5);
+}
+
+.confirm p {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  color: rgb(253 251 246 / 0.82);
+}
+
+/* ── Foot: save to the notebook ── */
+.foot {
+  padding: 0 12px 11px;
+}
+
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border: 1px solid rgb(230 194 122 / 0.45);
+  border-radius: 8px;
+  background: rgb(230 194 122 / 0.16);
+  color: var(--ui-mark);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.saveButton:hover {
+  background: rgb(230 194 122 / 0.3);
+}
+
+.primaryButton {
+  width: 100%;
+  margin-top: 8px;
+  padding: 7px 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--ui-mark-strong);
+  color: var(--ui-on-mark);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primaryButton:hover {
+  background: var(--ui-mark-bright);
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ui-green-line);
+}
+
+.savePanel {
+  border-top: 1px dashed rgb(253 251 246 / 0.16);
+  padding-top: 8px;
+  /* The PBL-75 folder picker is a light control: keep it readable on the dark card. */
+  color: var(--ui-text);
+}
+
+.saveLabel {
+  font-size: 11px;
+  color: rgb(253 251 246 / 0.62);
+  margin-bottom: 5px;
+}
+
+.saveError {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--ui-rose-line);
+}
+
+.saveActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.saveActions .primaryButton {
+  width: auto;
+}
+
+.ghostButton {
+  margin-top: 8px;
+  padding: 7px 12px;
+  border: 1px solid rgb(253 251 246 / 0.22);
+  border-radius: 8px;
+  background: none;
+  color: var(--ui-cream-line);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.ghostButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.saveLink {
+  margin-top: 8px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: var(--ui-mark-strong);
+  color: var(--ui-on-mark);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 720px) {
+  .popover {
+    max-width: calc(100vw - 20px);
+    font-size: 13.5px;
+  }
+}

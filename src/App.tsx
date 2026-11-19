@@ -1,12 +1,18 @@
+import { LandingPage } from "@/modules/landing";
+import { useCurrentUser, useSessionStatus } from "@/modules/auth";
+import { Navigate } from "react-router-dom";
 import "@/styles/globals.css";
 
 function App() {
-  return (
-    <main className="container">
-      <h1>PBL6: TOEICSPACE</h1>
-      <p className="subtitle">GV: Đặng Hoài Phương</p>
-    </main>
-  );
+  const user = useCurrentUser();
+  const status = useSessionStatus();
+
+  if (status === "authenticated" && user?.role === "Teacher") {
+    return <Navigate to="/teacher" replace />;
+  }
+
+  // Admins keep the public website; the CMS is reached from the account menu or /admin.
+  return <LandingPage />;
 }
 
 export default App;

@@ -1,0 +1,90 @@
+/* ---------- Back bar (mobile only) ---------- */
+.mbar {
+  display: none;
+}
+
+.mbarEnd {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doc {
+  padding-top: 18px;
+}
+
+/* Video tab (the video view declares its own `gpvid` size container). */
+.docVideo {
+  padding-top: 12px;
+}
+
+/* Sticky "Quay lại …" pill after a "Xem lại" jump */
+.returnPill {
+  position: sticky;
+  top: 8px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 5px 12px;
+  border: 1px solid var(--gp-moss);
+  border-radius: 999px;
+  background: var(--gp-surface);
+  color: var(--gp-moss);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 12px -6px color-mix(in srgb, var(--gp-m900) 35%, transparent);
+}
+.returnPill:hover {
+  background: var(--gp-fill);
+  border-color: var(--gp-fill);
+  color: var(--gp-on-fill);
+}
+
+:global([data-color-mode="dark"]) .returnPill {
+  box-shadow: 0 4px 12px -6px rgb(0 0 0 / 0.7);
+}
+
+:global([data-focus="true"]) .mbar,
+:global([data-focus="true"]) .returnPill {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .mbar {
+    position: sticky;
+    top: var(--gp-nav);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 -16px 12px;
+    padding: 8px 12px;
+    background: color-mix(in srgb, var(--gp-surface) 96%, transparent);
+    border-bottom: 1px solid var(--gp-line);
+    backdrop-filter: blur(6px);
+  }
+  .mbar > button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--gp-moss);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .mbarEnd > span {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gp-muted);
+  }
+}

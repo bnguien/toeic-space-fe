@@ -1,0 +1,114 @@
+.panel {
+  border: 1px solid var(--ui-line);
+  border-radius: var(--radius-xl);
+  background: var(--ui-surface);
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  color: var(--ui-blue);
+  font-weight: 700;
+}
+
+.summary:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+  border-radius: var(--radius-xl);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0 var(--space-4) var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.lead,
+.note {
+  color: var(--ui-muted);
+}
+
+.note {
+  font-size: var(--text-xs);
+}
+
+.step {
+  display: grid;
+  gap: var(--space-2);
+  border: none;
+}
+
+.step legend {
+  margin-bottom: var(--space-2);
+  color: var(--ui-text);
+  font-weight: 700;
+}
+
+.chips,
+.providers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip,
+.provider,
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--ui-line);
+  border-radius: var(--radius-full);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+.chip:hover,
+.provider:hover,
+.copy:hover {
+  border-color: var(--ui-blue-line);
+  color: var(--ui-blue);
+}
+
+.chip:focus-visible,
+.provider:focus-visible,
+.copy:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+.chip[aria-pressed="true"] {
+  border-color: var(--ui-blue);
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue);
+}
+
+.status {
+  color: var(--ui-muted);
+}
+
+.status[data-done] {
+  color: var(--ui-correct);
+  font-weight: 600;
+}
+
+.fallback {
+  width: 100%;
+  padding: var(--space-2);
+  border: 1px solid var(--ui-line);
+  border-radius: var(--radius-lg);
+  background: var(--ui-canvas);
+  color: var(--ui-text);
+  font-size: var(--text-xs);
+  resize: vertical;
+}

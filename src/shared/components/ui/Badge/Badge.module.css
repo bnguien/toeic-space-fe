@@ -1,0 +1,84 @@
+.badge {
+  --badge-bg: var(--ui-hover);
+  --badge-fg: var(--ui-muted);
+  --badge-line: var(--ui-line);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  max-width: 100%;
+  min-height: 22px;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--badge-line);
+  border-radius: var(--radius-full);
+  background: var(--badge-bg);
+  color: var(--badge-fg);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.badge[data-truncate] {
+  display: inline-block;
+  overflow: hidden;
+  line-height: 20px;
+  text-overflow: ellipsis;
+}
+
+.badge[data-size="md"] {
+  min-height: 28px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.badge[data-tone="blue"] {
+  --badge-bg: var(--ui-blue-soft);
+  --badge-fg: var(--ui-blue-strong);
+  --badge-line: var(--ui-blue-line);
+}
+
+.badge[data-tone="rose"] {
+  --badge-bg: var(--ui-rose-soft);
+  --badge-fg: var(--ui-rose-strong);
+  --badge-line: var(--ui-rose-line);
+}
+
+.badge[data-tone="green"] {
+  --badge-bg: var(--ui-green-soft);
+  --badge-fg: var(--ui-green);
+  --badge-line: var(--ui-green-line);
+}
+
+.badge[data-tone="pearl"] {
+  --badge-bg: var(--ui-pearl);
+  --badge-fg: var(--ui-pearl-text);
+  --badge-line: var(--ui-pearl-line);
+}
+
+/* Yellow mark chip with an ink outline. */
+.badge[data-tone="mark"] {
+  --badge-bg: var(--ui-mark);
+  --badge-fg: var(--ui-on-mark);
+  --badge-line: var(--ui-ink);
+}
+
+/* Outlined chip in the surrounding text colour: works on paper and on dark tiles. */
+.badge[data-tone="outline"] {
+  --badge-bg: transparent;
+  --badge-fg: currentColor;
+  --badge-line: currentColor;
+}
+
+.badge[data-tone="pink"] {
+  --badge-bg: var(--ui-pink-soft);
+  --badge-fg: var(--ui-pink-strong);
+  --badge-line: var(--ui-pink-line);
+}
+
+/* Soft chip in the surrounding tone scope (--tone-*). */
+.badge[data-tone="tone"] {
+  --badge-bg: var(--tone-soft, var(--ui-blue-soft));
+  --badge-fg: var(--tone-strong, var(--ui-blue-strong));
+  --badge-line: var(--tone-line, var(--ui-blue-line));
+}

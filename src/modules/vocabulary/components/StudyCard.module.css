@@ -1,0 +1,276 @@
+/*
+ * Study card surface. Hues are the stage tone families; the style picks how they are drawn.
+ * `--hue-base` is a fixed fill so stage and night cards look the same in light and dark mode;
+ * the soft/line/strong tones follow the colour mode. Everything inside reads --card-*.
+ */
+.tone {
+  --hue-base: #34508f;
+  --hue-soft: var(--ui-blue-soft);
+  --hue-line: var(--ui-blue-line);
+  --hue-strong: var(--ui-blue-strong);
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 0;
+  height: 100%;
+  padding: var(--space-4) var(--space-5);
+  overflow: hidden;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 24px;
+  background: var(--card-bg);
+  box-shadow: 6px 6px 0 rgb(37 44 63 / 0.28);
+  color: var(--card-ink);
+  transition: box-shadow 0.25s ease;
+}
+
+.tone[data-hue="green"] {
+  --hue-base: #2e7a57;
+  --hue-soft: var(--ui-green-soft);
+  --hue-line: var(--ui-green-line);
+  --hue-strong: var(--ui-green);
+}
+
+.tone[data-hue="amber"] {
+  --hue-base: #e6c27a;
+  --hue-soft: var(--ui-pearl);
+  --hue-line: var(--ui-pearl-line);
+  --hue-strong: var(--ui-pearl-text);
+}
+
+.tone[data-hue="pink"] {
+  --hue-base: #c75b8a;
+  --hue-soft: var(--ui-pink-soft);
+  --hue-line: var(--ui-pink-line);
+  --hue-strong: var(--ui-pink-strong);
+}
+
+.tone[data-hue="plum"] {
+  --hue-base: #9d4b70;
+  --hue-soft: var(--ui-rose-soft);
+  --hue-line: var(--ui-rose-line);
+  --hue-strong: var(--ui-rose-strong);
+}
+
+/* Stage: the tone fill itself, white text (ink on amber). */
+.tone[data-style="stage"] {
+  --card-bg: var(--hue-base);
+  --card-ink: #ffffff;
+  --card-muted: rgb(255 255 255 / 0.8);
+  --card-line: rgb(255 255 255 / 0.5);
+  --card-soft: rgb(255 255 255 / 0.15);
+  --card-accent: #f2c14e;
+  --card-pattern: rgb(255 255 255 / 0.12);
+  --card-ok: #c9f2da;
+  --card-bad: #ffd3e3;
+}
+
+.tone[data-style="stage"][data-hue="amber"] {
+  --card-ink: #252c3f;
+  --card-muted: rgb(37 44 63 / 0.72);
+  --card-line: rgb(37 44 63 / 0.35);
+  --card-soft: rgb(255 255 255 / 0.42);
+  --card-accent: #34508f;
+  --card-pattern: rgb(255 255 255 / 0.32);
+  --card-ok: #2e7a57;
+  --card-bad: #853d5e;
+}
+
+/* Pastel: the soft tone, ink text. */
+.tone[data-style="pastel"] {
+  --card-bg: var(--hue-soft);
+  --card-ink: var(--ui-text);
+  --card-muted: var(--ui-muted);
+  --card-line: var(--hue-line);
+  --card-soft: rgb(255 255 255 / 0.78);
+  --card-accent: var(--hue-strong);
+  --card-pattern: color-mix(in srgb, var(--hue-base) 13%, transparent);
+  --card-ok: var(--ui-green);
+  --card-bad: var(--ui-rose-strong);
+}
+
+/* Night: the tone sunk into ink, light text. */
+.tone[data-style="night"] {
+  --card-bg: color-mix(in srgb, var(--hue-base) 38%, #151b2c);
+  --card-ink: #f4f5fa;
+  --card-muted: rgb(244 245 250 / 0.7);
+  --card-line: rgb(244 245 250 / 0.38);
+  --card-soft: rgb(255 255 255 / 0.08);
+  --card-accent: color-mix(in srgb, var(--hue-base) 45%, #ffffff);
+  --card-pattern: rgb(255 255 255 / 0.06);
+  --card-ok: #9fe3bd;
+  --card-bad: #f5b3cd;
+}
+
+/* Dark mode: pastel cards take the dark soft tones, so their inner surfaces go dark too. */
+[data-color-mode="dark"] .tone[data-style="pastel"] {
+  --card-soft: rgb(255 255 255 / 0.08);
+}
+
+/* Edge pattern: top and bottom only, the text area stays plain. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, #000 0, transparent 28%, transparent 70%, #000 100%);
+}
+
+.card[data-pattern="1"]::after {
+  background: repeating-radial-gradient(
+    circle at 50% 135%,
+    transparent 0 16px,
+    var(--card-pattern) 16px 20px
+  );
+}
+
+.card[data-pattern="2"]::after {
+  background:
+    radial-gradient(circle at 88% 6%, var(--card-pattern) 0 78px, transparent 79px),
+    radial-gradient(circle at 6% 96%, var(--card-pattern) 0 96px, transparent 97px),
+    radial-gradient(
+      circle at 90% 90%,
+      transparent 0 30px,
+      var(--card-pattern) 31px 36px,
+      transparent 37px
+    );
+}
+
+.card[data-pattern="3"]::after {
+  background: repeating-linear-gradient(135deg, var(--card-pattern) 0 9px, transparent 9px 24px);
+}
+
+.card[data-pattern="4"]::after {
+  background: radial-gradient(var(--card-pattern) 2.6px, transparent 3px) 0 0 / 18px 18px;
+}
+
+.card[data-pattern="5"]::after {
+  background: repeating-conic-gradient(
+    from 0deg at 100% 0%,
+    var(--card-pattern) 0 5deg,
+    transparent 5deg 13deg
+  );
+}
+
+.card[data-pattern="6"]::after {
+  background:
+    radial-gradient(ellipse 120px 90px at 80% 10%, var(--card-pattern), transparent 70%),
+    radial-gradient(ellipse 160px 110px at 18% 2%, var(--card-pattern), transparent 70%),
+    radial-gradient(ellipse 150px 120px at 75% 98%, var(--card-pattern), transparent 70%),
+    radial-gradient(ellipse 110px 80px at 10% 88%, var(--card-pattern), transparent 70%);
+}
+
+.card[data-pattern="7"]::after {
+  background:
+    linear-gradient(135deg, var(--card-pattern) 25%, transparent 25%) -12px 0 / 24px 24px,
+    linear-gradient(225deg, var(--card-pattern) 25%, transparent 25%) -12px 0 / 24px 24px;
+}
+
+.card[data-pattern="8"]::after {
+  background:
+    repeating-radial-gradient(circle at 0 0, transparent 0 20px, var(--card-pattern) 20px 24px),
+    repeating-radial-gradient(
+      circle at 100% 100%,
+      transparent 0 20px,
+      var(--card-pattern) 20px 24px
+    );
+}
+
+.card[data-verdict="correct"] {
+  box-shadow:
+    6px 6px 0 rgb(37 44 63 / 0.28),
+    0 0 0 4px var(--ui-green);
+}
+
+.card[data-verdict="wrong"] {
+  box-shadow:
+    6px 6px 0 rgb(37 44 63 / 0.28),
+    0 0 0 4px var(--ui-rose-mid);
+}
+
+.card[data-shake] {
+  animation: shake 0.42s;
+}
+
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 28px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  gap: var(--space-4);
+  min-height: 0;
+  padding: var(--space-3) 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  text-align: center;
+}
+
+.foot {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 24px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--card-soft);
+  color: var(--card-ink);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.chip[data-strong] {
+  background: var(--card-ink);
+  color: var(--card-bg);
+}
+
+/* Colour sample of a card style (settings). */
+.swatch {
+  display: block;
+  flex: 1;
+  height: 100%;
+  background: var(--card-bg);
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: var(--space-3) var(--space-4);
+    border-radius: 20px;
+    box-shadow: 4px 4px 0 rgb(37 44 63 / 0.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card[data-shake] {
+    animation: none;
+  }
+}

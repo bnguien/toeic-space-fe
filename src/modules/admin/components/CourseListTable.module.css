@@ -1,0 +1,122 @@
+.scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+.table {
+  width: 100%;
+  min-width: 960px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.8rem;
+  color: #53667a;
+}
+.table th:nth-child(1) {
+  width: 13%;
+}
+.table th:nth-child(2) {
+  width: 25%;
+}
+.table th:nth-child(3) {
+  width: 17%;
+}
+.table th:nth-child(4) {
+  width: 13%;
+}
+.table th:nth-child(5) {
+  width: 10%;
+}
+.table th:nth-child(6) {
+  width: 12%;
+}
+.table th:nth-child(7) {
+  width: 10%;
+}
+.table th,
+.table td {
+  padding: 0.9rem 0.65rem;
+  border-bottom: 1px solid #e3eaf0;
+  vertical-align: middle;
+}
+.table th {
+  color: #607088;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.table td:nth-child(4),
+.table td:nth-child(5),
+.table td:nth-child(6),
+.table td:last-child {
+  white-space: nowrap;
+}
+.table tbody tr:hover {
+  background: #f1f6f9;
+}
+.ellipsis {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code {
+  color: #526e82;
+  font:
+    700 0.72rem ui-monospace,
+    SFMono-Regular,
+    monospace;
+}
+.name {
+  color: #30445c;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.view {
+  color: #365e82;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.name:hover,
+.view:hover {
+  text-decoration: underline;
+}
+.name:focus-visible,
+.view:focus-visible {
+  outline: 2px solid #365e82;
+  outline-offset: 2px;
+}
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.52rem;
+  border-radius: 4px;
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+.Draft {
+  color: #697789;
+  background: #edf1f4;
+}
+.Published {
+  color: #287151;
+  background: #e7f7ee;
+}
+.Archived {
+  color: #a45868;
+  background: #fff0f3;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: #eef3f7;
+  color: #496277;
+}
+.targetScore {
+  font-weight: 700;
+  color: #2e597c;
+}

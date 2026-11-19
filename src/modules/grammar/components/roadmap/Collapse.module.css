@@ -1,0 +1,34 @@
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.38s var(--gp-ease),
+    opacity 0.25s ease;
+}
+
+.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.inner > * {
+  transform: translateY(-6px);
+  transition: transform 0.38s var(--gp-ease);
+}
+
+.open > .inner > * {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapse,
+  .inner > * {
+    transition: none;
+  }
+}

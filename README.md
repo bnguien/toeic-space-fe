@@ -13,6 +13,7 @@ The platform is designed to provide learners with structured study paths, person
 ## ✨ Features
 
 - Structured learning through courses, modules, and lessons.
+- Student course enrollment, coupon checkout, SePay QR order status, My Courses, and protected lesson access; Admin course pricing and coupons.
 - Vocabulary learning and review with flashcards.
 - Practice for TOEIC Parts 1–7, mini tests, mock tests, and placement tests.
 - Learning progress, test result, and attempt history tracking.

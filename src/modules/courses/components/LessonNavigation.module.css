@@ -1,0 +1,94 @@
+/* Previous / Next Lesson Navigation styled after Grammar TopicPager */
+.navigationBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 40px 0 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gp-line, #e2e8f0);
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 48%;
+  padding: 8px 14px;
+  border-radius: 9px;
+  background: var(--gp-surface, #ffffff);
+  border: 1px solid var(--gp-line, #e2e8f0);
+  color: var(--gp-ink, #252c3f);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.navLink:hover {
+  border-color: var(--gp-moss, #3b82f6);
+  background: var(--gp-m50, #eff6ff);
+  color: var(--gp-moss, #3b82f6);
+}
+
+.nextLink {
+  margin-left: auto;
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+.navDirection {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gp-muted, #64748b);
+  letter-spacing: 0.5px;
+}
+
+.navLink:hover .navDirection {
+  color: var(--gp-moss, #3b82f6);
+}
+
+.navTitle {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+}
+
+.navIcon {
+  flex-shrink: 0;
+  color: var(--gp-muted, #94a3b8);
+  transition: transform 0.2s ease;
+}
+
+.navLink:hover .navIcon {
+  color: var(--gp-moss, #3b82f6);
+}
+
+.navLink:hover:not(.nextLink) .navIcon {
+  transform: translateX(-2px);
+}
+
+.nextLink:hover .navIcon {
+  transform: translateX(2px);
+}
+
+@media (max-width: 640px) {
+  .navigationBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navLink {
+    max-width: 100%;
+  }
+
+  .nextLink {
+    text-align: left;
+    flex-direction: row;
+  }
+}

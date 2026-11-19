@@ -1,0 +1,273 @@
+/* Home section 2 (StudyChill HomeMap): white band with thin concentric rings in two corners and two
+   corner triangles (navy / rose: yellow stays for the mascot), ticket cards with punched holes. */
+.band {
+  --ring: rgb(52 80 143 / 0.1);
+
+  position: relative;
+  overflow: hidden;
+  background: var(--ui-surface);
+  color: var(--ui-text);
+}
+
+:global([data-color-mode="dark"]) .band {
+  --ring: rgb(147 172 236 / 0.08);
+}
+
+.band::before,
+.band::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 54px, var(--ring) 54px 56px);
+  pointer-events: none;
+}
+
+.band::before {
+  top: -260px;
+  right: -220px;
+  width: 620px;
+  height: 620px;
+}
+
+.band::after {
+  bottom: -240px;
+  left: -200px;
+  width: 520px;
+  height: 520px;
+}
+
+.tri {
+  position: absolute;
+  width: clamp(72px, 10vw, 150px);
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+
+.triTop {
+  top: 0;
+  left: 0;
+  background: var(--ui-navy);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.triBottom {
+  right: 0;
+  bottom: 0;
+  background: var(--ui-rose-fill);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + clamp(24px, 6vh, 64px)) var(--page-pad) clamp(48px, 8vh, 96px);
+  scroll-margin-top: 0;
+}
+
+/* Desktop: one full screen after the hero's "Bắt đầu học miễn phí" scrolls here. */
+@media (min-width: 1024px) {
+  .section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: max(min(100dvh, 920px), 640px);
+  }
+}
+
+.title {
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 0 var(--ui-blue-soft);
+}
+
+.title span {
+  padding: 0 0.12em;
+  background: linear-gradient(
+    transparent 60%,
+    var(--ui-rose-soft) 60%,
+    var(--ui-rose-soft) 90%,
+    transparent 90%
+  );
+  color: var(--ui-navy-text);
+}
+
+.title::after {
+  content: "";
+  display: block;
+  width: 76px;
+  height: 7px;
+  margin: 18px auto clamp(32px, 5vh, 52px);
+  border-radius: 99px;
+  background: var(--ui-navy);
+  box-shadow: 4px 4px 0 var(--ui-rose-mid);
+}
+
+/* ---- Ticket cards ---- */
+.holes {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.holes i {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--ui-ink);
+  border-radius: 50%;
+  background: var(--ui-surface);
+  box-shadow: inset 2px 2px 3px rgb(0 0 0 / 0.18);
+}
+
+/* Five tiles: one row on wide screens, 3 + 2 on tablets, 2 columns on phones. */
+.main {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.ticket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 300px;
+  padding: 56px var(--space-5) var(--space-6);
+  border: 2px solid var(--ui-ink);
+  border-radius: 24px;
+  background: var(--ui-cream);
+  box-shadow: 6px 6px 0 var(--ui-ink);
+  color: var(--ui-text);
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.ticket:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0 var(--ui-ink);
+}
+
+.ticket:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+.ticketArt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: clamp(150px, 21vh, 210px);
+}
+
+.ticketArt {
+  overflow: hidden;
+}
+
+.ticketArt img {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ticketBody {
+  display: grid;
+  gap: 4px;
+}
+
+.ticketBody b {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.15;
+}
+
+.ticketBody small {
+  color: var(--ui-muted);
+  font-size: var(--text-xs);
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-top: auto;
+  border-radius: 50%;
+  background: var(--ui-navy);
+  color: var(--ui-on-fill);
+}
+
+@media (max-width: 1100px) {
+  .main {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .ticket {
+    grid-column: span 2;
+  }
+
+  .ticket:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+}
+
+@media (max-width: 680px) {
+  .main {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .ticket,
+  .ticket:nth-child(4) {
+    grid-column: auto;
+  }
+
+  .ticket:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .ticket {
+    min-height: 200px;
+    padding: 46px var(--space-2) var(--space-4);
+    border-radius: 18px;
+  }
+
+  .ticketArt {
+    height: 104px;
+  }
+
+  .ticketBody b {
+    font-size: var(--text-md);
+  }
+
+  .holes {
+    padding: 0 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket {
+    transition: none;
+  }
+}
+
+.title:focus {
+  outline: none;
+}

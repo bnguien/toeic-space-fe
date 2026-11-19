@@ -1,0 +1,62 @@
+.panel {
+  --tone: var(--ui-blue);
+  --tone-soft: var(--ui-blue-soft);
+  --tone-line: var(--ui-blue-line);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.panel[data-section="reading"] {
+  --tone: var(--ui-rose);
+  --tone-soft: var(--ui-rose-soft);
+  --tone-line: var(--ui-rose-line);
+}
+
+.flow {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.pill {
+  justify-self: start;
+  padding: 4px var(--space-3);
+  border: 1px solid var(--tone-line);
+  border-radius: var(--radius-full);
+  background: var(--tone-soft);
+  color: var(--tone);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.stack {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* Sticky at the bottom of the scrolling right column (desktop). */
+.checkBar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--ui-line);
+  background: var(--ui-canvas);
+}
+
+.checkBar[data-compact] {
+  position: static;
+  border-top: none;
+  background: transparent;
+  padding-top: 0;
+}
+
+@media (max-width: 768px) {
+  .flow {
+    padding: var(--space-3);
+  }
+}

@@ -1,0 +1,127 @@
+/* Bilingual subtitle overlay. Lives in a parent with position: relative. */
+
+/* pointer-events: none is REQUIRED — otherwise the overlay eats the clicks meant for the YouTube controls below.
+   Single clickable WORDS turn it back on (.word). */
+.overlay {
+  position: absolute;
+  left: 50%;
+  bottom: 11%;
+  transform: translateX(-50%);
+  z-index: 6;
+  width: min(94%, 1100px);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.line {
+  max-width: 100%;
+  padding: 5px 14px;
+  border-radius: 10px;
+  background: rgb(0 0 0 / 0.74);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.9);
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+/* The primary line is a flex row so each WORD is a column (phonetic · word · meaning) and still wraps. */
+.primary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px 7px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.18em;
+}
+
+.secondary {
+  color: #ffe08a;
+  font-weight: 600;
+  font-size: 0.96em;
+}
+
+.errorLine {
+  background: rgb(180 30 30 / 0.92);
+  color: #fff;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+.plain {
+  white-space: pre;
+}
+
+/* Clickable word: pointer events back on because the parent turned them off. */
+.word {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+  pointer-events: auto;
+  cursor: pointer;
+  padding: 0 2px;
+  border-radius: 4px;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.word:hover {
+  background: var(--ui-mark-bright);
+  color: var(--ui-on-mark);
+  text-shadow: none;
+}
+
+.word:hover .ipa,
+.word:hover .gloss {
+  color: #333;
+}
+
+/* Phonetic ABOVE the word, smaller and lighter so it does not compete with the text. */
+.ipa {
+  font-size: 0.6em;
+  font-weight: 600;
+  color: #9fd8ff;
+  letter-spacing: 0.2px;
+}
+
+/* Short meaning BELOW the word. */
+.gloss {
+  font-size: 0.58em;
+  font-weight: 600;
+  color: #b8f5c8;
+  max-width: 12em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Saved word: gold underline, as described in the reading settings. */
+.saved .token {
+  text-decoration: underline;
+  text-decoration-color: var(--ui-mark-strong);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .overlay {
+    bottom: 15%;
+    width: 97%;
+    font-size: 0.86em;
+    gap: 4px;
+  }
+
+  .line {
+    padding: 4px 10px;
+  }
+
+  .primary {
+    gap: 2px 5px;
+  }
+}
