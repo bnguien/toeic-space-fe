@@ -1,0 +1,23 @@
+/* Loading / error screens of the workspace route. */
+.status {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: var(--space-6) var(--page-pad, var(--space-4));
+  background: var(--ui-canvas);
+  color: var(--ui-text);
+}
+
+.loading {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  color: var(--ui-muted);
+  font-weight: 700;
+  text-align: center;
+}
+
+.loading img {
+  width: 132px;
+  height: auto;
+}

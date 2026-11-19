@@ -1,0 +1,49 @@
+.flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--ui-line);
+  border-radius: var(--radius-full);
+  background: var(--ui-surface);
+  color: var(--ui-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  touch-action: manipulation;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.flag:hover:not(:disabled) {
+  border-color: var(--ui-pink-line);
+  color: var(--ui-pink);
+}
+
+.flag:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+.flag:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.flag[data-compact] {
+  width: 32px;
+  padding: 0;
+  justify-content: center;
+}
+
+.flag[data-flagged] {
+  border-color: var(--ui-pink);
+  background: var(--ui-pink-soft);
+  color: var(--ui-pink-strong);
+}
+
+.flag[data-failed] {
+  border-style: dashed;
+}

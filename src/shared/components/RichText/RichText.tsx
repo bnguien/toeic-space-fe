@@ -23,6 +23,17 @@ import styles from "./RichText.module.css";
 export interface BlankLabel {
   label: string;
   active?: boolean;
+  /** Word shown inside the badge after the label, e.g. the correct option once revealed. */
+  answer?: string;
+}
+
+/** Passage text to mark (evidence sentence), matched case-insensitively across whitespace. */
+export interface TextHighlight {
+  text: string;
+  /** Badge shown before the marked text, e.g. "Câu 147". */
+  label?: string;
+  /** Stable id, exposed as `data-highlight` on the mark. */
+  id?: string;
 }
 
 interface RichTextProps {
@@ -35,15 +46,44 @@ interface RichTextProps {
   dashBlanks?: boolean;
   /** Label for the n-th numbered blank, e.g. to map source numbers to question numbers. */
   blankLabel?: (sourceNumber: number, index: number) => BlankLabel;
+  /** Text shown in unnumbered blanks (Part 5: the chosen or correct option). */
+  blankFill?: string;
+  /** Sentences to mark; each one is marked at its first match only. */
+  highlights?: readonly TextHighlight[];
   className?: string;
   lang?: string;
+}
+
+interface PreparedHighlight {
+  pattern: RegExp;
+  label?: string;
+  id?: string;
 }
 
 interface RenderContext {
   inline: boolean;
   dashBlanks: boolean;
   blankLabel?: RichTextProps["blankLabel"];
+  blankFill?: string;
   blankIndex: number;
+  highlights: PreparedHighlight[];
+}
+
+/** Words of the sentence joined by flexible whitespace; quotes/apostrophes match either style. */
+function prepareHighlights(highlights: readonly TextHighlight[] | undefined): PreparedHighlight[] {
+  return (highlights ?? []).flatMap((highlight) => {
+    const words = highlight.text.trim().split(/\s+/).filter(Boolean);
+    if (words.length === 0) return [];
+    const source = words
+      .map((word) =>
+        word
+          .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+          .replace(/['’‘]/g, "['’‘]")
+          .replace(/["“”]/g, '["“”]'),
+      )
+      .join("\\s+");
+    return [{ pattern: new RegExp(source, "i"), label: highlight.label, id: highlight.id }];
+  });
 }
 
 const MAX_SPAN = 20;
@@ -59,6 +99,8 @@ export function RichText({
   inline = false,
   dashBlanks = false,
   blankLabel,
+  blankFill,
+  highlights,
   className,
   lang,
 }: RichTextProps) {
@@ -67,9 +109,16 @@ export function RichText({
       return null;
     }
 
-    const context: RenderContext = { inline, dashBlanks, blankLabel, blankIndex: 0 };
+    const context: RenderContext = {
+      inline,
+      dashBlanks,
+      blankLabel,
+      blankFill: blankFill?.trim() || undefined,
+      blankIndex: 0,
+      highlights: prepareHighlights(highlights),
+    };
     return isMarkup(value) ? renderMarkup(value, context) : renderPlainText(value, context);
-  }, [value, inline, dashBlanks, blankLabel]);
+  }, [value, inline, dashBlanks, blankLabel, blankFill, highlights]);
 
   if (!content) {
     return null;
@@ -211,6 +260,30 @@ function renderText(text: string, context: RenderContext): ReactNode {
     return null;
   }
 
+  for (let i = 0; i < context.highlights.length; i += 1) {
+    const highlight = context.highlights[i];
+    const match = highlight.pattern.exec(text);
+    if (!match) continue;
+    // Marked once: later text nodes repeating the sentence stay plain.
+    context.highlights = context.highlights.filter((_, index) => index !== i);
+    const start = match.index;
+    const end = start + match[0].length;
+    return (
+      <>
+        {renderText(text.slice(0, start), context)}
+        <mark className={styles.evidence} data-highlight={highlight.id}>
+          {highlight.label && <span className={styles.evidenceBadge}>{highlight.label}</span>}
+          {renderTokens(match[0], context)}
+        </mark>
+        {renderText(text.slice(end), context)}
+      </>
+    );
+  }
+
+  return renderTokens(text, context);
+}
+
+function renderTokens(text: string, context: RenderContext): ReactNode {
   return tokenizeText(text, context.dashBlanks).map((token, index) => {
     switch (token.kind) {
       case "strong":
@@ -227,6 +300,13 @@ function renderText(text: string, context: RenderContext): ReactNode {
 
 function renderBlank(sourceNumber: number | null, context: RenderContext): ReactNode {
   if (sourceNumber === null) {
+    if (context.blankFill) {
+      return (
+        <span className={`${styles.blank} ${styles.blankFilled}`} aria-label="chỗ trống đã điền">
+          {context.blankFill}
+        </span>
+      );
+    }
     return (
       <span className={styles.blank} aria-label="chỗ trống">
         _____
@@ -235,16 +315,17 @@ function renderBlank(sourceNumber: number | null, context: RenderContext): React
   }
 
   const index = context.blankIndex++;
-  const { label, active } = context.blankLabel?.(sourceNumber, index) ?? {
+  const { label, active, answer } = context.blankLabel?.(sourceNumber, index) ?? {
     label: String(sourceNumber),
   };
 
   return (
     <span
       className={`${styles.blank} ${styles.numberedBlank} ${active ? styles.blankActive : ""}`}
-      aria-label={`chỗ trống câu ${label}`}
+      aria-label={answer ? `chỗ trống câu ${label}: ${answer}` : `chỗ trống câu ${label}`}
     >
       {label}
+      {answer && <span className={styles.blankAnswer}>{answer}</span>}
     </span>
   );
 }

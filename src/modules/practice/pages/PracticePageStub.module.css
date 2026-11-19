@@ -1,0 +1,15 @@
+/* Temporary placeholder shared by the page stubs until the screens are built. */
+.stub {
+  display: grid;
+  gap: var(--space-3);
+  place-content: center;
+  min-height: 100dvh;
+  padding: var(--space-6) var(--page-pad);
+  background: var(--ui-canvas);
+  color: var(--ui-text);
+  text-align: center;
+}
+
+.stub p {
+  color: var(--ui-muted);
+}

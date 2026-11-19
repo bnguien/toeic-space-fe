@@ -159,6 +159,17 @@
   /* Frosted floating controls over the canvas (back to top). */
   --ui-glass: rgb(255 255 255 / 0.9);
 
+  /* Practice / exam answer states (see modules/practice/README.md): correct reads as success,
+     wrong as danger. Both stay clear of --ui-green (active/current only) and --ui-rose (Reading). */
+  --ui-correct: #1f7a5c;
+  --ui-correct-soft: #e6f4ee;
+  --ui-correct-line: #9fd2bb;
+  --ui-correct-fill: #1f7a5c;
+  --ui-wrong: #b4412f;
+  --ui-wrong-soft: #fcebe7;
+  --ui-wrong-line: #eeb3a8;
+  --ui-wrong-fill: #b4412f;
+
   /* Transitions */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
@@ -230,6 +241,14 @@
   --ui-glow-pink: rgb(199 91 138 / 0.08);
   --ui-glow-blue: rgb(72 103 168 / 0.12);
   --ui-glass: rgb(26 30 41 / 0.9);
+  --ui-correct: #74cfa8;
+  --ui-correct-soft: #163028;
+  --ui-correct-line: #2c6650;
+  --ui-correct-fill: #23795a;
+  --ui-wrong: #f19a89;
+  --ui-wrong-soft: #3a1f1b;
+  --ui-wrong-line: #7a3a30;
+  --ui-wrong-fill: #a63d2c;
 
   --bg-app: var(--ui-canvas);
   --bg-surface: var(--ui-surface);

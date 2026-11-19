@@ -1,0 +1,11 @@
+/* Page-level wrappers of the practice space (the page itself has no stylesheet of its own). */
+.stack {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+.loading {
+  display: grid;
+  gap: var(--space-4);
+}
