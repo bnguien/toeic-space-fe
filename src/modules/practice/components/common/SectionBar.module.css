@@ -1,0 +1,62 @@
+/* Listening = blue, Reading = rose. */
+.section {
+  --tone: var(--ui-blue);
+  --tone-mid: var(--ui-blue-mid);
+  --tone-soft: var(--ui-blue-soft);
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--ui-line);
+  border-left: 3px solid var(--tone-mid);
+  border-radius: var(--radius-xl);
+  background: var(--ui-surface);
+}
+
+.section[data-section="reading"] {
+  --tone: var(--ui-rose);
+  --tone-mid: var(--ui-rose-mid);
+  --tone-soft: var(--ui-rose-soft);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.title {
+  color: var(--tone);
+  font-weight: 800;
+}
+
+.score {
+  color: var(--ui-muted);
+  font-size: var(--text-sm);
+}
+
+.score strong {
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+}
+
+.track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--tone-soft);
+}
+
+.track span {
+  display: block;
+  width: var(--fill);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--tone-mid);
+}
+
+.meta {
+  color: var(--ui-muted);
+  font-size: var(--text-xs);
+}

@@ -1,0 +1,213 @@
+.art {
+  position: relative;
+  justify-self: end;
+  width: 100%;
+  max-width: 240px;
+  margin-bottom: var(--space-6);
+}
+
+.polaroid {
+  padding: var(--space-3);
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 14px;
+  background: var(--ui-cream);
+  box-shadow: var(--ui-shadow-hard);
+  transform: rotate(3deg);
+}
+
+.photo {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--tone-soft, var(--ui-blue-soft));
+}
+
+.art[data-kind="exam"] .photo {
+  background: linear-gradient(160deg, var(--ui-blue-soft), var(--ui-rose-soft));
+}
+
+.photo img {
+  width: 76%;
+  height: 92%;
+  object-fit: contain;
+  object-position: bottom;
+}
+
+.caption {
+  margin-top: var(--space-2);
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Exam: answer bubbles with (C) filled + a "200 câu" stamp. */
+.bubbles {
+  position: absolute;
+  bottom: -30px;
+  left: -20px;
+  display: flex;
+  gap: 5px;
+  list-style: none;
+  transform: rotate(-4deg);
+}
+
+.bubbles li {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--ui-ink);
+  border-radius: 50%;
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.bubbles li[data-on] {
+  border-color: var(--ui-accent-fill);
+  background: var(--ui-accent-fill);
+  color: var(--ui-on-fill);
+  transform: translateY(-6px);
+}
+
+.stamp {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  width: 60px;
+  height: 60px;
+  border: 2px dashed var(--ui-rose);
+  border-radius: 50%;
+  background: var(--ui-surface);
+  color: var(--ui-rose);
+  font-family: var(--font-display);
+  line-height: 0.9;
+  transform: rotate(14deg);
+}
+
+.stamp b {
+  font-size: 18px;
+}
+
+.stamp small {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Listening: a still mini player. */
+.player {
+  position: absolute;
+  right: 22px;
+  bottom: -34px;
+  left: -22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: var(--radius-full);
+  background: var(--ui-surface);
+  color: var(--ui-blue);
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+  transform: rotate(-2deg);
+}
+
+.player > b {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ui-accent-fill);
+  color: var(--ui-on-fill);
+}
+
+.wave {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+}
+
+.wave i {
+  flex: 1;
+  border-radius: 4px;
+  background: var(--ui-blue-line);
+}
+
+.wave i[data-lit] {
+  background: var(--ui-blue);
+}
+
+.player small {
+  color: var(--ui-muted);
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reading: a lined note with a highlighted keyword + paper clip. */
+.sheet {
+  position: absolute;
+  bottom: -38px;
+  left: -34px;
+  display: grid;
+  gap: 5px;
+  width: 124px;
+  padding: 10px 11px;
+  border: 1.5px solid var(--ui-ink);
+  border-radius: 8px;
+  background: var(--ui-surface);
+  box-shadow: 3px 3px 0 var(--ui-cream-shadow);
+  transform: rotate(-6deg);
+}
+
+.sheet i {
+  display: block;
+  height: 5px;
+  border-radius: 4px;
+  background: var(--ui-line);
+}
+
+.sheet i:nth-child(2) {
+  width: 82%;
+}
+
+.sheet i:nth-child(4) {
+  width: 64%;
+}
+
+.sheet mark {
+  justify-self: start;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--ui-rose-soft);
+  color: var(--ui-rose-strong);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.clip {
+  position: absolute;
+  top: -16px;
+  left: 26px;
+  z-index: 1;
+  width: 18px;
+  height: 40px;
+  border: 3px solid var(--ui-subtle);
+  border-radius: 10px;
+  transform: rotate(-8deg);
+}

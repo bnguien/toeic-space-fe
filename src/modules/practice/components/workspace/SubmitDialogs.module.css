@@ -1,0 +1,50 @@
+.missing {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ui-wrong);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.pill {
+  min-width: 40px;
+  min-height: 32px;
+  padding: 0 var(--space-2);
+  border: 1px dashed var(--ui-wrong-line);
+  border-radius: var(--radius-md);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.pill:hover {
+  border-style: solid;
+  border-color: var(--ui-wrong);
+  background: var(--ui-wrong-soft);
+}
+
+.pill:focus-visible {
+  box-shadow: var(--ui-focus);
+}
+
+.more {
+  align-self: center;
+  color: var(--ui-muted);
+  font-size: var(--text-xs);
+}

@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, type KeyboardEvent, type ReactNode } from "re
 import { X } from "lucide-react";
 
 import { IconButton } from "../Button/Button";
+import { cx } from "../types";
 import styles from "./Sheet.module.css";
 
 export interface SheetProps {
@@ -17,6 +18,8 @@ export interface SheetProps {
   containKeys?: boolean;
   onKeyDown?: (event: KeyboardEvent<HTMLDialogElement>) => void;
   onClose: () => void;
+  /** Extra class on the dialog, e.g. to narrow it. */
+  className?: string;
   children?: ReactNode;
 }
 
@@ -30,6 +33,7 @@ export function Sheet({
   containKeys = false,
   onKeyDown,
   onClose,
+  className,
   children,
 }: SheetProps) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -45,7 +49,7 @@ export function Sheet({
   return (
     <dialog
       ref={ref}
-      className={styles.sheet}
+      className={cx(styles.sheet, className)}
       aria-labelledby={titleId}
       onCancel={(event) => {
         event.preventDefault();

@@ -126,134 +126,57 @@
   user-select: none;
 }
 
-/* Center Nav Items */
-.centerNav {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.navItemWrapper {
-  position: relative;
-}
-
-.navLink,
-.navButton {
-  font-family: var(--font-sans), sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--nav-text);
-  padding: 8px 16px;
-  border-radius: 9999px;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+/* The only menu item: opens the site map. */
+.mapButton {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-}
-
-.navLink:hover,
-.navButton:hover,
-.navButtonActive {
-  background: rgb(var(--nav-surface) / 0.9);
-  color: var(--nav-accent);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
-}
-
-.navChevron {
-  color: var(--nav-muted);
-  transition: transform 0.2s ease;
-}
-
-.navChevronRotated {
-  transform: rotate(180deg);
-  color: var(--nav-accent);
-}
-
-@keyframes navDropdownSlide {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-6px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-/* Nav Submenu Dropdown Card */
-.navDropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 180px;
-  width: max-content;
-  max-width: 280px;
-  background: rgb(var(--nav-surface) / 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  gap: 8px;
+  padding: 8px 18px;
   border: 1px solid rgb(var(--nav-line) / 0.9);
-  border-radius: 18px;
-  box-shadow: 0 16px 40px -8px rgba(30, 41, 59, 0.16);
-  padding: 8px;
-  z-index: 60;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  animation: navDropdownSlide 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Invisible bridge so mouse never leaves between button and dropdown */
-.navDropdown::before {
-  content: "";
-  position: absolute;
-  top: -12px;
-  left: 0;
-  right: 0;
-  height: 12px;
-  background: transparent;
-}
-
-.navDropdownItem {
-  display: flex;
-  flex-direction: column;
-  padding: 8px 14px;
-  border-radius: 10px;
-  text-decoration: none;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.15s ease;
-}
-
-.navDropdownItem:hover {
-  background: var(--nav-tint);
-}
-
-.navDropdownTitle {
+  border-radius: 9999px;
+  background: rgb(var(--nav-surface) / 0.9);
+  color: var(--nav-text);
   font-family: var(--font-sans), sans-serif;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: var(--nav-strong);
-  transition: color 0.15s ease;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
-.navDropdownItem:hover .navDropdownTitle {
+.mapButton:hover {
+  border-color: var(--nav-accent);
+  background: var(--nav-tint);
   color: var(--nav-accent);
 }
 
-.navDropdownDesc {
-  font-family: var(--font-sans), sans-serif;
-  font-size: 0.78rem;
-  color: var(--nav-muted);
-  margin-top: 2px;
-  line-height: 1.35;
+.mapButton:focus-visible,
+.mobileLogin:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+
+.mobileLogin {
+  display: none;
+}
+
+.mobileLogin {
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: var(--nav-accent);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+:global([data-color-mode="dark"]) .mobileLogin {
+  background: var(--ui-accent-fill);
+  color: var(--ui-on-fill);
 }
 
 /* Right Auth Group */
@@ -372,47 +295,6 @@
 .authPill .toggleItemActive {
   background: transparent !important;
   box-shadow: none !important;
-}
-
-.mobileDrawerOpen .toggleItemActive {
-  background: linear-gradient(135deg, #5b92d6 0%, #3f76ba 100%) !important;
-  box-shadow: 0 4px 14px rgba(63, 118, 186, 0.35);
-}
-
-.loginLink {
-  font-family: var(--font-sans), sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--nav-body);
-  padding: 6px 14px;
-  border-radius: 9999px;
-  transition: color 0.15s ease;
-  text-decoration: none;
-}
-
-.loginLink:hover {
-  color: var(--nav-accent);
-}
-
-.registerLink {
-  font-family: var(--font-sans), sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #ffffff;
-  background: linear-gradient(135deg, #5b92d6 0%, #3f76ba 100%);
-  padding: 8px 22px;
-  border-radius: 9999px;
-  box-shadow: 0 4px 14px rgba(63, 118, 186, 0.35);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.registerLink:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(63, 118, 186, 0.45);
 }
 
 /* Authenticated State */
@@ -631,102 +513,13 @@
   margin: 6px 0;
 }
 
-/* Mobile Hamburger */
-.mobileToggle {
-  display: none;
-  background: rgb(var(--nav-surface) / 0.9);
-  border: 1px solid rgb(var(--nav-line) / 0.8);
-  border-radius: 12px;
-  padding: 8px;
-  cursor: pointer;
-}
-
-.mobileDrawer {
-  display: none;
-}
-
 @media (max-width: 900px) {
-  .centerNav {
-    display: none;
-  }
-
-  .mobileToggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .mapButton {
+    padding: 8px 12px;
   }
 
   .authPill {
     padding: 3px;
-  }
-
-  .avatarLabel {
-    display: none;
-  }
-
-  .mobileDrawerOpen {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 72px;
-    left: 16px;
-    right: 16px;
-    background: rgb(var(--nav-surface) / 0.97);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgb(var(--nav-line) / 0.9);
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    padding: 20px;
-    gap: 12px;
-    z-index: 45;
-  }
-
-  .mobileNavLink {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--nav-text);
-    padding: 10px 14px;
-    border-radius: 12px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-  }
-
-  .mobileNavLink:hover {
-    background: var(--nav-neutral);
-  }
-
-  .mobileNavGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border-bottom: 1px solid var(--nav-divider);
-    padding-bottom: 8px;
-  }
-
-  .mobileNavSubLink {
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--nav-sub);
-    padding: 8px 14px 8px 24px;
-    border-radius: 10px;
-    text-decoration: none;
-    background: transparent;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .mobileNavSubLink:hover {
-    background: var(--nav-tint);
-    color: var(--nav-accent);
   }
 }
 
@@ -735,8 +528,54 @@
     display: none;
   }
 
-  /* Room for the light/dark switch on phones: logout stays in the menu drawer. */
+  .mobileLogin {
+    display: inline-flex;
+  }
+
+  .mapButton span {
+    display: none;
+  }
+
+  .brandText {
+    font-size: 1.7rem;
+  }
+
+  /* Room for the light/dark switch on phones: logout stays in the account menu. */
   .authGroup:has(.modeToggle) .logoutIconButton {
     display: none;
+  }
+}
+
+/* Narrow phones: logo, theme, map and sign-in must fit on one row. */
+@media (max-width: 440px) {
+  .header,
+  .scrolled {
+    padding-inline: 12px;
+  }
+
+  .navInner {
+    gap: 8px;
+  }
+
+  .brandLink {
+    gap: 6px;
+  }
+
+  .brandMascotImg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .brandText {
+    font-size: 1.35rem;
+  }
+
+  .authGroup {
+    gap: 6px;
+  }
+
+  .mobileLogin {
+    padding: 7px 11px;
+    font-size: 0.85rem;
   }
 }

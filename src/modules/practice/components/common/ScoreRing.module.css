@@ -1,0 +1,61 @@
+.ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  --ring: var(--ui-blue);
+}
+
+.ring[data-tone="rose"] {
+  --ring: var(--ui-rose);
+}
+
+.ring[data-tone="correct"] {
+  --ring: var(--ui-correct);
+}
+
+.ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.track,
+.value {
+  fill: none;
+  stroke-width: 9;
+}
+
+.track {
+  stroke: var(--ui-hover);
+}
+
+.value {
+  stroke: var(--ring);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.centre {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  line-height: 1.1;
+}
+
+.centre strong {
+  font-family: var(--font-display);
+  font-size: 2em;
+  color: var(--ui-text);
+}
+
+.centre span {
+  color: var(--ui-muted);
+  font-size: var(--text-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .value {
+    transition: none;
+  }
+}

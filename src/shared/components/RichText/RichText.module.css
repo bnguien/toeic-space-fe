@@ -163,6 +163,44 @@
   color: var(--ui-on-accent);
 }
 
+/* A blank showing the chosen / correct option (Part 5). */
+.blankFilled {
+  border-bottom-color: var(--ui-blue);
+  color: var(--ui-blue);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* The correct option inside a numbered blank once revealed (Part 6). */
+.blankAnswer {
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+/* Evidence sentence of a checked question. */
+.evidence {
+  padding: 1px 2px;
+  border-radius: 3px;
+  background: var(--ui-correct-soft);
+  box-shadow: inset 0 -2px 0 var(--ui-correct-line);
+  color: inherit;
+}
+
+.evidenceBadge {
+  display: inline-block;
+  margin-right: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ui-correct-fill);
+  color: var(--ui-on-fill);
+  font-family: var(--font-sans);
+  font-size: 0.72em;
+  font-weight: 700;
+  line-height: 1.6;
+  vertical-align: 0.1em;
+  user-select: none;
+}
+
 /* Document frames (Part 6 and 7) */
 .documentFrame,
 .tp-reading-doc-paper {

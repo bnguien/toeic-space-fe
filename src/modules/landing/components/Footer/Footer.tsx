@@ -1,6 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import mascotLogo from "@/assets/mascot/oy2-hello.png";
 import styles from "./Footer.module.css";
+
+const PRACTICE_LINKS = [
+  { to: "/practice/exam", label: "Luyện đề – thi thử 200 câu" },
+  { to: "/practice/listening?part=1", label: "Part 1 – Mô tả tranh" },
+  { to: "/practice/listening?part=2", label: "Part 2 – Hỏi & đáp" },
+  { to: "/practice/listening?part=3", label: "Part 3 – Đoạn hội thoại" },
+  { to: "/practice/listening?part=4", label: "Part 4 – Bài nói ngắn" },
+  { to: "/practice/reading?part=5", label: "Part 5 – Hoàn thành câu" },
+  { to: "/practice/reading?part=6", label: "Part 6 – Hoàn thành đoạn" },
+  { to: "/practice/reading?part=7", label: "Part 7 – Đọc hiểu đơn & kép" },
+];
 
 interface FooterProps {
   onNavClick?: (targetId: string) => void;
@@ -61,72 +72,28 @@ export const Footer = ({ onNavClick }: FooterProps) => {
           <div className={styles.linksCol}>
             <h4>Luyện thi TOEIC</h4>
             <ul className={styles.linksList}>
-              <li className={styles.linkItem}>
-                <a href="#listening" onClick={(e) => handleScroll(e, "listening")}>
-                  Part 1 – Mô tả tranh
-                </a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#listening" onClick={(e) => handleScroll(e, "listening")}>
-                  Part 2 – Hỏi & đáp
-                </a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#listening" onClick={(e) => handleScroll(e, "listening")}>
-                  Part 3 – Đoạn hội thoại
-                </a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#listening" onClick={(e) => handleScroll(e, "listening")}>
-                  Part 4 – Bài nói ngắn
-                </a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#reading" onClick={(e) => handleScroll(e, "reading")}>
-                  Part 5 – Hoàn thành câu
-                </a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#reading" onClick={(e) => handleScroll(e, "reading")}>
-                  Part 6 – Hoàn thành đoạn
-                </a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#reading" onClick={(e) => handleScroll(e, "reading")}>
-                  Part 7 – Đọc hiểu đơn & kép
-                </a>
-              </li>
+              {PRACTICE_LINKS.map((link) => (
+                <li key={link.to} className={styles.linkItem}>
+                  <Link to={link.to}>{link.label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Links Column 2: Khóa học */}
+          {/* Links Column 2: Khóa học & lộ trình */}
           <div className={styles.linksCol}>
             <h4>Khóa học & Lộ trình</h4>
             <ul className={styles.linksList}>
               <li className={styles.linkItem}>
-                <a href="#courses" onClick={(e) => handleScroll(e, "courses")}>
-                  TOEIC Khởi động 450+
+                <a href="/#ngu-phap" onClick={(e) => handleScroll(e, "ngu-phap")}>
+                  Lộ trình ngữ pháp
                 </a>
               </li>
               <li className={styles.linkItem}>
-                <a href="#courses" onClick={(e) => handleScroll(e, "courses")}>
-                  TOEIC Đột phá 650+
-                </a>
+                <Link to="/courses">Khoá học TOEIC</Link>
               </li>
               <li className={styles.linkItem}>
-                <a href="#courses" onClick={(e) => handleScroll(e, "courses")}>
-                  TOEIC Chinh phục 800+
-                </a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#roadmap" onClick={(e) => handleScroll(e, "roadmap")}>
-                  Lộ trình cá nhân hoá
-                </a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#vocabulary" onClick={(e) => handleScroll(e, "vocabulary")}>
-                  Kho từ vựng thông minh AI
-                </a>
+                <Link to="/vocabulary">Lộ trình từ vựng</Link>
               </li>
             </ul>
           </div>
@@ -136,20 +103,15 @@ export const Footer = ({ onNavClick }: FooterProps) => {
             <h4>Về TOEICSpace</h4>
             <ul className={styles.linksList}>
               <li className={styles.linkItem}>
-                <a href="#about" onClick={(e) => handleScroll(e, "about")}>
-                  Giới thiệu dự án PBL6
+                <a href="/#ban-do" onClick={(e) => handleScroll(e, "ban-do")}>
+                  Bản đồ TOEICSpace
                 </a>
               </li>
               <li className={styles.linkItem}>
-                <a href="#ecosystem" onClick={(e) => handleScroll(e, "ecosystem")}>
-                  Đối tác trường học
-                </a>
+                <Link to="/games/news">Đọc báo song ngữ</Link>
               </li>
               <li className={styles.linkItem}>
-                <a href="#faq">Câu hỏi thường gặp</a>
-              </li>
-              <li className={styles.linkItem}>
-                <a href="#contact">Liên hệ hỗ trợ</a>
+                <Link to="/games/video">Video song ngữ</Link>
               </li>
             </ul>
           </div>

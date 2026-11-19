@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import mascotHero from "@/assets/mascot/oy2-playful.png";
 import {
   IconBook,
@@ -10,6 +10,8 @@ import {
   IconChevronRight,
 } from "../icons/LandingIcons";
 import { MAIN_FEATURE_CARDS } from "../../constants";
+import { goToSection } from "../../utils/goToSection";
+import type { FeatureCardItem } from "../../types";
 import styles from "./HeroSection.module.css";
 
 interface HeroSectionProps {
@@ -39,8 +41,14 @@ export const HeroSection = ({ onSelectFeature }: HeroSectionProps) => {
     setCurrentSlide((prev) => (prev === 1 ? 0 : 1));
   };
 
-  const handleFeatureClick = (targetId: string) => {
-    if (onSelectFeature) {
+  const navigate = useNavigate();
+
+  const handleFeatureClick = ({ route, targetId }: FeatureCardItem) => {
+    if (route) {
+      navigate(route);
+    } else if (!targetId) {
+      return;
+    } else if (onSelectFeature) {
       onSelectFeature(targetId);
     } else {
       const el = document.getElementById(targetId);
@@ -106,9 +114,16 @@ export const HeroSection = ({ onSelectFeature }: HeroSectionProps) => {
                 buổi học.
               </p>
 
-              <Link to="/register" className={styles.ctaButton}>
+              <a
+                href="#ban-do"
+                className={styles.ctaButton}
+                onClick={(event) => {
+                  event.preventDefault();
+                  goToSection("ban-do");
+                }}
+              >
                 Bắt đầu học miễn phí
-              </Link>
+              </a>
             </div>
 
             {/* Right Column: 3D Mascot in Oyster Shell */}
@@ -149,13 +164,13 @@ export const HeroSection = ({ onSelectFeature }: HeroSectionProps) => {
                 <div
                   key={card.id}
                   className={styles.featureCard}
-                  onClick={() => handleFeatureClick(card.targetId)}
+                  onClick={() => handleFeatureClick(card)}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      handleFeatureClick(card.targetId);
+                      handleFeatureClick(card);
                     }
                   }}
                 >

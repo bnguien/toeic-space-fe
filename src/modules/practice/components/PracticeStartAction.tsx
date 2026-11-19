@@ -78,7 +78,7 @@ export function PracticeStartAction({
   const active = useQuery({
     queryKey: ["practice-attempt-active", user?.id, setId],
     enabled: user?.role === "User",
-    queryFn: ({ signal }) => attemptsApi.active(setId, signal),
+    queryFn: ({ signal }) => attemptsApi.activeForSet(setId, signal),
     staleTime: 0,
     refetchOnWindowFocus: true,
     networkMode: "always",
@@ -104,14 +104,18 @@ export function PracticeStartAction({
       });
       try {
         const open = async () => {
-          const current = await attemptsApi.active(setId, controller.signal);
+          const current = await attemptsApi.activeForSet(setId, controller.signal);
           controller.signal.throwIfAborted();
           if (useAuthStore.getState().user?.id !== ownerId)
             throw new OpenAttemptError("account_changed");
           if (!current.attemptId && !canStart) throw new OpenAttemptError("unavailable");
           const attempt = await (current.attemptId
             ? attemptsApi.resume(current.attemptId, controller.signal)
-            : attemptsApi.start(setId, current.generation, controller.signal));
+            : attemptsApi.startForSet(
+                setId,
+                { expectedGeneration: current.generation },
+                controller.signal,
+              ));
           return { id: attempt.id, ownerId, generation: current.generation };
         };
         return await Promise.race([open(), interrupted]);
