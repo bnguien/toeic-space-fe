@@ -3,7 +3,7 @@ import { BackToTop } from "@/shared/components/BackToTop/BackToTop";
 import { DocumentTitleReset } from "@/shared/components/DocumentTitle/DocumentTitleReset";
 import { ToastViewport } from "@/shared/components/ui";
 import { isAppRouteHandle } from "@/shared/types/route-handle.types";
-import { Navbar } from "@/modules/landing";
+import { Navbar, SiteMapHost } from "@/modules/landing";
 import { SelectionLookupProvider } from "@/modules/vocabulary";
 
 export const RootLayout = () => {
@@ -24,6 +24,8 @@ export const RootLayout = () => {
       {!isAdminRoute && !isTeacherRoute && !isBare && <Navbar />}
       <Outlet />
       {!isBare && <BackToTop />}
+      {/* "Bản đồ": opened from the navbar, the practice space and the home page. */}
+      <SiteMapHost />
       <ToastViewport />
     </SelectionLookupProvider>
   );

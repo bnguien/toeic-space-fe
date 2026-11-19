@@ -3,7 +3,7 @@
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #f6faff;
+  background-color: var(--ui-canvas);
 }
 
 .contentWrapper {

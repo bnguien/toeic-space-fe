@@ -3,23 +3,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCurrentUser, useLogout, useSessionStatus } from "@/modules/auth";
 import {
   IconBook,
-  IconChevronDown,
   IconHistory,
   IconLogout,
   IconPearlOrb,
-  IconRoadmap,
   IconSettings,
 } from "../icons/LandingIcons";
-import { Moon, Sun, User as IconUserProfile } from "lucide-react";
+import { Map as IconMap, Moon, Sun, User as IconUserProfile } from "lucide-react";
 import mascotLogo from "@/assets/mascot/oy2-hello.png";
 import { normalizeAvatarUrl } from "@/modules/profile";
 import { useColorMode, useColorModeScopeActive } from "@/shared/hooks/useColorMode";
-import { LANDING_NAV_ITEMS } from "../../constants";
+import { openSiteMap } from "@/shared/utils/site-map-events";
 import styles from "./Navbar.module.css";
-
-interface NavbarProps {
-  onNavClick?: (targetId: string) => void;
-}
 
 const getInitials = (name: string) => {
   if (!name) return "TS";
@@ -28,7 +22,11 @@ const getInitials = (name: string) => {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 };
 
-export const Navbar = ({ onNavClick }: NavbarProps) => {
+/**
+ * Site navbar: logo, ONE menu item "Bản đồ" (opens the site map, which lists every page), the
+ * light/dark switch and the account controls.
+ */
+export const Navbar = () => {
   const user = useCurrentUser();
   const sessionStatus = useSessionStatus();
   const logout = useLogout();
@@ -48,9 +46,6 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const isScrolledState = isScrolled || location.pathname !== "/";
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [openNavKey, setOpenNavKey] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openMobileGroup, setOpenMobileGroup] = useState<string | null>(null);
 
   const pillRef = useRef<HTMLDivElement>(null);
   const orbRef = useRef<HTMLAnchorElement>(null);
@@ -139,35 +134,6 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const avatarButtonRef = useRef<HTMLButtonElement>(null);
-  const navContainerRef = useRef<HTMLElement>(null);
-  const navCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleNavMouseEnter = (label: string) => {
-    if (navCloseTimeoutRef.current) {
-      clearTimeout(navCloseTimeoutRef.current);
-      navCloseTimeoutRef.current = null;
-    }
-    setOpenNavKey(label);
-  };
-
-  const handleNavMouseLeave = () => {
-    if (navCloseTimeoutRef.current) {
-      clearTimeout(navCloseTimeoutRef.current);
-    }
-    navCloseTimeoutRef.current = setTimeout(() => {
-      setOpenNavKey(null);
-    }, 150);
-  };
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (navCloseTimeoutRef.current) {
-        clearTimeout(navCloseTimeoutRef.current);
-      }
-    };
-  }, []);
-
   // Monitor scroll state for navbar backdrop
   useEffect(() => {
     const handleScroll = () => {
@@ -189,19 +155,10 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
       ) {
         setDropdownOpen(false);
       }
-
-      // Nav item dropdowns
-      if (navContainerRef.current && !navContainerRef.current.contains(event.target as Node)) {
-        setOpenNavKey(null);
-      }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setDropdownOpen(false);
-        setOpenNavKey(null);
-        setMobileMenuOpen(false);
-      }
+      if (event.key === "Escape") setDropdownOpen(false);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -212,41 +169,10 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
     };
   }, []);
 
-  /**
-   * `isRoute`: `path` is an app route (a top-level item such as Vocab, or a dropdown `route` such as the games).
-   * Other dropdown `path`s are landing placeholders that scroll to their section, except the practice page.
-   */
-  const handleLinkClick = (targetId: string, path?: string, isRoute = false) => {
-    if (navCloseTimeoutRef.current) {
-      clearTimeout(navCloseTimeoutRef.current);
-    }
-    setOpenNavKey(null);
-    setMobileMenuOpen(false);
-    if (isRoute && path) {
-      navigate(path);
-      return;
-    }
-    if (path === "/practice/parts") {
-      navigate(path);
-      return;
-    }
-    if (targetId === "courses") {
-      navigate("/courses");
-      return;
-    }
-    if (onNavClick) {
-      onNavClick(targetId);
-    } else {
-      let element = document.getElementById(targetId);
-      if (!element && targetId === "practice") {
-        element = document.getElementById("listening");
-      }
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      } else {
-        navigate(targetId === "hero" ? "/" : `/#${targetId}`);
-      }
-    }
+  /** Logo: back to the top of the home page. */
+  const goHome = () => {
+    if (location.pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
+    else navigate("/");
   };
 
   const handleLogout = () => {
@@ -258,17 +184,9 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
     });
   };
 
-  const handleDropdownNavigate = (anchor: string) => {
+  const go = (path: string) => {
     setDropdownOpen(false);
-    if (anchor === "courses" && user?.role === "User") {
-      setMobileMenuOpen(false);
-      navigate("/my-courses");
-      return;
-    }
-    const element = document.getElementById(anchor);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    navigate(path);
   };
 
   return (
@@ -276,84 +194,17 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
       <div className={styles.navInner}>
         {/* Left: TOEICSpace Clean Brand Logo with Mascot */}
         <a
-          href="#hero"
+          href="/"
           className={styles.brandLink}
           onClick={(e) => {
             e.preventDefault();
-            handleLinkClick("hero");
+            goHome();
           }}
           aria-label="TOEICSpace Trang chủ"
         >
           <img src={mascotLogo} alt="TOEICSpace Mascot" className={styles.brandMascotImg} />
           <span className={styles.brandText}>TOEICSpace</span>
         </a>
-
-        {/* Center: Balanced Navigation Links with Dropdown Menus */}
-        <nav ref={navContainerRef} className={styles.centerNav} aria-label="Điều hướng chính">
-          {LANDING_NAV_ITEMS.map((item) => {
-            const hasChildren = Boolean(item.children && item.children.length > 0);
-            const isOpen = openNavKey === item.label;
-
-            return (
-              <div
-                key={item.label}
-                className={styles.navItemWrapper}
-                onMouseEnter={() => hasChildren && handleNavMouseEnter(item.label)}
-                onMouseLeave={handleNavMouseLeave}
-              >
-                {hasChildren ? (
-                  <button
-                    type="button"
-                    className={`${styles.navButton} ${isOpen ? styles.navButtonActive : ""}`}
-                    onClick={() => setOpenNavKey(isOpen ? null : item.label)}
-                    aria-expanded={isOpen}
-                    aria-haspopup="true"
-                  >
-                    <span>{item.label}</span>
-                    <span
-                      className={`${styles.navChevron} ${isOpen ? styles.navChevronRotated : ""}`}
-                    >
-                      <IconChevronDown size={13} />
-                    </span>
-                  </button>
-                ) : (
-                  <a
-                    href={item.href}
-                    className={styles.navLink}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleLinkClick(item.targetId, item.path, true);
-                    }}
-                  >
-                    {item.label}
-                  </a>
-                )}
-
-                {/* Submenu Dropdown */}
-                {hasChildren && isOpen && (
-                  <div className={styles.navDropdown} role="menu">
-                    {item.children?.map((sub) => (
-                      <button
-                        key={sub.label}
-                        type="button"
-                        className={styles.navDropdownItem}
-                        role="menuitem"
-                        onClick={() =>
-                          handleLinkClick(sub.targetId, sub.route ?? sub.path, Boolean(sub.route))
-                        }
-                      >
-                        <span className={styles.navDropdownTitle}>{sub.label}</span>
-                        {sub.description && (
-                          <span className={styles.navDropdownDesc}>{sub.description}</span>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
 
         {/* Right: Authentication Actions */}
         <div className={styles.authGroup}>
@@ -368,6 +219,17 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
               {colorMode.mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
           )}
+          {/* The only menu item: every page is listed in the site map. Sits next to the account. */}
+          <button
+            type="button"
+            className={styles.mapButton}
+            onClick={openSiteMap}
+            aria-haspopup="dialog"
+            aria-label="Bản đồ"
+          >
+            <IconMap size={17} aria-hidden="true" />
+            <span>Bản đồ</span>
+          </button>
           {sessionStatus === "restoring" && !user ? (
             <div className={styles.authSkeleton} aria-hidden="true" />
           ) : !user ? (
@@ -478,80 +340,57 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
                       type="button"
                       className={styles.dropdownItem}
                       role="menuitem"
-                      onClick={() => {
-                        setDropdownOpen(false);
-                        navigate("/profile");
-                      }}
+                      onClick={() => go("/profile")}
                     >
                       <IconUserProfile size={16} />
                       <span>Hồ sơ cá nhân</span>
                     </button>
 
-                    <button
-                      type="button"
-                      className={styles.dropdownItem}
-                      role="menuitem"
-                      onClick={() => handleDropdownNavigate("roadmap")}
-                    >
-                      <IconRoadmap size={16} />
-                      <span>Lộ trình cá nhân</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className={styles.dropdownItem}
-                      role="menuitem"
-                      onClick={() => handleDropdownNavigate("courses")}
-                    >
-                      <IconBook size={16} />
-                      <span>Khóa học của tôi</span>
-                    </button>
-
                     {user.role === "User" && (
+                      <>
+                        <button
+                          type="button"
+                          className={styles.dropdownItem}
+                          role="menuitem"
+                          onClick={() => go("/my-courses")}
+                        >
+                          <IconBook size={16} />
+                          <span>Khóa học của tôi</span>
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.dropdownItem}
+                          role="menuitem"
+                          onClick={() => go("/my-classes")}
+                        >
+                          <IconBook size={16} />
+                          <span>Lớp học của tôi</span>
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.dropdownItem}
+                          role="menuitem"
+                          onClick={() => go("/practice/history")}
+                        >
+                          <IconHistory size={16} />
+                          <span>Lịch sử bài làm</span>
+                        </button>
+                      </>
+                    )}
+
+                    {(user.role === "Admin" || user.role === "Teacher") && (
                       <button
                         type="button"
                         className={styles.dropdownItem}
                         role="menuitem"
-                        onClick={() => {
-                          setDropdownOpen(false);
-                          navigate("/my-classes");
-                        }}
+                        onClick={() => go(user.role === "Admin" ? "/admin" : "/teacher")}
                       >
-                        <IconBook size={16} />
-                        <span>Lớp học của tôi</span>
+                        <IconSettings size={16} />
+                        <span>
+                          {user.role === "Admin" ? "Quản trị hệ thống (CMS)" : "Trang giáo viên"}
+                        </span>
                       </button>
                     )}
-
-                    <button
-                      type="button"
-                      className={styles.dropdownItem}
-                      role="menuitem"
-                      onClick={() => handleDropdownNavigate("practice")}
-                    >
-                      <IconHistory size={16} />
-                      <span>Lịch sử bài làm</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className={styles.dropdownItem}
-                      role="menuitem"
-                      onClick={() => {
-                        setDropdownOpen(false);
-                        if (user.role === "Admin" || user.role === "Teacher") {
-                          navigate("/admin");
-                        } else {
-                          handleDropdownNavigate("roadmap");
-                        }
-                      }}
-                    >
-                      <IconSettings size={16} />
-                      <span>
-                        {user.role === "Admin" || user.role === "Teacher"
-                          ? "Quản trị hệ thống (CMS)"
-                          : "Cài đặt"}
-                      </span>
-                    </button>
 
                     <Link
                       to="/change-password"
@@ -581,202 +420,13 @@ export const Navbar = ({ onNavClick }: NavbarProps) => {
             </div>
           )}
 
-          {/* Mobile Menu Toggle Button */}
-          <button
-            type="button"
-            className={styles.mobileToggle}
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            aria-label="Mở menu di động"
-            aria-expanded={mobileMenuOpen}
-          >
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              {mobileMenuOpen ? (
-                <path d="M18 6L6 18M6 6l12 12" />
-              ) : (
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className={styles.mobileDrawerOpen}>
-          {LANDING_NAV_ITEMS.map((item) => {
-            const hasChildren = Boolean(item.children && item.children.length > 0);
-            const isGroupOpen = openMobileGroup === item.label;
-
-            if (!hasChildren) {
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className={styles.mobileNavLink}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLinkClick(item.targetId, item.path, true);
-                  }}
-                >
-                  {item.label}
-                </a>
-              );
-            }
-
-            return (
-              <div key={item.label} className={styles.mobileNavGroup}>
-                <button
-                  type="button"
-                  className={styles.mobileNavLink}
-                  onClick={() => setOpenMobileGroup(isGroupOpen ? null : item.label)}
-                >
-                  <span>{item.label}</span>
-                  <span
-                    className={`${styles.navChevron} ${
-                      isGroupOpen ? styles.navChevronRotated : ""
-                    }`}
-                  >
-                    <IconChevronDown size={14} />
-                  </span>
-                </button>
-
-                {isGroupOpen && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                    {item.children?.map((sub) => (
-                      <button
-                        key={sub.label}
-                        type="button"
-                        className={styles.mobileNavSubLink}
-                        onClick={() =>
-                          handleLinkClick(sub.targetId, sub.route ?? sub.path, Boolean(sub.route))
-                        }
-                      >
-                        {sub.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-
-          {!user ? (
-            <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-              <Link
-                to="/login"
-                className={`${styles.toggleItem} ${
-                  activeAuthPosition === "login" ? styles.toggleItemActive : ""
-                }`}
-                style={{
-                  flex: 1,
-                  textAlign: "center",
-                  background: activeAuthPosition === "login" ? undefined : "var(--nav-neutral)",
-                }}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Đăng nhập
-              </Link>
-              <Link
-                to="/register"
-                className={`${styles.toggleItem} ${
-                  activeAuthPosition === "register" ? styles.toggleItemActive : ""
-                }`}
-                style={{
-                  flex: 1,
-                  textAlign: "center",
-                  background: activeAuthPosition === "register" ? undefined : "var(--nav-neutral)",
-                }}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Đăng ký
-              </Link>
-            </div>
-          ) : (
-            <div
-              style={{ marginTop: "10px", display: "flex", flexDirection: "column", gap: "8px" }}
-            >
-              <button
-                type="button"
-                className={styles.dropdownItem}
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  navigate("/profile");
-                }}
-              >
-                <IconUserProfile size={16} /> Hồ sơ cá nhân
-              </button>
-              <button
-                type="button"
-                className={styles.dropdownItem}
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleDropdownNavigate("roadmap");
-                }}
-              >
-                <IconRoadmap size={16} /> Lộ trình cá nhân
-              </button>
-              <button
-                type="button"
-                className={styles.dropdownItem}
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleDropdownNavigate("courses");
-                }}
-              >
-                <IconBook size={16} /> Khóa học của tôi
-              </button>
-              {user.role === "User" && (
-                <button
-                  type="button"
-                  className={styles.dropdownItem}
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    navigate("/my-classes");
-                  }}
-                >
-                  <IconBook size={16} /> Lớp học của tôi
-                </button>
-              )}
-              <button
-                type="button"
-                className={styles.dropdownItem}
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleDropdownNavigate("practice");
-                }}
-              >
-                <IconHistory size={16} /> Lịch sử bài làm
-              </button>
-              <button
-                type="button"
-                className={styles.dropdownItem}
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (user.role === "Admin" || user.role === "Teacher") {
-                    navigate("/admin");
-                  }
-                }}
-              >
-                <IconSettings size={16} /> Cài đặt {user.role !== "User" && "(CMS)"}
-              </button>
-              <button
-                type="button"
-                className={`${styles.dropdownItem} ${styles.dropdownItemLogout}`}
-                onClick={handleLogout}
-              >
-                <IconLogout size={16} /> Đăng xuất ({user.fullName})
-              </button>
-            </div>
+          {!user && sessionStatus !== "restoring" && (
+            <Link to="/login" className={styles.mobileLogin}>
+              Đăng nhập
+            </Link>
           )}
         </div>
-      )}
+      </div>
     </header>
   );
 };
