@@ -163,9 +163,12 @@
 }
 .pricingForm label {
   display: grid;
+  min-width: 0;
   gap: 0.4rem;
 }
 .pricingForm input {
+  width: 100%;
+  min-width: 0;
   max-width: 15rem;
   padding: 0.65rem;
   border: 1px solid var(--ui-line, #ddd);
@@ -174,17 +177,23 @@
 
 .pricingFormEmbedded {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.9rem;
+  min-width: 0;
 }
 .pricingFormEmbedded label {
   display: grid;
+  min-width: 0;
   gap: 0.4rem;
   font-size: 0.85rem;
   font-weight: 600;
   color: #364e66;
+  overflow-wrap: anywhere;
 }
 .pricingFormEmbedded input {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   padding: 0.65rem;
   border: 1px solid var(--ui-line, #ddd);
   border-radius: 8px;

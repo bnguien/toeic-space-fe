@@ -119,18 +119,24 @@
 }
 .form {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
+  min-width: 0;
 }
 .form label {
   display: grid;
+  min-width: 0;
   gap: 0.4rem;
   color: #52667a;
   font-size: 0.8rem;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 .form input,
 .form textarea {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   padding: 0.65rem 0.75rem;
   border: 1px solid #d9e5eb;
   border-radius: 8px;
