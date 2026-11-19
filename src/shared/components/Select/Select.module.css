@@ -5,6 +5,9 @@
 
 .trigger {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,6 +66,9 @@
 }
 
 .selectedLabel {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -113,6 +119,8 @@
 
 /* Dropdown Menu */
 .dropdown {
+  /* Fallback values; the component overrides them with fixed viewport coordinates
+     so scrolling modals can never clip the menu. */
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
@@ -188,15 +196,20 @@
   gap: 2px;
   min-width: 0;
   flex: 1;
+  overflow: hidden;
 }
 
 .optionLabelRow {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 }
 
 .optionLabel {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
